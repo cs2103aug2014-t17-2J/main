@@ -5,9 +5,17 @@ import java.util.Observer;
 
 
 /**
- * @author kinosker
- *
- * @param <T>
+ * This class consist the observable list which update it's observers whenever a modification occurs
+ * The possible modification includes : 
+ * <li> add 
+ * <li> delete
+ * <li> edit
+ * <li> replace list
+ * <p><br>
+ * 
+ * @author Kuan Tien Long  
+ * 
+ * @param <T> the list type 
  */
 public class ObservableList<T> extends Observable 
 {
@@ -17,13 +25,21 @@ public class ObservableList<T> extends Observable
         observedList = list;
     }
     
-    public void add(T value)
+    /**
+     * This function add the argument to the list and update the observer(s) with the argument
+     * @param argument to be added to the list
+     */
+    public void add(T argument)
     {
-       observedList.add(value);
+       observedList.add(argument);
        setChanged();
-       notifyObservers(value);
+       notifyObservers(argument);
     }
     
+    /**
+     * This function delete the specified index of the list and update the observer(s) about with the deleted argument 
+     * @param index to be deleted from the list
+     */
     public void delete(int index)
     {
         T deleted = observedList.remove(index);
@@ -31,13 +47,35 @@ public class ObservableList<T> extends Observable
         notifyObservers(deleted);
     }
     
-    public void delete(T value)
+    /**
+     * This function delete the specified argument of the list and update the observer(s) about with the deleted argument
+     * @param argument to be deleted from the list
+     */
+    public void delete(T argument)
     {
-       observedList.remove(value);
+       observedList.remove(argument);
        setChanged();
-       notifyObservers(value);
+       notifyObservers(argument);
     }
     
+    /**
+     * This function edit the specified index of the list with the argument.
+     * <br> In addition, it also updates the observer(s) about with the edited argument
+     * @param index that is to be selected for editing
+     * @param argument that will be replacing the initial information
+     */
+    public void edit(int index, T argument)
+    {
+        observedList.set(index, argument);
+        setChanged();
+        notifyObservers(argument);
+    }
+    
+    /**
+     * This function replaces the entire list.
+     * <br> In addition, it also updates the observer with the new list
+     * @param newList which will be used to replace the initial list.
+     */
     public void replaceList(ArrayList<T> newList)
     {
         observedList = newList;
@@ -45,7 +83,12 @@ public class ObservableList<T> extends Observable
         notifyObservers(newList);
     }
     
-    public void setObservedList(Observer observer)
+    /**
+     * This function add observer to the list. 
+     * <br>The observer will be updated when modification to the list is made
+     * @param observer that will be added to observed the modification in the list
+     */
+    public void addObserverList(Observer observer)
     {
         this.addObserver(observer);
     }
