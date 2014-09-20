@@ -124,10 +124,17 @@ public class ObservableList<T> extends Observable {
      * 
      * @param index
      *            of the argument to return
-     * @return the argument at the specified index
+     * @return the argument at the specified index or null if there's no
+     *         argument at the specified index
      */
     public T get(int index) {
-        return observedList.get(index);
+        T result;
+        try {
+            result = observedList.get(index);
+        } catch (IndexOutOfBoundsException | NullPointerException exception) {
+            return null;
+        }
+        return result;
     }
 
     /**

@@ -31,7 +31,8 @@ public class ObservableListTest {
     private void testNullList() 
     {
         ObservableList<String> list = new ObservableList<String>(null);
-        list.add("What will happen");
+        assertEquals(null, list.get(3));
+        assertFalse(list.add("What will happen"));
         assertEquals(null,list.getList());
     }
     
