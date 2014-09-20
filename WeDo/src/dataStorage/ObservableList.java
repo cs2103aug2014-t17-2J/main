@@ -29,13 +29,11 @@ public class ObservableList<T> extends Observable {
     private boolean isNull() {
         return observedList == null;
     }
-    
-    
+
     /**
      * @return whether if the list is empty
      */
-    private boolean isEmpty()
-    {
+    private boolean isEmpty() {
         return observedList.isEmpty();
     }
 
@@ -70,11 +68,9 @@ public class ObservableList<T> extends Observable {
         if (isNull() || isEmpty()) {
             return false;
         }
-        try
-        {
-         deleted = observedList.remove(index);
-        }
-        catch (IndexOutOfBoundsException exception) {
+        try {
+            deleted = observedList.remove(index);
+        } catch (IndexOutOfBoundsException exception) {
             return false;
         }
         setChanged();
@@ -91,19 +87,21 @@ public class ObservableList<T> extends Observable {
      * @return boolean if the operation is successful
      */
     public boolean remove(T argument) {
+      
+        boolean succeed;
+     
         if (isNull() || isEmpty()) {
             return false;
         }
-        try
-        {
-            observedList.remove(argument);
-        }catch (IndexOutOfBoundsException exception) {
+        try {
+            succeed = observedList.remove(argument);
+        } catch (IndexOutOfBoundsException exception) {
             return false;
         }
-        
+
         setChanged();
         notifyObservers(argument);
-        return true;
+        return succeed;
     }
 
     /**

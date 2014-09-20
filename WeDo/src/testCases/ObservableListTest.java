@@ -44,9 +44,18 @@ public class ObservableListTest {
         expectedList.add(null);
         expectedList.add("What will happen");
         assertEquals(expectedList,list.getList());
+        assertTrue(list.remove(1));
+        expectedList.remove(1);
+        assertFalse(list.remove(10));
+        assertFalse(list.remove("ehh"));
+        assertEquals(expectedList,list.getList());
+        assertTrue(list.remove(null));
+        expectedList.remove(null);
+        assertEquals(expectedList,list.getList());
         list.replaceList(null);
         assertEquals(null, list.getList());
         list.replaceList(new ArrayList<String>());
+        expectedList.clear();
         assertEquals(new ArrayList<String>(), list.getList());
         ArrayList<String> newList = new ArrayList<String>();
         newList.add("Hello");
@@ -54,7 +63,14 @@ public class ObservableListTest {
         expectedList.add("Hello");
         expectedList.add("time");
         list.replaceList(newList);
-        assertEquals(expectedList, list.getList());        
+        assertEquals(expectedList, list.getList());      
+        assertTrue(list.add("here now"));
+        expectedList.add("here now");
+        assertFalse(list.remove("hello"));
+        assertTrue(list.remove("Hello"));
+        expectedList.remove("Hello");
+        assertEquals(expectedList, list.getList());      
+        
     }
 
     /**
