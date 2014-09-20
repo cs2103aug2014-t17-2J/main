@@ -84,6 +84,25 @@ public class ObservableList<T> extends Observable
     }
     
     /**
+     * This function retrieve the argument from the specified index of the list 
+     * @param index of the argument to return
+     * @return the argument at the specified index
+     */
+    public T get(int index)
+    {
+        return observedList.get(index);
+    }
+    
+    /**
+     * @return the stored list
+     */
+    public ArrayList<T> getList()
+    {
+        return observedList;
+        
+    }
+    
+    /**
      * This function add observer to the list. 
      * <br>The observer will be updated when modification to the list is made
      * @param observer that will be added to observed the modification in the list
