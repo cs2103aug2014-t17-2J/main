@@ -6,6 +6,8 @@ package testCases;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.junit.Test;
 
@@ -23,6 +25,51 @@ public class ObservableListTest {
     {
         testNullList();
         testValidList();
+        testObserver();
+        
+    }
+
+    /**
+     * This function will test if the observer received the updated argument
+     */
+    private void testObserver() 
+    {
+        /**
+         * @author Kuan Tien Long
+         * Anonymous class used for testing 
+         */
+        class MyObserver extends Thread implements Observer
+        {
+            private Object storedArg;
+            @Override
+            public void update(Observable o, Object arg) 
+            {
+                setStoredArg(arg);
+            }
+            /**
+             * @return the storedArg
+             */
+            public Object getStoredArg() {
+                return storedArg;
+            }
+            /**
+             * @param storedArg the storedArg to set
+             */
+            public void setStoredArg(Object storedArg) {
+                this.storedArg = storedArg;
+            }
+        }
+        
+        ArrayList<String> storedList = new ArrayList<String>();
+        ObservableList<String> list = new ObservableList<String>(storedList);
+        
+        MyObserver observer1 = new MyObserver();
+        MyObserver observer2 = new MyObserver();
+        list.addObserver(observer1);
+        list.addObserver(observer2);
+        assertTrue(list.add("hello"));
+        assertEquals((Object)"hello", observer1.getStoredArg());
+        assertEquals((Object)"hello", observer2.getStoredArg());
         
     }
 
