@@ -56,7 +56,7 @@ public class ObservableList<T> extends Observable {
      *            to be deleted from the list
      * @return boolean if the operation is successful
      */
-    public boolean delete(int index) {
+    public boolean remove(int index) {
         if (isEmpty()) {
             return false;
         }
@@ -74,7 +74,7 @@ public class ObservableList<T> extends Observable {
      *            to be deleted from the list
      * @return boolean if the operation is successful
      */
-    public boolean delete(T argument) {
+    public boolean remove(T argument) {
         if (isEmpty()) {
             return false;
         }
