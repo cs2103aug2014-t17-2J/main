@@ -24,10 +24,19 @@ public class ObservableList<T> extends Observable {
     }
 
     /**
-     * @return whether if the list is empty or null
+     * @return whether if the list is null
      */
-    private boolean isEmpty() {
-        return observedList == null || observedList.isEmpty();
+    private boolean isNull() {
+        return observedList == null;
+    }
+    
+    
+    /**
+     * @return whether if the list is empty
+     */
+    private boolean isEmpty()
+    {
+        return observedList.isEmpty();
     }
 
     /**
@@ -39,7 +48,7 @@ public class ObservableList<T> extends Observable {
      * @return boolean if the operation is successful
      */
     public boolean add(T argument) {
-        if (isEmpty()) {
+        if (isNull()) {
             return false;
         }
         observedList.add(argument);
@@ -57,10 +66,17 @@ public class ObservableList<T> extends Observable {
      * @return boolean if the operation is successful
      */
     public boolean remove(int index) {
-        if (isEmpty()) {
+        T deleted;
+        if (isNull() || isEmpty()) {
             return false;
         }
-        T deleted = observedList.remove(index);
+        try
+        {
+         deleted = observedList.remove(index);
+        }
+        catch (IndexOutOfBoundsException exception) {
+            return false;
+        }
         setChanged();
         notifyObservers(deleted);
         return true;
@@ -75,10 +91,16 @@ public class ObservableList<T> extends Observable {
      * @return boolean if the operation is successful
      */
     public boolean remove(T argument) {
-        if (isEmpty()) {
+        if (isNull() || isEmpty()) {
             return false;
         }
-        observedList.remove(argument);
+        try
+        {
+            observedList.remove(argument);
+        }catch (IndexOutOfBoundsException exception) {
+            return false;
+        }
+        
         setChanged();
         notifyObservers(argument);
         return true;
