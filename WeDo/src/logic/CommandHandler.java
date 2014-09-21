@@ -1,7 +1,5 @@
 package logic;
 
-import java.util.ArrayList;
-
 import dataStorage.DataHandler;
 import definedEnumeration.TaskFeedBack;
 
@@ -41,7 +39,7 @@ public class CommandHandler {
         }
         
         Command command = getCommand(userInput);        
-        TaskFeedBack taskFeedBack = command.execute(task);
+        TaskFeedBack taskFeedBack = command.execute(dataHandler, task);
 
         if(task.isValid())
         {
@@ -78,152 +76,4 @@ public class CommandHandler {
         }
 
     }
-    
-    /**
-     * @author TienLong This class makes use of the Command interface to implement
-     *         execute function for AddTask
-     */
-    class AddCommand implements Command {
-        public TaskFeedBack execute(Task task) 
-        {
-            if(dataHandler.addTask(task))
-            {
-                dataHandler.addUndoCommandStack(this);
-                return TaskFeedBack.FEEDBACK_VALID;
-            }
-            else
-            {
-                return TaskFeedBack.FEEDBACK_INVALID;
-            }
-        }
-    }
-
-    /**
-     * @author TienLong This class makes use of the Command interface to implement
-     *         execute function for ClearTask
-     */
-    class ClearCommand implements Command 
-    {
-        public TaskFeedBack execute(Task task) 
-        {
-            if(dataHandler.clearTask(task.getStarDatet(), task.getEndDate()))
-            {
-                return TaskFeedBack.FEEDBACK_VALID;
-            }
-            else
-            {
-                return TaskFeedBack.FEEDBACK_INVALID;
-            }
-        }
-    }
-
-
-    /**
-     * @author TienLong This class makes use of the Command interface to implement
-     *         execute function for DeleteTask
-     */
-    class DeleteCommand implements Command {
-        
-        final int INVALID_INDEX = -1;
-        
-        public TaskFeedBack execute(Task task) {
-            final int ARRAY_OFFSET = -1;
-            int lineToDelete = getLineIndex(task.getDescription()) + ARRAY_OFFSET;
-            if (dataHandler.remove(lineToDelete)) 
-            {
-              return TaskFeedBack.FEEDBACK_VALID;
-                
-            } else 
-            {
-                return TaskFeedBack.FEEDBACK_INVALID;
-            }
-        }
-
-
-        /**
-         * @param userArguments the arguments passed in by the user
-         * @return Integer which specified the line to be deleted
-         */
-        private int getLineIndex(String userArguments) {
-            
-      
-            if(isValidString(userArguments))
-            {
-                userArguments = userArguments.trim();
-                if(isInteger(userArguments))
-                {
-                    return Integer.parseInt(userArguments);
-                }
-            }
-            return INVALID_INDEX;
-        }
-        
-        /**
-         * @param userInput the user input
-         * @return whether the string could be parsed
-         */
-        private boolean isInteger(String userInput) {
-            
-            try
-            {
-                Integer.parseInt(userInput);
-                return true;
-            }
-            catch(Exception e)
-            {
-                return false;
-            }
-        }
-
-        /**
-         * @param addedInput the input to be added
-         * @return whether it is a valid string
-         */
-        private boolean isValidString(String addedInput) {
-            return addedInput.length() > 0;
-        }
-    }
-
-    /**
-     * @author TienLong This class makes use of the Command interface to implement
-     *         execute function for ExitTask
-     */
-    class ExitCommand implements Command {
-        public TaskFeedBack execute(Task task) {
-            return TaskFeedBack.FEEDBACK_EXIT;
-        }
-    }
-
-
-    /**
-     * @author TienLong This class makes use of the Command interface to implement
-     *         execute function for searchTask
-     */
-    class SearchCommand implements Command {
-        public TaskFeedBack execute(Task task) {
-            SearchEngine searchEngine = new SearchEngine();
-            ArrayList<Task> searchList  = searchEngine.searchCaseInsensitive(dataHandler, task.getDescription());
-            if (searchList.isEmpty()) 
-            {
-                return TaskFeedBack.FEEDBACK_NOT_FOUND;
-            } 
-            else 
-            {
-                return TaskFeedBack.FEEDBACK_VALID;
-            }
-        }
-
-    }
-
-    /**
-     * @author TienLong This class makes use of the Command interface to implement
-     *         execute function for InvalidTask
-     */
-    class InvalidCommand implements Command {
-        public TaskFeedBack execute(Task task) 
-        {
-            return TaskFeedBack.FEEDBACK_INVALID;
-        }
-    }
-
 }
