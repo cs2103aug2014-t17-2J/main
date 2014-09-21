@@ -6,6 +6,7 @@ package logic;
 import java.util.Calendar;
 
 import definedEnumeration.Priority;
+import definedEnumeration.TaskType;
 
 /**
  * @author Kuan Tien Long
@@ -14,6 +15,7 @@ import definedEnumeration.Priority;
 public class Task 
 {
     private int ID;
+    private TaskType taskType;
     private Priority priority;
     private Calendar startDate;
     private Calendar endDate;
@@ -91,6 +93,18 @@ public class Task
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+    /**
+     * @return the taskType
+     */
+    public TaskType getTaskType() {
+        return taskType;
+    }
+    /**
+     * @param taskType the taskType to set
+     */
+    public void setTaskType(TaskType taskType) {
+        this.taskType = taskType;
     }
     
     

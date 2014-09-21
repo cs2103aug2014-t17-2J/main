@@ -37,7 +37,7 @@ public class CommandHandler {
         
         if(!task.isValid())
         {
-            return TaskFeedBack.TASK_INVALID;
+            return TaskFeedBack.FEEDBACK_INVALID;
         }
         
         Command command = getCommand(userInput);        
@@ -89,11 +89,11 @@ public class CommandHandler {
             if(dataHandler.addTask(task))
             {
                 dataHandler.addUndoCommandStack(this);
-                return TaskFeedBack.TASK_VALID;
+                return TaskFeedBack.FEEDBACK_VALID;
             }
             else
             {
-                return TaskFeedBack.TASK_INVALID;
+                return TaskFeedBack.FEEDBACK_INVALID;
             }
         }
     }
@@ -108,11 +108,11 @@ public class CommandHandler {
         {
             if(dataHandler.clearTask(task.getStarDatet(), task.getEndDate()))
             {
-                return TaskFeedBack.TASK_VALID;
+                return TaskFeedBack.FEEDBACK_VALID;
             }
             else
             {
-                return TaskFeedBack.TASK_INVALID;
+                return TaskFeedBack.FEEDBACK_INVALID;
             }
         }
     }
@@ -131,11 +131,11 @@ public class CommandHandler {
             int lineToDelete = getLineIndex(task.getDescription()) + ARRAY_OFFSET;
             if (dataHandler.remove(lineToDelete)) 
             {
-              return TaskFeedBack.TASK_VALID;
+              return TaskFeedBack.FEEDBACK_VALID;
                 
             } else 
             {
-                return TaskFeedBack.TASK_INVALID;
+                return TaskFeedBack.FEEDBACK_INVALID;
             }
         }
 
@@ -190,7 +190,7 @@ public class CommandHandler {
      */
     class ExitCommand implements Command {
         public TaskFeedBack execute(Task task) {
-            return TaskFeedBack.EXIT;
+            return TaskFeedBack.FEEDBACK_EXIT;
         }
     }
 
@@ -205,11 +205,11 @@ public class CommandHandler {
             ArrayList<Task> searchList  = searchEngine.searchCaseInsensitive(dataHandler, task.getDescription());
             if (searchList.isEmpty()) 
             {
-                return TaskFeedBack.TASK_NOTFOUND;
+                return TaskFeedBack.FEEDBACK_NOT_FOUND;
             } 
             else 
             {
-                return TaskFeedBack.TASK_VALID;
+                return TaskFeedBack.FEEDBACK_VALID;
             }
         }
 
@@ -222,7 +222,7 @@ public class CommandHandler {
     class InvalidCommand implements Command {
         public TaskFeedBack execute(Task task) 
         {
-            return TaskFeedBack.TASK_INVALID;
+            return TaskFeedBack.FEEDBACK_INVALID;
         }
     }
 

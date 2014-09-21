@@ -9,5 +9,5 @@ package definedEnumeration;
  */
 public enum TaskFeedBack 
 {
-    TASK_INVALID, TASK_VALID, TASK_NOTFOUND, EXIT
+    FEEDBACK_INVALID, FEEDBACK_VALID, FEEDBACK_NOT_FOUND, FEEDBACK_EXIT
 }
