@@ -156,6 +156,14 @@ public class ObservableList<T> extends Observable {
         }
         return result;
     }
+    
+    /**
+     * Remove all elements in the list
+     */
+    public void clearList()
+    {
+        observedList.clear();
+    }
 
     /**
      * @return the stored list
