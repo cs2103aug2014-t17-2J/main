@@ -9,13 +9,27 @@ import dataStorage.DataHandler;
 import definedEnumeration.TaskFeedBack;
 
 public abstract class Command {
+    
+    protected Task task;
+    protected DataHandler dataHandler;
+    
+    public Command(String userInput, DataHandler dataHandler)
+    {
+        TaskParser taskParser = new TaskParser();
+        this.task = taskParser.buildTask(userInput);
+        this.dataHandler = dataHandler;
+    }
+    
+    protected boolean isValid()
+    {
+        return task.isValid();
+    }
+    
     /**
      * This method execute the commands such as add, display, clear etc.
-     * @param dataHandler TODO
-     * @param task TODO
      * @return TaskFeedBack to continue or exit
      */
-    abstract TaskFeedBack execute(DataHandler dataHandler, Task task);
+    abstract TaskFeedBack execute();
     abstract void undo();
     
 }
@@ -25,7 +39,21 @@ public abstract class Command {
  *         execute function for AddTask
  */
 class AddCommand extends Command {
-    public TaskFeedBack execute(DataHandler dataHandler, Task task) 
+    /**
+     * @param userInput
+     * @param dataHandler
+     */
+    public AddCommand(String userInput, DataHandler dataHandler) {
+        super(userInput, dataHandler);
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * @param task
+     * @param dataHandler
+     */
+
+    public TaskFeedBack execute() 
     {
         if(dataHandler.addTask(task))
         {
@@ -54,7 +82,22 @@ class AddCommand extends Command {
  */
 class ClearCommand extends Command 
 {
-    public TaskFeedBack execute(DataHandler dataHandler, Task task) 
+    /**
+     * @param userInput
+     * @param dataHandler
+     */
+    public ClearCommand(String userInput, DataHandler dataHandler) {
+        super(userInput, dataHandler);
+        // TODO Auto-generated constructor stub
+    }
+
+    /**
+     * @param task
+     * @param dataHandler
+     */
+
+
+    public TaskFeedBack execute() 
     {
         if(dataHandler.clearTask(task.getStarDate(), task.getEndDate()))
         {
@@ -83,9 +126,22 @@ class ClearCommand extends Command
  */
 class DeleteCommand extends Command {
     
+  
+
+
+    /**
+     * @param userInput
+     * @param dataHandler
+     */
+    public DeleteCommand(String userInput, DataHandler dataHandler) {
+        super(userInput, dataHandler);
+        // TODO Auto-generated constructor stub
+    }
+
+
     final int INVALID_INDEX = -1;
     
-    public TaskFeedBack execute(DataHandler dataHandler, Task task) {
+    public TaskFeedBack execute() {
         final int ARRAY_OFFSET = -1;
         int lineToDelete = getLineIndex(task.getDescription()) + ARRAY_OFFSET;
         if (dataHandler.remove(lineToDelete)) 
@@ -158,7 +214,17 @@ class DeleteCommand extends Command {
  *         execute function for ExitTask
  */
 class ExitCommand extends Command {
-    public TaskFeedBack execute(DataHandler dataHandler, Task task) {
+
+    /**
+     * @param userInput
+     * @param dataHandler
+     */
+    public ExitCommand(String userInput, DataHandler dataHandler) {
+        super(userInput, dataHandler);
+        // TODO Auto-generated constructor stub
+    }
+
+    public TaskFeedBack execute() {
         return TaskFeedBack.FEEDBACK_EXIT;
     }
 
@@ -178,7 +244,18 @@ class ExitCommand extends Command {
  *         execute function for searchTask
  */
 class SearchCommand extends Command {
-    public TaskFeedBack execute(DataHandler dataHandler, Task task) {
+
+
+    /**
+     * @param userInput
+     * @param dataHandler
+     */
+    public SearchCommand(String userInput, DataHandler dataHandler) {
+        super(userInput, dataHandler);
+        // TODO Auto-generated constructor stub
+    }
+
+    public TaskFeedBack execute() {
         SearchEngine searchEngine = new SearchEngine();
         ArrayList<Task> searchList  = searchEngine.searchCaseInsensitive(dataHandler, task.getDescription());
         if (searchList.isEmpty()) 
@@ -207,7 +284,17 @@ class SearchCommand extends Command {
  *         execute function for InvalidTask
  */
 class InvalidCommand extends Command {
-    public TaskFeedBack execute(DataHandler dataHandler, Task task) 
+
+    /**
+     * @param userInput
+     * @param dataHandler
+     */
+    public InvalidCommand(String userInput, DataHandler dataHandler) {
+        super(userInput, dataHandler);
+        // TODO Auto-generated constructor stub
+    }
+
+    public TaskFeedBack execute() 
     {
         return TaskFeedBack.FEEDBACK_INVALID;
     }

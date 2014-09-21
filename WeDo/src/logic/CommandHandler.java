@@ -3,7 +3,6 @@ package logic;
 import dataStorage.DataHandler;
 import definedEnumeration.TaskFeedBack;
 
-
 /**
  * @author TienLong This class handle all the commands passed in by the user
  * 
@@ -12,10 +11,11 @@ public class CommandHandler {
 
     private DataHandler dataHandler;
 
-
     /**
      * Constructor for CommandHandler
-     * @param dataHandler the handler which contains of all the data
+     * 
+     * @param dataHandler
+     *            the handler which contains of all the data
      */
     public CommandHandler(DataHandler dataHandler) {
         this.dataHandler = dataHandler;
@@ -28,32 +28,22 @@ public class CommandHandler {
      *            the input to execute command
      * @return TaskFeedBack to continue or exit textBuddy
      */
-    public TaskFeedBack executeCommand(String userInput) 
-    {
-        TaskParser taskParser = new TaskParser();
-        Task task = taskParser.buildTask(userInput);
+    public TaskFeedBack executeCommand(String userInput) {
+
+        Command command = getCommand(userInput);
         
-        if(!task.isValid())
-        {
+        if (command.isValid()) {
             return TaskFeedBack.FEEDBACK_INVALID;
         }
         
-        Command command = getCommand(userInput);        
-        TaskFeedBack taskFeedBack = command.execute(dataHandler, task);
-
-        if(task.isValid())
-        {
-            dataHandler.addUndoCommandStack(command);
-        }
-        return taskFeedBack;
+        return command.execute();
     }
-    
+
     /**
      * @param userInput
      * @return
      */
-    private Command getCommand(String userInput) 
-    {
+    private Command getCommand(String userInput) {
         final String ADD_COMMAND = "add";
         final String CLEAR_COMMAND = "clear";
         final String EXIT_COMMAND = "exit";
@@ -62,17 +52,17 @@ public class CommandHandler {
 
         switch (userInput.toLowerCase()) {
         case ADD_COMMAND:
-            return new AddCommand();
+            return new AddCommand(userInput, dataHandler);
         case CLEAR_COMMAND:
-            return new ClearCommand();
+            return new ClearCommand(userInput, dataHandler);
         case DELETE_COMMAND:
-            return new DeleteCommand();
+            return new DeleteCommand(userInput, dataHandler);
         case SEARCH_COMMAND:
-            return new SearchCommand();
+            return new SearchCommand(userInput, dataHandler);
         case EXIT_COMMAND:
-            return new ExitCommand();
+            return new ExitCommand(userInput, dataHandler);
         default:
-            return new InvalidCommand();
+            return new InvalidCommand(userInput, dataHandler);
         }
 
     }
