@@ -1,7 +1,6 @@
 package dataStorage;
 
-import java.util.Calendar;
-
+import java.time.LocalDate;
 import logic.Command;
 import logic.Task;
 import logic.UndoHandler;
@@ -30,21 +29,23 @@ public class DataHandler {
         return false;
     }
 
-    /**
-     * @param starDatet
-     * @param endDate
-     * @return
-     */
-    public boolean clearTask(Calendar starDate, Calendar endDate) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+
 
     /**
      * @param lineToDelete
      * @return
      */
     public boolean remove(int lineToDelete) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * @param starDate
+     * @param endDate
+     * @return
+     */
+    public boolean clearTask(LocalDate starDate, LocalDate endDate) {
         // TODO Auto-generated method stub
         return false;
     }

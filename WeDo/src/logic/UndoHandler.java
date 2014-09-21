@@ -55,8 +55,7 @@ public class UndoHandler
         if(canRedo())
         {
             Command command = redoStack.pop();
-            command.execute();
-            
+            command.execute();           
             return true;
         }
         else
