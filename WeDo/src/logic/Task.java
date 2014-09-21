@@ -3,8 +3,8 @@
  */
 package logic;
 
-import java.time.LocalDateTime;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import definedEnumeration.Priority;
 import definedEnumeration.TaskType;
@@ -18,8 +18,10 @@ public class Task
     private int ID;
     private TaskType taskType;
     private Priority priority;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private String description;
     private boolean valid;
     /**
@@ -50,25 +52,25 @@ public class Task
     /**
      * @return the start
      */
-    public LocalDateTime getStarDate() {
+    public LocalDate getStarDate() {
         return startDate;
     }
     /**
      * @param start the start to set
      */
-    public void setStartDate(LocalDateTime start) {
+    public void setStartDate(LocalDate start) {
         this.startDate = start;
     }
     /**
      * @return the end
      */
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
     /**
      * @param end the end to set
      */
-    public void setEndDate(LocalDateTime end) {
+    public void setEndDate(LocalDate end) {
         this.endDate = end;
     }
     /**
@@ -106,6 +108,30 @@ public class Task
      */
     public void setTaskType(TaskType taskType) {
         this.taskType = taskType;
+    }
+    /**
+     * @return the startTime
+     */
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+    /**
+     * @param startTime the startTime to set
+     */
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+    /**
+     * @return the endTime
+     */
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+    /**
+     * @param endTime the endTime to set
+     */
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
     
     
