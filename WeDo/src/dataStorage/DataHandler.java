@@ -4,16 +4,20 @@ import java.util.Calendar;
 
 import logic.Command;
 import logic.Task;
+import logic.UndoHandler;
 
 public class DataHandler {
+    
+    UndoHandler undoHandler;
 
+    
 	public DataHandler() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void addUndoCommandStack(Command command)
+	public void addUndo(Command command)
 	{
-	    
+	    undoHandler.add(command);
 	}
 
     /**
@@ -31,7 +35,7 @@ public class DataHandler {
      * @param endDate
      * @return
      */
-    public boolean clearTask(Calendar starDatet, Calendar endDate) {
+    public boolean clearTask(Calendar starDate, Calendar endDate) {
         // TODO Auto-generated method stub
         return false;
     }

@@ -57,7 +57,7 @@ class AddCommand extends Command {
     {
         if(dataHandler.addTask(task))
         {
-            dataHandler.addUndoCommandStack(this);
+            dataHandler.addUndo(this);
             return TaskFeedBack.FEEDBACK_VALID;
         }
         else
@@ -101,6 +101,7 @@ class ClearCommand extends Command
     {
         if(dataHandler.clearTask(task.getStarDate(), task.getEndDate()))
         {
+            dataHandler.addUndo(this);
             return TaskFeedBack.FEEDBACK_VALID;
         }
         else
@@ -127,8 +128,6 @@ class ClearCommand extends Command
 class DeleteCommand extends Command {
     
   
-
-
     /**
      * @param userInput
      * @param dataHandler
@@ -146,6 +145,7 @@ class DeleteCommand extends Command {
         int lineToDelete = getLineIndex(task.getDescription()) + ARRAY_OFFSET;
         if (dataHandler.remove(lineToDelete)) 
         {
+            dataHandler.addUndo(this);
           return TaskFeedBack.FEEDBACK_VALID;
             
         } else 

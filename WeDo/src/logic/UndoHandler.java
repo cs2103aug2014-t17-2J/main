@@ -9,7 +9,7 @@ import java.util.Stack;
  * @author Kuan Tien Long
  *
  */
-public class UndoHandler<T> 
+public class UndoHandler
 {
     private Stack<Command> undoStack;
     private Stack<Command> redoStack;

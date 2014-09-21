@@ -3,6 +3,7 @@
  */
 package logic;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import definedEnumeration.Priority;
@@ -17,8 +18,8 @@ public class Task
     private int ID;
     private TaskType taskType;
     private Priority priority;
-    private Calendar startDate;
-    private Calendar endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private String description;
     private boolean valid;
     /**
@@ -49,25 +50,25 @@ public class Task
     /**
      * @return the start
      */
-    public Calendar getStarDate() {
+    public LocalDateTime getStarDate() {
         return startDate;
     }
     /**
      * @param start the start to set
      */
-    public void setStartDate(Calendar start) {
+    public void setStartDate(LocalDateTime start) {
         this.startDate = start;
     }
     /**
      * @return the end
      */
-    public Calendar getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
     /**
      * @param end the end to set
      */
-    public void setEndDate(Calendar end) {
+    public void setEndDate(LocalDateTime end) {
         this.endDate = end;
     }
     /**
