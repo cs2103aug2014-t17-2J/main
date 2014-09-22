@@ -4,7 +4,7 @@ import dataStorage.DataHandler;
 import definedEnumeration.TaskFeedBack;
 
 /**
- * @author TienLong This class handle all the commands passed in by the user
+ * @author Kuan Tien Long This class handle all the commands passed in by the user
  * 
  */
 public class CommandHandler {

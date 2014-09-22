@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import definedEnumeration.Priority;
+import definedEnumeration.TaskCommand;
 import definedEnumeration.TaskType;
 
 /**
@@ -15,7 +16,8 @@ import definedEnumeration.TaskType;
  */
 public class Task 
 {
-    private int ID;
+    private static int ID = 1;
+    private TaskCommand taskCommand;
     private TaskType taskType;
     private Priority priority;
     private LocalDate startDate;
@@ -24,6 +26,11 @@ public class Task
     private LocalTime endTime;
     private String description;
     private boolean valid;
+    
+    public Task()
+    {
+        ID++;
+    }
     /**
      * @return the iD
      */
@@ -132,6 +139,18 @@ public class Task
      */
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+    /**
+     * @return the taskCommand
+     */
+    public TaskCommand getTaskCommand() {
+        return taskCommand;
+    }
+    /**
+     * @param taskCommand the taskCommand to set
+     */
+    public void setTaskCommand(TaskCommand taskCommand) {
+        this.taskCommand = taskCommand;
     }
     
     
