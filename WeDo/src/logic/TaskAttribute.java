@@ -7,7 +7,8 @@ package logic;
  * @author Kuan Tien Long
  *
  */
-public interface TaskAttribute {
+public interface TaskAttribute 
+{
     void set(Task task, String arguments);
 }
 

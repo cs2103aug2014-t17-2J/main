@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import dataStorage.DataHandler;
 
 /**
+ * For Waimin: Please edit :D
  * This class consist simple implementation for searching...
  * Modify as u please.
  */

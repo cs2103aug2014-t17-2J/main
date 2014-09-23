@@ -17,15 +17,13 @@ import definedEnumeration.TaskType;
 public class Task 
 {
     private static int ID = 1;
-    private TaskCommand taskCommand;
-    private TaskType taskType;
     private Priority priority;
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
     private String description;
-    private boolean valid;
+    private boolean isCompleted;
     
     public Task()
     {
@@ -84,13 +82,13 @@ public class Task
      * @return the valid
      */
     public boolean isValid() {
-        return valid;
+        return isCompleted;
     }
     /**
      * @param valid the valid to set
      */
     public void setValid(boolean valid) {
-        this.valid = valid;
+        this.isCompleted = valid;
     }
     /**
      * @return the description
@@ -104,18 +102,7 @@ public class Task
     public void setDescription(String description) {
         this.description = description;
     }
-    /**
-     * @return the taskType
-     */
-    public TaskType getTaskType() {
-        return taskType;
-    }
-    /**
-     * @param taskType the taskType to set
-     */
-    public void setTaskType(TaskType taskType) {
-        this.taskType = taskType;
-    }
+
     /**
      * @return the startTime
      */
@@ -140,18 +127,7 @@ public class Task
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
-    /**
-     * @return the taskCommand
-     */
-    public TaskCommand getTaskCommand() {
-        return taskCommand;
-    }
-    /**
-     * @param taskCommand the taskCommand to set
-     */
-    public void setTaskCommand(TaskCommand taskCommand) {
-        this.taskCommand = taskCommand;
-    }
+
     
     
     

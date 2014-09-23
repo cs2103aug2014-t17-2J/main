@@ -13,22 +13,18 @@ public abstract class Command {
     protected Task task;
     protected DataHandler dataHandler;
     
-    public Command(String userInput, DataHandler dataHandler)
+    protected void buildTask(String userInput, DataHandler dataHandler)
     {
         TaskParser taskParser = new TaskParser();
         this.task = taskParser.buildTask(userInput);
         this.dataHandler = dataHandler;
     }
     
-    protected boolean isValid()
-    {
-        return task.isValid();
-    }
-    
     /**
      * This method execute the commands such as add, display, clear etc.
      * @return TaskFeedBack to continue or exit
      */
+    
     abstract TaskFeedBack execute();
     abstract void undo();
     
@@ -39,14 +35,6 @@ public abstract class Command {
  *         execute function for AddTask
  */
 class AddCommand extends Command {
-    /**
-     * @param userInput
-     * @param dataHandler
-     */
-    public AddCommand(String userInput, DataHandler dataHandler) {
-        super(userInput, dataHandler);
-        // TODO Auto-generated constructor stub
-    }
 
     /**
      * @param task
@@ -55,6 +43,7 @@ class AddCommand extends Command {
 
     public TaskFeedBack execute() 
     {
+        System.out.println("adding");
         if(dataHandler.addTask(task))
         {
             dataHandler.addUndo(this);
@@ -85,14 +74,7 @@ class ClearCommand extends Command
 {
     ArrayList<Task> storedList = new ArrayList<Task>();
     
-    /**
-     * @param userInput
-     * @param dataHandler
-     */
-    public ClearCommand(String userInput, DataHandler dataHandler) {
-        super(userInput, dataHandler);
-        // TODO Auto-generated constructor stub
-    }
+
 
     /**
      * @param task
@@ -102,6 +84,8 @@ class ClearCommand extends Command
 
     public TaskFeedBack execute() 
     {
+        System.out.println("clear");
+        
         storedList = dataHandler.getList(task.getStarDate(), task.getEndDate());
         
         if(dataHandler.clearTask(task.getStarDate(), task.getEndDate()))
@@ -140,19 +124,15 @@ class ClearCommand extends Command
 class DeleteCommand extends Command {
     
   
-    /**
-     * @param userInput
-     * @param dataHandler
-     */
-    public DeleteCommand(String userInput, DataHandler dataHandler) {
-        super(userInput, dataHandler);
-        // TODO Auto-generated constructor stub
-    }
+
 
 
     final int INVALID_INDEX = -1;
     
     public TaskFeedBack execute() {
+        
+        System.out.println("delete");
+
         final int ARRAY_OFFSET = -1;
         int lineToDelete = getLineIndex(task.getDescription()) + ARRAY_OFFSET;
         if (dataHandler.canRemove(lineToDelete)) 
@@ -227,16 +207,10 @@ class DeleteCommand extends Command {
  */
 class ExitCommand extends Command {
 
-    /**
-     * @param userInput
-     * @param dataHandler
-     */
-    public ExitCommand(String userInput, DataHandler dataHandler) {
-        super(userInput, dataHandler);
-        // TODO Auto-generated constructor stub
-    }
+
 
     public TaskFeedBack execute() {
+        System.out.println("exit");
         return TaskFeedBack.FEEDBACK_EXIT;
     }
 
@@ -259,16 +233,12 @@ class ExitCommand extends Command {
 class SearchCommand extends Command 
 {
     private ArrayList<Task> displayedTask;
-    /**
-     * @param userInput
-     * @param dataHandler
-     */
-    public SearchCommand(String userInput, DataHandler dataHandler) {
-        super(userInput, dataHandler);
-        // TODO Auto-generated constructor stub
-    }
+
 
     public TaskFeedBack execute() {
+        
+        System.out.println("searching");
+
         SearchEngine searchEngine = new SearchEngine();
         ArrayList<Task> searchList  = searchEngine.searchCaseInsensitive(dataHandler, task.getDescription());
         if (searchList.isEmpty()) 
@@ -300,17 +270,12 @@ class SearchCommand extends Command
  */
 class InvalidCommand extends Command {
 
-    /**
-     * @param userInput
-     * @param dataHandler
-     */
-    public InvalidCommand(String userInput, DataHandler dataHandler) {
-        super(userInput, dataHandler);
-        // TODO Auto-generated constructor stub
-    }
+
 
     public TaskFeedBack execute() 
     {
+        System.out.println("Invalid");
+
         return TaskFeedBack.FEEDBACK_INVALID;
     }
 

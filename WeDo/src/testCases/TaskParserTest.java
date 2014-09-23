@@ -4,6 +4,7 @@
 package testCases;
 
 import static org.junit.Assert.*;
+import logic.CommandHandler;
 import logic.TaskParser;
 
 import org.junit.Test;
@@ -17,8 +18,12 @@ public class TaskParserTest {
     @Test
     public void test() 
     {
-        TaskParser taskParser = new TaskParser();
-        taskParser.buildTask("-add momo -date 12 sept -priority high");
+           
+        CommandHandler cmd = new CommandHandler(null);
+        cmd.executeCommand("-search milo");
+        
+//        TaskParser taskParser = new TaskParser();
+//        taskParser.buildTask("-add momo -date 12 sept -priority high");
     }
 
 }
