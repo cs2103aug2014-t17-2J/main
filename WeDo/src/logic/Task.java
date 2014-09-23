@@ -5,10 +5,7 @@ package logic;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import definedEnumeration.Priority;
-import definedEnumeration.TaskCommand;
-import definedEnumeration.TaskType;
 
 /**
  * @author Kuan Tien Long
@@ -24,6 +21,9 @@ public class Task
     private LocalTime endTime;
     private String description;
     private boolean isCompleted;
+    
+    private String testPriority;
+    private String testDate;
     
     public Task()
     {
@@ -126,6 +126,30 @@ public class Task
      */
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+    /**
+     * @return the testPriority
+     */
+    public String getTestPriority() {
+        return testPriority;
+    }
+    /**
+     * @param testPriority the testPriority to set
+     */
+    public void setTestPriority(String testPriority) {
+        this.testPriority = testPriority;
+    }
+    /**
+     * @return the testDate
+     */
+    public String getTestDate() {
+        return testDate;
+    }
+    /**
+     * @param testDate the testDate to set
+     */
+    public void setTestDate(String testDate) {
+        this.testDate = testDate;
     }
 
     

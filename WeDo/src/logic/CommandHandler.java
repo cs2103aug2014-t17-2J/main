@@ -44,7 +44,11 @@ public class CommandHandler {
             return TaskFeedBack.FEEDBACK_INVALID;
         }
         
-        //command.buildTask(userInput, dataHandler);
+        try {
+            command.buildTask(userInput, dataHandler);
+        } catch (MyException e) {
+            return TaskFeedBack.FEEDBACK_INVALID;
+        }
         return command.execute();
     }
 

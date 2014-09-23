@@ -20,7 +20,7 @@ public class TaskParserTest {
     {
            
         CommandHandler cmd = new CommandHandler(null);
-        cmd.executeCommand("-search milo");
+        cmd.executeCommand("-add milo -date sept 12 -priority high");
         
 //        TaskParser taskParser = new TaskParser();
 //        taskParser.buildTask("-add momo -date 12 sept -priority high");

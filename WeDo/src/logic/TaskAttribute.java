@@ -12,33 +12,7 @@ public interface TaskAttribute
     void set(Task task, String arguments);
 }
 
-class TaskCommandAttribute implements TaskAttribute {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see logic.TaskAttribute#set()
-     */
-    @Override
-    public void set(Task task, String arguments) {
-        // TODO Auto-generated method stub
-
-    }
-}
-
-class TaskTypeAttribute implements TaskAttribute
-{
-
-    /* (non-Javadoc)
-     * @see logic.TaskAttribute#set()
-     */
-    @Override
-    public void set(Task task, String arguments) {
-        // TODO Auto-generated method stub
-        
-    }
-    
-}
 
 class TaskPriorityAttribute implements TaskAttribute
 {
@@ -49,61 +23,22 @@ class TaskPriorityAttribute implements TaskAttribute
     @Override
     public void set(Task task, String arguments) {
         // TODO Auto-generated method stub
+        task.setTestPriority(arguments);
         
     }
     
 }
 
-class TaskStartDateAttribute implements TaskAttribute
+class TaskDateAttribute implements TaskAttribute
 {
 
     /* (non-Javadoc)
      * @see logic.TaskAttribute#set()
      */
     @Override
-    public void set(Task task, String arguments) {
-        // TODO Auto-generated method stub
-        
-    }
-    
-}
-
-class TaskEndDateAttribute implements TaskAttribute
-{
-
-    /* (non-Javadoc)
-     * @see logic.TaskAttribute#set()
-     */
-    @Override
-    public void set(Task task, String arguments) {
-        // TODO Auto-generated method stub
-        
-    }
-    
-}
-
-class TaskStartTimeAttribute implements TaskAttribute
-{
-
-    /* (non-Javadoc)
-     * @see logic.TaskAttribute#set()
-     */
-    @Override
-    public void set(Task task, String arguments) {
-        // TODO Auto-generated method stub
-        
-    }
-    
-}
-
-class TaskEndTimeAttribute implements TaskAttribute
-{
-
-    /* (non-Javadoc)
-     * @see logic.TaskAttribute#set()
-     */
-    @Override
-    public void set(Task task, String arguments) {
+    public void set(Task task, String arguments) 
+    {
+        task.setTestDate(arguments);
         // TODO Auto-generated method stub
         
     }
@@ -119,7 +54,7 @@ class TaskDescriptionAttribute implements TaskAttribute
     @Override
     public void set(Task task, String arguments) {
         // TODO Auto-generated method stub
-        
+        task.setDescription(arguments);
     }
     
 }
