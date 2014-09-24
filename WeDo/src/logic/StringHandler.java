@@ -1,5 +1,8 @@
 package logic;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author Kuan Tien Long
  *
@@ -55,6 +58,28 @@ public class StringHandler {
     public static String[] splitString(final String source, final String delimiter)
     {   
         return source.replaceFirst("^" + delimiter, "").split(delimiter);
+    }
+    
+    
+    
+    /**
+     * @param input which may consist of DD/MM/YYYY format
+     * @return replaced string with YYYY/MM/DD format
+     */
+    public static String convertFormalDate(String input)
+    {
+       
+        String ddmmyyyyRegex = "([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])[/-]((18|19|20|21)\\d\\d)";
+        Pattern pattern = Pattern.compile(ddmmyyyyRegex);
+        Matcher matcher = pattern.matcher(input);
+        StringBuffer result = new StringBuffer();
+        while(matcher.find())
+        {
+            matcher.appendReplacement(result, matcher.group(3) + "/" + matcher.group(2) + "/" + matcher.group(1));
+            matcher.appendTail(result);
+        }   
+        return result.toString();
+        
     }
     
 }
