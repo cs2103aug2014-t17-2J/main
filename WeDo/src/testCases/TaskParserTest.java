@@ -27,8 +27,7 @@ public class TaskParserTest {
     @Test
     public void test() throws MyException {
 
-        // CommandHandler cmd = new CommandHandler(new DataHandler());
-        // cmd.executeCommand("-add milo -date sept 12 to sept 18 -priority high");
+      
 
         Task expectedTask = new Task();
         TaskParser taskParser = new TaskParser();
