@@ -76,8 +76,9 @@ public class StringHandler {
         while(matcher.find())
         {
             matcher.appendReplacement(result, matcher.group(3) + "/" + matcher.group(2) + "/" + matcher.group(1));
-            matcher.appendTail(result);
         }   
+        matcher.appendTail(result);
+
         return result.toString();
         
     }

@@ -15,10 +15,10 @@ public class Task
 {
     private static int ID = 1;
     private Priority priority;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private LocalDate startDate = null;
+    private LocalDate endDate = null;
+    private LocalTime startTime = null;
+    private LocalTime endTime = null;
     private String description;
     private boolean isCompleted;
     
