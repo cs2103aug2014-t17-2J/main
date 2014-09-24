@@ -7,3 +7,5 @@ package definedEnumeration;
 public enum Priority {
     PRIORITY_HIGH, PRIORITY_MEDIUM, PRIORITY_LOW, PRIORITY_NULL
 }
+
+

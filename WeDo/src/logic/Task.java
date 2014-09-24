@@ -15,15 +15,31 @@ public class Task
 {
     private static int ID = 1;
     private Priority priority;
-    private LocalDate startDate = null;
-    private LocalDate endDate = null;
-    private LocalTime startTime = null;
-    private LocalTime endTime = null;
+    private LocalDate startDate = LocalDate.MAX;
+    private LocalDate endDate = LocalDate.MAX;
+    private LocalTime startTime = LocalTime.MAX;
+    private LocalTime endTime = LocalTime.MAX;
     private String description;
     private boolean isCompleted;
-    
-    private String testPriority;
-    private String testDate;
+   
+    @Override
+    public boolean equals(Object other)
+    {
+        if(other == null)
+            return false;
+        if (!(other instanceof Task))
+            return false;
+        Task otherTask = (Task)other;
+        if (otherTask.startDate.equals(this.startDate) && otherTask.endDate.equals(this.endDate)
+                && otherTask.startTime.equals(this.startTime) && otherTask.endTime.equals(this.endTime)
+                && otherTask.description.equals(this.description) && otherTask.isCompleted == this.isCompleted
+                && otherTask.priority == this.priority)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
     
     public Task()
     {
@@ -130,27 +146,7 @@ public class Task
     /**
      * @return the testPriority
      */
-    public String getTestPriority() {
-        return testPriority;
-    }
-    /**
-     * @param testPriority the testPriority to set
-     */
-    public void setTestPriority(String testPriority) {
-        this.testPriority = testPriority;
-    }
-    /**
-     * @return the testDate
-     */
-    public String getTestDate() {
-        return testDate;
-    }
-    /**
-     * @param testDate the testDate to set
-     */
-    public void setTestDate(String testDate) {
-        this.testDate = testDate;
-    }
+
 
     
     
