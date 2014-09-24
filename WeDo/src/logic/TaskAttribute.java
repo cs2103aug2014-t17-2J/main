@@ -59,7 +59,7 @@ class TaskPriorityAttribute implements TaskAttribute {
         final Map<Priority, Collection<String>> highPriorityActions = ImmutableMap.<Priority, Collection<String>>of(
                 Priority.PRIORITY_HIGH, Arrays.asList("high", "urgent", "now"));
         final Map<Priority, Collection<String>> mediumPriorityActions = ImmutableMap.<Priority, Collection<String>>of(
-                Priority.PRIORITY_MEDIUM, Arrays.asList("medium", "later", "next time"));
+                Priority.PRIORITY_MEDIUM, Arrays.asList("medium", "med", "later", "next time"));
         final Map<Priority, Collection<String>> lowPriorityActions = ImmutableMap.<Priority, Collection<String>>of(
                 Priority.PRIORITY_LOW, Arrays.asList("low", "kiv", "when free", "-no"));
        

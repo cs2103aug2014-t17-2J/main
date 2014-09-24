@@ -53,10 +53,11 @@ public class TaskParserTest {
         expectedTask.setEndTime(LocalTime.of(2, 0));
         expectedTask.setEndDate(LocalDate.of(2014, 9, 22));
         expectedTask.setDescription("buy for me something");
+        expectedTask.setPriority(Priority.PRIORITY_MEDIUM);
         assertEquals(
                 expectedTask,
                 taskParser
-                        .buildTask("-add buy for me something -date 18 sept 2pm to 22 sept 2am -priority high"));
+                        .buildTask("-add buy for me something -date 18 sept 2pm to 22 sept 2am -priority med"));
 
     }
 
