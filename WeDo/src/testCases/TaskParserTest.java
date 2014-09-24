@@ -32,6 +32,12 @@ public class TaskParserTest {
 
         Task expectedTask = new Task();
         TaskParser taskParser = new TaskParser();
+        
+        expectedTask.setDescription("floating task");
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask("-add floating task"));
 
         expectedTask.setStartDate(LocalDate.of(2014, 9, 12));
         expectedTask.setDescription("momo");
@@ -58,6 +64,8 @@ public class TaskParserTest {
                 expectedTask,
                 taskParser
                         .buildTask("-add buy for me something -date 18 sept 2pm to 22 sept 2am -priority med"));
+
+
 
     }
 
