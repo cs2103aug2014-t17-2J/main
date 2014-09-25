@@ -22,6 +22,10 @@ public class StringHandlerTest {
         assertEquals("2019/03/3", StringHandler.convertFormalDate("3/03/2019"));
         assertEquals("2010/2/5", StringHandler.convertFormalDate("5/2/2010"));
         assertEquals("2009/8/15", StringHandler.convertFormalDate("15/8/2009"));
+        assertEquals("1909/8/2 at here", StringHandler.convertFormalDate("2/8/1909 at here"));
+        assertEquals("hello, is 2109/8/09 at here", StringHandler.convertFormalDate("hello, is 09/8/2109 at here"));
+        assertEquals("hello, is 2012/9/19", StringHandler.convertFormalDate("hello, is 19/9/2012"));
+
     
         assertEquals("2014/09/20", StringHandler.convertFormalDate("20-09-2014"));
         assertEquals("1900/11/22", StringHandler.convertFormalDate("22-11-1900"));
@@ -29,7 +33,9 @@ public class StringHandlerTest {
         assertEquals("2019/03/3", StringHandler.convertFormalDate("3-03-2019"));
         assertEquals("2010/2/5", StringHandler.convertFormalDate("5-2-2010"));
         assertEquals("2009/8/15", StringHandler.convertFormalDate("15-8-2009"));
-
+        assertEquals("1909/8/2 at here", StringHandler.convertFormalDate("2/8/1909 at here"));
+        assertEquals("hello, is 2109/8/09 at here", StringHandler.convertFormalDate("hello, is 09/8/2109 at here"));
+        assertEquals("hello, is 2012/9/19", StringHandler.convertFormalDate("hello, is 19/9/2012"));
         
        
     }
