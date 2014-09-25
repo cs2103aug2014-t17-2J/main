@@ -13,7 +13,18 @@ public class StringHandlerTest {
         
         getFirstWordTest();
         removeFirstMatchedTest();
+        convertImplicitFormalDateTest();
+
+
+        assertEquals("2014/09/20", StringHandler.convertFormalDate("20/09/2014"));
+        assertEquals("1900/11/22", StringHandler.convertFormalDate("22/11/1900"));
+        assertEquals("2121/02/01", StringHandler.convertFormalDate("01/02/2121"));
+    
         
+       
+    }
+
+    private void convertImplicitFormalDateTest() {
         assertEquals("20/09/2014", StringHandler.convertImplicitFormalDate("20/09/14"));
         assertEquals("22/11/2000", StringHandler.convertImplicitFormalDate("22/11/00"));
         assertEquals("01/02/2099", StringHandler.convertImplicitFormalDate("01/02/99"));
@@ -34,8 +45,6 @@ public class StringHandlerTest {
         assertEquals("2/8/2009 at here", StringHandler.convertImplicitFormalDate("2-8-09 at here"));
         assertEquals("hello, is 09/8/2009 at here", StringHandler.convertImplicitFormalDate("hello, is 09-8-09 at here"));
         assertEquals("hello, is 19/09/2012", StringHandler.convertImplicitFormalDate("hello, is 19/09/12"));
-
-
     }
 
     private void getFirstWordTest() {
