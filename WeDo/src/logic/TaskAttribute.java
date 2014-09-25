@@ -93,6 +93,7 @@ class TaskDateAttribute implements TaskAttribute {
         final int LIST_OFFSET = 1;
         Parser nattyParser = new Parser();
         
+        arguments = StringHandler.convertImplicitFormalDate(arguments);
         arguments = StringHandler.convertFormalDate(arguments);
         
         List<DateGroup> dateGroup = nattyParser.parse(arguments);
