@@ -20,7 +20,9 @@ public class StringHandlerTest {
         assertEquals("1900/11/22", StringHandler.convertFormalDate("22/11/1900"));
         assertEquals("2121/02/01", StringHandler.convertFormalDate("01/02/2121"));
     
-        
+        assertEquals("2014/09/20", StringHandler.convertFormalDate("20-09-2014"));
+        assertEquals("1900/11/22", StringHandler.convertFormalDate("22-11-1900"));
+        assertEquals("2121/02/01", StringHandler.convertFormalDate("01-02-2121"));
        
     }
 
