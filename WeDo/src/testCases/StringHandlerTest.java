@@ -17,9 +17,10 @@ public class StringHandlerTest {
         assertEquals("20/09/2014", StringHandler.convertImplicitFormalDate("20/09/14"));
         assertEquals("22/11/2000", StringHandler.convertImplicitFormalDate("22/11/00"));
         assertEquals("01/02/2099", StringHandler.convertImplicitFormalDate("01/02/99"));
-        assertEquals("1/08/2003", StringHandler.convertImplicitFormalDate("1/08/03"));
-        assertEquals("01/02/2099", StringHandler.convertImplicitFormalDate("01/02/99"));
 
+        assertEquals("20/09/2014", StringHandler.convertImplicitFormalDate("20-09-14"));
+        assertEquals("22/11/2000", StringHandler.convertImplicitFormalDate("22-11-00"));
+        assertEquals("01/02/2099", StringHandler.convertImplicitFormalDate("01-02-99"));
     }
 
     private void getFirstWordTest() {
