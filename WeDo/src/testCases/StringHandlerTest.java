@@ -10,11 +10,10 @@ public class StringHandlerTest {
 
     @Test
     public void test() {
+        
         getFirstWordTest();
-        
         removeFirstMatchedTest();
-        
-            
+
     }
 
     private void getFirstWordTest() {
@@ -27,11 +26,14 @@ public class StringHandlerTest {
     }
 
     private void removeFirstMatchedTest() {
-        assertEquals("Pizza", StringHandler.removeFirstMatched("add Pizza", "add"));
-        assertEquals("pig eat me", StringHandler.removeFirstMatched("pig eat me","add"));
-        assertEquals("pig eat me", StringHandler.removeFirstMatched("pig eat me",null));
-        assertEquals(null, StringHandler.removeFirstMatched(null,"add"));
-        assertEquals(null, StringHandler.removeFirstMatched(null,null));
+        assertEquals("Pizza",
+                StringHandler.removeFirstMatched("add Pizza", "add"));
+        assertEquals("pig eat me",
+                StringHandler.removeFirstMatched("pig eat me", "add"));
+        assertEquals("pig eat me",
+                StringHandler.removeFirstMatched("pig eat me", null));
+        assertEquals(null, StringHandler.removeFirstMatched(null, "add"));
+        assertEquals(null, StringHandler.removeFirstMatched(null, null));
     }
 
 }
