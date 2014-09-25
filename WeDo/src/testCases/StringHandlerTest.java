@@ -14,8 +14,12 @@ public class StringHandlerTest {
         getFirstWordTest();
         removeFirstMatchedTest();
         convertImplicitFormalDateTest();
+        convertFormalDateTest();
+        
+       
+    }
 
-
+    private void convertFormalDateTest() {
         assertEquals("2014/09/20", StringHandler.convertFormalDate("20/09/2014"));
         assertEquals("1900/11/22", StringHandler.convertFormalDate("22/11/1900"));
         assertEquals("2121/02/01", StringHandler.convertFormalDate("01/02/2121"));
@@ -36,8 +40,6 @@ public class StringHandlerTest {
         assertEquals("1909/8/2 at here", StringHandler.convertFormalDate("2/8/1909 at here"));
         assertEquals("hello, is 2109/8/09 at here", StringHandler.convertFormalDate("hello, is 09/8/2109 at here"));
         assertEquals("hello, is 2012/9/19", StringHandler.convertFormalDate("hello, is 19/9/2012"));
-        
-       
     }
 
     private void convertImplicitFormalDateTest() {
