@@ -75,7 +75,6 @@ public class TaskParser {
     {
         Task task = new Task();
         boolean initial = true;
-        enableSearching();
         
         for(String token : actionTokens )
         {
@@ -132,66 +131,5 @@ public class TaskParser {
 
     }
     
-    
-    private boolean canSearchCommand;
-    private boolean canSearchDate;
-    private boolean canSearchPriority;
-    
-    
-    private void enableSearching()
-    {
-        canSearchCommand = true;
-        canSearchDate = true;
-        canSearchPriority = true;
-    }
-    
-    private boolean isCommandAction()
-    {
-        if(!canSearchCommand)
-        {
-            return false;
-        }
-        else
-        {
-            disableRepeatedSearch(canSearchCommand);
-            return true;
-        }
-    }
 
-    private void disableRepeatedSearch(boolean searchOpeartion) 
-    {
-        searchOpeartion = false;
-    }
-    
-    private boolean isDateAction()
-    {
-        if(!canSearchDate)
-        {
-            return false;
-        }
-        else
-        {
-            disableRepeatedSearch(canSearchDate);
-            return true;
-        }
-    }
-
-    private boolean isPriorityAction()
-    {
-        if(!canSearchPriority)
-        {
-            return false;
-        }
-        else
-        {
-            disableRepeatedSearch(canSearchPriority);
-            return true;
-        }
-    }
-    
-    
-    private boolean isInvalidAction()
-    {
-        return true;
-    }
 }
