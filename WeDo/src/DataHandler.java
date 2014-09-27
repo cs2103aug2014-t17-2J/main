@@ -9,5 +9,10 @@ public class DataHandler {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public String getList(String date){
+		
+		return "now";
+	}
 
 }

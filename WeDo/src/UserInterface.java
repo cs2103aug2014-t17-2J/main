@@ -14,7 +14,9 @@ public class UserInterface {
 
 	public static void main(String[] args) {
 
-		 list = dataHand.getList();
+		// list = dataHand.getList("today");
+		UserIntSwing swi = new UserIntSwing();
+		swi.execute();
 	}
 
 }
