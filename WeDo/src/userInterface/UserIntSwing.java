@@ -3,6 +3,7 @@ package userInterface;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+
+import dataStorage.DataHandler;
+import logic.CommandHandler;
 
 
 public class UserIntSwing {
@@ -21,6 +25,8 @@ public class UserIntSwing {
 	 * @wbp.nonvisual location=-28,119
 	 */
 	protected JTextArea textArea;
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -57,19 +63,22 @@ public class UserIntSwing {
 		lblDisplay.setBounds(26, 114, 157, 20);
 		frame.getContentPane().add(lblDisplay);
 	
-		JTextArea textArea = new JTextArea(22, 80);
-		frame.getContentPane().add(textArea);
-		
 		JTextArea textArea_1 = new JTextArea();
 		textArea_1.setBounds(26, 145, 264, 90);
 		frame.getContentPane().add(textArea_1);
 		
+		ArrayList<String> taskList = new ArrayList<String>();
+		
 		textField = new JTextField();
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			
+				String textInput = "";
+				textInput += textField.getText();
 				lblDisplay.setText(textField.getText());
-				textArea.setText(textField.getText());
-				textArea_1.setText(textField.getText());
+				
+				taskList.add(textInput);
+
 				textField.setText("");
 			}
 		});
@@ -80,19 +89,17 @@ public class UserIntSwing {
 		JButton btnEnter = new JButton("ENTER");
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				lblDisplay.setText(textField.getText());
-				textArea.setText(textField.getText());
-				textField.setText("");
+			//	lblDisplay.setText(textField.getText());
+			//	textArea.setText(textField.getText());
+			//	textField.setText("");
+				
+				for(int i = 0; i < taskList.size(); i++){
+					textArea_1.append((String) taskList.get(i)+"\n");
+					}
 			}
 		});
 		btnEnter.setBounds(345, 71, 89, 23);
 		frame.getContentPane().add(btnEnter);
-		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(216, 160, -184, 37);
-		frame.getContentPane().add(textPane);
-		
-		
 		
 		
 	}
