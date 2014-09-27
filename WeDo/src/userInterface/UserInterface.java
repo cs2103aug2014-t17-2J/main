@@ -1,3 +1,5 @@
+package userInterface;
+
 import java.util.ArrayList;
 
 import logic.CommandHandler;
@@ -12,13 +14,14 @@ public class UserInterface {
 	{
 		
 		DataHandler dataHand = new DataHandler();
-		CommandHandler commHand = new CommandHandler(dataHand);	
-	
+		CommandHandler commHandl = new CommandHandler(dataHand);	
 	}
 
-	public static void main(String[] args) 
-	{
-		 //list = dataHand.getList();
-	}
+	public static void main(String[] args) {
 
+		// list = dataHand.getList("today");
+		UserIntSwing swi = new UserIntSwing();
+		swi.execute();
+
+	}
 }
