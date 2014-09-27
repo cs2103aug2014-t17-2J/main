@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import logic.CommandHandler;
-import logic.MyException;
+import logic.InvalidCommandException;
 import logic.Task;
 import logic.TaskParser;
 
@@ -25,7 +25,7 @@ import definedEnumeration.Priority;
 public class TaskParserTest {
 
     @Test
-    public void test() throws MyException {
+    public void test() throws InvalidCommandException {
 
       
 

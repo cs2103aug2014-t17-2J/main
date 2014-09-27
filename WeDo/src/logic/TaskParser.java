@@ -25,7 +25,7 @@ public class TaskParser {
         createFakeMultiMap(); 
     }
     
-    public Task buildTask(String userInput) throws MyException
+    public Task buildTask(String userInput) throws InvalidCommandException
     {
         String[] actionsTokens = StringHandler.splitString(userInput,
                 actionsDelimiter);
@@ -69,12 +69,12 @@ public class TaskParser {
     /**
      * @param commandTokens
      * @return
+     * @throws InvalidCommandException 
      */
-    private Task createTask(String[] actionTokens) throws MyException
+    private Task createTask(String[] actionTokens) throws InvalidCommandException
     {
         Task task = new Task();
         boolean initial = true;
-        enableSearching();
         
         for(String token : actionTokens )
         {
@@ -85,7 +85,7 @@ public class TaskParser {
             }
             else
             {
-            setTaskAttribute(token, task);
+                setTaskAttribute(token, task);
             }
         }
         
@@ -107,89 +107,29 @@ public class TaskParser {
     /**
      * @param tokens
      */
-    private void setTaskAttribute(String token, Task task) throws MyException
+    private void setTaskAttribute(String token, Task task) throws InvalidCommandException
     {
         String operation = StringHandler.getFirstWord(token);
         String arguments = StringHandler.removeFirstMatched(token, operation);
         TaskAttribute taskAttribute = determineAttribute(operation);
         if(taskAttribute == null)
         {
-            throw new MyException("No such command :" + operation);
+            throw new InvalidCommandException(operation);
         }
         taskAttribute.set(task, arguments);
         
-        System.out.println("Opeartion :" + operation + "  arguments : " + arguments); 
+        System.out.println("Opeartion :" + operation + "  arguments : " + arguments);
     }
 
     /**
      * @param operation
      * @return 
      */
-    private TaskAttribute determineAttribute(String operation) 
+    private TaskAttribute determineAttribute(String operation)
     {
-        return KeyMatcher.matchKey(createFakeMultiMap(), operation);        
-    }
-    
-    
-    private boolean canSearchCommand;
-    private boolean canSearchDate;
-    private boolean canSearchPriority;
-    
-    
-    private void enableSearching()
-    {
-        canSearchCommand = true;
-        canSearchDate = true;
-        canSearchPriority = true;
-    }
-    
-    private boolean isCommandAction()
-    {
-        if(!canSearchCommand)
-        {
-            return false;
-        }
-        else
-        {
-            disableRepeatedSearch(canSearchCommand);
-            return true;
-        }
-    }
+        return KeyMatcher.matchKey(createFakeMultiMap(), operation);   
 
-    private void disableRepeatedSearch(boolean searchOpeartion) 
-    {
-        searchOpeartion = false;
     }
     
-    private boolean isDateAction()
-    {
-        if(!canSearchDate)
-        {
-            return false;
-        }
-        else
-        {
-            disableRepeatedSearch(canSearchDate);
-            return true;
-        }
-    }
 
-    private boolean isPriorityAction()
-    {
-        if(!canSearchPriority)
-        {
-            return false;
-        }
-        else
-        {
-            disableRepeatedSearch(canSearchPriority);
-            return true;
-        }
-    }
-    
-    
-    private boolean isInvalidAction()
-    {
-        return true;
-    }
 }
