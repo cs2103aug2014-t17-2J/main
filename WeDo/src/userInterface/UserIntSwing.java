@@ -56,7 +56,7 @@ public class UserIntSwing extends JPanel {
 	private void initialize() {
 
 		frame = new JFrame();
-		frame.setBounds(100, 100, 460, 300);
+		frame.setBounds(100, 100, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
