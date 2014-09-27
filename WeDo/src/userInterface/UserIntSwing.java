@@ -13,17 +13,19 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JDesktopPane;
+import java.awt.TextField;
 
 public class UserIntSwing extends JPanel {
 
 	private JFrame frame;
-	private JTextField textField;	
+	private JTextField textField;
 	private JTable table;
 
 	/**
 	 * @wbp.nonvisual location=-28,119
 	 */
-	//private JTextArea textArea_1;
+	// private JTextArea textArea_1;
 
 	/**
 	 * Launch the application.
@@ -52,11 +54,7 @@ public class UserIntSwing extends JPanel {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
-		 
-		
-		
-		
+
 		frame = new JFrame();
 		frame.setBounds(100, 100, 460, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,7 +65,7 @@ public class UserIntSwing extends JPanel {
 		frame.getContentPane().add(lblDisplay);
 
 		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setBounds(256, 132, 178, 96);
+		textArea_1.setBounds(294, 51, 140, 20);
 		textArea_1.setWrapStyleWord(true);
 		frame.getContentPane().add(textArea_1);
 
@@ -107,20 +105,9 @@ public class UserIntSwing extends JPanel {
 		});
 		btnEnter.setBounds(331, 10, 89, 23);
 		frame.getContentPane().add(btnEnter);
-
-		String[] columnNames = { "task", "description", "start date",
-				"end date", "start time", "end time", "priority" };
-		Object[][] data = {
-				{ "meeting", "about cs2101", "4/10/2014", "", "2pm", "4pm" },
-				{ "cycling", "at east coast", "5/10/2014", "", "5pm", "8pm" } };
-		table = new JTable(data, columnNames);
-		table.setPreferredScrollableViewportSize(new Dimension(50, 10));
-		table.setFillsViewportHeight(true);
-		//JScrollPane scrollPane = new JScrollPane(table);
-		//frame.getContentPane().add(scrollPane);
-		//frame.getContentPane().add(table);
+		
+		InteractiveForm interForm = new InteractiveForm();
+		interForm.execute(frame);
 
 	}
-	
-	
 }

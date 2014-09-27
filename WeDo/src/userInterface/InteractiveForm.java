@@ -2,6 +2,7 @@ package userInterface;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.TextField;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -18,7 +19,7 @@ import javax.swing.table.TableColumn;
 public class InteractiveForm extends JPanel {
 
 	public static final String[] columnNames = { "task", "description",
-			"startDate", "endDate", "startTime", "endTime", "priority" };
+			"start date", "end date", "start time", "end time", "priority", " " };
 
 	protected JTable table;
 	protected JScrollPane scroller;
@@ -39,7 +40,7 @@ public class InteractiveForm extends JPanel {
          }
          
          scroller = new javax.swing.JScrollPane(table);
-         table.setPreferredScrollableViewportSize(new java.awt.Dimension(500, 300));
+         table.setPreferredScrollableViewportSize(new java.awt.Dimension(800, 300));
          TableColumn hidden = table.getColumnModel().getColumn(InteractiveTableModel.INDEX_HIDDEN);
          hidden.setMinWidth(2);
          hidden.setPreferredWidth(2);
@@ -61,7 +62,7 @@ public class InteractiveForm extends JPanel {
          table.setColumnSelectionInterval(0, 0);
      }
 	 
-	 class InteractiveRenderer extends DefaultTableCellRenderer {
+	class InteractiveRenderer extends DefaultTableCellRenderer {
          protected int interactiveColumn;
 
          public InteractiveRenderer(int interactiveColumn) {
@@ -99,18 +100,21 @@ public class InteractiveForm extends JPanel {
          }
      }
 	 
-	 public void execute() {
+	 public void execute(JFrame frame) {
          try {
              UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-             JFrame frame = new JFrame("Interactive Form");
+            
              frame.addWindowListener(new WindowAdapter() {
                  public void windowClosing(WindowEvent evt) {
                      System.exit(0);
                  }
              });
              frame.getContentPane().add(new InteractiveForm());
-             frame.pack();
-             frame.setVisible(true);
+            
+            this.setBounds(25, 92, 800, 300);
+     		frame.getContentPane().add(this);
+             //frame.pack();
+             frame.setVisible(false);
          } catch (Exception e) {
              e.printStackTrace();
          }
@@ -118,15 +122,6 @@ public class InteractiveForm extends JPanel {
          table.setSurrendersFocusOnKeystroke(true);
      }
 	 
-	 public void tableChanged(TableModelEvent evt) {
-		    if (evt.getType() == TableModelEvent.UPDATE) {
-		        int column = evt.getColumn();
-		        int row = evt.getFirstRow();
-		        System.out.println("row: " + row + " column: " + column);
-		        table.setColumnSelectionInterval(column + 1, column + 1);
-		        table.setRowSelectionInterval(row, row);
-		    }
-		}
 }
 	 
 	 

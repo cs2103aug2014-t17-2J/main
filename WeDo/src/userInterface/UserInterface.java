@@ -25,10 +25,10 @@ public class UserInterface {
 
 		// list = dataHand.getList("today");
 		UserIntSwing swi = new UserIntSwing();
-		//swi.execute();
+		swi.execute();
 		
-		InteractiveForm interForm = new InteractiveForm();
-		interForm.execute();
+		//InteractiveForm interForm = new InteractiveForm();
+		//interForm.execute();
 
 	}
 }

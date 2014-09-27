@@ -13,7 +13,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 	public static final int INDEX_STARTTIME = 4;
 	public static final int INDEX_ENDTIME = 5;
 	public static final int INDEX_PRIORITY = 6;
-	public static final int INDEX_HIDDEN = 6;
+	public static final int INDEX_HIDDEN = 7;
 
 	protected String[] columnNames;
 	protected Vector dataVector;
@@ -28,10 +28,10 @@ public class InteractiveTableModel extends AbstractTableModel {
 	}
 
 	public boolean isCellEditable(int row, int column) {
-		if (column == INDEX_HIDDEN)
-			return false;
-		else
+		if (column != INDEX_HIDDEN)
 			return true;
+		else
+			return false;
 	}
 
 	public Class getColumnClass(int column) {
