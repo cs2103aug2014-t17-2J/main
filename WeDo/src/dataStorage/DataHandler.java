@@ -14,7 +14,7 @@ public class DataHandler {
 
     
 	public DataHandler() {
-		// TODO Auto-generated constructor stub
+		observableList = new ObservableList<Task>(new ArrayList<Task>());
 	}
 	
 	public void addUndo(Command command)
@@ -28,8 +28,8 @@ public class DataHandler {
      */
     public boolean addTask(Task task) 
     {
-        // TODO Auto-generated method stub
-        return false;
+        observableList.add(task);
+    	return false;
     }
 
 
