@@ -1,6 +1,10 @@
 package userInterface;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
 
 import logic.CommandHandler;
 import dataStorage.DataHandler;
@@ -21,7 +25,10 @@ public class UserInterface {
 
 		// list = dataHand.getList("today");
 		UserIntSwing swi = new UserIntSwing();
-		swi.execute();
+		//swi.execute();
+		
+		InteractiveForm interForm = new InteractiveForm();
+		interForm.execute();
 
 	}
 }

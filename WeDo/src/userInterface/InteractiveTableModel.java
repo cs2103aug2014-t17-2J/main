@@ -14,7 +14,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 	public static final int INDEX_STARTTIME = 4;
 	public static final int INDEX_ENDTIME = 5;
 	public static final int INDEX_PRIORITY = 6;
-	public static final int INDEX_HIDDEN = 7;
+	public static final int INDEX_HIDDEN = 6;
 
 	protected String[] columnNames;
 	protected Vector dataVector;

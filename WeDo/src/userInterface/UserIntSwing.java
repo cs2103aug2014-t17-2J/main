@@ -1,33 +1,26 @@
 package userInterface;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 
-import dataStorage.DataHandler;
-import logic.CommandHandler;
-
-import javax.swing.JScrollBar;
-
-import java.awt.Dimension;
-import java.awt.ScrollPane;
-import java.awt.Scrollbar;
-
-import javax.swing.JTable;
-
-public class UserIntSwing {
+public class UserIntSwing extends JPanel {
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField textField;	
 	private JTable table;
 
 	/**
@@ -62,6 +55,11 @@ public class UserIntSwing {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		 
+		
+		
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 460, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,9 +119,11 @@ public class UserIntSwing {
 		table = new JTable(data, columnNames);
 		table.setPreferredScrollableViewportSize(new Dimension(50, 10));
 		table.setFillsViewportHeight(true);
-		JScrollPane scrollPane = new JScrollPane(table);
+		//JScrollPane scrollPane = new JScrollPane(table);
 		//frame.getContentPane().add(scrollPane);
 		//frame.getContentPane().add(table);
 
 	}
+	
+	
 }
