@@ -33,7 +33,7 @@ public class UserIntSwing {
 	/**
 	 * @wbp.nonvisual location=-28,119
 	 */
-	private JTextArea textArea_1;
+	//private JTextArea textArea_1;
 
 	/**
 	 * Launch the application.
@@ -122,8 +122,8 @@ public class UserIntSwing {
 		table.setPreferredScrollableViewportSize(new Dimension(50, 10));
 		table.setFillsViewportHeight(true);
 		JScrollPane scrollPane = new JScrollPane(table);
-		frame.getContentPane().add(scrollPane);
-		frame.getContentPane().add(table);
+		//frame.getContentPane().add(scrollPane);
+		//frame.getContentPane().add(table);
 
 	}
 }

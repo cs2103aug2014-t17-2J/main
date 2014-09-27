@@ -1,6 +1,6 @@
 package userInterface;
 
-public class TableInfomation {
+public class TableInformation {
 
 	protected String task, description, startDate, endDate, startTime, endTime,
 			priority;
