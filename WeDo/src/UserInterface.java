@@ -13,6 +13,7 @@ public class UserInterface {
 		
 		DataHandler dataHand = new DataHandler();
 		CommandHandler commHand = new CommandHandler(dataHand);	
+	
 	}
 
 	public static void main(String[] args) 
