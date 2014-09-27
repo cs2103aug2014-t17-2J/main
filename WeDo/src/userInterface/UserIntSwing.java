@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 
 public class UserIntSwing {
@@ -48,26 +49,31 @@ public class UserIntSwing {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 460, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblDisplay = new JLabel("My Label");
-		lblDisplay.setBounds(37, 133, 157, 20);
+		lblDisplay.setBounds(26, 114, 157, 20);
 		frame.getContentPane().add(lblDisplay);
 	
 		JTextArea textArea = new JTextArea(22, 80);
 		frame.getContentPane().add(textArea);
+		
+		JTextArea textArea_1 = new JTextArea();
+		textArea_1.setBounds(26, 145, 264, 90);
+		frame.getContentPane().add(textArea_1);
 		
 		textField = new JTextField();
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lblDisplay.setText(textField.getText());
 				textArea.setText(textField.getText());
+				textArea_1.setText(textField.getText());
 				textField.setText("");
 			}
 		});
-		textField.setBounds(22, 102, 140, 20);
+		textField.setBounds(26, 72, 294, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
@@ -79,8 +85,13 @@ public class UserIntSwing {
 				textField.setText("");
 			}
 		});
-		btnEnter.setBounds(174, 101, 89, 23);
+		btnEnter.setBounds(345, 71, 89, 23);
 		frame.getContentPane().add(btnEnter);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(216, 160, -184, 37);
+		frame.getContentPane().add(textPane);
+		
 		
 		
 		
