@@ -14,7 +14,7 @@ public class UserInterface {
 	{
 		
 		DataHandler dataHand = new DataHandler();
-		CommandHandler commHandler = new CommandHandler(dataHand);	
+		CommandHandler commHandl = new CommandHandler(dataHand);	
 	}
 
 	public static void main(String[] args) {
