@@ -75,6 +75,8 @@ public class UserIntSwing {
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				lblDisplay.setText(textField.getText());
+				textArea.setText(textField.getText());
+				textField.setText("");
 			}
 		});
 		btnEnter.setBounds(174, 101, 89, 23);
