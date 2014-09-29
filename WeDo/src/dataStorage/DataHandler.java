@@ -17,6 +17,8 @@ public class DataHandler {
 		observableList = new ObservableList<Task>(new ArrayList<Task>());
 	}
 	
+
+	
 	public void addUndo(Command command)
 	{
 	    undoHandler.add(command);

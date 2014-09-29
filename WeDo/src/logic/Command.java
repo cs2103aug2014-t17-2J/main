@@ -16,7 +16,7 @@ public abstract class Command {
     
     protected void buildTask(String userInput, DataHandler dataHandler) throws InvalidCommandException
     {
-        TaskParser taskParser = new TaskParser();
+        TaskParserBasic taskParser = new TaskParserBasic();
         this.task = taskParser.buildTask(userInput);
         this.dataHandler = dataHandler;
     }

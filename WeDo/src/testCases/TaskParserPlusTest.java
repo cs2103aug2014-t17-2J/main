@@ -23,7 +23,7 @@ import definedEnumeration.Priority;
  * @author Kuan Tien Long
  *
  */
-public class TaskParserTest {
+public class TaskParserPlusTest {
 
     @Test
     public void test() throws InvalidCommandException {
@@ -31,7 +31,7 @@ public class TaskParserTest {
       
 
         Task expectedTask = new Task();
-        TaskParserBasic taskParser = new TaskParserBasic();
+        TaskParserPlus taskParser = new TaskParserPlus();
         
       
         expectedTask.setDescription("floating task");
