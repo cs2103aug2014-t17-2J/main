@@ -20,8 +20,9 @@ public class TaskParserBasic implements TaskParser {
     private final String actionsDelimiter = "-";
   
     
-    public Task buildTask(String userInput) throws InvalidCommandException
+    public Task buildTask(StringBuilder userInputBuilder) throws InvalidCommandException
     {
+        String userInput = userInputBuilder.toString();
         String[] actionsTokens = StringHandler.splitString(userInput,
                 actionsDelimiter);
         System.out.println(Arrays.toString(actionsTokens));

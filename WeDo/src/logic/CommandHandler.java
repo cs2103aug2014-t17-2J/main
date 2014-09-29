@@ -45,7 +45,7 @@ public class CommandHandler {
         }
         
         try {
-            command.buildTask(userInput, dataHandler);
+            command.buildTask(new StringBuilder(userInput), dataHandler);
         } catch (InvalidCommandException e) {
             return TaskFeedBack.FEEDBACK_INVALID;
         }

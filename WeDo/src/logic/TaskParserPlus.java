@@ -19,25 +19,24 @@ public class TaskParserPlus implements TaskParser {
                 "");
     }
 
-    private Task createTask(String userInput) throws InvalidCommandException {
-        String wordsUsed;
-        Task task = new Task();
-        userInput = StringHandler.convertImplicitFormalDate(userInput);
-        userInput = StringHandler.convertFormalDate(userInput);
-
-
-        wordsUsed = parseDate(task, userInput);
-        userInput = userInput.replaceFirst(wordsUsed, "");
-        userInput = replaceDateKeyWords(userInput.trim());
-        wordsUsed = parsePriority(userInput, task);
-        userInput = userInput.replaceFirst(wordsUsed, "");
-        userInput = replaceDateKeyWords(userInput.trim());
-        wordsUsed = parseDescription(userInput, task);
-        userInput = userInput.replaceFirst(wordsUsed, "");
-        
-        System.out.println(task);
-        return task;
-    }
+//    private Task createTask(String userInput) throws InvalidCommandException {
+//        String wordsUsed;
+//        Task task = new Task();
+//        userInput = StringHandler.convertImplicitFormalDate(userInput);
+//        userInput = StringHandler.convertFormalDate(userInput);
+//
+//
+//        wordsUsed = parseDate(task, userInput);
+//        userInput = userInput.replaceFirst(wordsUsed, "");
+//        userInput = replaceDateKeyWords(userInput.trim());
+//        wordsUsed = parsePriority(userInput, task);
+//        userInput = userInput.replaceFirst(wordsUsed, "");
+//        userInput = replaceDateKeyWords(userInput.trim());
+//        wordsUsed = parseDescription(userInput, task);
+//        userInput = userInput.replaceFirst(wordsUsed, "");
+//        
+//        return task;
+//    }
 
     /**
      * @param token
@@ -101,9 +100,27 @@ public class TaskParserPlus implements TaskParser {
         return wordsUsed;
     }
 
-    public Task buildTask(String userInput) throws InvalidCommandException 
+    public Task buildTask(StringBuilder userInputBuilder) throws InvalidCommandException 
     {
-        Task task = createTask(userInput);
+        String userInput = userInputBuilder.toString();
+        String wordsUsed;
+        Task task = new Task();
+        userInput = StringHandler.convertImplicitFormalDate(userInput);
+        userInput = StringHandler.convertFormalDate(userInput);
+
+
+        wordsUsed = parseDate(task, userInput);
+        userInput = userInput.replaceFirst(wordsUsed, "");
+        userInput = replaceDateKeyWords(userInput.trim());
+        wordsUsed = parsePriority(userInput, task);
+        userInput = userInput.replaceFirst(wordsUsed, "");
+        userInput = replaceDateKeyWords(userInput.trim());
+        wordsUsed = parseDescription(userInput, task);
+        userInput = userInput.replaceFirst(wordsUsed, "");
+        
+        // Store back to StringBuilder
+        userInputBuilder.setLength(0);
+        userInputBuilder.append(userInput);
         return task;
     }
 
