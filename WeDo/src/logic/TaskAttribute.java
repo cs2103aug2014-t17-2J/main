@@ -120,7 +120,7 @@ class TaskDateAttribute implements TaskAttribute {
         }
         
         String dateText = arguments.substring(startPosition, endPosition);
-        return arguments;
+        return dateText;
     }
 
 

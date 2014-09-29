@@ -44,7 +44,7 @@ public class TaskParserPlusTest {
         expectedTask.setDescription("momo");
         expectedTask.setPriority(Priority.PRIORITY_HIGH);
         assertEquals(expectedTask,
-                taskParser.buildTask("-add momo on 12 sept -priority high"));
+                taskParser.buildTask("-add momo on 12 sept priority high"));
 
         expectedTask.setStartDate(LocalDate.of(2014, 9, 12));
         expectedTask.setEndDate(LocalDate.of(2014, 9, 18));
