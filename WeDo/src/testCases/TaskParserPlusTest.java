@@ -59,16 +59,31 @@ public class TaskParserPlusTest {
 //                expectedTask,
 //                taskParser
 //                        .buildTask("-add buy for me something date 18 sept 2pm to 22 sept 2am med priority"));
+//
+//        expectedTask = new Task();
+//        expectedTask.setStartDate(LocalDate.of(2014, 12, 12));
+//        expectedTask.setDescription("i wan to eat this");
+//        expectedTask.setPriority(Priority.PRIORITY_LOW);
+//        assertEquals(
+//                expectedTask,
+//                taskParser
+//                        .buildTask("add i wan to eat this priority low on 12 dec"));
 
         expectedTask = new Task();
-        expectedTask.setStartDate(LocalDate.of(2014, 12, 12));
-        expectedTask.setDescription("i wan to eat this");
-        expectedTask.setPriority(Priority.PRIORITY_LOW);
+        expectedTask.setStartDate(LocalDate.of(2014, 9, 18));
+        expectedTask.setStartTime(LocalTime.of(14, 0));
+        expectedTask.setEndTime(LocalTime.of(2, 0));
+        expectedTask.setEndDate(LocalDate.of(2014, 9, 22));
+        expectedTask.setDescription("buy for me something");
+        expectedTask.setPriority(Priority.PRIORITY_MEDIUM);
         assertEquals(
                 expectedTask,
                 taskParser
-                        .buildTask("add i wan to eat this priority low on 12 dec"));
-
+                        .buildTask("-add buy for me something med priority date 18 sept 2pm to 22 sept 2am "));
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask("-add buy for me something med priority date 18/09/14 2pm to 22/9/14 2am "));
 
 
     }

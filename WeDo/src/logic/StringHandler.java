@@ -1,5 +1,6 @@
 package logic;
 
+import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,7 +78,8 @@ public class StringHandler {
         Pattern pattern = Pattern.compile(ddmmyyyyRegex);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
-        while(matcher.find())
+        
+        if(matcher.find())
         {
             matcher.appendReplacement(result, matcher.group(yearGroup) + "/" + matcher.group(monthGroup) + "/" + matcher.group(dayGroup));
         }   
@@ -87,13 +89,20 @@ public class StringHandler {
         
     }
     
+    public static String convertImplicitFormalDate(String source)
+    {
+        source = convertDateDDMMYY(source);
+        source = convertDateDDMM(source);
+        return source;
+    }
+    
     
     /**
      * This function convert date in DD/MM/YY or DD-MM-YY format to DD/MM/20YY format
      * @param source which consist of DD/MM/YY format
      * @return replaced string with DD/MM/20YY format
      */
-    public static String convertImplicitFormalDate(String source)
+    public static String convertDateDDMMYY(String source)
     {
         final int inferredYear = 20;
         
@@ -108,7 +117,7 @@ public class StringHandler {
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
         
-        while(matcher.find())
+        if(matcher.find())
         {
             matcher.appendReplacement(result, matcher.group(startGroup) + matcher.group(dayGroup) + "/" + matcher.group(monthGroup) + "/" + inferredYear + matcher.group(yearGroup) + matcher.group(endGroup));
         }
@@ -117,7 +126,34 @@ public class StringHandler {
         return result.toString();
     }
     
+    /**
+     * This function convert date in DD/MM or DD-MM format to DD/MM/YYYY format
+     * @param source which consist of DD/MM format
+     * @return replaced string with DD/MM/YYYY format
+     */
+    public static String convertDateDDMM(String source)
+    {
+        final int inferredYear = LocalDateTime.now().getYear();
+        final int startGroup = 1;
+        final int dayGroup = 2;
+        final int monthGroup = 3;
+        final int endGroup = 4;
     
+        final String ddmmyyRegex = "([^\\w]|^)+([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])([^\\w]|$)";
+        Pattern pattern = Pattern.compile(ddmmyyRegex);
+        Matcher matcher = pattern.matcher(source);
+        StringBuffer result = new StringBuffer();
+        
+        
+        if(matcher.find() && !matcher.group(endGroup).matches("/|-"))
+        {
+            matcher.appendReplacement(result, matcher.group(startGroup) + matcher.group(dayGroup) + "/" + matcher.group(monthGroup) + "/" + inferredYear + matcher.group(endGroup));
+        }
+       
+        matcher.appendTail(result);
+        return result.toString();    
+    
+    }
     
     /**
      * @param source

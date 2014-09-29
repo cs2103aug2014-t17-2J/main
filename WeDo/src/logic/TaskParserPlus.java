@@ -22,6 +22,8 @@ public class TaskParserPlus implements TaskParser {
     private Task createTask(String userInput) throws InvalidCommandException {
         String wordsUsed;
         Task task = new Task();
+        userInput = StringHandler.convertImplicitFormalDate(userInput);
+        userInput = StringHandler.convertFormalDate(userInput);
 
         wordsUsed = parseDate(task, userInput);
         userInput = userInput.replaceFirst(wordsUsed, "");
