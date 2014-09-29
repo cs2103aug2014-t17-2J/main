@@ -25,6 +25,7 @@ public class TaskParserPlus implements TaskParser {
         userInput = StringHandler.convertImplicitFormalDate(userInput);
         userInput = StringHandler.convertFormalDate(userInput);
 
+
         wordsUsed = parseDate(task, userInput);
         userInput = userInput.replaceFirst(wordsUsed, "");
         userInput = replaceDateKeyWords(userInput.trim());

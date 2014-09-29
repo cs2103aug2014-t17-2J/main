@@ -92,8 +92,8 @@ class TaskDateAttribute implements TaskAttribute {
        
         Parser nattyParser = new Parser();
         
-        arguments = StringHandler.convertImplicitFormalDate(arguments);
-        arguments = StringHandler.convertFormalDate(arguments);
+   //     arguments = StringHandler.convertImplicitFormalDate(arguments);
+   //     arguments = StringHandler.convertFormalDate(arguments);
         
         List<DateGroup> dateGroups = nattyParser.parse(arguments);
         if (dateAvailable(dateGroups))

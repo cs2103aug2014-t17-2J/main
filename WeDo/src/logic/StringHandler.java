@@ -79,7 +79,7 @@ public class StringHandler {
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
         
-        if(matcher.find())
+        while(matcher.find())
         {
             matcher.appendReplacement(result, matcher.group(yearGroup) + "/" + matcher.group(monthGroup) + "/" + matcher.group(dayGroup));
         }   
@@ -91,8 +91,8 @@ public class StringHandler {
     
     public static String convertImplicitFormalDate(String source)
     {
-        source = convertDateDDMMYY(source);
         source = convertDateDDMM(source);
+        source = convertDateDDMMYY(source);
         return source;
     }
     
@@ -117,7 +117,7 @@ public class StringHandler {
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
         
-        if(matcher.find())
+        while(matcher.find())
         {
             matcher.appendReplacement(result, matcher.group(startGroup) + matcher.group(dayGroup) + "/" + matcher.group(monthGroup) + "/" + inferredYear + matcher.group(yearGroup) + matcher.group(endGroup));
         }
@@ -145,7 +145,7 @@ public class StringHandler {
         StringBuffer result = new StringBuffer();
         
         
-        if(matcher.find() && !matcher.group(endGroup).matches("/|-"))
+        while(matcher.find() && !matcher.group(endGroup).matches("/|-"))
         {
             matcher.appendReplacement(result, matcher.group(startGroup) + matcher.group(dayGroup) + "/" + matcher.group(monthGroup) + "/" + inferredYear + matcher.group(endGroup));
         }
