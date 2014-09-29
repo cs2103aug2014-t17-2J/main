@@ -21,6 +21,16 @@ public abstract class Command {
         this.dataHandler = dataHandler;
     }
     
+    protected void setTask(Task task) 
+    {
+        this.task = task;
+    }
+    
+    public void setDataHandler(DataHandler dataHandler)
+    {
+        this.dataHandler = dataHandler;
+    }
+    
     /**
      * This method execute the commands such as add, display, clear etc.
      * @return TaskFeedBack to continue or exit
@@ -28,6 +38,7 @@ public abstract class Command {
     
     abstract TaskFeedBack execute();
     abstract void undo();
+
     
 }
 

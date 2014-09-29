@@ -38,17 +38,27 @@ public class CommandHandler {
      */
     public TaskFeedBack executeCommand(String userInput) {
 
-        Command command = getCommand(userInput);
+        StringBuilder userInputBuilder = new StringBuilder(userInput);
+        TaskParserPlus taskParser = new TaskParserPlus();
+        Task task;
+        try
+        {
+            task = taskParser.buildTask(userInputBuilder);
+        } catch(InvalidCommandException e)
+        {
+            return TaskFeedBack.FEEDBACK_INVALID;    
+        }
+        
+        Command command = getCommand(userInputBuilder.toString());
         
         if (command == null) {
             return TaskFeedBack.FEEDBACK_INVALID;
         }
         
-        try {
-            command.buildTask(new StringBuilder(userInput), dataHandler);
-        } catch (InvalidCommandException e) {
-            return TaskFeedBack.FEEDBACK_INVALID;
-        }
+        command.setTask(task);
+        command.setDataHandler(dataHandler);
+        
+
         return command.execute();
     }
 

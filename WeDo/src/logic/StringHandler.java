@@ -222,7 +222,7 @@ public class StringHandler {
         }
         else
         {
-            return source;
+            return "";
         }
 
     }
