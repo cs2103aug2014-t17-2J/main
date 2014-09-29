@@ -91,11 +91,11 @@ public class TaskParserPlusTest {
         assertEquals(
                 expectedTask,
                 taskParser
-                        .buildTask("18/09/14 2pm to 22/9/14 2am med priority -add buy for me something"));
+                        .buildTask("18/09/14 14:00 to 22/9/14 2:00 med priority -add buy for me something"));
         assertEquals(
                 expectedTask,
                 taskParser
-                        .buildTask("date 18/09/14 2pm to 22/9/14 2am -add buy for me something priority med"));
+                        .buildTask("date 18/09 2pm to 22/9 2am -add buy for me something priority med"));
         
         
 
