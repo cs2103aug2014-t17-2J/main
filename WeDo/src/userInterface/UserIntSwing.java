@@ -64,11 +64,6 @@ public class UserIntSwing extends JPanel {
 		lblDisplay.setBounds(10, 42, 157, 20);
 		frame.getContentPane().add(lblDisplay);
 
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setBounds(294, 51, 140, 20);
-		textArea_1.setWrapStyleWord(true);
-		frame.getContentPane().add(textArea_1);
-
 		ArrayList<String> taskList = new ArrayList<String>();
 
 		textField = new JTextField();
@@ -98,9 +93,9 @@ public class UserIntSwing extends JPanel {
 				// textArea.setText(textField.getText());
 				// textField.setText("");
 
-				for (int i = 0; i < taskList.size(); i++) {
-					textArea_1.append((String) taskList.get(i) + "\n");
-				}
+				//for (int i = 0; i < taskList.size(); i++) {
+				//	textArea_1.append((String) taskList.get(i) + "\n");
+				//}
 			}
 		});
 		btnEnter.setBounds(331, 10, 89, 23);
