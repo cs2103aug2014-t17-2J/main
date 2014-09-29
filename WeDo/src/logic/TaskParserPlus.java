@@ -15,7 +15,7 @@ public class TaskParserPlus implements TaskParser {
 
     private String replaceDateKeyWords(String source) {
         source = source.toLowerCase();
-        return source.replaceAll("in$|on$|from$|at$|by$|^in|^on|^from|^at|^by",
+        return source.replaceAll("in$|on$|from$|at$|by$|date$|^in|^on|^from|^at|^by|^date",
                 "");
     }
 
@@ -27,7 +27,7 @@ public class TaskParserPlus implements TaskParser {
         userInput = userInput.replaceFirst(wordsUsed, "");
         wordsUsed = parsePriority(userInput, task);
         userInput = userInput.replaceFirst(wordsUsed, "");
-        userInput = replaceDateKeyWords(userInput);
+        userInput = replaceDateKeyWords(userInput.trim());
         wordsUsed = parseDescription(userInput, task);
         userInput = userInput.replaceFirst(wordsUsed, "");
         
