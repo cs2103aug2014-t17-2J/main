@@ -182,7 +182,7 @@ public class StringHandler {
         }
 
         if (source.contains(" ")) {
-            return source.replaceFirst("^\\w.+?(?=\\s)", "");
+            return source.replaceFirst("^.+?(?=\\s)", "");
         }
         else
         {
