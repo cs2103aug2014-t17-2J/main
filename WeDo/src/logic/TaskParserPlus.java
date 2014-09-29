@@ -25,13 +25,14 @@ public class TaskParserPlus implements TaskParser {
 
         wordsUsed = parseDate(task, userInput);
         userInput = userInput.replaceFirst(wordsUsed, "");
+        userInput = replaceDateKeyWords(userInput.trim());
         wordsUsed = parsePriority(userInput, task);
         userInput = userInput.replaceFirst(wordsUsed, "");
         userInput = replaceDateKeyWords(userInput.trim());
         wordsUsed = parseDescription(userInput, task);
         userInput = userInput.replaceFirst(wordsUsed, "");
         
-        
+        System.out.println(task);
         return task;
     }
 

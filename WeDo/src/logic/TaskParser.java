@@ -34,9 +34,9 @@ public interface TaskParser
 
            
             final Map<TaskAttribute, Collection<String>> dateActions = ImmutableMap.<TaskAttribute, Collection<String>>of(
-                    dateCommand, Arrays.asList("date", "day", "d", "month", "time"));
+                    dateCommand, Arrays.asList("date", "day", "month", "time"));
             final Map<TaskAttribute, Collection<String>> priorityActions = ImmutableMap.<TaskAttribute, Collection<String>>of(
-                    priorityCommand, Arrays.asList("priority", "pri", "p"));
+                    priorityCommand, Arrays.asList("priority", "pri"));
             
             for (TaskAttribute key : dateActions.keySet()) {
                 availableActions.putAll(key, dateActions.get(key));
