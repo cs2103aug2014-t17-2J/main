@@ -18,7 +18,8 @@ public class DataHandler {
     private final String UPCOMING = "upcoming";
     private final String SOMEDAY = "someday";
     	
-        
+    private String currentList;
+    
     UndoHandler undoHandler;
     FileHandler fileHandler;
 
@@ -79,11 +80,32 @@ public class DataHandler {
      */
     public boolean addTask(Task task) 
     {
-        observableList.add(task);
     	return false;
     }
 
-
+    public boolean onDisplay(Task task) {
+    	
+    	LocalDate day = LocalDate.MAX;
+    	LocalDate today = LocalDate.now();
+    	LocalDate tomorrow =  day.plusDays(1);
+    	
+    	
+    	if(currentList==TODAY && task.getEndDate()==today || task.getStarDate()==today) {
+    		return true;
+    	}
+    	else if(currentList==TOMORROW && task.getStarDate()==tomorrow || task.getEndDate()==tomorrow) {
+    		return true;
+    	}
+    	else if(currentList==UPCOMING && task.getStarDate()!=null || task.getEndDate()!=null ) {
+    		return true;
+    	}
+    	else if(currentList==SOMEDAY && task.getEndDate()==null || task.getStarDate()==null ){
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
 
     /**
      * @param task
