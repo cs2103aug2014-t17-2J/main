@@ -173,8 +173,11 @@ public class DataHandler {
      * @return
      */
     public boolean canRemove(int lineToDelete) {
-        // TODO Auto-generated method stub
-        return false;
+    	 if(lineToDelete>=observableList.getList().size() || lineToDelete < 0  ) {
+             return false;
+         }
+         else
+             return true;
     }
 
     /**
