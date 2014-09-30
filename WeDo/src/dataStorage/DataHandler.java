@@ -4,18 +4,57 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import logic.Command;
+import logic.FileHandler;
 import logic.Task;
 import logic.UndoHandler;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 public class DataHandler {
-    
+	
+    private final String TODAY = "today";
+    private final String TOMORROW = "tomorrow";
+    private final String UPCOMING = "upcoming";
+    private final String SOMEDAY = "someday";
+    	
+        
     UndoHandler undoHandler;
+    FileHandler fileHandler;
+
     ObservableList<Task> observableList;
+    Multimap <String,Task> mainList;
 
     
 	public DataHandler() {
-		observableList = new ObservableList<Task>(new ArrayList<Task>());
+		fileHandler = new FileHandler();
+		populateLists();
 	}
+	
+	/** This function add all the lists 
+	 * into a Multimap according to list type 
+     * @return whether the operation is successful.
+     */
+	public boolean populateLists() {
+	        mainList = ArrayListMultimap.create();
+	        
+	        addToMultimap(TODAY,fileHandler.getList(TODAY));
+	        addToMultimap(TOMORROW,fileHandler.getList(TOMORROW));
+	        addToMultimap(UPCOMING,fileHandler.getList(UPCOMING));
+	        addToMultimap(SOMEDAY,fileHandler.getList(SOMEDAY));
+	        
+	        return false;
+	    }
+	
+	/** This function put the Arraylist of tasks 
+	 * into a specific key of the Multimap
+     */
+	 public void addToMultimap(String key,ArrayList<Task> value) {
+	        for(int i=0; i<value.size(); i++) {
+	            mainList.put(key, value.get(i));
+	        }
+	        
+	    }
 	
 	public void addUndo(Command command)
 	{
