@@ -84,6 +84,7 @@ public class DataHandler {
     		observableList.add(task);
     	}
     	
+    	mainList.put(determineDate(task), task);
     	
     	return false;
     }
