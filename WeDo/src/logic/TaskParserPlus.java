@@ -70,13 +70,27 @@ public class TaskParserPlus implements TaskParser {
 
     /**
      * @param task
-     * @param arguments
-     * @return the wordUsed for setting the date
+     * @param source
+     * @return the wordUsed for setting the date if valid, or empty string "" if invalid.
      */
-    private String parseDate(Task task, String arguments) {
+    private String parseDate(Task task, String source) 
+    {
+        if(invalidDateString(source))
+            return "";
+        
         TaskAttribute taskAttribute = new TaskDateAttribute();
-        String wordsUsed = taskAttribute.set(task, arguments);
+        String wordsUsed = taskAttribute.set(task, source);
         return wordsUsed;
+    }
+
+
+    /**
+     * @param source
+     * @return true if source consist of less than minimalDateLength of words
+     */
+    private boolean invalidDateString(String source) {
+        final int minimalDateLength = 3;
+        return source.split("\\s+").length < minimalDateLength;
     }
 
     public Task buildTask(StringBuilder userInputBuilder) 
@@ -87,7 +101,7 @@ public class TaskParserPlus implements TaskParser {
         userInput = StringHandler.convertImplicitFormalDate(userInput);
         userInput = StringHandler.convertFormalDate(userInput);
 
-
+        
         wordsUsed = parseDate(task, userInput);
         userInput = userInput.replaceFirst(wordsUsed, "");
         userInput = replaceDateKeyWords(userInput.trim());
