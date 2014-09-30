@@ -80,33 +80,57 @@ public class DataHandler {
      */
     public boolean addTask(Task task) 
     {
+    	if(onDisplay(task)==true) {
+    		observableList.add(task);
+    	}
+    	
+    	
     	return false;
     }
-
+    
+    /**Check if the task should be added to or removed from
+     * both main list and observable list
+     * @param task
+     * @return whether the task should be on display
+     */
     public boolean onDisplay(Task task) {
+    	
+    	if(determineDate(task)==currentList) {
+    		return true;
+    	}    
+    	else {
+    		return false;
+    	}
+    }
+    
+    /** This function determines the date of the task to 
+     * know which key of the map it should be added.
+     * @param task
+     * @return
+     */
+    public String determineDate(Task task) {
     	
     	LocalDate day = LocalDate.MAX;
     	LocalDate today = LocalDate.now();
     	LocalDate tomorrow =  day.plusDays(1);
     	
     	
-    	if(currentList==TODAY && task.getEndDate()==today || task.getStarDate()==today) {
-    		return true;
+    	if(task.getEndDate()==today || task.getStarDate()==today) {
+    		return TODAY;
     	}
-    	else if(currentList==TOMORROW && task.getStarDate()==tomorrow || task.getEndDate()==tomorrow) {
-    		return true;
+    	else if(task.getStarDate()==tomorrow || task.getEndDate()==tomorrow) {
+    		return TOMORROW;
     	}
-    	else if(currentList==UPCOMING && task.getStarDate()!=null || task.getEndDate()!=null ) {
-    		return true;
-    	}
-    	else if(currentList==SOMEDAY && task.getEndDate()==null || task.getStarDate()==null ){
-    		return true;
+    	
+    	else if(task.getEndDate()==null || task.getStarDate()==null ){
+    		return SOMEDAY;
     	}
     	else {
-    		return false;
+    		return UPCOMING;
     	}
+    	
     }
-
+    
     /**
      * @param task
      * @return
