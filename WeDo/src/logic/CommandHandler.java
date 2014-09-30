@@ -54,6 +54,8 @@ public class CommandHandler {
         command.setTask(task);
         command.setDataHandler(dataHandler);
         
+        System.out.println(task);
+        
         return command.execute();
     }
 

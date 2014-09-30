@@ -44,7 +44,7 @@ public class Task
     @Override
     public String toString()
     {
-        return description + " on " + startDate +","+ startTime + " end at " + endDate +","+ endTime + " " + priority ;
+        return "description:[" + description + "],startDate:[" + startDate +","+ startTime + "],endDate:[" + endDate +","+ endTime + "],Priority:[" + priority +"]" ;
         
     }
     
