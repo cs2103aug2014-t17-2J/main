@@ -7,7 +7,6 @@ import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import logic.InvalidCommandException;
 import logic.Task;
 import logic.TaskParserPlus;
 import org.junit.Test;
@@ -20,7 +19,7 @@ import definedEnumeration.Priority;
 public class TaskParserPlusTest {
 
     @Test
-    public void test() throws InvalidCommandException {
+    public void test() {
 
 
         Task expectedTask = new Task();

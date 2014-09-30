@@ -3,9 +3,6 @@
  */
 package logic;
 
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Kuan Tien Long
@@ -19,24 +16,6 @@ public class TaskParserPlus implements TaskParser {
                 "");
     }
 
-//    private Task createTask(String userInput) throws InvalidCommandException {
-//        String wordsUsed;
-//        Task task = new Task();
-//        userInput = StringHandler.convertImplicitFormalDate(userInput);
-//        userInput = StringHandler.convertFormalDate(userInput);
-//
-//
-//        wordsUsed = parseDate(task, userInput);
-//        userInput = userInput.replaceFirst(wordsUsed, "");
-//        userInput = replaceDateKeyWords(userInput.trim());
-//        wordsUsed = parsePriority(userInput, task);
-//        userInput = userInput.replaceFirst(wordsUsed, "");
-//        userInput = replaceDateKeyWords(userInput.trim());
-//        wordsUsed = parseDescription(userInput, task);
-//        userInput = userInput.replaceFirst(wordsUsed, "");
-//        
-//        return task;
-//    }
 
     /**
      * @param token
@@ -100,7 +79,7 @@ public class TaskParserPlus implements TaskParser {
         return wordsUsed;
     }
 
-    public Task buildTask(StringBuilder userInputBuilder) throws InvalidCommandException 
+    public Task buildTask(StringBuilder userInputBuilder) 
     {
         String userInput = userInputBuilder.toString();
         String wordsUsed;

@@ -14,7 +14,7 @@ public abstract class Command {
     protected Task task;
     protected DataHandler dataHandler;
     
-    protected void buildTask(StringBuilder userInput, DataHandler dataHandler) throws InvalidCommandException
+    protected void buildTask(StringBuilder userInput, DataHandler dataHandler) 
     {
         TaskParserBasic taskParser = new TaskParserBasic();
         this.task = taskParser.buildTask(userInput);
@@ -33,7 +33,7 @@ public abstract class Command {
     
     /**
      * This method execute the commands such as add, display, clear etc.
-     * @return TaskFeedBack to continue or exit
+     * @return TaskFeedBack to display if the command is valid
      */
     
     abstract TaskFeedBack execute();

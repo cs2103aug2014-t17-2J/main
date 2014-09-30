@@ -20,12 +20,11 @@ public class TaskParserBasic implements TaskParser {
     private final String actionsDelimiter = "-";
   
     
-    public Task buildTask(StringBuilder userInputBuilder) throws InvalidCommandException
+    public Task buildTask(StringBuilder userInputBuilder)
     {
         String userInput = userInputBuilder.toString();
         String[] actionsTokens = StringHandler.splitString(userInput,
                 actionsDelimiter);
-        System.out.println(Arrays.toString(actionsTokens));
         Task task = createTask(actionsTokens);
         
 
@@ -39,7 +38,7 @@ public class TaskParserBasic implements TaskParser {
      * @return
      * @throws InvalidCommandException 
      */
-    private Task createTask(String[] actionTokens) throws InvalidCommandException
+    private Task createTask(String[] actionTokens) 
     {
         Task task = new Task();
         boolean initial = true;
@@ -75,14 +74,14 @@ public class TaskParserBasic implements TaskParser {
     /**
      * @param tokens
      */
-    private void setTaskAttribute(String token, Task task) throws InvalidCommandException
+    private void setTaskAttribute(String token, Task task) 
     {
         String operation = StringHandler.getFirstWord(token);
         String arguments = StringHandler.removeFirstMatched(token, operation);
         TaskAttribute taskAttribute = determineAttribute(operation);
         if(taskAttribute == null)
         {
-            throw new InvalidCommandException(operation);
+            return;
         }
         taskAttribute.set(task, arguments);
         
