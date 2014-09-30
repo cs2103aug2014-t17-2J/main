@@ -203,8 +203,9 @@ public class DataHandler {
      * @param lineToDelete
      */
     public void remove(int lineToDelete) {
-        // TODO Auto-generated method stub
-        
+       if(canRemove(lineToDelete)==true) {
+    	   mainList.remove(currentList, getIndexedTask(lineToDelete));
+       } 
     }
 
     /**
@@ -213,7 +214,7 @@ public class DataHandler {
      */
     public Task getIndexedTask(int lineToDelete) {
         // TODO Auto-generated method stub
-        return null;
+        return observableList.get(lineToDelete-1);
     }
 
 }
