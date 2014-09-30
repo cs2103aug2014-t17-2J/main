@@ -49,13 +49,25 @@ public class DataHandler {
 	/** This function put the Arraylist of tasks 
 	 * into a specific key of the Multimap
      */
-	 public void addToMultimap(String key,ArrayList<Task> value) {
+	public void addToMultimap(String key,ArrayList<Task> value) {
 	        for(int i=0; i<value.size(); i++) {
 	            mainList.put(key, value.get(i));
 	        }
 	        
 	    }
 	
+	/**This function retrieve a specific list from main list
+     * @param list name to be displayed
+     * @return list of the tasks to be displayed
+     */
+	public ArrayList<Task> getListFromMain(String name){
+		ArrayList<Task> tmp = new ArrayList<Task>(mainList.get(name));
+		
+		return tmp;
+		
+	}
+	
+	 
 	public void addUndo(Command command)
 	{
 	    undoHandler.add(command);
