@@ -137,8 +137,10 @@ public class DataHandler {
      * @return
      */
     public boolean remove(Task task) {
-        // TODO Auto-generated method stub
-        return false;
+        
+    	mainList.remove(currentList, task);
+    	
+    	return false;
     }
 
     /**
