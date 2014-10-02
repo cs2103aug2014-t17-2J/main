@@ -1,6 +1,5 @@
 package userInterface;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,16 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JDesktopPane;
-import java.awt.TextField;
 
 public class UserIntSwing extends JPanel {
 
 	private JFrame frame;
 	private JTextField textField;
-	private JTable table;
 
 	/**
 	 * @wbp.nonvisual location=-28,119

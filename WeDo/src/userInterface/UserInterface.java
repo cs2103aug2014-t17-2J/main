@@ -1,10 +1,6 @@
 package userInterface;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-
-import javax.swing.JFrame;
 
 import logic.CommandHandler;
 import dataStorage.DataHandler;
@@ -18,7 +14,7 @@ public class UserInterface {
 	{
 		
 		DataHandler dataHand = new DataHandler();
-		CommandHandler commHandl = new CommandHandler(dataHand);	
+		CommandHandler commHand = new CommandHandler(dataHand);	
 	}
 
 	public static void main(String[] args) {
