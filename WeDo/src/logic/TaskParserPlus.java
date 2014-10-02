@@ -3,9 +3,6 @@
  */
 package logic;
 
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Kuan Tien Long
@@ -19,25 +16,6 @@ public class TaskParserPlus implements TaskParser {
                 "");
     }
 
-    private Task createTask(String userInput) throws InvalidCommandException {
-        String wordsUsed;
-        Task task = new Task();
-        userInput = StringHandler.convertImplicitFormalDate(userInput);
-        userInput = StringHandler.convertFormalDate(userInput);
-
-
-        wordsUsed = parseDate(task, userInput);
-        userInput = userInput.replaceFirst(wordsUsed, "");
-        userInput = replaceDateKeyWords(userInput.trim());
-        wordsUsed = parsePriority(userInput, task);
-        userInput = userInput.replaceFirst(wordsUsed, "");
-        userInput = replaceDateKeyWords(userInput.trim());
-        wordsUsed = parseDescription(userInput, task);
-        userInput = userInput.replaceFirst(wordsUsed, "");
-        
-        System.out.println(task);
-        return task;
-    }
 
     /**
      * @param token
@@ -92,18 +70,50 @@ public class TaskParserPlus implements TaskParser {
 
     /**
      * @param task
-     * @param arguments
-     * @return the wordUsed for setting the date
+     * @param source
+     * @return the wordUsed for setting the date if valid, or empty string "" if invalid.
      */
-    private String parseDate(Task task, String arguments) {
+    private String parseDate(Task task, String source) 
+    {
+        if(invalidDateString(source))
+            return "";
+        
         TaskAttribute taskAttribute = new TaskDateAttribute();
-        String wordsUsed = taskAttribute.set(task, arguments);
+        String wordsUsed = taskAttribute.set(task, source);
         return wordsUsed;
     }
 
-    public Task buildTask(String userInput) throws InvalidCommandException 
+
+    /**
+     * @param source
+     * @return true if source consist of less than minimalDateLength of words
+     */
+    private boolean invalidDateString(String source) {
+        final int minimalDateLength = 3;
+        return source.split("\\s+").length < minimalDateLength;
+    }
+
+    public Task buildTask(StringBuilder userInputBuilder) 
     {
-        Task task = createTask(userInput);
+        String userInput = userInputBuilder.toString();
+        String wordsUsed;
+        Task task = new Task();
+        userInput = StringHandler.convertImplicitFormalDate(userInput);
+        userInput = StringHandler.convertFormalDate(userInput);
+
+        
+        wordsUsed = parseDate(task, userInput);
+        userInput = userInput.replaceFirst(wordsUsed, "");
+        userInput = replaceDateKeyWords(userInput.trim());
+        wordsUsed = parsePriority(userInput, task);
+        userInput = userInput.replaceFirst(wordsUsed, "");
+        userInput = replaceDateKeyWords(userInput.trim());
+        wordsUsed = parseDescription(userInput, task);
+        userInput = userInput.replaceFirst(wordsUsed, "");
+        
+        // Store back to StringBuilder
+        userInputBuilder.setLength(0);
+        userInputBuilder.append(userInput);
         return task;
     }
 

@@ -2,7 +2,6 @@ package userInterface;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.TextField;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

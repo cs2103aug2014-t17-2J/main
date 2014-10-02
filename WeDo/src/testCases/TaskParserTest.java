@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import logic.InvalidCommandException;
 import logic.Task;
 import logic.TaskParserBasic;
 
@@ -23,7 +22,7 @@ import definedEnumeration.Priority;
 public class TaskParserTest {
 
     @Test
-    public void test() throws InvalidCommandException {
+    public void test() {
 
       
 
@@ -35,13 +34,13 @@ public class TaskParserTest {
         assertEquals(
                 expectedTask,
                 taskParser
-                        .buildTask("-add floating task"));
+                        .buildTask(new StringBuilder("-add floating task")));
 
         expectedTask.setStartDate(LocalDate.of(2014, 9, 12));
         expectedTask.setDescription("momo");
         expectedTask.setPriority(Priority.PRIORITY_HIGH);
         assertEquals(expectedTask,
-                taskParser.buildTask("-add momo -date 12 sept -priority high"));
+                taskParser.buildTask(new StringBuilder("-add momo -date 12 sept -priority high")));
 
         expectedTask.setStartDate(LocalDate.of(2014, 9, 12));
         expectedTask.setEndDate(LocalDate.of(2014, 9, 18));
@@ -50,7 +49,7 @@ public class TaskParserTest {
         assertEquals(
                 expectedTask,
                 taskParser
-                        .buildTask("-add buy for me something -date 12 sept to 18 sept -priority low"));
+                        .buildTask(new StringBuilder("-add buy for me something -date 12 sept to 18 sept -priority low")));
 
         expectedTask.setStartDate(LocalDate.of(2014, 9, 18));
         expectedTask.setStartTime(LocalTime.of(14, 0));
@@ -61,7 +60,7 @@ public class TaskParserTest {
         assertEquals(
                 expectedTask,
                 taskParser
-                        .buildTask("-add buy for me something -date 18 sept 2pm to 22 sept 2am -priority med"));
+                        .buildTask(new StringBuilder("-add buy for me something -date 18 sept 2pm to 22 sept 2am -priority med")));
 
 
 
