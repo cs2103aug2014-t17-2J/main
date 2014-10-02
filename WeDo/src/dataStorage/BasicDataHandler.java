@@ -247,6 +247,14 @@ public class BasicDataHandler implements DataHandler {
         return null;
     }
 
+	
+	 public boolean remove(Task task) {
+	        
+	    	mainList.remove(currentList, task);
+	    	
+	    	return false;
+	    }
+
 
 
 }

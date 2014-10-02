@@ -25,19 +25,8 @@ public interface DataHandler {
      */
     public abstract void addUndoCommand(Command command);
 
-    /* (non-Javadoc)
-     * @see dataStorage.BasicDataHandler#addTask(logic.Task)
-     */
-<<<<<<< HEAD
-    public boolean remove(Task task) {
-        
-    	mainList.remove(currentList, task);
-    	
-    	return false;
-    }
-=======
+   
     public abstract boolean addTask(Task task);
->>>>>>> 49186b587b53c61a6d6bab600f43e772302f7f19
 
     /* (non-Javadoc)
      * @see dataStorage.BasicDataHandler#clearTask(java.time.LocalDate, java.time.LocalDate)
