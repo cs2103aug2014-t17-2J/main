@@ -21,18 +21,18 @@ public class Processor {
     private DataHandler dataHandler;
     private CommandHandler commandHandler;
     
-    
 	public Processor() 
 	{
 		
-	    dataHandler = new BasicDataHandler();
-		commandHandler = new CommandHandler(this);	
+	   // dataHandler = new BasicDataHandler();
+		commandHandler = new CommandHandler(this);
 	}
 
 	public static void main(String[] args) {
 
 		// list = dataHand.getList("today");
-		UserIntSwing swi = new UserIntSwing();
+		Processor processor = new Processor();
+		UserIntSwing swi = new UserIntSwing(processor);
 		swi.execute();
 		
 		//InteractiveForm interForm = new InteractiveForm();

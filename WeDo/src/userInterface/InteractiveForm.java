@@ -119,8 +119,5 @@ public class InteractiveForm extends JPanel {
          }
          
          table.setSurrendersFocusOnKeystroke(true);
-     }
-	 
+     }	 
 }
-	 
-	 

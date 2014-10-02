@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import brain.Processor;
+
 public class UserIntSwing extends JPanel {
 
 	private JFrame frame;
@@ -34,13 +36,9 @@ public class UserIntSwing extends JPanel {
 	private static final String TAG_WRAP_STRING = "%s%s%s";
 	private static final int ACTION_IDENTIFIER_INDEX = 0;
 
+	private Processor processor;
 	// private static final String IDENTIFIER_PLACEHOLDER = "%1$s";
 	// private static final String DATE_FORMAT = "dd/MM/yy";
-
-	/**
-	 * @wbp.nonvisual location=-28,119
-	 */
-	// private JTextArea textArea_1;
 
 	/**
 	 * Launch the application.
@@ -49,7 +47,7 @@ public class UserIntSwing extends JPanel {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UserIntSwing window = new UserIntSwing();
+					UserIntSwing window = new UserIntSwing(processor);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,7 +59,8 @@ public class UserIntSwing extends JPanel {
 	/**
 	 * Create the application.
 	 */
-	public UserIntSwing() {
+	public UserIntSwing(Processor processor) {
+		this.processor = processor;
 		initialize();
 	}
 
@@ -91,7 +90,7 @@ public class UserIntSwing extends JPanel {
 		lblDisplay.setBounds(10, 42, 157, 20);
 		frame.getContentPane().add(lblDisplay);
 
-		ArrayList<String> taskList = new ArrayList<String>();
+		//ArrayList<String> taskList = new ArrayList<String>();
 
 		textField = new JTextField();
 		textField.addActionListener(new ActionListener() {
@@ -100,11 +99,10 @@ public class UserIntSwing extends JPanel {
 				String textInput = "";
 				textInput += textField.getText();
 				lblDisplay.setText(textField.getText());
-
-				taskList.add(textInput);
-
-				// textArea_1.append(taskList+"\n"); //displays the entire
-				// arrayList in [a,b,c] format
+				
+				//processor.executeCommand(textInput);
+				
+				//taskList.add(textInput);
 
 				textField.setText("");
 			}
