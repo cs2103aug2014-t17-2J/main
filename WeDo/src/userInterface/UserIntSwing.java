@@ -101,6 +101,10 @@ public class UserIntSwing extends JPanel {
 		btnEnter.setBounds(331, 10, 89, 23);
 		frame.getContentPane().add(btnEnter);
 		
+		JLabel lblHelp = new JLabel("New label");
+		lblHelp.setBounds(10, 129, 410, 125);
+		frame.getContentPane().add(lblHelp);
+		
 		InteractiveForm interForm = new InteractiveForm();
 		interForm.execute(frame);
 
