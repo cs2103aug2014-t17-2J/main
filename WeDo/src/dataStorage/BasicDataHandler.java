@@ -26,6 +26,7 @@ public class BasicDataHandler implements DataHandler {
 
     ObservableList<Task> observableList;
     Multimap <String,Task> mainList;
+    ArrayList<String> test;
     
 	public BasicDataHandler() {
 		fileHandler = new FileHandler();
