@@ -1,118 +1,61 @@
+/**
+ * 
+ */
 package dataStorage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Observer;
+
+import com.google.common.collect.Multimap;
 
 import logic.Command;
 import logic.Task;
-import logic.UndoHandler;
 
-public class DataHandler {
-    
-    UndoHandler undoHandler;
-    ObservableList<Task> observableList;
+/**
+ * @author Kuan Tien Long
+ *
+ */
+public interface DataHandler {
 
-    
-	public DataHandler() {
-		observableList = new ObservableList<Task>(new ArrayList<Task>());
-	}
-	
-	public void addUndo(Command command)
-	{
-	    undoHandler.add(command);
-	}
-
-    /**
-     * @param task
-     * @return
+    public abstract Multimap <String,Task> getMainList();
+   
+    /* (non-Javadoc)
+     * @see dataStorage.BasicDataHandler#addUndo(logic.Command)
      */
-    public boolean addTask(Task task) 
-    {
-        observableList.add(task);
-    	return false;
-    }
+    public abstract void addUndoCommand(Command command);
 
-
-
-    /**
-     * @param task
-     * @return
+    /* (non-Javadoc)
+     * @see dataStorage.BasicDataHandler#addTask(logic.Task)
      */
-    public boolean remove(Task task) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public abstract boolean addTask(Task task);
 
-    /**
-     * @param starDate
-     * @param endDate
-     * @return
+    /* (non-Javadoc)
+     * @see dataStorage.BasicDataHandler#clearTask(java.time.LocalDate, java.time.LocalDate)
      */
-    public boolean clearTask(LocalDate starDate, LocalDate endDate) 
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public abstract boolean clearTask(LocalDate starDate, LocalDate endDate);
 
     /**
      * @return
      */
-    public ArrayList<Task> getDisplayedTask() 
-    {
-        return observableList.getList();
-    }
+    public abstract ArrayList<Task> getDisplayedTasks(LocalDate startDate, LocalDate endDate);
 
     /**
      * @param displayedTask
      */
-    public void replaceList(ArrayList<Task> displayedTask) 
-    {
-        observableList.replaceList(displayedTask);        
-    }
+    public abstract void setDisplayedTasks(ArrayList<Task> displayedTask);
 
-    /**
-     * @param lineToDelete
-     * @return
+    /* (non-Javadoc)
+     * @see dataStorage.BasicDataHandler#remove(int)
      */
-    public boolean canRemove(int lineToDelete) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public abstract boolean removeTask(int index);
 
-    /**
-     * 
-     */
-    public void clearDisplayedList() {
-        observableList.clearList();
-    }
+    public abstract boolean editTask(int index);
 
-    /**
-     * Get list from startDate till endDate. Return empty list if there are no list for the dates.
-     * @param starDate
-     * @param endDate
-     * @return 
-     */
-    public ArrayList<Task> getList(LocalDate starDate, LocalDate endDate) 
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /**
-     * @param lineToDelete
-     */
-    public void remove(int lineToDelete) {
-        // TODO Auto-generated method stub
+    public abstract Task getTask(int index);
+    
+    public abstract boolean removeTask(Task task);
         
-    }
-
-    /**
-     * @param lineToDelete
-     * @return
-     */
-    public Task getIndexedTask(int lineToDelete) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public abstract void addObserver(Observer observer);
 
 }

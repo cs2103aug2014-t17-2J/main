@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -29,7 +28,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
  *
  */
 public interface TaskAttribute {
-    void set(Task task, String arguments);
+    String set(Task task, String arguments);
 }
 
 class TaskPriorityAttribute implements TaskAttribute {
@@ -40,10 +39,11 @@ class TaskPriorityAttribute implements TaskAttribute {
      * @see logic.TaskAttribute#set()
      */
     @Override
-    public void set(Task task, String arguments) 
+    public String set(Task task, String arguments) 
     {
         Priority priority = KeyMatcher.matchKey(createFakeMultiMap(), arguments);
         task.setPriority(priority);
+        return arguments;
     }
     
     /**
@@ -87,34 +87,63 @@ class TaskDateAttribute implements TaskAttribute {
      * @see logic.TaskAttribute#set()
      */
     @Override
-    public void set(Task task, String arguments) {
+    public String set(Task task, String arguments) {
 
-        final int START_INDEX = 0;
-        final int LIST_OFFSET = 1;
+       
         Parser nattyParser = new Parser();
         
-        arguments = StringHandler.convertImplicitFormalDate(arguments);
-        arguments = StringHandler.convertFormalDate(arguments);
+   //     arguments = StringHandler.convertImplicitFormalDate(arguments);
+   //     arguments = StringHandler.convertFormalDate(arguments);
         
-        List<DateGroup> dateGroup = nattyParser.parse(arguments);
-               
-        if (isDateAvailable(dateGroup)) {
-            List<Date> dateList = getDateList(START_INDEX, dateGroup);
+        List<DateGroup> dateGroups = nattyParser.parse(arguments);
+        if (dateAvailable(dateGroups))
+        {
+            setDate(task, dateGroups);
+            return getDateText(arguments, dateGroups);
+        }
+        return "";
+    }
+    
+
+    /**
+     * 
+     */
+    private String getDateText(String arguments, List<DateGroup> dateGroups) 
+    {
+        int startPosition = arguments.length();
+        int endPosition = 0;
+        for (DateGroup dateGroup : dateGroups) {
+        int position = dateGroup.getPosition();
+        int length = dateGroup.getText().length();
+        startPosition = Math.min(startPosition, position);
+        endPosition = Math.max(position + length, endPosition);
+        }
+        
+        String dateText = arguments.substring(startPosition, endPosition);
+        return dateText;
+    }
+
+
+    private void setDate(Task task, List<DateGroup> dateGroups) 
+    {
+        final int START_INDEX = 0;
+        final int LIST_OFFSET = 1;
+        
+            List<Date> dateList = getDateList(START_INDEX, dateGroups);
             
-            setStartDateTime(task, isTimeSpecified(dateGroup),
+            setStartDateTime(task, isTimeSpecified(dateGroups),
                     dateList.get(START_INDEX));
 
             int noOfDates = dateList.size();
             
             if (noOfDates > 1) {
-                setEndDateTime(task, isTimeSpecified(dateGroup),
+                setEndDateTime(task, isTimeSpecified(dateGroups),
                         dateList.get(noOfDates - LIST_OFFSET));
             }
-        }
     }
 
-    private boolean isDateAvailable(List<DateGroup> dateGroup) {
-        return dateGroup.size() > 0;
+    private boolean dateAvailable(List<DateGroup> dateGroups) {
+        return dateGroups.size() > 0;
     }
 
     private List<Date> getDateList(final int START_INDEX,
@@ -139,8 +168,8 @@ class TaskDateAttribute implements TaskAttribute {
         }
     }
 
-    private boolean isTimeSpecified(List<DateGroup> dateGroup) {
-        return !dateGroup.get(0).isTimeInferred();
+    private boolean isTimeSpecified(List<DateGroup> dateGroups) {
+        return !dateGroups.get(0).isTimeInferred();
     }
 
     public LocalDate dateToLocalDate(Date date) {
@@ -165,9 +194,10 @@ class TaskDescriptionAttribute implements TaskAttribute {
      * @see logic.TaskAttribute#set()
      */
     @Override
-    public void set(Task task, String arguments) {
+    public String set(Task task, String arguments) {
         // TODO Auto-generated method stub
         task.setDescription(arguments);
+        return arguments;
     }
 
 }
@@ -180,8 +210,9 @@ class TaskInvalidAttribute implements TaskAttribute {
      * @see logic.TaskAttribute#set()
      */
     @Override
-    public void set(Task task, String arguments) {
+    public String set(Task task, String arguments) {
         // TODO Auto-generated method stub
+        return null;
 
     }
 

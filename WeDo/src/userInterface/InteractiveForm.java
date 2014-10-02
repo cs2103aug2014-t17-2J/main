@@ -2,7 +2,6 @@ package userInterface;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.TextField;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -111,7 +110,7 @@ public class InteractiveForm extends JPanel {
              });
              frame.getContentPane().add(new InteractiveForm());
             
-            this.setBounds(10, 60, 500, 200);
+            this.setBounds(10, 60, 560, 200);
      		frame.getContentPane().add(this);
              //frame.pack();
              frame.setVisible(false);
