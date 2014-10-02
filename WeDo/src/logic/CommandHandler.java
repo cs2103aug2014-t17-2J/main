@@ -4,11 +4,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import brain.Processor;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
 
-import dataStorage.DataHandler;
 import definedEnumeration.TaskFeedBack;
 
 /**
@@ -17,7 +18,7 @@ import definedEnumeration.TaskFeedBack;
  */
 public class CommandHandler {
 
-    private DataHandler dataHandler;
+    private Processor processor;
 
     /**
      * Constructor for CommandHandler
@@ -25,8 +26,8 @@ public class CommandHandler {
      * @param dataHandler
      *            the handler which contains of all the data
      */
-    public CommandHandler(DataHandler dataHandler) {
-        this.dataHandler = dataHandler;
+    public CommandHandler(Processor processor) {
+        this.processor = processor;
     }
 
     /**
@@ -38,17 +39,24 @@ public class CommandHandler {
      */
     public TaskFeedBack executeCommand(String userInput) {
 
-        Command command = getCommand(userInput);
+        Task task;
+        StringBuilder userInputBuilder = new StringBuilder(userInput);
+        TaskParserPlus taskParser = new TaskParserPlus();
         
-        if (command == null) {
+       
+        task = taskParser.buildTask(userInputBuilder);  
+        Command command = getCommand(userInputBuilder.toString());
+        
+        if (command == null) 
+        {
             return TaskFeedBack.FEEDBACK_INVALID;
         }
         
-        try {
-            command.buildTask(userInput, dataHandler);
-        } catch (InvalidCommandException e) {
-            return TaskFeedBack.FEEDBACK_INVALID;
-        }
+        command.setTask(task);
+        command.setProcessor(processor);
+        
+        System.out.println(task);
+        
         return command.execute();
     }
 

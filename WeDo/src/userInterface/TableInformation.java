@@ -5,7 +5,7 @@ public class TableInformation {
 	protected String task, description, startDate, endDate, startTime, endTime,
 			priority;
 	
-	public void TableInformation(){
+	public TableInformation(){
 		task = "";
 		description = "";
 		startDate = "";

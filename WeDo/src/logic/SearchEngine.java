@@ -2,12 +2,11 @@ package logic;
 
 import java.util.ArrayList;
 
-import dataStorage.DataHandler;
+import com.google.common.collect.Multimap;
 
 /**
- * For Waimin: Please edit :D
- * This class consist simple implementation for searching...
- * Modify as u please.
+ * For Waimin: Please edit :D This class consist simple implementation for
+ * searching... Modify as u please.
  */
 public class SearchEngine {
 
@@ -18,35 +17,27 @@ public class SearchEngine {
      *            the searchInput to be searched
      * @return the result that matched with the searchInput(case insensitive)
      */
-    
-    /**
-     * @param dataHandler
-     * @param description
-     * @return
-     */
-    public ArrayList<Task> searchCaseInsensitive(DataHandler dataHandler,
-            String description) {
+    public ArrayList<Task> searchCaseInsensitive(String description) {
         // TODO Auto-generated method stub
         return null;
     }
-    
-    public ArrayList<String> searchCaseInsensitive(ArrayList<String> source,
-            String searchInput) {
-        ArrayList<String> searchList = new ArrayList<String>();
-        if (invalidList(source) || invalidSearchInput(searchInput)) {
+
+    public ArrayList<Task> searchCaseInsensitive(
+            Multimap<String, Task> multimap, String searchInput) {
+        ArrayList<Task> searchList = new ArrayList<Task>();
+        if (invalidList(multimap) || invalidSearchInput(searchInput)) {
             return searchList;
         }
 
-        final int INITIAL_INDEX = 1;
-        int index = INITIAL_INDEX;
         searchInput = searchInput.trim().toLowerCase();
 
-        for (String task : source) {
+        for (String key : multimap.keys()) {
+            for (Task task : multimap.get(key)) {
 
-            if (task.toLowerCase().contains(searchInput)) {
-                searchList.add(index + ". " + task);
+                if (task.getDescription().toLowerCase().contains(searchInput)) {
+                    searchList.add(task);
+                }
             }
-            index++;
         }
         return searchList;
     }
@@ -55,7 +46,7 @@ public class SearchEngine {
      * @param source
      * @return whether the list consist anything
      */
-    private boolean invalidList(ArrayList<String> source) {
+    private boolean invalidList(Multimap<String, Task> source) {
         return source == null || source.isEmpty();
     }
 
@@ -74,25 +65,23 @@ public class SearchEngine {
      *            the searchInput to be searched
      * @return the result that matched with the searchInput(case sensitive)
      */
-    public ArrayList<String> searchSensitive(ArrayList<String> source,
+    public ArrayList<Task> searchSensitive(Multimap<String, Task> multimap,
             String searchInput) {
-        ArrayList<String> searchList = new ArrayList<String>();
-        if (invalidList(source) || invalidSearchInput(searchInput)) {
+        ArrayList<Task> searchList = new ArrayList<Task>();
+        if (invalidList(multimap) || invalidSearchInput(searchInput)) {
             return searchList;
         }
 
-        final int INITIAL_INDEX = 1;
-        int index = INITIAL_INDEX;
 
-        for (String task : source) {
-            if (task.contains(searchInput)) {
-                searchList.add(index + ". " + task);
+        for (String key : multimap.keys()) {
+            for (Task task : multimap.get(key)) {
+
+                if (task.getDescription().contains(searchInput)) {
+                    searchList.add(task);
+                }
             }
-            index++;
         }
         return searchList;
     }
-
-
 
 }

@@ -15,6 +15,7 @@ public class StringHandlerTest {
         removeFirstMatchedTest();
         convertImplicitFormalDateTest();
         convertFormalDateTest();
+        convertDateDDMMTest();
         
        
     }
@@ -44,26 +45,42 @@ public class StringHandlerTest {
     }
 
     private void convertImplicitFormalDateTest() {
-        assertEquals("20/09/2014", StringHandler.convertImplicitFormalDate("20/09/14"));
-        assertEquals("22/11/2000", StringHandler.convertImplicitFormalDate("22/11/00"));
-        assertEquals("01/02/2099", StringHandler.convertImplicitFormalDate("01/02/99"));
-        assertEquals("3/03/2019", StringHandler.convertImplicitFormalDate("3/03/19"));
-        assertEquals("5/2/2010", StringHandler.convertImplicitFormalDate("5/2/10"));
-        assertEquals("15/8/2009", StringHandler.convertImplicitFormalDate("15/8/09"));
-        assertEquals("2/8/2009 at here", StringHandler.convertImplicitFormalDate("2/8/09 at here"));
-        assertEquals("hello, is 09/8/2009 at here", StringHandler.convertImplicitFormalDate("hello, is 09/8/09 at here"));
-        assertEquals("hello, is 19/9/2012", StringHandler.convertImplicitFormalDate("hello, is 19/9/12"));
+        assertEquals("20/09/2014", StringHandler.convertDateDDMMYY("20/09/14"));
+        assertEquals("22/11/2000", StringHandler.convertDateDDMMYY("22/11/00"));
+        assertEquals("01/02/2099", StringHandler.convertDateDDMMYY("01/02/99"));
+        assertEquals("3/03/2019", StringHandler.convertDateDDMMYY("3/03/19"));
+        assertEquals("5/2/2010", StringHandler.convertDateDDMMYY("5/2/10"));
+        assertEquals("15/8/2009", StringHandler.convertDateDDMMYY("15/8/09"));
+        assertEquals("2/8/2009 at here", StringHandler.convertDateDDMMYY("2/8/09 at here"));
+        assertEquals("hello, is 09/8/2009 at here", StringHandler.convertDateDDMMYY("hello, is 09/8/09 at here"));
+        assertEquals("hello, is 19/9/2012", StringHandler.convertDateDDMMYY("hello, is 19/9/12"));
 
         
-        assertEquals("20/09/2014", StringHandler.convertImplicitFormalDate("20-09-14"));
-        assertEquals("22/11/2000", StringHandler.convertImplicitFormalDate("22-11-00"));
-        assertEquals("01/02/2099", StringHandler.convertImplicitFormalDate("01-02-99"));
-        assertEquals("3/03/2019", StringHandler.convertImplicitFormalDate("3-03-19"));
-        assertEquals("5/2/2010", StringHandler.convertImplicitFormalDate("5-2-10"));
-        assertEquals("15/8/2009", StringHandler.convertImplicitFormalDate("15-8-09"));
-        assertEquals("2/8/2009 at here", StringHandler.convertImplicitFormalDate("2-8-09 at here"));
-        assertEquals("hello, is 09/8/2009 at here", StringHandler.convertImplicitFormalDate("hello, is 09-8-09 at here"));
-        assertEquals("hello, is 19/09/2012", StringHandler.convertImplicitFormalDate("hello, is 19/09/12"));
+        assertEquals("20/09/2014", StringHandler.convertDateDDMMYY("20-09-14"));
+        assertEquals("22/11/2000", StringHandler.convertDateDDMMYY("22-11-00"));
+        assertEquals("01/02/2099", StringHandler.convertDateDDMMYY("01-02-99"));
+        assertEquals("3/03/2019", StringHandler.convertDateDDMMYY("3-03-19"));
+        assertEquals("5/2/2010", StringHandler.convertDateDDMMYY("5-2-10"));
+        assertEquals("15/8/2009", StringHandler.convertDateDDMMYY("15-8-09"));
+        assertEquals("2/8/2009 at here", StringHandler.convertDateDDMMYY("2-8-09 at here"));
+        assertEquals("hello, is 09/8/2009 at here", StringHandler.convertDateDDMMYY("hello, is 09-8-09 at here"));
+        assertEquals("hello, is 19/09/2012", StringHandler.convertDateDDMMYY("hello, is 19/09/12"));
+    }
+    
+    private void convertDateDDMMTest()
+    {
+        assertEquals("20/09/14", StringHandler.convertDateDDMM("20/09/14"));
+        assertEquals("22/11/2014", StringHandler.convertDateDDMM("22/11"));
+        assertEquals("01/02/2014", StringHandler.convertDateDDMM("01/02"));
+        assertEquals("3/03/19", StringHandler.convertDateDDMM("3/03/19"));
+        assertEquals("5/2/10", StringHandler.convertDateDDMM("5/2/10"));
+        assertEquals("15/8/09", StringHandler.convertDateDDMM("15/8/09"));
+        assertEquals("2/8/09 at here", StringHandler.convertDateDDMM("2/8/09 at here"));
+        assertEquals("2/8/2014 at here", StringHandler.convertDateDDMM("2/8 at here"));
+        assertEquals("hello, is 09/8/2014 at here", StringHandler.convertDateDDMM("hello, is 09/8 at here"));
+        assertEquals("hello, is 09/8/09 at here", StringHandler.convertDateDDMM("hello, is 09/8/09 at here"));
+        assertEquals("hello, is 19/9/12", StringHandler.convertDateDDMM("hello, is 19/9/12"));
+        assertEquals("hello, is 19/9/2014", StringHandler.convertDateDDMM("hello, is 19/9"));
     }
 
     private void getFirstWordTest() {
