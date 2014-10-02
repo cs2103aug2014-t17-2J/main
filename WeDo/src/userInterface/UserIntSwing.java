@@ -104,7 +104,7 @@ public class UserIntSwing extends JPanel {
 				textField.setText("");
 			}
 		});
-		textField.setBounds(10, 11, 386, 20);
+		textField.setBounds(10, 270, 386, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 
@@ -120,15 +120,15 @@ public class UserIntSwing extends JPanel {
 				//}
 			}
 		});
-		btnEnter.setBounds(406, 10, 89, 23);
+		btnEnter.setBounds(406, 269, 100, 23);
 		frame.getContentPane().add(btnEnter);
 		
 		JLabel lblHelp = new JLabel("Label Help");
-		lblHelp.setBounds(10, 302, 410, 42);
+		lblHelp.setBounds(10, 293, 496, 56);
 		frame.getContentPane().add(lblHelp);
 		
 		JButton btnF = new JButton("F1 <Help>");
-		btnF.setBounds(14, 268, 100, 23);
+		btnF.setBounds(10, 11, 100, 23);
 		frame.getContentPane().add(btnF);
 		
 		JButton btnFAdd = new JButton("F2 <Add>");
@@ -159,15 +159,15 @@ public class UserIntSwing extends JPanel {
 			}
 		});
 		
-		btnFAdd.setBounds(128, 268, 100, 23);
+		btnFAdd.setBounds(120, 11, 100, 23);
 		frame.getContentPane().add(btnFAdd);
 		
 		JButton btnF_1 = new JButton("F3 <View>");
-		btnF_1.setBounds(242, 268, 100, 23);
+		btnF_1.setBounds(230, 11, 100, 23);
 		frame.getContentPane().add(btnF_1);
 		
 		JButton btnF_2 = new JButton("F4 <Edit>");
-		btnF_2.setBounds(356, 268, 100, 23);
+		btnF_2.setBounds(340, 11, 100, 23);
 		frame.getContentPane().add(btnF_2);
 		
 		InteractiveForm interForm = new InteractiveForm();
@@ -176,7 +176,7 @@ public class UserIntSwing extends JPanel {
 		lblHelp.setText(buildGeneralGuideString());
 		
 		JButton btnF_3 = new JButton("F5 <Delete>");
-		btnF_3.setBounds(470, 268, 100, 23);
+		btnF_3.setBounds(450, 11, 100, 23);
 		frame.getContentPane().add(btnF_3);
 
 	}

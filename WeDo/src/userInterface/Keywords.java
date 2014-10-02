@@ -90,21 +90,5 @@ public final class Keywords {
 	public static String getListTaskIdentifier() {
 		return READ_TASK_IDENTIFIER_1;
 	}
-	
-	public static String getDateIdentifier() {
-		return DATE_IDENTIFIER;
-	}
-
-	public static String getDueDateIdentifier() {
-		return DUE_DATE_IDENTIFIER;
-	}
-
-	public static String getTimeIdentifier() {
-		return TIME_IDENTIFIER;
-	}
-	
-	public static String getSearchForFinishedIdentifier() {
-		return SEARCH_FINISHED_IDENTIFIER;
-	}
 
 }
