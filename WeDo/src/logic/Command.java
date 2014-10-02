@@ -3,22 +3,21 @@
  */
 package logic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
-
-import dataStorage.DataHandler;
+import brain.Processor;
 import definedEnumeration.TaskFeedBack;
 
 public abstract class Command {
     
     protected Task task;
-    protected DataHandler dataHandler;
+    protected Processor processor;
     
-    protected void buildTask(StringBuilder userInput, DataHandler dataHandler) 
+    protected void buildTask(StringBuilder userInput) 
     {
         TaskParserBasic taskParser = new TaskParserBasic();
         this.task = taskParser.buildTask(userInput);
-        this.dataHandler = dataHandler;
     }
     
     protected void setTask(Task task) 
@@ -26,9 +25,9 @@ public abstract class Command {
         this.task = task;
     }
     
-    public void setDataHandler(DataHandler dataHandler)
+    public void setProcessor(Processor processor)
     {
-        this.dataHandler = dataHandler;
+        this.processor = processor;
     }
     
     /**
@@ -50,15 +49,15 @@ class AddCommand extends Command {
 
     /**
      * @param task
-     * @param dataHandler
+     * @param processor
      */
 
     public TaskFeedBack execute() 
     {
         System.out.println("adding");
-        if(dataHandler.addTask(task))
+        if(processor.addTask(task))
         {
-            dataHandler.addUndo(this);
+            processor.addUndoCommand(this);
             return TaskFeedBack.FEEDBACK_VALID;
         }
         else
@@ -73,7 +72,7 @@ class AddCommand extends Command {
     @Override
     void undo() 
     {
-        dataHandler.remove(task);
+        processor.removeTask(task);
         
     }
 }
@@ -90,7 +89,7 @@ class ClearCommand extends Command
 
     /**
      * @param task
-     * @param dataHandler
+     * @param processor
      */
 
 
@@ -98,11 +97,11 @@ class ClearCommand extends Command
     {
         System.out.println("clear");
         
-        storedList = dataHandler.getList(task.getStarDate(), task.getEndDate());
+        storedList = processor.getDisplayedTasks(task.getStarDate(), task.getEndDate());
         
-        if(dataHandler.clearTask(task.getStarDate(), task.getEndDate()))
+        if(processor.clearTask(task.getStarDate(), task.getEndDate()))
         {
-            dataHandler.addUndo(this);
+            processor.addUndoCommand(this);
             return TaskFeedBack.FEEDBACK_VALID;
         }
         else
@@ -121,7 +120,7 @@ class ClearCommand extends Command
         {
             for(Task task : storedList)
             {
-                dataHandler.addTask(task);
+                processor.addTask(task);
             }
                 
         }
@@ -147,12 +146,10 @@ class DeleteCommand extends Command {
 
         final int ARRAY_OFFSET = -1;
         int lineToDelete = getLineIndex(task.getDescription()) + ARRAY_OFFSET;
-        if (dataHandler.canRemove(lineToDelete)) 
+        if( processor.removeTask(lineToDelete))
         {
-            task = dataHandler.getIndexedTask(lineToDelete);
-            dataHandler.remove(lineToDelete);
-            dataHandler.addUndo(this);
-          return TaskFeedBack.FEEDBACK_VALID;
+            processor.addUndoCommand(this);
+            return TaskFeedBack.FEEDBACK_VALID;
             
         } else 
         {
@@ -166,7 +163,7 @@ class DeleteCommand extends Command {
     @Override
     void undo() 
     {
-        dataHandler.addTask(task);
+        processor.addTask(task);
     }
 
     /**
@@ -252,14 +249,14 @@ class SearchCommand extends Command
         System.out.println("searching");
 
         SearchEngine searchEngine = new SearchEngine();
-        ArrayList<Task> searchList  = searchEngine.searchCaseInsensitive(dataHandler, task.getDescription());
+        ArrayList<Task> searchList  = searchEngine.searchCaseInsensitive(processor.getMainList(), task.getDescription());
         if (searchList.isEmpty()) 
         {
             return TaskFeedBack.FEEDBACK_NOT_FOUND;
         } 
         else 
         {
-            displayedTask = dataHandler.getDisplayedTask();
+            displayedTask = processor.getDisplayedTasks(task.getStarDate(), task.getEndDate());
             return TaskFeedBack.FEEDBACK_VALID;
         }
     }
@@ -271,7 +268,7 @@ class SearchCommand extends Command
     @Override
     void undo() 
     {
-        dataHandler.replaceList(displayedTask);
+        processor.setDisplayedTasks(displayedTask);
     }
 
 }

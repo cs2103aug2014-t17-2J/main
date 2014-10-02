@@ -4,11 +4,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import brain.Processor;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
 
-import dataStorage.DataHandler;
 import definedEnumeration.TaskFeedBack;
 
 /**
@@ -17,7 +18,7 @@ import definedEnumeration.TaskFeedBack;
  */
 public class CommandHandler {
 
-    private DataHandler dataHandler;
+    private Processor processor;
 
     /**
      * Constructor for CommandHandler
@@ -25,8 +26,8 @@ public class CommandHandler {
      * @param dataHandler
      *            the handler which contains of all the data
      */
-    public CommandHandler(DataHandler dataHandler) {
-        this.dataHandler = dataHandler;
+    public CommandHandler(Processor processor) {
+        this.processor = processor;
     }
 
     /**
@@ -52,7 +53,7 @@ public class CommandHandler {
         }
         
         command.setTask(task);
-        command.setDataHandler(dataHandler);
+        command.setProcessor(processor);
         
         System.out.println(task);
         
