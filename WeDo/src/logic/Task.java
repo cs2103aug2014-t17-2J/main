@@ -41,6 +41,13 @@ public class Task
             return false;
     }
     
+    @Override
+    public String toString()
+    {
+        return "description:[" + description + "],startDate:[" + startDate +","+ startTime + "],endDate:[" + endDate +","+ endTime + "],Priority:[" + priority +"]" ;
+        
+    }
+    
     public Task()
     {
         ID++;
