@@ -19,22 +19,23 @@ public class UserIntSwing extends JPanel {
 	private JFrame frame;
 	private JTextField textField;
 	private JTable table;
-	
+
 	private static final String WHITESPACE_PATTERN = "\\s+";
 	private static final int MIN_TOKENS_LENGTH = 1;
 	private static final String GENERAL_GUIDE = buildGeneralGuideString();
-	//private static final String ADD_GUIDE = buildAddGuideString();
-	
+	// private static final String ADD_GUIDE = buildAddGuideString();
+
 	private static final String HTML_OPEN = "<html>";
 	private static final String HTML_CLOSE = "</html>";
 	private static final String HTML_BREAK = "<br>";
-	//private static final String HTML_UNDERLINE_OPEN = "<u>";
-	//private static final String HTML_UNDERLINE_CLOSE = "</u>";
-	
+	// private static final String HTML_UNDERLINE_OPEN = "<u>";
+	// private static final String HTML_UNDERLINE_CLOSE = "</u>";
+
 	private static final String TAG_WRAP_STRING = "%s%s%s";
 	private static final int ACTION_IDENTIFIER_INDEX = 0;
-	//private static final String IDENTIFIER_PLACEHOLDER = "%1$s";
-	//private static final String DATE_FORMAT = "dd/MM/yy";
+
+	// private static final String IDENTIFIER_PLACEHOLDER = "%1$s";
+	// private static final String DATE_FORMAT = "dd/MM/yy";
 
 	/**
 	 * @wbp.nonvisual location=-28,119
@@ -70,8 +71,17 @@ public class UserIntSwing extends JPanel {
 	private void initialize() {
 
 		frame = new JFrame();
+		frame.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int keyCode = e.getKeyCode();
+				if (keyCode == KeyEvent.VK_F2) {
+					textField.setText("-add");
+				}
+			}
+		});
 		frame.getContentPane().addKeyListener(new KeyAdapter() {
-		
+
 		});
 		frame.setBounds(100, 100, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,38 +120,39 @@ public class UserIntSwing extends JPanel {
 				// textArea.setText(textField.getText());
 				// textField.setText("");
 
-				//for (int i = 0; i < taskList.size(); i++) {
-				//	textArea_1.append((String) taskList.get(i) + "\n");
-				//}
+				// for (int i = 0; i < taskList.size(); i++) {
+				// textArea_1.append((String) taskList.get(i) + "\n");
+				// }
 			}
 		});
 		btnEnter.setBounds(406, 269, 100, 23);
 		frame.getContentPane().add(btnEnter);
-		
+
 		JLabel lblHelp = new JLabel("Label Help");
 		lblHelp.setBounds(10, 293, 496, 56);
 		frame.getContentPane().add(lblHelp);
-		
-		JButton btnF = new JButton("F1 <Help>");
-		btnF.setBounds(10, 11, 100, 23);
-		frame.getContentPane().add(btnF);
-		
-		JButton btnFAdd = new JButton("F2 <Add>");
-		btnFAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnFAdd.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				int keyCode = e.getKeyCode();
-				if(keyCode == KeyEvent.VK_F2){
-					textField.setText("-add");
-				}
 
+		JButton btnHelp = new JButton("F1 <Help>");
+		btnHelp.setBounds(10, 11, 100, 23);
+		frame.getContentPane().add(btnHelp);
+
+		JButton btnAdd = new JButton("F2 <Add>");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("-add");
 			}
 		});
-		
+		// btnAdd.addKeyListener(new KeyAdapter() {
+		// @Override
+		// public void keyPressed(KeyEvent e) {
+		// int keyCode = e.getKeyCode();
+		// if(keyCode == KeyEvent.VK_F2){
+		// textField.setText("-add");
+		// }
+
+		// }
+		// });
+
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -153,29 +164,29 @@ public class UserIntSwing extends JPanel {
 				textField.setText("");
 			}
 		});
-		
-		btnFAdd.setBounds(120, 11, 100, 23);
-		frame.getContentPane().add(btnFAdd);
-		
-		JButton btnF_1 = new JButton("F3 <View>");
-		btnF_1.setBounds(230, 11, 100, 23);
-		frame.getContentPane().add(btnF_1);
-		
-		JButton btnF_2 = new JButton("F4 <Edit>");
-		btnF_2.setBounds(340, 11, 100, 23);
-		frame.getContentPane().add(btnF_2);
-		
+
+		btnAdd.setBounds(120, 11, 100, 23);
+		frame.getContentPane().add(btnAdd);
+
+		JButton btnView = new JButton("F3 <View>");
+		btnView.setBounds(230, 11, 100, 23);
+		frame.getContentPane().add(btnView);
+
+		JButton btnEdit = new JButton("F4 <Edit>");
+		btnEdit.setBounds(340, 11, 100, 23);
+		frame.getContentPane().add(btnEdit);
+
 		InteractiveForm interForm = new InteractiveForm();
 		interForm.execute(frame);
-		
+
 		lblHelp.setText(buildGeneralGuideString());
-		
-		JButton btnF_3 = new JButton("F5 <Delete>");
-		btnF_3.setBounds(450, 11, 100, 23);
-		frame.getContentPane().add(btnF_3);
+
+		JButton btnDel = new JButton("F5 <Delete>");
+		btnDel.setBounds(450, 11, 100, 23);
+		frame.getContentPane().add(btnDel);
 
 	}
-	
+
 	public String getGuideMessage(String commandString) {
 
 		/* Check that there is at least 1 token */
@@ -191,20 +202,20 @@ public class UserIntSwing extends JPanel {
 
 		return message;
 	}
-	
+
 	private String buildGuideMessage(String identifier) {
 
 		identifier = identifier.toLowerCase();
 		Action action = Keywords.resolveActionIdentifier(identifier);
 
 		switch (action) {
-			case ADD:
-				//return String.format(ADD_GUIDE, identifier);
-			default:
-				return GENERAL_GUIDE;
+		case ADD:
+			// return String.format(ADD_GUIDE, identifier);
+		default:
+			return GENERAL_GUIDE;
 		}
 	}
-	
+
 	private static String buildGeneralGuideString() {
 
 		StringBuilder str = new StringBuilder();
@@ -218,7 +229,7 @@ public class UserIntSwing extends JPanel {
 
 		return wrapWithHtmlTag(str.toString());
 	}
-	
+
 	private static String wrapWithHtmlTag(String text) {
 		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
 	}
