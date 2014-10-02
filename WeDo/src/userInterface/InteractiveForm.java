@@ -111,7 +111,7 @@ public class InteractiveForm extends JPanel {
              });
              frame.getContentPane().add(new InteractiveForm());
             
-            this.setBounds(10, 60, 500, 200);
+            this.setBounds(10, 60, 560, 200);
      		frame.getContentPane().add(this);
              //frame.pack();
              frame.setVisible(false);
