@@ -55,6 +55,20 @@ public class BasicDataHandlerTest {
 		System.out.println(tmp2.get(0));
 		assertEquals(task2.getID(),tmp2.get(0).getID());
 		
+		Task task3 = new Task();
+		task3.setDescription("this is task 2");
+		task3.setEndDate(LocalDate.now().plusDays(2));
+		task3.setStartDate(null);
+		task3.setEndTime(null);
+		task3.setStartTime(null);
+		task3.setPriority(priority.PRIORITY_MEDIUM);
+		datahandler.addTask(task3);
+		ArrayList<Task> tmp3 = new ArrayList<Task>(datahandler.getMainList().get("upcoming"));
+		System.out.println(tmp3.get(0));
+		assertEquals(task2.getID(),tmp3.get(0).getID());
+		System.out.println(datahandler.getMainList().size());
+
+		
 		
 	}
 
