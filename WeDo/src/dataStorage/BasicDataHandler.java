@@ -253,7 +253,9 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean removeTask(Task task) {
-		// TODO Auto-generated method stub
+		
+		mainList.remove(determineDate(task), task);
+		
 		return false;
 	}
 
