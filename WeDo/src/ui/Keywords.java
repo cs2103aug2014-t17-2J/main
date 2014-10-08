@@ -1,11 +1,11 @@
 // @author A0112636M
-package userInterface;
+package ui;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import userInterface.Action;
+import ui.Action;
 
 /**
  * The Keywords class contains all command identifier constants that the
