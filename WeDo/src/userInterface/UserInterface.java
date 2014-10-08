@@ -11,23 +11,22 @@
 //	
 //	private Processor processor;
 //
-//	//private final static ArrayList<String> list = new ArrayList<String>();
+//	private final static ArrayList<String> list = new ArrayList<String>();
 //
 //	public UserInterface() 
 //	{
 //		
-//		//DataHandler dataHand = new DataHandler();
-//		//CommandHandler commHand = new CommandHandler(dataHand);	
+//		DataHandler dataHand = new DataHandler();
+//		CommandHandler commHand = new CommandHandler(dataHand);	
 //	}
 //
 //	public static void main(String[] args) {
 //
-//		// list = dataHand.getList("today");
+//		list = dataHand.getList("today");
 //		UserIntSwing swi = new UserIntSwing(this);
 //		swi.execute();
 //		
-//		//InteractiveForm interForm = new InteractiveForm();
-//		//interForm.execute();
-//
+//		InteractiveForm interForm = new InteractiveForm();
+//		interForm.execute();
 //	}
 //}

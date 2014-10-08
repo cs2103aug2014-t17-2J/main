@@ -16,6 +16,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import brain.Processor;
+import ui.Keywords;
+import ui.Action;
 
 public class UserIntSwing extends JPanel implements Observer {
 
