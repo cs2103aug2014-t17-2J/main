@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ui.Action;
-import userInterface.UserIntSwing;
 
 /**
  * The Keywords class contains all command identifier constants that the
@@ -15,18 +14,18 @@ import userInterface.UserIntSwing;
  */
 public final class Keywords {
 
-	private static final String ADD_TASK_IDENTIFIER_1 = "add";
+	private static final String ADD_TASK_IDENTIFIER_1 = "-add";
 
-	private static final String UPDATE_TASK_IDENTIFIER_1 = "update";
+	private static final String UPDATE_TASK_IDENTIFIER_1 = "-update";
 
-	private static final String DELETE_TASK_IDENTIFIER_1 = "delete";
+	private static final String DELETE_TASK_IDENTIFIER_1 = "-delete";
 	
-	private static final String READ_TASK_IDENTIFIER_1 = "read";
+	private static final String READ_TASK_IDENTIFIER_1 = "-read";
 
-	private static final String DATE_IDENTIFIER = ".on";
-	private static final String DUE_DATE_IDENTIFIER = ".by";
-	private static final String TIME_IDENTIFIER = ".at";
-	private static final String SEARCH_FINISHED_IDENTIFIER = ".done";
+	private static final String DATE_IDENTIFIER = "-on";
+	private static final String DUE_DATE_IDENTIFIER = "-by";
+	private static final String TIME_IDENTIFIER = "-at";
+	private static final String REMARKS_IDENTIFIER = "-Remarks";
 	private static final String UNDO_ACTION_IDENTIFIER = "undo";
 
 	private static final Map<String, Action> actionMap = createMap();
@@ -90,6 +89,22 @@ public final class Keywords {
 
 	public static String getListTaskIdentifier() {
 		return READ_TASK_IDENTIFIER_1;
+	}
+	
+	public static String getDateIdentifier() {
+		return DATE_IDENTIFIER;
+	}
+
+	public static String getDueDateIdentifier() {
+		return DUE_DATE_IDENTIFIER;
+	}
+
+	public static String getTimeIdentifier() {
+		return TIME_IDENTIFIER;
+	}
+	
+	public static String getRemarksIdentifier(){
+		return REMARKS_IDENTIFIER;
 	}
 
 }

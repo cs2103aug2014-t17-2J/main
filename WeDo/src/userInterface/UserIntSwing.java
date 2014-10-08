@@ -13,45 +13,24 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import logic.Task;
-import dataStorage.ObservableList;
 import brain.Processor;
 import ui.CommandGuide;
-import ui.Keywords;
-import ui.Action;
+import ui.UserInterface;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
 
 	ArrayList<Task> taskList;	
 	
-	private JFrame frame;
-	private JTextField textField;
-	private JTable table;
+	public static JFrame frame;
+	public static JTextField textField;
+	
 	private CommandGuide commandGuide;
-
 	private InteractiveForm interForm;
-	
-	private static final String WHITESPACE_PATTERN = "\\s+";
-	private static final int MIN_TOKENS_LENGTH = 1;
-	private static final String GENERAL_GUIDE = CommandGuide.buildGeneralGuideString();
-	// private static final String ADD_GUIDE = buildAddGuideString();
-
-	private static final String HTML_OPEN = "<html>";
-	private static final String HTML_CLOSE = "</html>";
-	private static final String HTML_BREAK = "<br>";
-	// private static final String HTML_UNDERLINE_OPEN = "<u>";
-	// private static final String HTML_UNDERLINE_CLOSE = "</u>";
-
-	private static final String TAG_WRAP_STRING = "%s%s%s";
-	private static final int ACTION_IDENTIFIER_INDEX = 0;
-	
 	private Processor processor;
-	// private static final String IDENTIFIER_PLACEHOLDER = "%1$s";
-	// private static final String DATE_FORMAT = "dd/MM/yy";
 
 	/**
 	 * Launch the application.
@@ -193,13 +172,21 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		interForm = new InteractiveForm();
 		interForm.execute(frame);
-
-		lblHelp.setText(commandGuide.buildGeneralGuideString());
+		
+		//Setup the Help label
+		lblHelp.setText(CommandGuide.buildGeneralGuideString());
+		
+		//This operation puts the focus on the textField 
+		//for the user to type immediately when the program runs 
+		UserInterface.addFrameWindowFocusListener();
 
 		JButton btnDel = new JButton("F5 <Delete>");
 		btnDel.setBounds(450, 11, 100, 23);
 		frame.getContentPane().add(btnDel);
-		
+	}
+
+	private void addFrameWindowFocusListener() {
+		// TODO Auto-generated method stub
 		
 	}
 
