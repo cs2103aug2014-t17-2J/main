@@ -220,7 +220,8 @@ public class BasicDataHandler implements DataHandler {
 	@Override
 	public boolean removeTask(int index) {
 		if (validIndex(index)) {
-			mainList.remove(currentList, getTask(index));
+			observableList.remove(index);
+			mainList.remove(determineDate(getTask(index)), getTask(index));
 			return true;
 		}
 		return false;
@@ -232,7 +233,11 @@ public class BasicDataHandler implements DataHandler {
 	 * @see dataStorage.DataHandler#editTask()
 	 */
 	@Override
-	public boolean editTask(int index) {
+	public boolean editTask(int index,Task task) {
+		
+		removeTask(index);
+		addTask(task);
+		
 		return false;
 	}
 
@@ -243,7 +248,8 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public Task getTask(int index) {
-		return null;
+		
+		return observableList.get(index);
 	}
 
 	/*
@@ -253,7 +259,7 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean removeTask(Task task) {
-		
+		observableList.remove(task);
 		mainList.remove(determineDate(task), task);
 		
 		return false;

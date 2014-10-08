@@ -48,7 +48,7 @@ public interface DataHandler {
      */
     public abstract boolean removeTask(int index);
 
-    public abstract boolean editTask(int index);
+    public abstract boolean editTask(int index,Task task);
 
     public abstract Task getTask(int index);
     

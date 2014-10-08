@@ -70,9 +70,9 @@ public class Processor {
 	    return dataHandler.clearTask(startDate, endDate);
 	}
 	
-	public boolean editTask(int index)
+	public boolean editTask(int index,Task task)
 	{
-	    return dataHandler.editTask(index);
+	    return dataHandler.editTask(index,task);
 	}
 	
 	public void addUndoCommand(Command command)
