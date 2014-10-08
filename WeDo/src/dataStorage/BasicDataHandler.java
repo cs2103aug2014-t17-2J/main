@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Observer;
 
 import logic.Command;
-import logic.FileHandler;
 import logic.Task;
 import logic.UndoHandler;
 
