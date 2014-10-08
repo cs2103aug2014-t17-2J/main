@@ -13,11 +13,8 @@ import com.google.common.collect.Multimap;
 
 import dataStorage.BasicDataHandler;
 import dataStorage.DataHandler;
-<<<<<<< HEAD
-import dataStorage.testDataHandler;
-=======
+
 import dataStorage.ObservableList;
->>>>>>> eaa0471aaf75bba48c83ad8021025183169ba399
 import definedEnumeration.TaskFeedBack;
 
 

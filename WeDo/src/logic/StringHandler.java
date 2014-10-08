@@ -56,6 +56,27 @@ public class StringHandler {
         return source;
     }
     
+    /**
+     * @param source
+     *            the source that require a particular word to be removed
+     * @param toRemove
+     *            the String that is to be removed
+     * @return the new source without the toRemove word
+     *         <p>
+     *         This function remove all matches with the
+     *         toRemove word
+     *         <p>
+     */
+    public static String removeAll(String source, String toRemove) {
+        if (source != null && toRemove != null) {
+            toRemove = toRemove.trim();
+            String newWord = source.replaceAll(toRemove, "");
+            return newWord.trim();
+        }
+
+        return source;
+    }
+    
     
     
     public static String[] splitString(final String source, final String delimiter)
@@ -240,8 +261,7 @@ public class StringHandler {
             {
                 if(!key.isEmpty())
                 {
-                    key.toLowerCase();
-                    if(source.contains(key))
+                    if(source.contains(key.toLowerCase()))
                     {
                         return true;
                     }
