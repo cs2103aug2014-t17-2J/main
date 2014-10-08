@@ -32,7 +32,9 @@ public class TaskParserPlusTest {
         Scanner sc = new Scanner(System.in);
         while(true)
         {
-            System.out.println(taskParser.findDateFormat(sc.nextLine()));
+            String input = sc.nextLine();
+            taskParser.buildTask(new StringBuilder(input));
+
         }
 //        
 //        expectedTask.setDescription("floating task");

@@ -17,6 +17,44 @@ public class TaskParserPlus implements TaskParser {
     private final String startDelimiter = "{[";
     private final String endDelimiter = "]}";
     
+    public Task buildTask(StringBuilder userInputBuilder) 
+    {
+        String userInput = userInputBuilder.toString();
+        String wordsUsed;
+        Task task = new Task();
+        userInput = StringHandler.convertImplicitFormalDate(userInput);
+        userInput = StringHandler.convertFormalDate(userInput);
+
+        userInput = findDateFormat(userInput); // replace non date with delimiter
+        
+        System.out.println("to date parser " + userInput);
+        
+        wordsUsed = parseDate(task, userInput);
+        System.out.println("wordUsed is " + wordsUsed);
+        userInput = userInput.replaceFirst(wordsUsed, "");
+        userInput = replaceDateKeyWords(userInput.trim());
+        userInput = removeDelimiters(userInput);
+
+        System.out.println("to other parser " + userInput);
+        
+        wordsUsed = parsePriority(userInput, task);
+        userInput = userInput.replaceFirst(wordsUsed, "");
+        userInput = replaceDateKeyWords(userInput.trim());
+        wordsUsed = parseDescription(userInput, task);
+        userInput = userInput.replaceFirst(wordsUsed, "");
+        
+        // Store back to StringBuilder
+        userInputBuilder.setLength(0);
+        userInputBuilder.append(userInput);
+        System.out.println(task);
+        return task;
+    }
+
+    private TaskAttribute determineAttribute(String operation) {
+        return KeyMatcher.matchKey(createFakeMultiMapNow(), operation);
+
+    }
+    
     private String replaceDateKeyWords(String source) {
         source = source.toLowerCase();
         return source.replaceAll("in$|on$|from$|at$|by$|date$|^in|^on|^from|^at|^by|^date",
@@ -49,13 +87,18 @@ public class TaskParserPlus implements TaskParser {
             
                 if(containsDateFormat(matcher.group(WORD_GROUP)))
                 {
-                    digit = StringHandler.removeAll(digit, "\\{\\[");
-                    digit = StringHandler.removeAll(digit, "\\]\\}");
+                    digit = removeDelimiters(digit);
                 }
            matcher.appendReplacement(result,  word + digit);            
         }
         
         return matcher.appendTail(result).toString();        
+    }
+
+    private String removeDelimiters(String digit) {
+        digit = StringHandler.removeAll(digit, "\\{\\[");
+        digit = StringHandler.removeAll(digit, "\\]\\}");
+        return digit;
     }
     
     public String nextWordContainsDateFormat(String source)
@@ -76,8 +119,7 @@ public class TaskParserPlus implements TaskParser {
             
                 if(containsDateFormat(matcher.group(WORD_GROUP)))
                 {
-                    digit = StringHandler.removeAll(digit, "\\{\\[");
-                    digit = StringHandler.removeAll(digit, "\\]\\}");
+                    digit = removeDelimiters(digit);
                 }
            matcher.appendReplacement(result,  digit + word);            
         }
@@ -202,34 +244,5 @@ public class TaskParserPlus implements TaskParser {
     private boolean invalidDateString(String source) {
         final int minimalDateLength = 3;
         return source.split("\\s+").length < minimalDateLength;
-    }
-
-    public Task buildTask(StringBuilder userInputBuilder) 
-    {
-        String userInput = userInputBuilder.toString();
-        String wordsUsed;
-        Task task = new Task();
-        userInput = StringHandler.convertImplicitFormalDate(userInput);
-        userInput = StringHandler.convertFormalDate(userInput);
-
-        
-        wordsUsed = parseDate(task, userInput);
-        userInput = userInput.replaceFirst(wordsUsed, "");
-        userInput = replaceDateKeyWords(userInput.trim());
-        wordsUsed = parsePriority(userInput, task);
-        userInput = userInput.replaceFirst(wordsUsed, "");
-        userInput = replaceDateKeyWords(userInput.trim());
-        wordsUsed = parseDescription(userInput, task);
-        userInput = userInput.replaceFirst(wordsUsed, "");
-        
-        // Store back to StringBuilder
-        userInputBuilder.setLength(0);
-        userInputBuilder.append(userInput);
-        return task;
-    }
-
-    private TaskAttribute determineAttribute(String operation) {
-        return KeyMatcher.matchKey(createFakeMultiMapNow(), operation);
-
     }
 }
