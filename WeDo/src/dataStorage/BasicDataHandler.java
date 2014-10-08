@@ -45,10 +45,10 @@ public class BasicDataHandler implements DataHandler {
 	public boolean populateLists() {
 		mainList = ArrayListMultimap.create();
 
-		addToMultimap(TODAY, fileHandler.getList(TODAY));
-		addToMultimap(TOMORROW, fileHandler.getList(TOMORROW));
-		addToMultimap(UPCOMING, fileHandler.getList(UPCOMING));
-		addToMultimap(SOMEDAY, fileHandler.getList(SOMEDAY));
+//		addToMultimap(TODAY, fileHandler.getList(TODAY));
+//		addToMultimap(TOMORROW, fileHandler.getList(TOMORROW));
+//		addToMultimap(UPCOMING, fileHandler.getList(UPCOMING));
+//		addToMultimap(SOMEDAY, fileHandler.getList(SOMEDAY));
 
 		return false;
 	}
@@ -95,11 +95,13 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean addTask(Task task) {
+		System.out.println(determineDate(task));
 		if (onDisplay(task) == true) {
 			observableList.add(task);
 		}
 
 		mainList.put(determineDate(task), task);
+		System.out.println(task.getID()+" is added");
 
 		return false;
 	}
@@ -129,14 +131,12 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	public String determineDate(Task task) {
 
-		LocalDate day = LocalDate.MAX;
 		LocalDate today = LocalDate.now();
-		LocalDate tomorrow = day.plusDays(1);
+		LocalDate tomorrow = today.plusDays(1);
 
-		if (task.getEndDate() == today || task.getStarDate() == today) {
+		if (task.getEndDate().equals(today) || task.getStarDate().equals(today)) {
 			return TODAY;
-		} else if (task.getStarDate() == tomorrow
-				|| task.getEndDate() == tomorrow) {
+		} else if (task.getStarDate().equals(tomorrow) || task.getEndDate().equals(tomorrow)) {
 			return TOMORROW;
 		}
 
@@ -265,7 +265,7 @@ public class BasicDataHandler implements DataHandler {
 	@Override
 	public Multimap<String, Task> getMainList() {
 		// TODO Auto-generated method stub
-		return null;
+		return mainList;
 	}
 
 	public boolean remove(Task task) {
