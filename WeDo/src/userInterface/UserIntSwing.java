@@ -16,29 +16,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import brain.Processor;
+import ui.CommandGuide;
 import ui.Keywords;
 import ui.Action;
 
+@SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
 
 	private JFrame frame;
 	private JTextField textField;
 	private JTable table;
-
-	private static final String WHITESPACE_PATTERN = "\\s+";
-	private static final int MIN_TOKENS_LENGTH = 1;
-	private static final String GENERAL_GUIDE = buildGeneralGuideString();
-	// private static final String ADD_GUIDE = buildAddGuideString();
-
-	private static final String HTML_OPEN = "<html>";
-	private static final String HTML_CLOSE = "</html>";
-	private static final String HTML_BREAK = "<br>";
-	// private static final String HTML_UNDERLINE_OPEN = "<u>";
-	// private static final String HTML_UNDERLINE_CLOSE = "</u>";
-
-	private static final String TAG_WRAP_STRING = "%s%s%s";
-	private static final int ACTION_IDENTIFIER_INDEX = 0;
-
+	private CommandGuide commandGuide;
 	private Processor processor;
 	// private static final String IDENTIFIER_PLACEHOLDER = "%1$s";
 	// private static final String DATE_FORMAT = "dd/MM/yy";
@@ -157,7 +145,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				lblHelp.setText(getGuideMessage("ADD"));
+				lblHelp.setText(commandGuide.getGuideMessage("ADD"));
 
 				// textArea_1.append(taskList+"\n"); //displays the entire
 				// arrayList in [a,b,c] format
@@ -180,7 +168,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		InteractiveForm interForm = new InteractiveForm();
 		interForm.execute(frame);
 
-		lblHelp.setText(buildGeneralGuideString());
+		lblHelp.setText(commandGuide.buildGeneralGuideString());
 
 		JButton btnDel = new JButton("F5 <Delete>");
 		btnDel.setBounds(450, 11, 100, 23);
@@ -188,56 +176,9 @@ public class UserIntSwing extends JPanel implements Observer {
 
 	}
 
-	public String getGuideMessage(String commandString) {
-
-		/* Check that there is at least 1 token */
-		String[] tokens = commandString.split(WHITESPACE_PATTERN);
-		boolean isValidLength = (tokens.length >= MIN_TOKENS_LENGTH);
-
-		if (!isValidLength) {
-			return GENERAL_GUIDE;
-		}
-
-		String identifier = tokens[ACTION_IDENTIFIER_INDEX];
-		String message = buildGuideMessage(identifier);
-
-		return message;
-	}
-
-	private String buildGuideMessage(String identifier) {
-
-		identifier = identifier.toLowerCase();
-		Action action = Keywords.resolveActionIdentifier(identifier);
-
-		switch (action) {
-		case ADD:
-			// return String.format(ADD_GUIDE, identifier);
-		default:
-			return GENERAL_GUIDE;
-		}
-	}
-
-	private static String buildGeneralGuideString() {
-
-		StringBuilder str = new StringBuilder();
-
-		str.append("Type any of the following to begin:");
-		str.append(HTML_BREAK);
-		str.append(Keywords.getAddTaskIdentifier() + " | ");
-		str.append(Keywords.getUpdateTaskIdentifier() + " | ");
-		str.append(Keywords.getDeleteTaskIdentifier() + " | ");
-		str.append(Keywords.getListTaskIdentifier());
-
-		return wrapWithHtmlTag(str.toString());
-	}
-
-	private static String wrapWithHtmlTag(String text) {
-		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
-	}
-
 	@Override
-	public void update(Observable arg0, Object arg1) 
-	{
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
 		
 	}
 }
