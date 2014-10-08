@@ -1,6 +1,8 @@
-package logic;
+package dataStorage;
 
 import java.util.ArrayList;
+
+import logic.Task;
 
 public class FileHandler {
 	

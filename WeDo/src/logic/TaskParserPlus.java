@@ -3,6 +3,10 @@
  */
 package logic;
 
+import java.text.DateFormatSymbols;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 /**
  * @author Kuan Tien Long
@@ -17,6 +21,58 @@ public class TaskParserPlus implements TaskParser {
     }
 
 
+    public String replaceNumber(String source)
+    {
+        final String numRegex = "(\\w+\\s+)(\\d+)(?=(\\s+\\w+|$))";
+        final int wordGroup = 1;
+        final int digitGroup = 2;
+        final int lookForwardGroup = 3;
+        Pattern pattern = Pattern.compile(numRegex);
+        Matcher matcher = pattern.matcher(source);
+        StringBuffer result = new StringBuffer();
+        
+
+        
+        while(matcher.find())
+        {            
+                if(containsDateFormat(matcher.group(wordGroup) + matcher.group(lookForwardGroup)))
+                {
+                    matcher.appendReplacement(result, matcher.group(wordGroup) + matcher.group(digitGroup));  
+                }
+                else
+                {
+
+                    matcher.appendReplacement(result, matcher.group(wordGroup) +"{[" + matcher.group(digitGroup) + "]}"); 
+                }
+                
+        }
+        
+        return matcher.appendTail(result).toString();        
+    }
+    
+    private boolean containsDateFormat(String source)
+    {
+        DateFormatSymbols dateFormat = new DateFormatSymbols();
+        String[] shortWeekdays = dateFormat.getShortWeekdays();
+        String[] longWeekdays = dateFormat.getWeekdays();
+        String[] shortMonths = dateFormat.getShortMonths();
+        String[] longMonths = dateFormat.getMonths();
+        String[] timeUnit = { "hour", "hr", "minute", "min", "second", "sec", "am", "pm", "day", "week", "month" }; 
+        
+        if (StringHandler.contains(source, shortWeekdays, longWeekdays, shortMonths, longMonths, timeUnit))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+    
+
+    
+    
     /**
      * @param token
      * @param task
