@@ -1,8 +1,13 @@
 package userInterface;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
+
+import logic.Task;
 
 public class InteractiveTableModel extends AbstractTableModel {
 
@@ -135,4 +140,30 @@ public class InteractiveTableModel extends AbstractTableModel {
             dataVector.size() - 1);
      }
 
+	public void updateTable(ArrayList<Task> taskList) 
+	{
+		int row = 0;
+		for(Task task : taskList)
+		{
+			
+			this.setValueAt(""+(row+1), row, INDEX_TASK);
+			this.setValueAt(task.getDescription(), row, INDEX_DESCRIPTION);
+			if(task.getStarDate() != null && task.getStarDate() != LocalDate.MAX)
+			this.setValueAt(task.getStarDate().toString(), row, INDEX_STARTDATE);
+			if(task.getEndDate() != null && task.getEndDate() != LocalDate.MAX)
+			this.setValueAt(task.getEndDate().toString(), row, INDEX_ENDDATE);
+			if(task.getStartTime()!= null && task.getStartTime() != LocalTime.MAX)
+			this.setValueAt(task.getStartTime().toString(), row, INDEX_STARTTIME);
+			if(task.getEndTime()!= null && task.getEndTime() != LocalTime.MAX)
+			this.setValueAt(task.getEndTime().toString(), row, INDEX_ENDTIME);
+			if(task.getPriority() != null && !task.getPriority().toString().isEmpty())
+			this.setValueAt(task.getPriority().toString(), row, INDEX_PRIORITY);
+			row++;
+			if(!this.hasEmptyRow())
+			{
+				this.addEmptyRow();
+			}
+		}
+		
+	}
 }

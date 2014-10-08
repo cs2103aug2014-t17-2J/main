@@ -91,6 +91,7 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public void addUndoCommand(Command command) {
+		if(command != null && undoHandler != null)
 		undoHandler.add(command);
 	}
 
@@ -226,8 +227,10 @@ public class BasicDataHandler implements DataHandler {
 	@Override
 	public boolean removeTask(int index) {
 		if (validIndex(index)) {
-			observableList.remove(index);
+			System.out.println("deleted " + observableList.get(index));
 			mainList.remove(determineDate(getTask(index)), getTask(index));
+			observableList.remove(index);
+
 			return true;
 		}
 		return false;

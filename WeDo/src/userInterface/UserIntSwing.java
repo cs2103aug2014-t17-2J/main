@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,16 +16,21 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import logic.Task;
+import dataStorage.ObservableList;
 import brain.Processor;
 import ui.Keywords;
 import ui.Action;
 
 public class UserIntSwing extends JPanel implements Observer {
 
+	ArrayList<Task> taskList;	
+	
 	private JFrame frame;
 	private JTextField textField;
 	private JTable table;
-
+	private InteractiveForm interForm;
+	
 	private static final String WHITESPACE_PATTERN = "\\s+";
 	private static final int MIN_TOKENS_LENGTH = 1;
 	private static final String GENERAL_GUIDE = buildGeneralGuideString();
@@ -64,8 +70,10 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	public UserIntSwing(Processor processor) {
 		this.processor = processor;
+		taskList = processor.getObserverList().getList();
 		processor.addObserver(this);
 		initialize();
+		interForm.updateTable(taskList);
 	}
 
 	/**
@@ -100,15 +108,16 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				String textInput = "";
-				textInput += textField.getText();
-				lblDisplay.setText(textField.getText());
-				
+				//String textInput = "";
+			//	textInput += textField.getText();
+				//lblDisplay.setText(textField.getText());
+				System.out.println(textField.getText()+ "hello");
+				processor.executeCommand(textField.getText());
 				//processor.executeCommand(textInput);
 				
 				//taskList.add(textInput);
 
-				textField.setText("");
+			//	textField.setText("");
 			}
 		});
 		textField.setBounds(10, 270, 386, 20);
@@ -178,7 +187,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		btnEdit.setBounds(340, 11, 100, 23);
 		frame.getContentPane().add(btnEdit);
 
-		InteractiveForm interForm = new InteractiveForm();
+		interForm = new InteractiveForm();
 		interForm.execute(frame);
 
 		lblHelp.setText(buildGeneralGuideString());
@@ -186,7 +195,8 @@ public class UserIntSwing extends JPanel implements Observer {
 		JButton btnDel = new JButton("F5 <Delete>");
 		btnDel.setBounds(450, 11, 100, 23);
 		frame.getContentPane().add(btnDel);
-
+		
+		
 	}
 
 	public String getGuideMessage(String commandString) {
@@ -239,6 +249,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) 
 	{
-		System.out.println(arg1.toString() + "hrllo");
+		interForm.updateTable(taskList);		
 	}
 }
