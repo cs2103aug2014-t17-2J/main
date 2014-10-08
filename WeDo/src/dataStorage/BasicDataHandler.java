@@ -134,13 +134,13 @@ public class BasicDataHandler implements DataHandler {
 		LocalDate today = LocalDate.now();
 		LocalDate tomorrow = today.plusDays(1);
 
-		if (task.getEndDate().equals(today) || task.getStarDate().equals(today)) {
+		if ( today.equals(task.getEndDate()) || today.equals(task.getStarDate())) {
 			return TODAY;
-		} else if (task.getStarDate().equals(tomorrow) || task.getEndDate().equals(tomorrow)) {
+		} else if (tomorrow.equals(task.getEndDate()) || tomorrow.equals(task.getStarDate())){
 			return TOMORROW;
 		}
 
-		else if (task.getEndDate() == null || task.getStarDate() == null) {
+		else if (task.getEndDate() == null && task.getStarDate() == null) {
 			return SOMEDAY;
 		} else {
 			return UPCOMING;
