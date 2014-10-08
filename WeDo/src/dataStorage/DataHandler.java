@@ -25,9 +25,7 @@ public interface DataHandler {
      */
     public abstract void addUndoCommand(Command command);
 
-    /* (non-Javadoc)
-     * @see dataStorage.BasicDataHandler#addTask(logic.Task)
-     */
+   
     public abstract boolean addTask(Task task);
 
     /* (non-Javadoc)
@@ -50,7 +48,9 @@ public interface DataHandler {
      */
     public abstract boolean removeTask(int index);
 
-    public abstract boolean editTask(int index);
+    public abstract boolean editTask(int index,Task task);
+    
+    public ObservableList<Task> getObservableList();
 
     public abstract Task getTask(int index);
     

@@ -4,15 +4,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Observer;
 
-import com.google.common.collect.Multimap;
-
-import userInterface.UserIntSwing;
 import logic.Command;
 import logic.CommandHandler;
 import logic.Task;
+import userInterface.UserIntSwing;
+
+import com.google.common.collect.Multimap;
+
 import dataStorage.BasicDataHandler;
 import dataStorage.DataHandler;
+<<<<<<< HEAD
 import dataStorage.testDataHandler;
+=======
+import dataStorage.ObservableList;
+>>>>>>> eaa0471aaf75bba48c83ad8021025183169ba399
 import definedEnumeration.TaskFeedBack;
 
 
@@ -22,18 +27,18 @@ public class Processor {
     private DataHandler dataHandler;
     private CommandHandler commandHandler;
     
-    
 	public Processor() 
 	{
 		
 	    dataHandler = new BasicDataHandler();
-		commandHandler = new CommandHandler(this);	
+		commandHandler = new CommandHandler(this);
 	}
 
 	public static void main(String[] args) {
 
-		// list = dataHand.getList("today");
-		UserIntSwing swi = new UserIntSwing();
+		//list = dataHand.getList("today");
+		Processor processor = new Processor();
+		UserIntSwing swi = new UserIntSwing(processor);
 		swi.execute();
 		
 		//InteractiveForm interForm = new InteractiveForm();
@@ -43,6 +48,11 @@ public class Processor {
 	public TaskFeedBack executeCommand(String userInput)
 	{
 	    return commandHandler.executeCommand(userInput);
+	}
+	
+	public ObservableList<Task> getObserverList()
+	{
+		return dataHandler.getObservableList();
 	}
 	
 	public void addObserver(Observer observer)
@@ -71,9 +81,9 @@ public class Processor {
 	    return dataHandler.clearTask(startDate, endDate);
 	}
 	
-	public boolean editTask(int index)
+	public boolean editTask(int index,Task task)
 	{
-	    return dataHandler.editTask(index);
+	    return dataHandler.editTask(index,task);
 	}
 	
 	public void addUndoCommand(Command command)

@@ -1,5 +1,5 @@
 // @author A0112636M
-package userInterface;
+package ui;
 
 /**
  * The Action enumeration is used to specify the command action that the user
