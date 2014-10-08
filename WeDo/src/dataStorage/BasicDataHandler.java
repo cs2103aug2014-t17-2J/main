@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Observer;
 
 import logic.Command;
-import logic.FileHandler;
 import logic.Task;
 import logic.UndoHandler;
 
@@ -31,8 +30,14 @@ public class BasicDataHandler implements DataHandler {
 	public BasicDataHandler() {
 		fileHandler = new FileHandler();
 		populateLists();
+		observableList = new ObservableList<Task>(new ArrayList<Task>(mainList.get(TODAY)));
+		currentList = TODAY;
 	}
 
+	public ObservableList<Task> getObservableList(){
+		return observableList;
+	}
+	
 	public void addObserver(Observer observer) {
 		observableList.addObserver(observer);
 	}
@@ -85,6 +90,7 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public void addUndoCommand(Command command) {
+		if(command != null && undoHandler != null)
 		undoHandler.add(command);
 	}
 
@@ -96,9 +102,10 @@ public class BasicDataHandler implements DataHandler {
 	@Override
 	public boolean addTask(Task task) {
 		System.out.println(determineDate(task));
-		if (onDisplay(task) == true) {
-			observableList.add(task);
-		}
+//		if (onDisplay(task) == true) {
+//			observableList.add(task);
+//		}
+		observableList.add(task);
 
 		mainList.put(determineDate(task), task);
 		System.out.println(task.getID()+" is added");
@@ -220,8 +227,10 @@ public class BasicDataHandler implements DataHandler {
 	@Override
 	public boolean removeTask(int index) {
 		if (validIndex(index)) {
-			observableList.remove(index);
+			System.out.println("deleted " + observableList.get(index));
 			mainList.remove(determineDate(getTask(index)), getTask(index));
+			observableList.remove(index);
+
 			return true;
 		}
 		return false;

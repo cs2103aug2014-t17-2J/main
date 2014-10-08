@@ -227,5 +227,29 @@ public class StringHandler {
 
     }
     
+    /**
+     * @param source the string that is to be searched
+     * @param keyArrays the string arrays which have the keys to search for
+     * @return
+     */
+    public static boolean contains(String source, String[]... keyArrays)
+    {
+        for (String[] keyArray : keyArrays) 
+        {
+            for (String key : keyArray)     
+            {
+                if(!key.isEmpty())
+                {
+                    key.toLowerCase();
+                    if(source.contains(key))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
    
 }

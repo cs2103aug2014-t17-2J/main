@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import logic.Task;
+import dataStorage.ObservableList;
 import brain.Processor;
 import ui.CommandGuide;
 import ui.Keywords;
@@ -23,10 +26,29 @@ import ui.Action;
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
 
+	ArrayList<Task> taskList;	
+	
 	private JFrame frame;
 	private JTextField textField;
 	private JTable table;
 	private CommandGuide commandGuide;
+
+	private InteractiveForm interForm;
+	
+	private static final String WHITESPACE_PATTERN = "\\s+";
+	private static final int MIN_TOKENS_LENGTH = 1;
+	private static final String GENERAL_GUIDE = CommandGuide.buildGeneralGuideString();
+	// private static final String ADD_GUIDE = buildAddGuideString();
+
+	private static final String HTML_OPEN = "<html>";
+	private static final String HTML_CLOSE = "</html>";
+	private static final String HTML_BREAK = "<br>";
+	// private static final String HTML_UNDERLINE_OPEN = "<u>";
+	// private static final String HTML_UNDERLINE_CLOSE = "</u>";
+
+	private static final String TAG_WRAP_STRING = "%s%s%s";
+	private static final int ACTION_IDENTIFIER_INDEX = 0;
+	
 	private Processor processor;
 	// private static final String IDENTIFIER_PLACEHOLDER = "%1$s";
 	// private static final String DATE_FORMAT = "dd/MM/yy";
@@ -52,7 +74,10 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	public UserIntSwing(Processor processor) {
 		this.processor = processor;
+		taskList = processor.getObserverList().getList();
+		processor.addObserver(this);
 		initialize();
+		interForm.updateTable(taskList);
 	}
 
 	/**
@@ -87,15 +112,16 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				String textInput = "";
-				textInput += textField.getText();
-				lblDisplay.setText(textField.getText());
-				
+				//String textInput = "";
+			//	textInput += textField.getText();
+				//lblDisplay.setText(textField.getText());
+				System.out.println(textField.getText()+ "hello");
+				processor.executeCommand(textField.getText());
 				//processor.executeCommand(textInput);
 				
 				//taskList.add(textInput);
 
-				textField.setText("");
+			//	textField.setText("");
 			}
 		});
 		textField.setBounds(10, 270, 386, 20);
@@ -108,7 +134,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				// lblDisplay.setText(textField.getText());
 				// textArea.setText(textField.getText());
 				// textField.setText("");
-				processor.executeCommand(textField.toString());
+				processor.executeCommand(textField.getText());
 				// for (int i = 0; i < taskList.size(); i++) {
 				// textArea_1.append((String) taskList.get(i) + "\n");
 				// }
@@ -165,7 +191,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		btnEdit.setBounds(340, 11, 100, 23);
 		frame.getContentPane().add(btnEdit);
 
-		InteractiveForm interForm = new InteractiveForm();
+		interForm = new InteractiveForm();
 		interForm.execute(frame);
 
 		lblHelp.setText(commandGuide.buildGeneralGuideString());
@@ -173,12 +199,17 @@ public class UserIntSwing extends JPanel implements Observer {
 		JButton btnDel = new JButton("F5 <Delete>");
 		btnDel.setBounds(450, 11, 100, 23);
 		frame.getContentPane().add(btnDel);
-
+		
+		
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
+	}
 		
+	public void update1(Observable arg0, Object arg1) 
+	{
+		interForm.updateTable(taskList);		
 	}
 }

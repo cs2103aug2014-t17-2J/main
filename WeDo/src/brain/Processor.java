@@ -4,14 +4,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Observer;
 
-import com.google.common.collect.Multimap;
-
-import userInterface.UserIntSwing;
 import logic.Command;
 import logic.CommandHandler;
 import logic.Task;
+import userInterface.UserIntSwing;
+
+import com.google.common.collect.Multimap;
+
 import dataStorage.BasicDataHandler;
 import dataStorage.DataHandler;
+import dataStorage.ObservableList;
 import definedEnumeration.TaskFeedBack;
 
 
@@ -24,13 +26,13 @@ public class Processor {
 	public Processor() 
 	{
 		
-	   // dataHandler = new BasicDataHandler();
+	    dataHandler = new BasicDataHandler();
 		commandHandler = new CommandHandler(this);
 	}
 
 	public static void main(String[] args) {
 
-		// list = dataHand.getList("today");
+		//list = dataHand.getList("today");
 		Processor processor = new Processor();
 		UserIntSwing swi = new UserIntSwing(processor);
 		swi.execute();
@@ -42,6 +44,11 @@ public class Processor {
 	public TaskFeedBack executeCommand(String userInput)
 	{
 	    return commandHandler.executeCommand(userInput);
+	}
+	
+	public ObservableList<Task> getObserverList()
+	{
+		return dataHandler.getObservableList();
 	}
 	
 	public void addObserver(Observer observer)
