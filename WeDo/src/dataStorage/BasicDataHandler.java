@@ -31,8 +31,14 @@ public class BasicDataHandler implements DataHandler {
 	public BasicDataHandler() {
 		fileHandler = new FileHandler();
 		populateLists();
+		observableList = new ObservableList<Task>(new ArrayList<Task>(mainList.get(TODAY)));
+		currentList = TODAY;
 	}
 
+	public ObservableList<Task> getObservableList(){
+		return observableList;
+	}
+	
 	public void addObserver(Observer observer) {
 		observableList.addObserver(observer);
 	}

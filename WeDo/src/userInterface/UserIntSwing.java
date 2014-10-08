@@ -62,6 +62,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	public UserIntSwing(Processor processor) {
 		this.processor = processor;
+		processor.addObserver(this);
 		initialize();
 	}
 
@@ -118,7 +119,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				// lblDisplay.setText(textField.getText());
 				// textArea.setText(textField.getText());
 				// textField.setText("");
-				processor.executeCommand(textField.toString());
+				processor.executeCommand(textField.getText());
 				// for (int i = 0; i < taskList.size(); i++) {
 				// textArea_1.append((String) taskList.get(i) + "\n");
 				// }
@@ -236,6 +237,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) 
 	{
-		
+		System.out.println(arg1.toString() + "hrllo");
 	}
 }
