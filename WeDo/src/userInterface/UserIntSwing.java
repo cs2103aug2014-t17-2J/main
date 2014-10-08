@@ -5,7 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,7 +17,7 @@ import javax.swing.JTextField;
 
 import brain.Processor;
 
-public class UserIntSwing extends JPanel {
+public class UserIntSwing extends JPanel implements Observer {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -117,7 +118,7 @@ public class UserIntSwing extends JPanel {
 				// lblDisplay.setText(textField.getText());
 				// textArea.setText(textField.getText());
 				// textField.setText("");
-
+				processor.executeCommand(textField.toString());
 				// for (int i = 0; i < taskList.size(); i++) {
 				// textArea_1.append((String) taskList.get(i) + "\n");
 				// }
@@ -230,5 +231,11 @@ public class UserIntSwing extends JPanel {
 
 	private static String wrapWithHtmlTag(String text) {
 		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) 
+	{
+		
 	}
 }
