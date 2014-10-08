@@ -129,7 +129,7 @@ public class TaskParserPlus implements TaskParser {
     
     public String replaceDigits(String source)
     {
-        final String numRegex = "(\\d+(?![\\dpmam]))";
+        final String numRegex = "((?<=^|\\s)\\d+(?=$|\\s))";
         final int digitGroup = 1;
         
         Pattern pattern = Pattern.compile(numRegex);
