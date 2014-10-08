@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,6 +15,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+
+import logic.Task;
 
 public class InteractiveForm extends JPanel {
 
@@ -28,6 +31,11 @@ public class InteractiveForm extends JPanel {
         initComponent();
     }
 	
+	public void updateTable(ArrayList<Task> taskList)
+	{
+		tableModel.updateTable(taskList);
+	}
+	
 	 public void initComponent() {
          tableModel = new InteractiveTableModel(columnNames);
          tableModel.addTableModelListener(new InteractiveForm.InteractiveTableModelListener());
@@ -38,6 +46,7 @@ public class InteractiveForm extends JPanel {
              tableModel.addEmptyRow();
          }
          
+ 	     
          scroller = new javax.swing.JScrollPane(table);
          table.setPreferredScrollableViewportSize(new java.awt.Dimension(800, 300));
          TableColumn hidden = table.getColumnModel().getColumn(InteractiveTableModel.INDEX_HIDDEN);

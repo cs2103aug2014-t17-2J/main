@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ui.Action;
+import userInterface.UserIntSwing;
 
 /**
  * The Keywords class contains all command identifier constants that the
