@@ -102,9 +102,10 @@ public class BasicDataHandler implements DataHandler {
 	@Override
 	public boolean addTask(Task task) {
 		System.out.println(determineDate(task));
-		if (onDisplay(task) == true) {
-			observableList.add(task);
-		}
+//		if (onDisplay(task) == true) {
+//			observableList.add(task);
+//		}
+		observableList.add(task);
 
 		mainList.put(determineDate(task), task);
 		System.out.println(task.getID()+" is added");

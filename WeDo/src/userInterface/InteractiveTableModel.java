@@ -143,9 +143,14 @@ public class InteractiveTableModel extends AbstractTableModel {
 	public void updateTable(ArrayList<Task> taskList) 
 	{
 		int row = 0;
+		
+		clearRows();
 		for(Task task : taskList)
 		{
-			
+			if(!this.hasEmptyRow())
+			{
+				this.addEmptyRow();
+			}
 			this.setValueAt(""+(row+1), row, INDEX_TASK);
 			this.setValueAt(task.getDescription(), row, INDEX_DESCRIPTION);
 			if(task.getStarDate() != null && task.getStarDate() != LocalDate.MAX)
@@ -159,11 +164,14 @@ public class InteractiveTableModel extends AbstractTableModel {
 			if(task.getPriority() != null && !task.getPriority().toString().isEmpty())
 			this.setValueAt(task.getPriority().toString(), row, INDEX_PRIORITY);
 			row++;
-			if(!this.hasEmptyRow())
-			{
-				this.addEmptyRow();
-			}
+			
 		}
 		
+	}
+	
+	public void clearRows()
+	{
+		dataVector.clear();
+		this.addEmptyRow();
 	}
 }
