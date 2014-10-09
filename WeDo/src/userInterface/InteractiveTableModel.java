@@ -151,6 +151,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 			{
 				this.addEmptyRow();
 			}
+			
 			this.setValueAt(""+(row+1), row, INDEX_TASK);
 			this.setValueAt(task.getDescription(), row, INDEX_DESCRIPTION);
 			if(task.getStarDate() != null && task.getStarDate() != LocalDate.MAX)

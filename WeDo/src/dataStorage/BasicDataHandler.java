@@ -33,6 +33,16 @@ public class BasicDataHandler implements DataHandler {
 		observableList = new ObservableList<Task>(new ArrayList<Task>(mainList.get(TODAY)));
 		currentList = TODAY;
 	}
+	
+	public BasicDataHandler(ObservableList<Task> observableList) 
+	{
+        fileHandler = new FileHandler();
+        populateLists();
+        this.observableList = observableList;
+        observableList.replaceList(new ArrayList<Task>(mainList.get(TODAY)));
+        currentList = TODAY;
+    }
+    
 
 	public ObservableList<Task> getObservableList(){
 		return observableList;
@@ -106,7 +116,6 @@ public class BasicDataHandler implements DataHandler {
 //			observableList.add(task);
 //		}
 		observableList.add(task);
-
 		mainList.put(determineDate(task), task);
 		System.out.println(task.getID()+" is added");
 

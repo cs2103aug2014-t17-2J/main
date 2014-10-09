@@ -9,8 +9,8 @@ import logic.CommandHandler;
 
 import org.junit.Test;
 
-import brain.Processor;
 import dataStorage.BasicDataHandler;
+import dataStorage.DataHandler;
 
 /**
  * @author Kuan Tien Long
@@ -21,7 +21,8 @@ public class TestCommandHandler {
     @Test
     public void test() 
     {
-        CommandHandler commandHandler = new CommandHandler(new Processor());
+        
+        CommandHandler commandHandler = new CommandHandler(new BasicDataHandler());
         Scanner sc = new Scanner(System.in);
         while(true)
         commandHandler.executeCommand(sc.nextLine());

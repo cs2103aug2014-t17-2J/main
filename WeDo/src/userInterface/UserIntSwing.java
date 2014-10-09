@@ -15,8 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import dataStorage.ObservableList;
+import logic.CommandHandler;
 import logic.Task;
-import brain.Processor;
 import ui.CommandGuide;
 import ui.UserLogic;
 
@@ -32,7 +33,8 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static JButton btnHelp;
 	
 	private InteractiveForm interForm;
-	private Processor processor;
+	private CommandHandler commandHandler;
+    private ObservableList<Task> observableList;
 
 	/**
 	 * Launch the application.
@@ -42,24 +44,32 @@ public class UserIntSwing extends JPanel implements Observer {
 			@SuppressWarnings("static-access")
 			public void run() {
 				try {
-					UserIntSwing window = new UserIntSwing(processor);
-					window.frame.setVisible(true);
+				//	UserIntSwing window = new UserIntSwing(commandHandler, observableList);
+				    initialize();
+					//observableList.addObserver(window);
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
+    
+   
 
+	public UserIntSwing()
+	{
+	    
+	}
+	
 	/**
 	 * Create the application.
 	 */
-	public UserIntSwing(Processor processor) {
-		this.processor = processor;
-		taskList = processor.getObserverList().getList();
-		processor.addObserver(this);
-		initialize();
-		interForm.updateTable(taskList);
+	public UserIntSwing(CommandHandler commandHandler, ObservableList<Task> observableList) {
+		this.commandHandler = commandHandler;
+		this.observableList = observableList;
+		taskList = observableList.getList();
+        initialize();
 	}
 
 	/**
@@ -93,7 +103,7 @@ public class UserIntSwing extends JPanel implements Observer {
 			//	textInput += textField.getText();
 				//lblDisplay.setText(textField.getText());
 				System.out.println(textField.getText()+ "hello");
-				processor.executeCommand(textField.getText());
+				commandHandler.executeCommand(textField.getText());
 				//processor.executeCommand(textInput);
 				
 				//taskList.add(textInput);
@@ -111,7 +121,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				// lblDisplay.setText(textField.getText());
 				// textArea.setText(textField.getText());
 				// textField.setText("");
-				processor.executeCommand(textField.getText());
+				commandHandler.executeCommand(textField.getText());
 				// for (int i = 0; i < taskList.size(); i++) {
 				// textArea_1.append((String) taskList.get(i) + "\n");
 				// }
@@ -199,6 +209,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) 
 	{
+        taskList = observableList.getList();
 		interForm.updateTable(taskList);		
 	}
 }

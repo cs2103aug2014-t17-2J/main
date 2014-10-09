@@ -58,6 +58,8 @@ public interface DataHandler {
         
     public abstract void addObserver(Observer observer);
     
+    // temp add...
+    
     public abstract void view(String theFourList);
 
 }
