@@ -4,8 +4,8 @@ public class TableInformation {
 
 	protected String task, description, startDate, endDate, startTime, endTime,
 			priority;
-	
-	public TableInformation(){
+
+	public TableInformation() {
 		task = "";
 		description = "";
 		startDate = "";
@@ -14,60 +14,60 @@ public class TableInformation {
 		endTime = "";
 		priority = "";
 	}
-	
-	public String getTask(){
+
+	public String getTask() {
 		return task;
 	}
-	
-	public void setTask(String task){
+
+	public void setTask(String task) {
 		this.task = task;
 	}
-	
-	public String getDescription(){
+
+	public String getDescription() {
 		return description;
 	}
-	
-	public void setDescription(String description){
+
+	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public String getStartDate(){
+
+	public String getStartDate() {
 		return startDate;
 	}
-	
-	public void setStartDate(String startDate){
+
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	
-	public String getEndDate(){
+
+	public String getEndDate() {
 		return endDate;
 	}
-	
-	public void setEndDate(String endDate){
+
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	
-	public String getStartTime(){
+
+	public String getStartTime() {
 		return startTime;
 	}
-	
-	public void setStartTime(String startTime){
+
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-	
-	public String getEndTime(){
+
+	public String getEndTime() {
 		return endTime;
 	}
-	
-	public void setEndTime(String endTime){
+
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	
-	public String getPriority(){
+
+	public String getPriority() {
 		return priority;
 	}
-	
-	public void setPriority(String priority){
+
+	public void setPriority(String priority) {
 		this.priority = priority;
 	}
 }
