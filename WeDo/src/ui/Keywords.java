@@ -25,7 +25,7 @@ public final class Keywords {
 	private static final String DATE_IDENTIFIER = "-on";
 	private static final String DUE_DATE_IDENTIFIER = "-by";
 	private static final String TIME_IDENTIFIER = "-at";
-	private static final String REMARKS_IDENTIFIER = "-Remarks";
+	private static final String REMARKS_IDENTIFIER = "-remarks";
 	private static final String UNDO_ACTION_IDENTIFIER = "undo";
 
 	private static final Map<String, Action> actionMap = createMap();
