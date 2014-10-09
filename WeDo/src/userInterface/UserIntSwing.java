@@ -90,15 +90,13 @@ public class UserIntSwing extends JPanel implements Observer {
 			public void actionPerformed(ActionEvent e) {
 
 				//String textInput = "";
-			//	textInput += textField.getText();
-				//lblDisplay.setText(textField.getText());
-				System.out.println(textField.getText()+ "hello");
-				processor.executeCommand(textField.getText());
+				//textInput += textField.getText();
+				//System.out.println(textField.getText()+ "hello");
 				//processor.executeCommand(textInput);
-				
 				//taskList.add(textInput);
-
-			//	textField.setText("");
+				
+				processor.executeCommand(textField.getText());
+				textField.setText("");
 			}
 		});
 		textField.setBounds(10, 306, 386, 20);
@@ -137,17 +135,6 @@ public class UserIntSwing extends JPanel implements Observer {
 //			}
 //		});
 
-		textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				//lblHelp.setText(commandGuide.getGuideMessage("ADD"));
-
-				// textArea_1.append(taskList+"\n"); //displays the entire
-				// arrayList in [a,b,c] format
-
-				//textField.setText("");
-			}
-		});
 
 		btnAdd.setBounds(120, 11, 100, 23);
 		frame.getContentPane().add(btnAdd);
