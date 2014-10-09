@@ -72,7 +72,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel lblDisplay = new JLabel("My Label");
+		JLabel lblDisplay = new JLabel("My Tasks");
 		lblDisplay.setBounds(10, 42, 157, 20);
 		frame.getContentPane().add(lblDisplay);
 
