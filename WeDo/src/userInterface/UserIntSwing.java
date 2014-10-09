@@ -82,18 +82,10 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (UserIntSwing.textField.getText().length() == 0){
-					if(e.getKeyCode() == KeyEvent.VK_F2)
-						UserIntSwing.textField.setText("-add");
-					else if(e.getKeyCode() == KeyEvent.VK_F3)
-						UserIntSwing.textField.setText("-view");
-					else if(e.getKeyCode() == KeyEvent.VK_F4)
-						UserIntSwing.textField.setText("-edit");
-					else if(e.getKeyCode() == KeyEvent.VK_F5)
-						UserIntSwing.textField.setText("-delete");
-				}
+				UserLogic.processHotKeys(e);
 			}
 		});
+		
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 

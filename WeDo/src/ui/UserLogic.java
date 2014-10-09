@@ -44,15 +44,16 @@ public class UserLogic {
 		});
 	}
 	
-	public static void processHotKeys(){
-		UserIntSwing.btnHelp.addKeyListener(new KeyAdapter(){
-			@Override
-			public void keyReleased(KeyEvent arg){
-				if (UserIntSwing.textField.getText().length() == 0
-						&& arg.getKeyCode() == KeyEvent.VK_F1) {
-					UserIntSwing.textField.setText("-add");
-				}
-			}
-		});
+	public static void processHotKeys(KeyEvent e){
+		if (UserIntSwing.textField.getText().length() == 0){
+			if(e.getKeyCode() == KeyEvent.VK_F2)
+				UserIntSwing.textField.setText("-add");
+			else if(e.getKeyCode() == KeyEvent.VK_F3)
+				UserIntSwing.textField.setText("-view");
+			else if(e.getKeyCode() == KeyEvent.VK_F4)
+				UserIntSwing.textField.setText("-edit");
+			else if(e.getKeyCode() == KeyEvent.VK_F5)
+				UserIntSwing.textField.setText("-delete");
+		}
 	}
 }
