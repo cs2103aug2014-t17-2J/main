@@ -1,6 +1,3 @@
-/**
- * 
- */
 package logic;
 
 import java.time.LocalDate;
@@ -145,7 +142,7 @@ class DeleteCommand extends Command {
         System.out.println("delete");
 
         final int ARRAY_OFFSET = -1;
-        int lineToDelete = getLineIndex(task.getDescription()) + ARRAY_OFFSET;
+        int lineToDelete = StringHandler.parseStringToInteger(task.getDescription()) + ARRAY_OFFSET;
         if( processor.removeTask(lineToDelete))
         {
             processor.addUndoCommand(this);
@@ -166,48 +163,7 @@ class DeleteCommand extends Command {
         processor.addTask(task);
     }
 
-    /**
-     * @param userArguments the arguments passed in by the user
-     * @return Integer which specified the line to be deleted
-     */
-    private int getLineIndex(String userArguments) {
-        
-  
-        if(isValidString(userArguments))
-        {
-            userArguments = userArguments.trim();
-            if(isInteger(userArguments))
-            {
-                return Integer.parseInt(userArguments);
-            }
-        }
-        return INVALID_INDEX;
-    }
-    
-    /**
-     * @param userInput the user input
-     * @return whether the string could be parsed
-     */
-    private boolean isInteger(String userInput) {
-        
-        try
-        {
-            Integer.parseInt(userInput);
-            return true;
-        }
-        catch(Exception e)
-        {
-            return false;
-        }
-    }
 
-    /**
-     * @param addedInput the input to be added
-     * @return whether it is a valid string
-     */
-    private boolean isValidString(String addedInput) {
-        return addedInput.length() > 0;
-    }
 }
 
 /**
@@ -272,6 +228,40 @@ class SearchCommand extends Command
     }
 
 }
+
+/**
+ * @author TienLong This class makes use of the Command interface to implement
+ *         execute function for edit
+ */
+class EditCommand extends Command {
+
+    public TaskFeedBack execute() 
+    {
+        final int ARRAY_OFFSET = -1;
+
+        System.out.println("Editing");
+        String indexString = StringHandler.getIntegerFromFirstSlot(task.getDescription());
+        if(indexString == null)
+            return TaskFeedBack.FEEDBACK_INVALID;
+                
+        int index = StringHandler.parseStringToInteger(indexString) + ARRAY_OFFSET;
+        task.setDescription(StringHandler.removeFirstMatched(task.getDescription(), indexString));
+        processor.editTask(index, task);
+        
+        return TaskFeedBack.FEEDBACK_VALID;
+    }
+
+    /* (non-Javadoc)
+     * @see logic.Command#undo()
+     */
+    @Override
+    void undo() 
+    {
+        // TODO Auto-generated method stub
+        
+    }
+}
+
 
 /**
  * @author TienLong This class makes use of the Command interface to implement
