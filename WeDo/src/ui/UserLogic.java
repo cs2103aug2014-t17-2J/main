@@ -45,8 +45,9 @@ public class UserLogic {
 	
 	public static void processHotKeys(KeyEvent arg1, ActionEvent arg2){
 		if (UserIntSwing.textField.getText().length() == 0){
-			if(arg1.getKeyCode() == KeyEvent.VK_F2)
+			if(arg1.getKeyCode() == KeyEvent.VK_F2){
 				UserIntSwing.textField.setText("-add");
+			}
 			else if(arg1.getKeyCode() == KeyEvent.VK_F3)
 				UserIntSwing.textField.setText("-view");
 			else if(arg1.getKeyCode() == KeyEvent.VK_F4)

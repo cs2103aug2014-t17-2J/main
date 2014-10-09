@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -79,12 +80,12 @@ public class UserIntSwing extends JPanel implements Observer {
 		//ArrayList<String> taskList = new ArrayList<String>();
 
 		textField = new JTextField();
-//		textField.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyReleased(KeyEvent arg1) {
-//				UserLogic.processHotKeys(arg1, null);
-//			}
-//		});
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg1) {
+				UserLogic.processHotKeys(arg1, null);
+			}
+		});
 		
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -170,17 +171,23 @@ public class UserIntSwing extends JPanel implements Observer {
 		//for the user to type immediately when the program runs 
 		UserLogic.addFrameWindowFocusListener();
 		
-		//UserLogic.processTextField();
+		UserLogic.processTextField();
 		
 		JButton btnDel = new JButton("F5 <Delete>");
 		btnDel.setBounds(450, 11, 100, 23);
 		frame.getContentPane().add(btnDel);
 		
 		JLabel lblWarning = new JLabel("");
+		lblWarning.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg1) {
+				UserLogic.processHotKeys(arg1, null);
+			}
+		});
 		lblWarning.setBounds(10, 256, 496, 47);
 		frame.getContentPane().add(lblWarning);
 	}
-
+	
 	private void addFrameWindowFocusListener() {
 		// TODO Auto-generated method stub
 		
