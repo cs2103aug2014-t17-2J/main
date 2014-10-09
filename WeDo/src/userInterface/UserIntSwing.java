@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import logic.Task;
 import brain.Processor;
 import ui.CommandGuide;
-import ui.UserInterface;
+import ui.UserLogic;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -27,8 +27,10 @@ public class UserIntSwing extends JPanel implements Observer {
 	
 	public static JFrame frame;
 	public static JTextField textField;
+	public static JLabel lblWarning;
+	public static JLabel lblHelp;
+	public static JButton btnHelp;
 	
-	private CommandGuide commandGuide;
 	private InteractiveForm interForm;
 	private Processor processor;
 
@@ -37,6 +39,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	public void execute() {
 		EventQueue.invokeLater(new Runnable() {
+			@SuppressWarnings("static-access")
 			public void run() {
 				try {
 					UserIntSwing window = new UserIntSwing(processor);
@@ -65,18 +68,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	private void initialize() {
 
 		frame = new JFrame();
-		frame.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				int keyCode = e.getKeyCode();
-				if (keyCode == KeyEvent.VK_F2) {
-					textField.setText("-add");
-				}
-			}
-		});
-		frame.getContentPane().addKeyListener(new KeyAdapter() {
-
-		});
 		frame.setBounds(100, 100, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -88,6 +79,21 @@ public class UserIntSwing extends JPanel implements Observer {
 		//ArrayList<String> taskList = new ArrayList<String>();
 
 		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (UserIntSwing.textField.getText().length() == 0){
+					if(e.getKeyCode() == KeyEvent.VK_F2)
+						UserIntSwing.textField.setText("-add");
+					else if(e.getKeyCode() == KeyEvent.VK_F3)
+						UserIntSwing.textField.setText("-view");
+					else if(e.getKeyCode() == KeyEvent.VK_F4)
+						UserIntSwing.textField.setText("-edit");
+					else if(e.getKeyCode() == KeyEvent.VK_F5)
+						UserIntSwing.textField.setText("-delete");
+				}
+			}
+		});
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -103,7 +109,7 @@ public class UserIntSwing extends JPanel implements Observer {
 			//	textField.setText("");
 			}
 		});
-		textField.setBounds(10, 270, 386, 20);
+		textField.setBounds(10, 306, 386, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 
@@ -119,18 +125,20 @@ public class UserIntSwing extends JPanel implements Observer {
 				// }
 			}
 		});
-		btnEnter.setBounds(406, 269, 100, 23);
+		btnEnter.setBounds(406, 305, 100, 23);
 		frame.getContentPane().add(btnEnter);
 
 		JLabel lblHelp = new JLabel("Label Help");
-		lblHelp.setBounds(10, 293, 496, 56);
+		lblHelp.setBounds(10, 330, 496, 56);
 		frame.getContentPane().add(lblHelp);
+		//UserInterface.processHotKeys();
 
 		JButton btnHelp = new JButton("F1 <Help>");
 		btnHelp.setBounds(10, 11, 100, 23);
 		frame.getContentPane().add(btnHelp);
 
 		JButton btnAdd = new JButton("F2 <Add>");
+
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("-add");
@@ -150,12 +158,12 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				lblHelp.setText(commandGuide.getGuideMessage("ADD"));
+				//lblHelp.setText(commandGuide.getGuideMessage("ADD"));
 
 				// textArea_1.append(taskList+"\n"); //displays the entire
 				// arrayList in [a,b,c] format
 
-				textField.setText("");
+				//textField.setText("");
 			}
 		});
 
@@ -178,11 +186,17 @@ public class UserIntSwing extends JPanel implements Observer {
 		
 		//This operation puts the focus on the textField 
 		//for the user to type immediately when the program runs 
-		UserInterface.addFrameWindowFocusListener();
-
+		UserLogic.addFrameWindowFocusListener();
+		
+		UserLogic.processTextField();
+		
 		JButton btnDel = new JButton("F5 <Delete>");
 		btnDel.setBounds(450, 11, 100, 23);
 		frame.getContentPane().add(btnDel);
+		
+		JLabel lblWarning = new JLabel("");
+		lblWarning.setBounds(10, 256, 496, 47);
+		frame.getContentPane().add(lblWarning);
 	}
 
 	private void addFrameWindowFocusListener() {
