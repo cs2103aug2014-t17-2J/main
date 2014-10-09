@@ -85,6 +85,9 @@ public class UserIntSwing extends JPanel implements Observer {
 				UserLogic.processHotKeys(arg1, null);
 			}
 		});
+		
+		// Setup the Help label
+		CommandGuide.processGuide();
 
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -149,9 +152,6 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		interForm = new InteractiveForm();
 		interForm.execute(frame);
-
-		// Setup the Help label
-		lblHelp.setText(CommandGuide.buildGeneralGuideString());
 
 		// This operation puts the focus on the textField
 		// for the user to type immediately when the program runs
