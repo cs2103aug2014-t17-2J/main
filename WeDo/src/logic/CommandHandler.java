@@ -83,6 +83,8 @@ public class CommandHandler {
         Command deleteCommand = new DeleteCommand();
         Command exitCommand = new ExitCommand();
         Command searchCommand = new SearchCommand();
+        Command editCommand = new EditCommand();
+        Command viewCommand = new ViewCommand();
         
         final Map<Command, Collection<String>> addActions = ImmutableMap.<Command, Collection<String>>of(
                 addCommand, Arrays.asList("-add", "-a", "add", "-create", "-cre8"));
@@ -94,12 +96,19 @@ public class CommandHandler {
                 exitCommand, Arrays.asList("-exit", "-e", "exit", "-quit", "-q", "quit", "alt qq", "leave", "-leave", "-bye"));
         final Map<Command, Collection<String>> searchActions = ImmutableMap.<Command, Collection<String>>of(
                 searchCommand, Arrays.asList("-search", "search", "-s", "-find", "-f", "find"));
+        final Map<Command, Collection<String>> editActions = ImmutableMap.<Command, Collection<String>>of(
+                editCommand, Arrays.asList("-edit", "edit", "-e", "-modify", "-m", "modify"));
+        final Map<Command, Collection<String>> viewActions = ImmutableMap.<Command, Collection<String>>of(
+                viewCommand, Arrays.asList("-view", "view", "-v", "-read", "read", "-r"));
        
+        
         addMapToMultiMap(addActions, availableActions);
         addMapToMultiMap(clearActions, availableActions);
         addMapToMultiMap(deleteActions, availableActions);
         addMapToMultiMap(exitActions, availableActions);
         addMapToMultiMap(searchActions, availableActions);
+        addMapToMultiMap(editActions, availableActions);
+        addMapToMultiMap(viewActions, availableActions);
         
         return availableActions;
     }

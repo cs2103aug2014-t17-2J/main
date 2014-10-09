@@ -228,8 +228,8 @@ public class TaskParserPlus implements TaskParser {
      */
     private String parseDate(Task task, String source) 
     {
-        if(invalidDateString(source))
-            return "";
+//        if(invalidDateString(source))
+//            return "";
         
         TaskAttribute taskAttribute = new TaskDateAttribute();
         String wordsUsed = taskAttribute.set(task, source);
@@ -237,12 +237,12 @@ public class TaskParserPlus implements TaskParser {
     }
 
 
-    /**
-     * @param source
-     * @return true if source consist of less than minimalDateLength of words
-     */
-    private boolean invalidDateString(String source) {
-        final int minimalDateLength = 3;
-        return source.split("\\s+").length < minimalDateLength;
-    }
+//    /**
+//     * @param source
+//     * @return true if source consist of less than minimalDateLength of words
+//     */
+//    private boolean invalidDateString(String source) {
+//        final int minimalDateLength = 3;
+//        return source.split("\\s+").length < minimalDateLength;
+//    }
 }

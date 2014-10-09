@@ -22,7 +22,7 @@ public class CommandGuide {
 	private static final int MIN_TOKENS_LENGTH = 1;
 	private static final int ACTION_IDENTIFIER_INDEX = 0;
 	
-	public String getGuideMessage(String commandString) {
+	public static String getGuideMessage(String commandString) {
 
 		/* Check that there is at least 1 token */
 		String[] tokens = commandString.split(WHITESPACE_PATTERN);
@@ -38,7 +38,7 @@ public class CommandGuide {
 		return message;
 	}
 
-	private String buildGuideMessage(String identifier) {
+	private static String buildGuideMessage(String identifier) {
 
 		identifier = identifier.toLowerCase();
 		Action action = Keywords.resolveActionIdentifier(identifier);
