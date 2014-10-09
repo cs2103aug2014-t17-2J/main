@@ -57,5 +57,7 @@ public interface DataHandler {
     public abstract boolean removeTask(Task task);
         
     public abstract void addObserver(Observer observer);
+    
+    public abstract void view(String theFourList);
 
 }
