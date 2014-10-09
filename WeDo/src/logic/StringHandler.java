@@ -197,8 +197,9 @@ public class StringHandler {
         return getMatchedRegex(source, theRegex);   
     }
 
-    private static String getMatchedRegex(String source, final String theRegex) {
+    private static String getMatchedRegex(String source, String regexPattern) {
         
+        final int MATCHED = 1;
         if (source == null) {
             return null;
         }
@@ -209,12 +210,12 @@ public class StringHandler {
             return null;
         }
         
-        Pattern pattern = Pattern.compile(theRegex);
+        Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(source);
         
         if(matcher.find())
         {
-            return matcher.group(1);
+            return matcher.group(MATCHED);
         }
         else
         {
@@ -271,5 +272,56 @@ public class StringHandler {
         return false;
     }
     
-   
+    /**
+     * @param source the string that will be searched
+     * @return the first integer if it contains, null if it does not.
+     */
+    public static String getIntegerFromFirstSlot(String source)
+    {
+        String regexPattern = "(^\\d+)";
+        return getMatchedRegex(source, regexPattern);
+    }
+       
+    /**
+     * @param source the arguments passed in by the user
+     * @return Integer that is parsed from the string, MAX_VALUE if it is not parsable
+     */
+    public static int parseStringToInteger(String source) {
+        
+  
+        if(isValidString(source))
+        {
+            source = source.trim();
+            if(isInteger(source))
+            {
+                return Integer.parseInt(source);
+            }
+        }
+        return Integer.MAX_VALUE;
+    }
+    
+    /**
+     * @param userInput the user input
+     * @return whether the string could be parsed
+     */
+    private static boolean isInteger(String userInput) {
+        
+        try
+        {
+            Integer.parseInt(userInput);
+            return true;
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+    }
+
+    /**
+     * @param addedInput the input to be added
+     * @return whether it is a valid string
+     */
+    private static boolean isValidString(String addedInput) {
+        return addedInput.length() > 0;
+    }
 }

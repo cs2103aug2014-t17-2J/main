@@ -197,11 +197,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-	}
-		
-	public void update1(Observable arg0, Object arg1) 
+	public void update(Observable arg0, Object arg1) 
 	{
 		interForm.updateTable(taskList);		
 	}

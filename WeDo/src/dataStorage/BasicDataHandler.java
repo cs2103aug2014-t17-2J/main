@@ -292,4 +292,14 @@ public class BasicDataHandler implements DataHandler {
 		return false;
 	}
 
+	
+    /* (non-Javadoc)
+     * @see dataStorage.DataHandler#view(java.lang.String)
+     */
+    @Override
+    public void view(String theFourList) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
