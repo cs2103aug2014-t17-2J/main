@@ -79,12 +79,12 @@ public class UserIntSwing extends JPanel implements Observer {
 		//ArrayList<String> taskList = new ArrayList<String>();
 
 		textField = new JTextField();
-		textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				UserLogic.processHotKeys(e);
-			}
-		});
+//		textField.addKeyListener(new KeyAdapter() {
+//			@Override
+//			public void keyReleased(KeyEvent arg1) {
+//				UserLogic.processHotKeys(arg1, null);
+//			}
+//		});
 		
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -131,21 +131,11 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		JButton btnAdd = new JButton("F2 <Add>");
 
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textField.setText("-add");
-			}
-		});
-		// btnAdd.addKeyListener(new KeyAdapter() {
-		// @Override
-		// public void keyPressed(KeyEvent e) {
-		// int keyCode = e.getKeyCode();
-		// if(keyCode == KeyEvent.VK_F2){
-		// textField.setText("-add");
-		// }
-
-		// }
-		// });
+//		btnAdd.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg2) {
+//				textField.setText("-add");
+//			}
+//		});
 
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -180,7 +170,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		//for the user to type immediately when the program runs 
 		UserLogic.addFrameWindowFocusListener();
 		
-		UserLogic.processTextField();
+		//UserLogic.processTextField();
 		
 		JButton btnDel = new JButton("F5 <Delete>");
 		btnDel.setBounds(450, 11, 100, 23);
@@ -197,7 +187,11 @@ public class UserIntSwing extends JPanel implements Observer {
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) 
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+	}
+		
+	public void update1(Observable arg0, Object arg1) 
 	{
 		interForm.updateTable(taskList);		
 	}
