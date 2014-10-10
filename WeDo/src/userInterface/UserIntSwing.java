@@ -92,7 +92,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				UserLogic.processHotKeys(e);
+//				UserLogic.processHotKeys(e);
 			}
 		});
 		

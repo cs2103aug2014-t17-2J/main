@@ -195,8 +195,11 @@ public class BasicDataHandler implements DataHandler {
 	 * 
 	 * @see dataStorage.BasicDataHandler#canRemove(int)
 	 */
-	public boolean canRemove(int index) {
-		if (index >= observableList.getList().size() || index < 0) {
+	public boolean indexValid(int index) {
+	    
+
+	    
+		if (index >= (observableList.getList().size()) || index < 0) {
 			return false;
 		} else {
 			return true;
@@ -228,7 +231,7 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean removeTask(int index) {
-		if (canRemove(index)) {
+		if (indexValid(index)) {
 			System.out.println("deleted " + observableList.get(index));
 			mainList.remove(determineDate(getTask(index)), getTask(index));
 			observableList.remove(index);
@@ -244,10 +247,10 @@ public class BasicDataHandler implements DataHandler {
 	 * @see dataStorage.DataHandler#editTask()
 	 */
 	@Override
-	public boolean editTask(int index,Task task) {
+	public boolean editTask(Task source,Task replacement) {
 		
-		removeTask(index);
-		addTask(task);
+		removeTask(source);
+		addTask(replacement);
 		
 		return true;
 	}

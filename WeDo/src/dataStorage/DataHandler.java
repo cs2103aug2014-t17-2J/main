@@ -43,7 +43,7 @@ public interface DataHandler {
      */
     public abstract boolean removeTask(int index);
 
-    public abstract boolean editTask(int index,Task task);
+    public abstract boolean editTask(Task source,Task replacement);
     
     public ObservableList<Task> getObservableList();
 
@@ -57,6 +57,6 @@ public interface DataHandler {
     
     public abstract void view(String theFourList);
 
-    public abstract boolean canRemove(int index);
+    public abstract boolean indexValid(int index);
 
 }

@@ -3,10 +3,9 @@
  */
 package logic.commandList;
 
+import logic.Task;
 import logic.utility.StringHandler;
 import definedEnumeration.TaskFeedBack;
-
-
 
 /**
  * @author TienLong This class makes use of the Command interface to implement
@@ -14,22 +13,48 @@ import definedEnumeration.TaskFeedBack;
  */
 public class EditCommand extends Command {
 
+    private static final int NOT_SET = -1;
+
+    private int index = NOT_SET;
+    private Task source;
+
     public TaskFeedBack execute() {
-        final int ARRAY_OFFSET = -1;
 
         System.out.println("Editing");
-        String indexString = StringHandler.getIntegerFromFirstSlot(task
-                .getDescription());
-        if (indexString == null)
+
+        if (index == NOT_SET) {
+            String indexString = StringHandler.getIntegerFromFirstSlot(task
+                    .getDescription());
+
+            if (indexString == null) {
+                return TaskFeedBack.FEEDBACK_INVALID;
+            }
+
+            index = getIndex(indexString);
+
+            if (!dataHandler.indexValid(index)) {
+                return TaskFeedBack.FEEDBACK_INVALID;
+            }
+
+            task.setDescription(StringHandler.removeFirstMatched(
+                    task.getDescription(), indexString));
+
+            source = dataHandler.getTask(index);
+
+        }
+
+        if (!dataHandler.indexValid(index)) {
             return TaskFeedBack.FEEDBACK_INVALID;
-
-        int index = StringHandler.parseStringToInteger(indexString)
-                + ARRAY_OFFSET;
-        task.setDescription(StringHandler.removeFirstMatched(
-                task.getDescription(), indexString));
-        dataHandler.editTask(index, task);
-
+        }
+            dataHandler.editTask(source, task);
+            undoHandler.add(this);
+        
         return TaskFeedBack.FEEDBACK_VALID;
+    }
+
+    private int getIndex(String indexString) {
+        final int ARRAY_OFFSET = -1;
+        return StringHandler.parseStringToInteger(indexString) + ARRAY_OFFSET;
     }
 
     /*
@@ -39,7 +64,6 @@ public class EditCommand extends Command {
      */
     @Override
     public void undo() {
-        // TODO Auto-generated method stub
-
+        dataHandler.editTask(task, source);
     }
 }
