@@ -20,12 +20,7 @@ public interface DataHandler {
 
     public abstract Multimap <String,Task> getMainList();
    
-    /* (non-Javadoc)
-     * @see dataStorage.BasicDataHandler#addUndo(logic.Command)
-     */
-    public abstract void addUndoCommand(Command command);
 
-   
     public abstract boolean addTask(Task task);
 
     /* (non-Javadoc)
@@ -62,8 +57,6 @@ public interface DataHandler {
     
     public abstract void view(String theFourList);
 
-    public abstract boolean undo();
-
-    public abstract boolean redo();
+    public abstract boolean canRemove(int index);
 
 }

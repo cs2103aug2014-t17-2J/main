@@ -93,16 +93,6 @@ public class BasicDataHandler implements DataHandler {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dataStorage.DataHandler#addUndoCommand(logic.Command)
-	 */
-	@Override
-	public void addUndoCommand(Command command) {
-		if(command != null && undoHandler != null)
-		undoHandler.add(command);
-	}
 	
 	
 
@@ -199,12 +189,13 @@ public class BasicDataHandler implements DataHandler {
 		observableList.replaceList(displayedTask);
 	}
 
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see dataStorage.BasicDataHandler#canRemove(int)
 	 */
-	public boolean validIndex(int index) {
+	public boolean canRemove(int index) {
 		if (index >= observableList.getList().size() || index < 0) {
 			return false;
 		} else {
@@ -237,7 +228,7 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean removeTask(int index) {
-		if (validIndex(index)) {
+		if (canRemove(index)) {
 			System.out.println("deleted " + observableList.get(index));
 			mainList.remove(determineDate(getTask(index)), getTask(index));
 			observableList.remove(index);
@@ -314,14 +305,6 @@ public class BasicDataHandler implements DataHandler {
     }
     
     
-    public boolean undo()
-    {
-        return undoHandler.undo();
-    }
-    
-    public boolean redo()
-    {
-        return undoHandler.redo();
-    }
+
 
 }

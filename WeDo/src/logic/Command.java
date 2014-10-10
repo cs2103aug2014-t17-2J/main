@@ -10,6 +10,7 @@ public abstract class Command {
 
     protected Task task;
     protected DataHandler dataHandler;
+    protected UndoHandler undoHandler;
 
     protected void buildTask(StringBuilder userInput) {
         TaskParserBasic taskParser = new TaskParserBasic();
@@ -20,8 +21,12 @@ public abstract class Command {
         this.task = task;
     }
 
-    public void dataHandler(DataHandler processor) {
-        this.dataHandler = processor;
+    protected void setDataHandler(DataHandler dataHandler) {
+        this.dataHandler = dataHandler;
+    }
+    
+    protected void setUndoHandler(UndoHandler undoHandler) {
+        this.undoHandler = undoHandler;
     }
 
     /**
@@ -50,7 +55,7 @@ class AddCommand extends Command {
     public TaskFeedBack execute() {
         System.out.println("adding");
         if (dataHandler.addTask(task)) {
-            dataHandler.addUndoCommand(this);
+            undoHandler.add(this);
             return TaskFeedBack.FEEDBACK_VALID;
         } else {
             return TaskFeedBack.FEEDBACK_INVALID;
@@ -88,7 +93,7 @@ class ClearCommand extends Command {
                 task.getEndDate());
 
         if (dataHandler.clearTask(task.getStarDate(), task.getEndDate())) {
-            dataHandler.addUndoCommand(this);
+            undoHandler.add(this);
             return TaskFeedBack.FEEDBACK_VALID;
         } else {
             return TaskFeedBack.FEEDBACK_INVALID;
@@ -126,8 +131,11 @@ class DeleteCommand extends Command {
         final int ARRAY_OFFSET = -1;
         int lineToDelete = StringHandler.parseStringToInteger(task
                 .getDescription()) + ARRAY_OFFSET;
-        if (dataHandler.removeTask(lineToDelete)) {
-            dataHandler.addUndoCommand(this);
+        if (dataHandler.canRemove(lineToDelete)) {
+            Task deletedTask = dataHandler.getTask(lineToDelete);
+            dataHandler.removeTask(lineToDelete);
+            this.task = deletedTask;
+            undoHandler.add(this);
             return TaskFeedBack.FEEDBACK_VALID;
 
         } else {
@@ -249,7 +257,8 @@ class ViewCommand extends Command {
 
     public TaskFeedBack execute() {
         System.out.println("view");
-
+        
+       
         dataHandler.view(task.getDescription());
 
         return TaskFeedBack.FEEDBACK_VALID;
@@ -275,7 +284,7 @@ class UndoCommand extends Command {
     public TaskFeedBack execute() {
         System.out.println("undo");
         
-        if(dataHandler.undo())
+        if(undoHandler.undo())
         {
             return TaskFeedBack.FEEDBACK_VALID;
         }
@@ -307,7 +316,7 @@ class RedoCommand extends Command {
     public TaskFeedBack execute() {
         System.out.println("redo");
 
-        if(dataHandler.redo())
+        if(undoHandler.redo())
         {
             return TaskFeedBack.FEEDBACK_VALID;
         }

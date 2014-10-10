@@ -20,6 +20,8 @@ import definedEnumeration.TaskFeedBack;
 public class CommandHandler {
 
     private DataHandler dataHandler;
+    private UndoHandler undoHandler;
+    
 
     /**
      * Constructor for CommandHandler
@@ -29,6 +31,7 @@ public class CommandHandler {
      */
     public CommandHandler(DataHandler dataHandler) {
         this.dataHandler = dataHandler;
+        undoHandler = new UndoHandler();
     }
 
     /**
@@ -53,8 +56,9 @@ public class CommandHandler {
             return TaskFeedBack.FEEDBACK_INVALID;
         }
         
-        command.dataHandler(dataHandler);
+        command.setDataHandler(dataHandler);
         command.setTask(task);        
+        command.setUndoHandler(undoHandler);
         System.out.println(task);
         
         return command.execute();
