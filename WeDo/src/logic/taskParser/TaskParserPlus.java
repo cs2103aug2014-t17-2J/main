@@ -34,7 +34,7 @@ public class TaskParserPlus implements TaskParser {
         userInput = findDateFormat(userInput); // replace non date with
                                                // delimiter
 
-        userInput = KeyMatcher.replaceMatchedWithKey(createFakeMultiMapForShortForm(), userInput);
+//        userInput = KeyMatcher.replaceMatchedWithKey(createFakeMultiMapForShortForm(), userInput);
         
         
         System.out.println("to date parser " + userInput);

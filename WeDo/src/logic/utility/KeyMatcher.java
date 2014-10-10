@@ -36,4 +36,29 @@ public class KeyMatcher
         }
         return null;
     }
+    
+
+    /**
+     * This function replace any word inside the input that matches with the values in the multi-map
+     * The word replaced will be the key to the value
+     * @param multimap
+     * @param input
+     * @return replaced input if there's any match
+     */
+    public static String replaceMatchedWithKey(Multimap<String, String> multimap, String input)
+    {
+        input = " " + input + " ";
+        
+        for (String key : multimap.keys()) 
+        {
+            for (String value : multimap.get(key))
+            {
+                if(input.toLowerCase().contains(" " + value.toLowerCase() + " "))
+                {
+                    input.toLowerCase().replaceAll(" " + value.toLowerCase() + " ", " " + key + " ");
+                }
+            }
+        }
+        return input.trim();
+    }
 }
