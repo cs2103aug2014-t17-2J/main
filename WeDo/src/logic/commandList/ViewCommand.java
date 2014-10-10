@@ -14,7 +14,7 @@ public class ViewCommand extends Command {
     public TaskFeedBack execute() {
         System.out.println("view");
         
-       
+       dataHandler.getObservableList();
         dataHandler.view(task.getDescription());
 
         return TaskFeedBack.FEEDBACK_VALID;

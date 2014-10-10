@@ -27,7 +27,7 @@ public class TaskDateFieldSetter implements TaskFieldSetter {
      * @see logic.taskParser.taskFieldSetter.TaskFieldSetter#set(logic.Task, java.lang.String)
      */
     @Override
-    public String set(Task task, String arguments) {
+    public String set(Task task, String source) {
 
        
         Parser nattyParser = new Parser();
@@ -35,11 +35,11 @@ public class TaskDateFieldSetter implements TaskFieldSetter {
    //     arguments = StringHandler.convertImplicitFormalDate(arguments);
    //     arguments = StringHandler.convertFormalDate(arguments);
         
-        List<DateGroup> dateGroups = nattyParser.parse(arguments);
+        List<DateGroup> dateGroups = nattyParser.parse(source);
         if (dateAvailable(dateGroups))
         {
             setDate(task, dateGroups);
-            return getDateText(arguments, dateGroups);
+            return getDateText(source, dateGroups);
         }
         return "";
     }
@@ -48,9 +48,9 @@ public class TaskDateFieldSetter implements TaskFieldSetter {
     /**
      * 
      */
-    private String getDateText(String arguments, List<DateGroup> dateGroups) 
+    private String getDateText(String source, List<DateGroup> dateGroups) 
     {
-        int startPosition = arguments.length();
+        int startPosition = source.length();
         int endPosition = 0;
         for (DateGroup dateGroup : dateGroups) {
         int position = dateGroup.getPosition();
@@ -59,7 +59,7 @@ public class TaskDateFieldSetter implements TaskFieldSetter {
         endPosition = Math.max(position + length, endPosition);
         }
         
-        String dateText = arguments.substring(startPosition, endPosition);
+        String dateText = source.substring(startPosition, endPosition);
         return dateText;
     }
 
@@ -71,14 +71,20 @@ public class TaskDateFieldSetter implements TaskFieldSetter {
         
             List<Date> dateList = getDateList(START_INDEX, dateGroups);
             
-            setStartDateTime(task, isTimeSpecified(dateGroups),
-                    dateList.get(START_INDEX));
+
 
             int noOfDates = dateList.size();
             
             if (noOfDates > 1) {
                 setEndDateTime(task, isTimeSpecified(dateGroups),
                         dateList.get(noOfDates - LIST_OFFSET));
+                setStartDateTime(task, isTimeSpecified(dateGroups),
+                        dateList.get(START_INDEX));
+            }
+            else
+            {
+                setEndDateTime(task, isTimeSpecified(dateGroups),
+                        dateList.get(START_INDEX));
             }
     }
 
