@@ -1,12 +1,11 @@
+//@Andy Hsu Wei Qiang
 package ui;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-
-import javax.swing.JButton;
 
 import userInterface.UserIntSwing;
 
@@ -44,16 +43,20 @@ public class UserLogic {
 		});
 	}
 	
-	public static void processHotKeys(KeyEvent e){
+	public static void processHotKeys(KeyEvent arg1, ActionEvent arg2){
 		if (UserIntSwing.textField.getText().length() == 0){
-			if(e.getKeyCode() == KeyEvent.VK_F2)
-				UserIntSwing.textField.setText("-add");
-			else if(e.getKeyCode() == KeyEvent.VK_F3)
-				UserIntSwing.textField.setText("-view");
-			else if(e.getKeyCode() == KeyEvent.VK_F4)
-				UserIntSwing.textField.setText("-edit");
-			else if(e.getKeyCode() == KeyEvent.VK_F5)
-				UserIntSwing.textField.setText("-delete");
+			if(arg1.getKeyCode() == KeyEvent.VK_F2){
+				UserIntSwing.textField.setText("-add ");
+			}
+			else if(arg1.getKeyCode() == KeyEvent.VK_F3){
+				UserIntSwing.textField.setText("-view ");
+			}
+			else if(arg1.getKeyCode() == KeyEvent.VK_F4){
+				UserIntSwing.textField.setText("-edit ");
+			}
+			else if(arg1.getKeyCode() == KeyEvent.VK_F5){
+				UserIntSwing.textField.setText("-delete ");
+			}
 		}
 	}
 }

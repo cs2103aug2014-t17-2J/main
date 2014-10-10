@@ -27,6 +27,7 @@ public class InteractiveForm extends JPanel {
 	protected JScrollPane scroller;
 	protected InteractiveTableModel tableModel;
 
+	static int hi = 1;
 	public InteractiveForm() {
         initComponent();
     }
@@ -37,6 +38,7 @@ public class InteractiveForm extends JPanel {
 	}
 	
 	 public void initComponent() {
+	     System.out.println("init count " + hi++);
          tableModel = new InteractiveTableModel(columnNames);
          tableModel.addTableModelListener(new InteractiveForm.InteractiveTableModelListener());
          table = new JTable();
@@ -45,7 +47,7 @@ public class InteractiveForm extends JPanel {
          if (!tableModel.hasEmptyRow()) {
              tableModel.addEmptyRow();
          }
-         
+       
  	     
          scroller = new javax.swing.JScrollPane(table);
          table.setPreferredScrollableViewportSize(new java.awt.Dimension(800, 300));

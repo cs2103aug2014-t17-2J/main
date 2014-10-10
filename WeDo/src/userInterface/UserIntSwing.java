@@ -15,8 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import dataStorage.ObservableList;
+import logic.CommandHandler;
 import logic.Task;
-import brain.Processor;
 import ui.CommandGuide;
 import ui.UserLogic;
 
@@ -32,7 +33,8 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static JButton btnHelp;
 
 	private InteractiveForm interForm;
-	private Processor processor;
+	private CommandHandler commandHandler;
+    private ObservableList<Task> observableList;
 
 	/**
 	 * Launch the application.
@@ -42,24 +44,32 @@ public class UserIntSwing extends JPanel implements Observer {
 			@SuppressWarnings("static-access")
 			public void run() {
 				try {
-					UserIntSwing window = new UserIntSwing(processor);
-					window.frame.setVisible(true);
+				//	UserIntSwing window = new UserIntSwing(commandHandler, observableList);
+				    initialize();
+					//observableList.addObserver(window);
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
+    
+   
 
+	public UserIntSwing()
+	{
+	    
+	}
+	
 	/**
 	 * Create the application.
 	 */
-	public UserIntSwing(Processor processor) {
-		this.processor = processor;
-		taskList = processor.getObserverList().getList();
-		processor.addObserver(this);
-		initialize();
-		interForm.updateTable(taskList);
+	public UserIntSwing(CommandHandler commandHandler, ObservableList<Task> observableList) {
+		this.commandHandler = commandHandler;
+		this.observableList = observableList;
+		taskList = observableList.getList();
+        initialize();
 	}
 
 	/**
@@ -82,13 +92,14 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				UserLogic.processHotKeys(e);
+//				UserLogic.processHotKeys(e);
 			}
 		});
 
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+<<<<<<< HEAD
 				// String textInput = "";
 				// textInput += textField.getText();
 				// lblDisplay.setText(textField.getText());
@@ -96,6 +107,16 @@ public class UserIntSwing extends JPanel implements Observer {
 				textField.setText("");
 
 				// processor.executeCommand(textInput);
+=======
+				//String textInput = "";
+			//	textInput += textField.getText();
+				//lblDisplay.setText(textField.getText());
+				System.out.println(textField.getText()+ "hello");
+				commandHandler.executeCommand(textField.getText());
+				//processor.executeCommand(textInput);
+				
+				//taskList.add(textInput);
+>>>>>>> 205edf66c424a6bd7ec84dc01ab44ad4e763be26
 
 				// taskList.add(textInput);
 
@@ -111,8 +132,13 @@ public class UserIntSwing extends JPanel implements Observer {
 			public void actionPerformed(ActionEvent arg0) {
 				// lblDisplay.setText(textField.getText());
 				// textArea.setText(textField.getText());
+<<<<<<< HEAD
 				processor.executeCommand(textField.getText());
 				textField.setText("");
+=======
+				// textField.setText("");
+				commandHandler.executeCommand(textField.getText());
+>>>>>>> 205edf66c424a6bd7ec84dc01ab44ad4e763be26
 				// for (int i = 0; i < taskList.size(); i++) {
 				// textArea_1.append((String) taskList.get(i) + "\n");
 				// }
@@ -198,8 +224,15 @@ public class UserIntSwing extends JPanel implements Observer {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void update(Observable arg0, Object arg1) {
 		taskList = processor.getObserverList().getList();
 		interForm.updateTable(taskList);
+=======
+	public void update(Observable arg0, Object arg1) 
+	{
+        taskList = observableList.getList();
+		interForm.updateTable(taskList);		
+>>>>>>> 205edf66c424a6bd7ec84dc01ab44ad4e763be26
 	}
 }

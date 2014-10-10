@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Observer;
 
-import logic.Command;
 import logic.Task;
 import logic.UndoHandler;
 
@@ -20,7 +19,7 @@ public class BasicDataHandler implements DataHandler {
 
 	private String currentList;
 
-	UndoHandler undoHandler;
+	UndoHandler undoHandler = new UndoHandler();
 	FileHandler fileHandler;
 
 	ObservableList<Task> observableList;
@@ -33,6 +32,16 @@ public class BasicDataHandler implements DataHandler {
 		observableList = new ObservableList<Task>(new ArrayList<Task>(mainList.get(TODAY)));
 		currentList = TODAY;
 	}
+	
+	public BasicDataHandler(ObservableList<Task> observableList) 
+	{
+        fileHandler = new FileHandler();
+        populateLists();
+        this.observableList = observableList;
+        observableList.replaceList(new ArrayList<Task>(mainList.get(TODAY)));
+        currentList = TODAY;
+    }
+    
 
 	public ObservableList<Task> getObservableList(){
 		return observableList;
@@ -83,16 +92,8 @@ public class BasicDataHandler implements DataHandler {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dataStorage.DataHandler#addUndoCommand(logic.Command)
-	 */
-	@Override
-	public void addUndoCommand(Command command) {
-		if(command != null && undoHandler != null)
-		undoHandler.add(command);
-	}
+	
+	
 
 	/*
 	 * (non-Javadoc)
@@ -101,6 +102,7 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean addTask(Task task) {
+<<<<<<< HEAD
 		if (onDisplay(task) == true) {
 			observableList.add(task);
 			System.out.println(determineDate(task));
@@ -108,10 +110,17 @@ public class BasicDataHandler implements DataHandler {
 		}
 //		observableList.add(task);
 
+=======
+		System.out.println(determineDate(task));
+		if (onDisplay(task) == true) {
+			observableList.add(task);
+		}
+//		observableList.add(task);
+>>>>>>> 205edf66c424a6bd7ec84dc01ab44ad4e763be26
 		mainList.put(determineDate(task), task);
 		System.out.println(task.getID()+" is added");
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -189,13 +198,17 @@ public class BasicDataHandler implements DataHandler {
 		observableList.replaceList(displayedTask);
 	}
 
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see dataStorage.BasicDataHandler#canRemove(int)
 	 */
-	public boolean validIndex(int index) {
-		if (index >= observableList.getList().size() || index < 0) {
+	public boolean indexValid(int index) {
+	    
+
+	    
+		if (index >= (observableList.getList().size()) || index < 0) {
 			return false;
 		} else {
 			return true;
@@ -225,9 +238,8 @@ public class BasicDataHandler implements DataHandler {
 	 * 
 	 * @see dataStorage.DataHandler#remove(int)
 	 */
-	@Override
 	public boolean removeTask(int index) {
-		if (validIndex(index)) {
+		if (indexValid(index)) {
 			System.out.println("deleted " + observableList.get(index));
 			mainList.remove(determineDate(getTask(index)), getTask(index));
 			observableList.remove(index);
@@ -243,12 +255,12 @@ public class BasicDataHandler implements DataHandler {
 	 * @see dataStorage.DataHandler#editTask()
 	 */
 	@Override
-	public boolean editTask(int index,Task task) {
+	public boolean editTask(Task source,Task replacement) {
 		
-		removeTask(index);
-		addTask(task);
+		removeTask(source);
+		addTask(replacement);
 		
-		return false;
+		return true;
 	}
 
 	/*
@@ -272,7 +284,7 @@ public class BasicDataHandler implements DataHandler {
 		observableList.remove(task);
 		mainList.remove(determineDate(task), task);
 		
-		return false;
+		return true;
 	}
 
 	/*
@@ -286,18 +298,13 @@ public class BasicDataHandler implements DataHandler {
 		return mainList;
 	}
 
-	public boolean remove(Task task) {
-
-		mainList.remove(currentList, task);
-
-		return false;
-	}
 
 	
     /* (non-Javadoc)
      * @see dataStorage.DataHandler#view(java.lang.String)
      */
     @Override
+<<<<<<< HEAD
     public void view(Task theFourList) {
     	if(theFourList.getStarDate() == LocalDate.MAX)
     	{
@@ -308,6 +315,21 @@ public class BasicDataHandler implements DataHandler {
     		currentList = determineDate(theFourList);
     	}
     	setDisplayedTasks(new ArrayList<Task>(mainList.get(currentList)));
+=======
+    public void view(Task task) {
+        // TODO Auto-generated method stub
+        if (task.getEndDate() != LocalDate.MAX)
+        {
+            observableList.replaceList(new ArrayList<Task>(mainList.get(determineDate(task))));
+        }
+        else
+        {
+            observableList.replaceList(new ArrayList<Task>(mainList.get(task.getDescription())));
+        }
+>>>>>>> 205edf66c424a6bd7ec84dc01ab44ad4e763be26
     }
+    
+    
+
 
 }

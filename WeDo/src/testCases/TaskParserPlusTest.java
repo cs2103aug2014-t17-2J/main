@@ -10,7 +10,7 @@ import java.time.LocalTime;
 import java.util.Scanner;
 
 import logic.Task;
-import logic.TaskParserPlus;
+import logic.taskParser.TaskParserPlus;
 
 import org.junit.Test;
 

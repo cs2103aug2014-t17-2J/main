@@ -1,7 +1,14 @@
 /**
  * 
  */
-package logic;
+package logic.taskParser;
+
+import logic.Task;
+import logic.taskParser.taskFieldSetter.TaskDescriptionFieldSetter;
+import logic.taskParser.taskFieldSetter.TaskFieldSetter;
+import logic.utility.KeyMatcher;
+import logic.utility.StringHandler;
+
 
 
 /**
@@ -60,7 +67,7 @@ public class TaskParserBasic implements TaskParser {
     {
         String operation = StringHandler.getFirstWord(token);
         String arguments = StringHandler.removeFirstMatched(token, operation);
-        TaskAttribute taskAttribute = new TaskDescriptionAttribute();
+        TaskFieldSetter taskAttribute = new TaskDescriptionFieldSetter();
         taskAttribute.set(task, arguments);
     }
 
@@ -71,7 +78,7 @@ public class TaskParserBasic implements TaskParser {
     {
         String operation = StringHandler.getFirstWord(token);
         String arguments = StringHandler.removeFirstMatched(token, operation);
-        TaskAttribute taskAttribute = determineAttribute(operation);
+        TaskFieldSetter taskAttribute = determineAttribute(operation);
         if(taskAttribute == null)
         {
             return;
@@ -85,7 +92,7 @@ public class TaskParserBasic implements TaskParser {
      * @param operation
      * @return 
      */
-    private TaskAttribute determineAttribute(String operation)
+    private TaskFieldSetter determineAttribute(String operation)
     {
         return KeyMatcher.matchKey(createFakeMultiMapNow(), operation);   
 

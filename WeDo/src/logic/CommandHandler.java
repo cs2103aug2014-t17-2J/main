@@ -4,12 +4,34 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import brain.Processor;
+
+
+
+
+
+
+
+
+
+import logic.commandList.AddCommand;
+import logic.commandList.ClearCommand;
+import logic.commandList.Command;
+import logic.commandList.DeleteCommand;
+import logic.commandList.EditCommand;
+import logic.commandList.ExitCommand;
+import logic.commandList.RedoCommand;
+import logic.commandList.SearchCommand;
+import logic.commandList.UndoCommand;
+import logic.commandList.ViewCommand;
+import logic.taskParser.TaskParserPlus;
+import logic.utility.KeyMatcher;
+import logic.utility.StringHandler;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
 
+import dataStorage.DataHandler;
 import definedEnumeration.TaskFeedBack;
 
 /**
@@ -18,7 +40,9 @@ import definedEnumeration.TaskFeedBack;
  */
 public class CommandHandler {
 
-    private Processor processor;
+    private DataHandler dataHandler;
+    private UndoHandler undoHandler;
+    
 
     /**
      * Constructor for CommandHandler
@@ -26,8 +50,9 @@ public class CommandHandler {
      * @param dataHandler
      *            the handler which contains of all the data
      */
-    public CommandHandler(Processor processor) {
-        this.processor = processor;
+    public CommandHandler(DataHandler dataHandler) {
+        this.dataHandler = dataHandler;
+        undoHandler = new UndoHandler();
     }
 
     /**
@@ -52,9 +77,9 @@ public class CommandHandler {
             return TaskFeedBack.FEEDBACK_INVALID;
         }
         
-        command.setTask(task);
-        command.setProcessor(processor);
-        
+        command.setDataHandler(dataHandler);
+        command.setTask(task);        
+        command.setUndoHandler(undoHandler);
         System.out.println(task);
         
         return command.execute();
@@ -85,6 +110,8 @@ public class CommandHandler {
         Command searchCommand = new SearchCommand();
         Command editCommand = new EditCommand();
         Command viewCommand = new ViewCommand();
+        Command undoCommand = new UndoCommand();
+        Command redoCommand = new RedoCommand();
         
         final Map<Command, Collection<String>> addActions = ImmutableMap.<Command, Collection<String>>of(
                 addCommand, Arrays.asList("-add", "-a", "add", "-create", "-cre8"));
@@ -100,6 +127,10 @@ public class CommandHandler {
                 editCommand, Arrays.asList("-edit", "edit", "-e", "-modify", "-m", "modify"));
         final Map<Command, Collection<String>> viewActions = ImmutableMap.<Command, Collection<String>>of(
                 viewCommand, Arrays.asList("-view", "view", "-v", "-read", "read", "-r"));
+        final Map<Command, Collection<String>> undoActions = ImmutableMap.<Command, Collection<String>>of(
+                undoCommand, Arrays.asList("-undo", "undo"));
+        final Map<Command, Collection<String>> redoActions = ImmutableMap.<Command, Collection<String>>of(
+                redoCommand, Arrays.asList("-redo", "redo"));
        
         
         addMapToMultiMap(addActions, availableActions);
@@ -109,6 +140,8 @@ public class CommandHandler {
         addMapToMultiMap(searchActions, availableActions);
         addMapToMultiMap(editActions, availableActions);
         addMapToMultiMap(viewActions, availableActions);
+        addMapToMultiMap(undoActions, availableActions);
+        addMapToMultiMap(redoActions, availableActions);
         
         return availableActions;
     }
