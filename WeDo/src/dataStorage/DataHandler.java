@@ -55,13 +55,9 @@ public interface DataHandler {
 
     // temp add...
     
-<<<<<<< HEAD
-    public abstract void view(Task theFourList);
-=======
     public abstract void view(Task task);
 
 
 
->>>>>>> 205edf66c424a6bd7ec84dc01ab44ad4e763be26
 
 }
