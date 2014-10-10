@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic;
+package logic.taskParser.taskFieldSetter;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -13,6 +13,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import logic.Task;
+import logic.utility.KeyMatcher;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
@@ -27,11 +30,11 @@ import edu.emory.mathcs.backport.java.util.Collections;
  * @author Kuan Tien Long
  *
  */
-public interface TaskAttribute {
+public interface TaskFieldSetter {
     String set(Task task, String arguments);
 }
 
-class TaskPriorityAttribute implements TaskAttribute {
+class TaskPriorityAttribute implements TaskFieldSetter {
 
     /*
      * (non-Javadoc)
@@ -79,7 +82,7 @@ class TaskPriorityAttribute implements TaskAttribute {
 
 }
 
-class TaskDateAttribute implements TaskAttribute {
+class TaskDateAttribute implements TaskFieldSetter {
 
     /*
      * (non-Javadoc)
@@ -186,7 +189,7 @@ class TaskDateAttribute implements TaskAttribute {
 
 }
 
-class TaskDescriptionAttribute implements TaskAttribute {
+class TaskDescriptionAttribute implements TaskFieldSetter {
 
     /*
      * (non-Javadoc)
@@ -202,7 +205,7 @@ class TaskDescriptionAttribute implements TaskAttribute {
 
 }
 
-class TaskInvalidAttribute implements TaskAttribute {
+class TaskInvalidAttribute implements TaskFieldSetter {
 
     /*
      * (non-Javadoc)

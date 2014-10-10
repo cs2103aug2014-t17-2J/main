@@ -1,11 +1,18 @@
 /**
  * 
  */
-package logic;
+package logic.taskParser;
 
 import java.text.DateFormatSymbols;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import logic.Task;
+import logic.taskParser.taskFieldSetter.TaskDateFieldSetter;
+import logic.taskParser.taskFieldSetter.TaskDescriptionFieldSetter;
+import logic.taskParser.taskFieldSetter.TaskFieldSetter;
+import logic.utility.KeyMatcher;
+import logic.utility.StringHandler;
 
 
 /**
@@ -50,7 +57,7 @@ public class TaskParserPlus implements TaskParser {
         return task;
     }
 
-    private TaskAttribute determineAttribute(String operation) {
+    private TaskFieldSetter determineAttribute(String operation) {
         return KeyMatcher.matchKey(createFakeMultiMapNow(), operation);
 
     }
@@ -195,7 +202,7 @@ public class TaskParserPlus implements TaskParser {
             return false;
         }
 
-        TaskAttribute taskAttribute = determineAttribute(input);
+        TaskFieldSetter taskAttribute = determineAttribute(input);
 
         if (taskAttribute == null) {
             return false;
@@ -210,7 +217,7 @@ public class TaskParserPlus implements TaskParser {
     {
         input = removeCommandWord(input);
         input = input.trim();    
-        TaskAttribute taskAttribute = new TaskDescriptionAttribute();
+        TaskFieldSetter taskAttribute = new TaskDescriptionFieldSetter();
         taskAttribute.set(task, input);
         return input;
     }
@@ -231,7 +238,7 @@ public class TaskParserPlus implements TaskParser {
 //        if(invalidDateString(source))
 //            return "";
         
-        TaskAttribute taskAttribute = new TaskDateAttribute();
+        TaskFieldSetter taskAttribute = new TaskDateFieldSetter();
         String wordsUsed = taskAttribute.set(task, source);
         return wordsUsed;
     }

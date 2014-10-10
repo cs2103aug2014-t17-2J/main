@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic;
+package logic.utility;
 
 import com.google.common.collect.Multimap;
 

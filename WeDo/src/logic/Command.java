@@ -3,6 +3,8 @@ package logic;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import logic.taskParser.TaskParserBasic;
+import logic.utility.StringHandler;
 import dataStorage.DataHandler;
 import definedEnumeration.TaskFeedBack;
 

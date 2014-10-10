@@ -1,4 +1,4 @@
-package logic;
+package logic.utility;
 
 import java.time.LocalDateTime;
 import java.util.regex.Matcher;
