@@ -141,9 +141,9 @@ public class BasicDataHandler implements DataHandler {
 		LocalDate today = LocalDate.now();
 		LocalDate tomorrow = today.plusDays(1);
 
-		if ( today.equals(task.getEndDate()) || today.equals(task.getStarDate())) {
+		if ( today.equals(task.getEndDate())) {
 			return TODAY;
-		} else if (tomorrow.equals(task.getEndDate()) || tomorrow.equals(task.getStarDate())){
+		} else if (tomorrow.equals(task.getEndDate())){
 			return TOMORROW;
 		}
 
@@ -299,11 +299,14 @@ public class BasicDataHandler implements DataHandler {
         if (task.getEndDate() != LocalDate.MAX)
         {
             observableList.replaceList(new ArrayList<Task>(mainList.get(determineDate(task))));
+            currentList = this.determineDate(task);
         }
         else
         {
             observableList.replaceList(new ArrayList<Task>(mainList.get(task.getDescription())));
+            currentList = task.getDescription();
         }
+        
     }
     
     

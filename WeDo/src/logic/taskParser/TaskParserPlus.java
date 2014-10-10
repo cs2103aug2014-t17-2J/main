@@ -29,10 +29,14 @@ public class TaskParserPlus implements TaskParser {
         Task task = new Task();
         userInput = StringHandler.convertImplicitFormalDate(userInput);
         userInput = StringHandler.convertFormalDate(userInput);
+        
 
         userInput = findDateFormat(userInput); // replace non date with
                                                // delimiter
 
+        userInput = KeyMatcher.replaceMatchedWithKey(createFakeMultiMapForShortForm(), userInput);
+        
+        
         System.out.println("to date parser " + userInput);
 
         wordsUsed = parseDate(task, userInput);
@@ -57,7 +61,7 @@ public class TaskParserPlus implements TaskParser {
     }
 
     private TaskFieldSetter determineAttribute(String operation) {
-        return KeyMatcher.matchKey(createFakeMultiMapNow(), operation);
+        return KeyMatcher.matchKey(createFakeMultiMapForPriority(), operation);
 
     }
 
