@@ -38,7 +38,7 @@ public class UserLogic {
 						&& arg.getKeyCode() == KeyEvent.VK_ENTER) {
 				}
 
-				UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(UserIntSwing.textField.getText()));
+				//UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(UserIntSwing.textField.getText()));
 			}
 		});
 	}
