@@ -43,7 +43,7 @@ public class UserLogic {
 		});
 	}
 	
-	public static void processHotKeys(KeyEvent arg1, ActionEvent arg2){
+	public static void processHotKeys(KeyEvent arg1){
 		if (UserIntSwing.textField.getText().length() == 0){
 			if(arg1.getKeyCode() == KeyEvent.VK_F2){
 				UserIntSwing.textField.setText("-add ");
