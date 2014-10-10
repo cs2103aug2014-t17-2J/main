@@ -58,6 +58,6 @@ public interface DataHandler {
         
     public abstract void addObserver(Observer observer);
     
-    public abstract void view(String theFourList);
+    public abstract void view(Task theFourList);
 
 }

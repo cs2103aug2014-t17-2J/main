@@ -23,14 +23,14 @@ import ui.UserLogic;
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
 
-	ArrayList<Task> taskList;	
-	
+	ArrayList<Task> taskList;
+
 	public static JFrame frame;
 	public static JTextField textField;
 	public static JLabel lblWarning;
 	public static JLabel lblHelp;
 	public static JButton btnHelp;
-	
+
 	private InteractiveForm interForm;
 	private Processor processor;
 
@@ -76,7 +76,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		lblDisplay.setBounds(10, 42, 157, 20);
 		frame.getContentPane().add(lblDisplay);
 
-		//ArrayList<String> taskList = new ArrayList<String>();
+		// ArrayList<String> taskList = new ArrayList<String>();
 
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
@@ -85,20 +85,21 @@ public class UserIntSwing extends JPanel implements Observer {
 				UserLogic.processHotKeys(e);
 			}
 		});
-		
+
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				//String textInput = "";
-			//	textInput += textField.getText();
-				//lblDisplay.setText(textField.getText());
-				System.out.println(textField.getText()+ "hello");
+				// String textInput = "";
+				// textInput += textField.getText();
+				// lblDisplay.setText(textField.getText());
 				processor.executeCommand(textField.getText());
-				//processor.executeCommand(textInput);
-				
-				//taskList.add(textInput);
+				textField.setText("");
 
-			//	textField.setText("");
+				// processor.executeCommand(textInput);
+
+				// taskList.add(textInput);
+
+				// textField.setText("");
 			}
 		});
 		textField.setBounds(10, 306, 386, 20);
@@ -110,8 +111,8 @@ public class UserIntSwing extends JPanel implements Observer {
 			public void actionPerformed(ActionEvent arg0) {
 				// lblDisplay.setText(textField.getText());
 				// textArea.setText(textField.getText());
-				// textField.setText("");
 				processor.executeCommand(textField.getText());
+				textField.setText("");
 				// for (int i = 0; i < taskList.size(); i++) {
 				// textArea_1.append((String) taskList.get(i) + "\n");
 				// }
@@ -123,7 +124,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		JLabel lblHelp = new JLabel("Label Help");
 		lblHelp.setBounds(10, 330, 496, 56);
 		frame.getContentPane().add(lblHelp);
-		//UserInterface.processHotKeys();
+		// UserInterface.processHotKeys();
 
 		JButton btnHelp = new JButton("F1 <Help>");
 		btnHelp.setBounds(10, 11, 100, 23);
@@ -133,7 +134,7 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField.setText("-add");
+				textField.setText("add ");
 			}
 		});
 		// btnAdd.addKeyListener(new KeyAdapter() {
@@ -150,12 +151,12 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				//lblHelp.setText(commandGuide.getGuideMessage("ADD"));
+				// lblHelp.setText(commandGuide.getGuideMessage("ADD"));
 
 				// textArea_1.append(taskList+"\n"); //displays the entire
 				// arrayList in [a,b,c] format
 
-				//textField.setText("");
+				// textField.setText("");
 			}
 		});
 
@@ -172,20 +173,20 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		interForm = new InteractiveForm();
 		interForm.execute(frame);
-		
-		//Setup the Help label
+
+		// Setup the Help label
 		lblHelp.setText(CommandGuide.buildGeneralGuideString());
-		
-		//This operation puts the focus on the textField 
-		//for the user to type immediately when the program runs 
+
+		// This operation puts the focus on the textField
+		// for the user to type immediately when the program runs
 		UserLogic.addFrameWindowFocusListener();
-		
-		UserLogic.processTextField();
-		
+
+		//UserLogic.processTextField();
+
 		JButton btnDel = new JButton("F5 <Delete>");
 		btnDel.setBounds(450, 11, 100, 23);
 		frame.getContentPane().add(btnDel);
-		
+
 		JLabel lblWarning = new JLabel("");
 		lblWarning.setBounds(10, 256, 496, 47);
 		frame.getContentPane().add(lblWarning);
@@ -193,12 +194,12 @@ public class UserIntSwing extends JPanel implements Observer {
 
 	private void addFrameWindowFocusListener() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) 
-	{
-		interForm.updateTable(taskList);		
+	public void update(Observable arg0, Object arg1) {
+		taskList = processor.getObserverList().getList();
+		interForm.updateTable(taskList);
 	}
 }

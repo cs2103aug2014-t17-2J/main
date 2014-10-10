@@ -107,7 +107,7 @@ public class Processor {
 	    return dataHandler.getMainList();
 	}
 	
-	public void view(String theFourList)
+	public void view(Task theFourList)
 	{
 	    dataHandler.view(theFourList);
 	}

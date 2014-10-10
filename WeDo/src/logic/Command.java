@@ -250,7 +250,7 @@ class ViewCommand extends Command {
     public TaskFeedBack execute() {
         System.out.println("view");
         
-        processor.view(task.getDescription());
+        processor.view(task);
 
         return TaskFeedBack.FEEDBACK_VALID;
     }

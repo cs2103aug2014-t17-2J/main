@@ -101,11 +101,12 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean addTask(Task task) {
-		System.out.println(determineDate(task));
-//		if (onDisplay(task) == true) {
-//			observableList.add(task);
-//		}
-		observableList.add(task);
+		if (onDisplay(task) == true) {
+			observableList.add(task);
+			System.out.println(determineDate(task));
+
+		}
+//		observableList.add(task);
 
 		mainList.put(determineDate(task), task);
 		System.out.println(task.getID()+" is added");
@@ -297,9 +298,16 @@ public class BasicDataHandler implements DataHandler {
      * @see dataStorage.DataHandler#view(java.lang.String)
      */
     @Override
-    public void view(String theFourList) {
-        // TODO Auto-generated method stub
-        
+    public void view(Task theFourList) {
+    	if(theFourList.getStarDate() == LocalDate.MAX)
+    	{
+    		currentList = theFourList.getDescription();
+    	}
+    	else
+    	{
+    		currentList = determineDate(theFourList);
+    	}
+    	setDisplayedTasks(new ArrayList<Task>(mainList.get(currentList)));
     }
 
 }
