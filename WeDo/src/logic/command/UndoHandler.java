@@ -1,11 +1,11 @@
 /**
  * 
  */
-package logic;
+package logic.command;
 
 import java.util.Stack;
 
-import logic.commandList.Command;
+import logic.command.commandList.Command;
 
 /**
  * @author Kuan Tien Long

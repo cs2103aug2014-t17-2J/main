@@ -2,7 +2,7 @@ package dataStorage;
 
 import java.util.ArrayList;
 
-import logic.Task;
+import logic.utility.Task;
 
 public class FileHandler {
 

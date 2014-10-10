@@ -15,7 +15,7 @@ import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
 import edu.emory.mathcs.backport.java.util.Collections;
-import logic.Task;
+import logic.utility.Task;
 
 /**
  * @author Kuan Tien Long

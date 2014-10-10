@@ -5,7 +5,7 @@ package testCases;
 
 import java.util.Scanner;
 
-import logic.CommandHandler;
+import logic.command.CommandHandler;
 
 import org.junit.Test;
 

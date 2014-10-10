@@ -3,11 +3,11 @@
  */
 package logic.taskParser;
 
-import logic.Task;
 import logic.taskParser.taskFieldSetter.TaskDescriptionFieldSetter;
 import logic.taskParser.taskFieldSetter.TaskFieldSetter;
 import logic.utility.KeyMatcher;
 import logic.utility.StringHandler;
+import logic.utility.Task;
 
 
 

@@ -16,7 +16,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import logic.Task;
+import logic.utility.Task;
 
 public class InteractiveForm extends JPanel {
 

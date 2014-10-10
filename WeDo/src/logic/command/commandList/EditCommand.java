@@ -1,10 +1,10 @@
 /**
  * 
  */
-package logic.commandList;
+package logic.command.commandList;
 
-import logic.Task;
 import logic.utility.StringHandler;
+import logic.utility.Task;
 import definedEnumeration.TaskFeedBack;
 
 /**

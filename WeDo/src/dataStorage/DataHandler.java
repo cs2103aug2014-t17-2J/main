@@ -9,7 +9,7 @@ import java.util.Observer;
 
 import com.google.common.collect.Multimap;
 
-import logic.Task;
+import logic.utility.Task;
 
 /**
  * @author Kuan Tien Long

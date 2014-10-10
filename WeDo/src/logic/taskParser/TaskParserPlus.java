@@ -7,12 +7,12 @@ import java.text.DateFormatSymbols;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import logic.Task;
 import logic.taskParser.taskFieldSetter.TaskDateFieldSetter;
 import logic.taskParser.taskFieldSetter.TaskDescriptionFieldSetter;
 import logic.taskParser.taskFieldSetter.TaskFieldSetter;
 import logic.utility.KeyMatcher;
 import logic.utility.StringHandler;
+import logic.utility.Task;
 
 /**
  * @author Kuan Tien Long

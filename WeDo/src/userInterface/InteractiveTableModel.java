@@ -8,7 +8,7 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-import logic.Task;
+import logic.utility.Task;
 
 public class InteractiveTableModel extends AbstractTableModel {
 

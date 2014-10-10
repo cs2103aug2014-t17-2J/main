@@ -16,8 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dataStorage.ObservableList;
-import logic.CommandHandler;
-import logic.Task;
+import logic.command.CommandHandler;
+import logic.utility.Task;
 import ui.CommandGuide;
 import ui.UserLogic;
 

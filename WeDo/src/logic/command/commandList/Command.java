@@ -1,8 +1,8 @@
-package logic.commandList;
+package logic.command.commandList;
 
-import logic.Task;
-import logic.UndoHandler;
+import logic.command.UndoHandler;
 import logic.taskParser.TaskParserBasic;
+import logic.utility.Task;
 import dataStorage.DataHandler;
 import definedEnumeration.TaskFeedBack;
 

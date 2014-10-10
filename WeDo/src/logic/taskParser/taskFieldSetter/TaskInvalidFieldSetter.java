@@ -3,7 +3,7 @@
  */
 package logic.taskParser.taskFieldSetter;
 
-import logic.Task;
+import logic.utility.Task;
 
 /**
  * @author Kuan Tien Long

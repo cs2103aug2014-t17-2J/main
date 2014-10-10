@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.commandList;
+package logic.command.commandList;
 
 import logic.utility.StringHandler;
 import definedEnumeration.TaskFeedBack;

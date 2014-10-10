@@ -14,8 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import logic.Task;
 import logic.utility.KeyMatcher;
+import logic.utility.Task;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;

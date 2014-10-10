@@ -9,8 +9,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
 
-import logic.Task;
 import logic.taskParser.TaskParserPlus;
+import logic.utility.Task;
 
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class TaskParserPlusTest {
                 taskParser
                         .buildTask(new StringBuilder("-add floating task")));
 
-        expectedTask.setStartDate(LocalDate.of(2014, 9, 12));
+        expectedTask.setEndDate(LocalDate.of(2014, 9, 12));
         expectedTask.setDescription("momo");
         expectedTask.setPriority(Priority.PRIORITY_HIGH);
         assertEquals(expectedTask,
@@ -70,7 +70,7 @@ public class TaskParserPlusTest {
                         .buildTask(new StringBuilder("-add buy for me something date 18 sept 2pm to 22 sept 2am med priority")));
 
         expectedTask = new Task();
-        expectedTask.setStartDate(LocalDate.of(2014, 12, 12));
+        expectedTask.setEndDate(LocalDate.of(2014, 12, 12));
         expectedTask.setDescription("i wan to eat this");
         expectedTask.setPriority(Priority.PRIORITY_LOW);
         assertEquals(

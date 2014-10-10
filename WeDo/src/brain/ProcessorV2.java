@@ -1,10 +1,9 @@
 package brain;
 
 
-import logic.CommandHandler;
-import logic.Task;
+import logic.command.CommandHandler;
+import logic.utility.Task;
 import userInterface.UserIntSwing;
-
 import dataStorage.BasicDataHandler;
 import dataStorage.DataHandler;
 import dataStorage.ObservableList;

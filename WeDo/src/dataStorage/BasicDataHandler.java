@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Observer;
 
-import logic.Task;
-import logic.UndoHandler;
+import logic.command.UndoHandler;
+import logic.utility.Task;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;

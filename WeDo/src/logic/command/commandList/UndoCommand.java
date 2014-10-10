@@ -1,21 +1,20 @@
 /**
  * 
  */
-package logic.commandList;
+package logic.command.commandList;
 
 import definedEnumeration.TaskFeedBack;
-
 
 /**
  * @author TienLong This class makes use of the Command interface to
  *         implement execute function for undoCommand
  */
-public class RedoCommand extends Command {
+public class UndoCommand extends Command {
 
     public TaskFeedBack execute() {
-        System.out.println("redo");
-
-        if(undoHandler.redo())
+        System.out.println("undo");
+        
+        if(undoHandler.undo())
         {
             return TaskFeedBack.FEEDBACK_VALID;
         }
@@ -23,6 +22,7 @@ public class RedoCommand extends Command {
         {
             return TaskFeedBack.FEEDBACK_INVALID;
         }
+        
     }
 
     /*

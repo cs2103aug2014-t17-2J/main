@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic;
+package logic.command;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,16 +11,16 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
 
-import logic.commandList.AddCommand;
-import logic.commandList.ClearCommand;
-import logic.commandList.Command;
-import logic.commandList.DeleteCommand;
-import logic.commandList.EditCommand;
-import logic.commandList.ExitCommand;
-import logic.commandList.RedoCommand;
-import logic.commandList.SearchCommand;
-import logic.commandList.UndoCommand;
-import logic.commandList.ViewCommand;
+import logic.command.commandList.AddCommand;
+import logic.command.commandList.ClearCommand;
+import logic.command.commandList.Command;
+import logic.command.commandList.DeleteCommand;
+import logic.command.commandList.EditCommand;
+import logic.command.commandList.ExitCommand;
+import logic.command.commandList.RedoCommand;
+import logic.command.commandList.SearchCommand;
+import logic.command.commandList.UndoCommand;
+import logic.command.commandList.ViewCommand;
 import logic.utility.KeyMatcher;
 import logic.utility.StringHandler;
 

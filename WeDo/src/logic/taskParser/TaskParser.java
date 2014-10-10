@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import logic.Task;
 import logic.taskParser.taskFieldSetter.TaskFieldSetter;
 import logic.taskParser.taskFieldSetter.TaskPriorityFieldSetter;
+import logic.utility.Task;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;

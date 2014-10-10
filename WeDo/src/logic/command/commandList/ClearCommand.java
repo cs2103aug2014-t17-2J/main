@@ -1,11 +1,11 @@
 /**
  * 
  */
-package logic.commandList;
+package logic.command.commandList;
 
 import java.util.ArrayList;
 
-import logic.Task;
+import logic.utility.Task;
 import definedEnumeration.TaskFeedBack;
 
 /**
