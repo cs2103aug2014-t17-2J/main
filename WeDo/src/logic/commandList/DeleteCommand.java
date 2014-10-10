@@ -13,29 +13,31 @@ import definedEnumeration.TaskFeedBack;
  */
 public class DeleteCommand extends Command {
 
-    private static final int INVALID_INDEX = -1;
-    private Task taskBeforeDelete;
+    private static final int NOT_SET = -1;
+    private int index = NOT_SET;
+
 
     public TaskFeedBack execute() {
 
         System.out.println("delete");
 
         final int ARRAY_OFFSET = -1;
-        int lineToDelete = StringHandler.parseStringToInteger(task
-                .getDescription()) + ARRAY_OFFSET;
-        if (dataHandler.indexValid(lineToDelete)) {
-            taskBeforeDelete = dataHandler.getTask(lineToDelete);
-            dataHandler.removeTask(lineToDelete);
+
+        if (index == NOT_SET) {
+            int lineToDelete = StringHandler.parseStringToInteger(task
+                    .getDescription()) + ARRAY_OFFSET;
+            if (dataHandler.indexValid(lineToDelete)) {
+                task = dataHandler.getTask(lineToDelete);
+        }
+        
+
+            dataHandler.removeTask(task);
             undoHandler.add(this);
             return TaskFeedBack.FEEDBACK_VALID;
 
         } else {
             return TaskFeedBack.FEEDBACK_INVALID;
         }
-    }
-
-    private void setTaskForUndo(Task taskBeforeDelete) {
-        this.task = taskBeforeDelete;
     }
 
     /*
@@ -45,7 +47,7 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void undo() {
-        dataHandler.addTask(taskBeforeDelete);
+        dataHandler.addTask(task);
     }
 
 }

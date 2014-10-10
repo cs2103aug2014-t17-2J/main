@@ -229,7 +229,6 @@ public class BasicDataHandler implements DataHandler {
 	 * 
 	 * @see dataStorage.DataHandler#remove(int)
 	 */
-	@Override
 	public boolean removeTask(int index) {
 		if (indexValid(index)) {
 			System.out.println("deleted " + observableList.get(index));
@@ -290,12 +289,6 @@ public class BasicDataHandler implements DataHandler {
 		return mainList;
 	}
 
-	public boolean remove(Task task) {
-
-		mainList.remove(currentList, task);
-
-		return true;
-	}
 
 	
     /* (non-Javadoc)

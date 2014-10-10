@@ -41,8 +41,7 @@ public interface DataHandler {
     /* (non-Javadoc)
      * @see dataStorage.BasicDataHandler#remove(int)
      */
-    public abstract boolean removeTask(int index);
-
+    
     public abstract boolean editTask(Task source,Task replacement);
     
     public ObservableList<Task> getObservableList();
