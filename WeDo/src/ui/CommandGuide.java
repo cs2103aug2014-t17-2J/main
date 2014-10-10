@@ -1,9 +1,11 @@
+//@ Andy Hsu Wei Qiang
 package ui;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ui.Keywords;
+import userInterface.UserIntSwing;
 
 public class CommandGuide {
 	private static final String GENERAL_GUIDE = buildGeneralGuideString();
@@ -48,6 +50,15 @@ public class CommandGuide {
 			return String.format(ADD_GUIDE, identifier);
 		default:
 			return GENERAL_GUIDE;
+		}
+	}
+	
+	public static void processGuide(){
+		if(UserIntSwing.textField.getText() == ""){
+			UserIntSwing.lblWarning.setText(buildGeneralGuideString());
+		}
+		else if(UserIntSwing.textField.getText() == "-add"){
+		
 		}
 	}
 
