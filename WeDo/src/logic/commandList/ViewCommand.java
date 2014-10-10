@@ -3,6 +3,9 @@
  */
 package logic.commandList;
 
+import java.util.ArrayList;
+
+import logic.Task;
 import definedEnumeration.TaskFeedBack;
 
 /**
@@ -11,11 +14,14 @@ import definedEnumeration.TaskFeedBack;
  */
 public class ViewCommand extends Command {
 
+    ArrayList<Task> previousView;
+
     public TaskFeedBack execute() {
         System.out.println("view");
 
-        dataHandler.getObservableList();
+        previousView = dataHandler.getObservableList().getList();
         dataHandler.view(task);
+        undoHandler.add(this);
 
         return TaskFeedBack.FEEDBACK_VALID;
     }
@@ -27,8 +33,7 @@ public class ViewCommand extends Command {
      */
     @Override
     public void undo() {
-        // TODO Auto-generated method stub
-
+        dataHandler.setDisplayedTasks(previousView);
     }
 
 }
