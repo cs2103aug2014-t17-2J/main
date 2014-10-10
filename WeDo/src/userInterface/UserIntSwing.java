@@ -102,8 +102,8 @@ public class UserIntSwing extends JPanel implements Observer {
 				//String textInput = "";
 			//	textInput += textField.getText();
 				//lblDisplay.setText(textField.getText());
-				System.out.println(textField.getText()+ "hello");
 				commandHandler.executeCommand(textField.getText());
+				textField.setText("");
 				//processor.executeCommand(textInput);
 				
 				//taskList.add(textInput);
@@ -122,6 +122,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				// textArea.setText(textField.getText());
 				// textField.setText("");
 				commandHandler.executeCommand(textField.getText());
+				textField.setText("");
 				// for (int i = 0; i < taskList.size(); i++) {
 				// textArea_1.append((String) taskList.get(i) + "\n");
 				// }
