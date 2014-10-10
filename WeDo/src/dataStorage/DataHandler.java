@@ -9,8 +9,8 @@ import java.util.Observer;
 
 import com.google.common.collect.Multimap;
 
-import logic.Command;
 import logic.Task;
+import logic.commandList.Command;
 
 /**
  * @author Kuan Tien Long

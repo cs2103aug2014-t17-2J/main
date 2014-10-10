@@ -5,6 +5,8 @@ package logic;
 
 import java.util.Stack;
 
+import logic.commandList.Command;
+
 /**
  * @author Kuan Tien Long
  *

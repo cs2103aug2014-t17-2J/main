@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Observer;
 
-import logic.Command;
 import logic.Task;
 import logic.UndoHandler;
+import logic.commandList.Command;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
