@@ -20,7 +20,7 @@ public class BasicDataHandler implements DataHandler {
 
 	private String currentList;
 
-	UndoHandler undoHandler;
+	UndoHandler undoHandler = new UndoHandler();
 	FileHandler fileHandler;
 
 	ObservableList<Task> observableList;

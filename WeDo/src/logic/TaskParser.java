@@ -30,17 +30,10 @@ public interface TaskParser
         
             Multimap<TaskAttribute, String> availableActions =  ArrayListMultimap.create();
             TaskPriorityAttribute priorityCommand = new TaskPriorityAttribute();
-            TaskDateAttribute dateCommand = new TaskDateAttribute();
 
-           
-            final Map<TaskAttribute, Collection<String>> dateActions = ImmutableMap.<TaskAttribute, Collection<String>>of(
-                    dateCommand, Arrays.asList("date", "day", "month", "time"));
             final Map<TaskAttribute, Collection<String>> priorityActions = ImmutableMap.<TaskAttribute, Collection<String>>of(
                     priorityCommand, Arrays.asList("priority", "pri"));
-            
-            for (TaskAttribute key : dateActions.keySet()) {
-                availableActions.putAll(key, dateActions.get(key));
-              }
+      
             for (TaskAttribute key : priorityActions.keySet()) {
                 availableActions.putAll(key, priorityActions.get(key));
               }

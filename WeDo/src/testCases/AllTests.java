@@ -13,7 +13,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ObservableListTest.class, StringHandlerTest.class,
-        TaskParserTest.class })
+    TaskParserPlusTest.class })
 public class AllTests {
 
 }
