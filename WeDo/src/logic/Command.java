@@ -249,10 +249,41 @@ class ViewCommand extends Command {
 
     public TaskFeedBack execute() {
         System.out.println("view");
-        
+
         dataHandler.view(task.getDescription());
 
         return TaskFeedBack.FEEDBACK_VALID;
+    }
+
+    /* (non-Javadoc)
+     * @see logic.Command#undo()
+     */
+    @Override
+    void undo() {
+        // TODO Auto-generated method stub
+        
+    }
+
+}
+
+/**
+ * @author TienLong This class makes use of the Command interface to
+ *         implement execute function for undoCommand
+ */
+class UndoCommand extends Command {
+
+    public TaskFeedBack execute() {
+        System.out.println("undo");
+        
+        if(dataHandler.undo())
+        {
+            return TaskFeedBack.FEEDBACK_VALID;
+        }
+        else
+        {
+            return TaskFeedBack.FEEDBACK_INVALID;
+        }
+        
     }
 
     /*
@@ -265,28 +296,63 @@ class ViewCommand extends Command {
         // TODO Auto-generated method stub
 
     }
+}
 
-    /**
-     * @author TienLong This class makes use of the Command interface to
-     *         implement execute function for InvalidTask
-     */
-    class InvalidCommand extends Command {
+/**
+ * @author TienLong This class makes use of the Command interface to
+ *         implement execute function for undoCommand
+ */
+class RedoCommand extends Command {
 
-        public TaskFeedBack execute() {
-            System.out.println("Invalid");
+    public TaskFeedBack execute() {
+        System.out.println("redo");
 
+        if(dataHandler.redo())
+        {
+            return TaskFeedBack.FEEDBACK_VALID;
+        }
+        else
+        {
             return TaskFeedBack.FEEDBACK_INVALID;
         }
+    }
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see logic.Command#undo()
-         */
-        @Override
-        void undo() {
-            // TODO Auto-generated method stub
+    /*
+     * (non-Javadoc)
+     * 
+     * @see logic.Command#undo()
+     */
+    @Override
+    void undo() {
+        // TODO Auto-generated method stub
 
-        }
+    }
+}
+
+
+
+
+
+/**
+ * @author TienLong This class makes use of the Command interface to implement
+ *         execute function for InvalidTask
+ */
+class InvalidCommand extends Command {
+
+    public TaskFeedBack execute() {
+        System.out.println("Invalid");
+
+        return TaskFeedBack.FEEDBACK_INVALID;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see logic.Command#undo()
+     */
+    @Override
+    void undo() {
+        // TODO Auto-generated method stub
+
     }
 }

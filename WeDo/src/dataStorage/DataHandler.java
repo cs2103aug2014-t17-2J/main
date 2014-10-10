@@ -62,4 +62,8 @@ public interface DataHandler {
     
     public abstract void view(String theFourList);
 
+    public abstract boolean undo();
+
+    public abstract boolean redo();
+
 }

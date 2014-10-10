@@ -85,6 +85,8 @@ public class CommandHandler {
         Command searchCommand = new SearchCommand();
         Command editCommand = new EditCommand();
         Command viewCommand = new ViewCommand();
+        Command undoCommand = new UndoCommand();
+        Command redoCommand = new RedoCommand();
         
         final Map<Command, Collection<String>> addActions = ImmutableMap.<Command, Collection<String>>of(
                 addCommand, Arrays.asList("-add", "-a", "add", "-create", "-cre8"));
@@ -100,6 +102,10 @@ public class CommandHandler {
                 editCommand, Arrays.asList("-edit", "edit", "-e", "-modify", "-m", "modify"));
         final Map<Command, Collection<String>> viewActions = ImmutableMap.<Command, Collection<String>>of(
                 viewCommand, Arrays.asList("-view", "view", "-v", "-read", "read", "-r"));
+        final Map<Command, Collection<String>> undoActions = ImmutableMap.<Command, Collection<String>>of(
+                undoCommand, Arrays.asList("-undo", "undo"));
+        final Map<Command, Collection<String>> redoActions = ImmutableMap.<Command, Collection<String>>of(
+                redoCommand, Arrays.asList("-redo", "redo"));
        
         
         addMapToMultiMap(addActions, availableActions);
@@ -109,6 +115,8 @@ public class CommandHandler {
         addMapToMultiMap(searchActions, availableActions);
         addMapToMultiMap(editActions, availableActions);
         addMapToMultiMap(viewActions, availableActions);
+        addMapToMultiMap(undoActions, availableActions);
+        addMapToMultiMap(redoActions, availableActions);
         
         return availableActions;
     }

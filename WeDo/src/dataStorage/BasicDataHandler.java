@@ -103,6 +103,8 @@ public class BasicDataHandler implements DataHandler {
 		if(command != null && undoHandler != null)
 		undoHandler.add(command);
 	}
+	
+	
 
 	/*
 	 * (non-Javadoc)
@@ -119,7 +121,7 @@ public class BasicDataHandler implements DataHandler {
 		mainList.put(determineDate(task), task);
 		System.out.println(task.getID()+" is added");
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -256,7 +258,7 @@ public class BasicDataHandler implements DataHandler {
 		removeTask(index);
 		addTask(task);
 		
-		return false;
+		return true;
 	}
 
 	/*
@@ -280,7 +282,7 @@ public class BasicDataHandler implements DataHandler {
 		observableList.remove(task);
 		mainList.remove(determineDate(task), task);
 		
-		return false;
+		return true;
 	}
 
 	/*
@@ -298,7 +300,7 @@ public class BasicDataHandler implements DataHandler {
 
 		mainList.remove(currentList, task);
 
-		return false;
+		return true;
 	}
 
 	
@@ -309,6 +311,17 @@ public class BasicDataHandler implements DataHandler {
     public void view(String theFourList) {
         // TODO Auto-generated method stub
         
+    }
+    
+    
+    public boolean undo()
+    {
+        return undoHandler.undo();
+    }
+    
+    public boolean redo()
+    {
+        return undoHandler.redo();
     }
 
 }
