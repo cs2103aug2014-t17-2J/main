@@ -3,7 +3,6 @@
  */
 package logic.commandList;
 
-import logic.Task;
 import logic.utility.StringHandler;
 import definedEnumeration.TaskFeedBack;
 

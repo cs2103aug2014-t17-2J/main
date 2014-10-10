@@ -10,7 +10,6 @@ import java.util.Observer;
 import com.google.common.collect.Multimap;
 
 import logic.Task;
-import logic.commandList.Command;
 
 /**
  * @author Kuan Tien Long
@@ -51,11 +50,14 @@ public interface DataHandler {
     public abstract boolean removeTask(Task task);
         
     public abstract void addObserver(Observer observer);
-    
-    // temp add...
-    
-    public abstract void view(String theFourList);
 
     public abstract boolean indexValid(int index);
+
+    // temp add...
+    
+    public abstract void view(Task task);
+
+
+
 
 }

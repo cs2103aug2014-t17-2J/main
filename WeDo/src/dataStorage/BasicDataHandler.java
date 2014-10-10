@@ -6,7 +6,6 @@ import java.util.Observer;
 
 import logic.Task;
 import logic.UndoHandler;
-import logic.commandList.Command;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -104,10 +103,10 @@ public class BasicDataHandler implements DataHandler {
 	@Override
 	public boolean addTask(Task task) {
 		System.out.println(determineDate(task));
-//		if (onDisplay(task) == true) {
-//			observableList.add(task);
-//		}
-		observableList.add(task);
+		if (onDisplay(task) == true) {
+			observableList.add(task);
+		}
+//		observableList.add(task);
 		mainList.put(determineDate(task), task);
 		System.out.println(task.getID()+" is added");
 
@@ -295,9 +294,16 @@ public class BasicDataHandler implements DataHandler {
      * @see dataStorage.DataHandler#view(java.lang.String)
      */
     @Override
-    public void view(String theFourList) {
+    public void view(Task task) {
         // TODO Auto-generated method stub
-        
+        if (task.getEndDate() != LocalDate.MAX)
+        {
+            observableList.replaceList(new ArrayList<Task>(mainList.get(determineDate(task))));
+        }
+        else
+        {
+            observableList.replaceList(new ArrayList<Task>(mainList.get(task.getDescription())));
+        }
     }
     
     
