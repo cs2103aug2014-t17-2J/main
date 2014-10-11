@@ -256,6 +256,8 @@ public class StringHandler {
      */
     public static boolean contains(String source, String[]... keyArrays)
     {
+        source = source.toLowerCase();
+        
         for (String[] keyArray : keyArrays) 
         {
             for (String key : keyArray)     

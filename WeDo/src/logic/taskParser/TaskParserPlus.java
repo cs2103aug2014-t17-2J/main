@@ -67,7 +67,7 @@ public class TaskParserPlus implements TaskParser {
 
     private String replaceDateKeyWords(String source) {
         return source.replaceAll(
-                "(?i)in$|on$|from$|at$|by$|date$|^in|^on|^from|^at|^by|^date",
+                "(?i) in$| on$| from$| at$| by$| date$|^in |^on |^from |^at |^by |^date ",
                 "");
     }
 
