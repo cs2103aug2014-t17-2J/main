@@ -5,9 +5,9 @@ package logic.command.commandList;
 
 import java.util.ArrayList;
 
+import logic.InvalidCommandException;
 import logic.SearchEngine;
 import logic.utility.Task;
-import definedEnumeration.TaskFeedBack;
 
 
 
@@ -18,7 +18,7 @@ import definedEnumeration.TaskFeedBack;
 public class SearchCommand extends Command {
     private ArrayList<Task> displayedTask;
 
-    public TaskFeedBack execute() {
+    public void execute() throws InvalidCommandException {
 
         System.out.println("searching");
 
@@ -26,11 +26,10 @@ public class SearchCommand extends Command {
         ArrayList<Task> searchList = searchEngine.searchCaseInsensitive(
                 dataHandler.getMainList(), task.getDescription());
         if (searchList.isEmpty()) {
-            return TaskFeedBack.FEEDBACK_NOT_FOUND;
+            throw new InvalidCommandException("Search failed unable to find...");
         } else {
             displayedTask = dataHandler.getDisplayedTasks(task.getStarDate(),
                     task.getEndDate());
-            return TaskFeedBack.FEEDBACK_VALID;
         }
     }
 

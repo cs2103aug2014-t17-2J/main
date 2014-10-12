@@ -5,6 +5,7 @@ package testCases;
 
 import java.util.Scanner;
 
+import logic.InvalidCommandException;
 import logic.LogicManager;
 
 import org.junit.Test;
@@ -19,7 +20,7 @@ import dataStorage.DataHandler;
 public class TestLogicManager {
 
     @Test
-    public void test() 
+    public void test() throws InvalidCommandException 
     {
         
         LogicManager logicManager = new LogicManager(new BasicDataHandler());

@@ -5,8 +5,8 @@ package logic.command.commandList;
 
 import java.util.ArrayList;
 
+import logic.InvalidCommandException;
 import logic.utility.Task;
-import definedEnumeration.TaskFeedBack;
 
 /**
  * @author TienLong This class makes use of the Command interface to implement
@@ -20,7 +20,7 @@ public class ClearCommand extends Command {
      * @param processor
      */
 
-    public TaskFeedBack execute() {
+    public void execute() throws InvalidCommandException {
         System.out.println("clear");
 
         storedList = dataHandler.getDisplayedTasks(task.getStarDate(),
@@ -28,9 +28,8 @@ public class ClearCommand extends Command {
 
         if (dataHandler.clearTask(task.getStarDate(), task.getEndDate())) {
             undoHandler.addUndo(this);
-            return TaskFeedBack.FEEDBACK_VALID;
         } else {
-            return TaskFeedBack.FEEDBACK_INVALID;
+            throw new InvalidCommandException("Clear failed");
         }
     }
 

@@ -3,9 +3,9 @@
  */
 package logic.command.commandList;
 
+import logic.InvalidCommandException;
 import logic.utility.StringHandler;
 import logic.utility.Task;
-import definedEnumeration.TaskFeedBack;
 
 /**
  * @author TienLong This class makes use of the Command interface to implement
@@ -18,7 +18,7 @@ public class EditCommand extends Command {
     private int index = NOT_SET;
     private Task source;
 
-    public TaskFeedBack execute() {
+    public void execute() throws InvalidCommandException {
 
         System.out.println("Editing");
 
@@ -27,13 +27,12 @@ public class EditCommand extends Command {
                     .getDescription());
 
             if (indexString == null) {
-                return TaskFeedBack.FEEDBACK_INVALID;
             }
 
             index = getIndex(indexString);
 
             if (!dataHandler.indexValid(index)) {
-                return TaskFeedBack.FEEDBACK_INVALID;
+                throw new InvalidCommandException("Edit failed, invalid index");
             }
 
             task.setDescription(StringHandler.removeFirstMatched(
@@ -44,12 +43,11 @@ public class EditCommand extends Command {
         }
 
         if (!dataHandler.indexValid(index)) {
-            return TaskFeedBack.FEEDBACK_INVALID;
+            throw new InvalidCommandException("Edit failed, invalid index");
         }
             dataHandler.editTask(source, task);
             undoHandler.addUndo(this);
         
-        return TaskFeedBack.FEEDBACK_VALID;
     }
 
     private int getIndex(String indexString) {

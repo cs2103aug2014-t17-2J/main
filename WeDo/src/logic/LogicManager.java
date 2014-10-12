@@ -10,8 +10,6 @@ import logic.command.commandList.Command;
 import logic.taskParser.TaskParserPlus;
 import logic.utility.Task;
 import dataStorage.DataHandler;
-import definedEnumeration.TaskFeedBack;
-import edu.emory.mathcs.backport.java.util.concurrent.Executor;
 
 /**
  * @author Kuan Tien Long
@@ -35,7 +33,7 @@ public class LogicManager
         undoHandler = new UndoHandler();
     } 
 
-    public TaskFeedBack processUserInput(String userInput) {
+    public void processUserInput(String userInput) throws InvalidCommandException {
 
         StringBuilder userInputBuilder = new StringBuilder(userInput);
         
@@ -48,11 +46,11 @@ public class LogicManager
         
         if (command == null) 
         {
-            return TaskFeedBack.FEEDBACK_INVALID;
+            throw new InvalidCommandException("Command given was invalid");
         }
         
         
         CommandExecutor commandExecutor = new CommandExecutor(dataHandler);
-        return commandExecutor.execute(command, task);
+        commandExecutor.execute(command, task);
     }   
 }

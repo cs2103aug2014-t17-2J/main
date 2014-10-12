@@ -1,10 +1,10 @@
 package logic.command.commandList;
 
+import logic.InvalidCommandException;
 import logic.command.UndoHandler;
 import logic.taskParser.TaskParserBasic;
 import logic.utility.Task;
 import dataStorage.DataHandler;
-import definedEnumeration.TaskFeedBack;
 
 public abstract class Command {
 
@@ -33,9 +33,10 @@ public abstract class Command {
      * This method execute the commands such as add, display, clear etc.
      * 
      * @return TaskFeedBack to display if the command is valid
+     * @throws InvalidCommandException TODO
      */
 
-    public abstract TaskFeedBack execute();
+    public abstract void execute() throws InvalidCommandException;
 
     public abstract void undo();
 

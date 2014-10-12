@@ -3,7 +3,7 @@
  */
 package logic.command.commandList;
 
-import definedEnumeration.TaskFeedBack;
+import logic.InvalidCommandException;
 
 /**
  * @author TienLong This class makes use of the Command interface to
@@ -11,16 +11,14 @@ import definedEnumeration.TaskFeedBack;
  */
 public class UndoCommand extends Command {
 
-    public TaskFeedBack execute() {
+    public void execute() throws InvalidCommandException {
         System.out.println("undo");
-        
-        if(undoHandler.undo())
+        final boolean FAILED = false;
+
+        if(undoHandler.undo() == FAILED)
+
         {
-            return TaskFeedBack.FEEDBACK_VALID;
-        }
-        else
-        {
-            return TaskFeedBack.FEEDBACK_INVALID;
+            throw new InvalidCommandException("Nothing to undo");
         }
         
     }

@@ -5,8 +5,8 @@ package logic.command.commandList;
 
 import java.util.ArrayList;
 
+import logic.InvalidCommandException;
 import logic.utility.Task;
-import definedEnumeration.TaskFeedBack;
 
 /**
  * @author TienLong This class makes use of the Command interface to implement
@@ -16,13 +16,12 @@ public class ViewCommand extends Command {
 
     ArrayList<Task> previousView;
 
-    public TaskFeedBack execute() {
+    public void execute() throws InvalidCommandException {
         System.out.println("view");
 
         previousView = dataHandler.getObservableList().getList();
         dataHandler.view(task);
 
-        return TaskFeedBack.FEEDBACK_VALID;
     }
 
     /*

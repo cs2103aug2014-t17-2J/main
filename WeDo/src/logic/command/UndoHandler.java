@@ -5,6 +5,7 @@ package logic.command;
 
 import java.util.Stack;
 
+import logic.InvalidCommandException;
 import logic.command.commandList.Command;
 
 /**
@@ -58,7 +59,7 @@ public class UndoHandler {
 
     }
 
-    public boolean redo() {
+    public boolean redo() throws InvalidCommandException {
         if (canRedo()) {
             currentState = State.STATE_ADD_REDO;
             Command command = redoStack.pop();

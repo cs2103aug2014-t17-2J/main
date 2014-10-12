@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dataStorage.ObservableList;
+import logic.InvalidCommandException;
 import logic.LogicManager;
 import logic.utility.Task;
 import ui.CommandGuide;
@@ -102,7 +103,12 @@ public class UserIntSwing extends JPanel implements Observer {
 				//String textInput = "";
 			//	textInput += textField.getText();
 				//lblDisplay.setText(textField.getText());
-			    logicManager.processUserInput(textField.getText());
+			    try {
+                    logicManager.processUserInput(textField.getText());
+                } catch (InvalidCommandException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
 				textField.setText("");
 				//processor.executeCommand(textInput);
 				
@@ -121,7 +127,12 @@ public class UserIntSwing extends JPanel implements Observer {
 				// lblDisplay.setText(textField.getText());
 				// textArea.setText(textField.getText());
 				// textField.setText("");
-			    logicManager.processUserInput(textField.getText());
+			    try {
+                    logicManager.processUserInput(textField.getText());
+                } catch (InvalidCommandException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 				textField.setText("");
 				// for (int i = 0; i < taskList.size(); i++) {
 				// textArea_1.append((String) taskList.get(i) + "\n");

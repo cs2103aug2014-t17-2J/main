@@ -3,7 +3,7 @@
  */
 package logic.command.commandList;
 
-import definedEnumeration.TaskFeedBack;
+import logic.InvalidCommandException;
 
 
 /**
@@ -12,16 +12,14 @@ import definedEnumeration.TaskFeedBack;
  */
 public class RedoCommand extends Command {
 
-    public TaskFeedBack execute() {
+    public void execute() throws InvalidCommandException {
         System.out.println("redo");
+        
+        final boolean FAILED = false;
 
-        if(undoHandler.redo())
+        if(undoHandler.redo() == FAILED)
         {
-            return TaskFeedBack.FEEDBACK_VALID;
-        }
-        else
-        {
-            return TaskFeedBack.FEEDBACK_INVALID;
+            throw new InvalidCommandException("Nothing to redo");
         }
     }
 

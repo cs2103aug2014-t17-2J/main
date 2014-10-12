@@ -3,7 +3,7 @@
  */
 package logic.command.commandList;
 
-import definedEnumeration.TaskFeedBack;
+import logic.InvalidCommandException;
 
 /**
  * @author TienLong This class makes use of the Command interface to implement
@@ -14,15 +14,15 @@ public class AddCommand extends Command {
     /**
      * @param task
      * @param processor
+     * @throws InvalidCommandException 
      */
 
-    public TaskFeedBack execute() {
+    public void execute() throws InvalidCommandException {
         System.out.println("adding");
         if (dataHandler.addTask(task)) {
             undoHandler.addUndo(this);
-            return TaskFeedBack.FEEDBACK_VALID;
         } else {
-            return TaskFeedBack.FEEDBACK_INVALID;
+            throw new InvalidCommandException("Adding failed");
         }
     }
 

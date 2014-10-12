@@ -1,10 +1,9 @@
 package logic.command;
 
+import logic.InvalidCommandException;
 import logic.command.commandList.Command;
-import logic.taskParser.TaskParserPlus;
 import logic.utility.Task;
 import dataStorage.DataHandler;
-import definedEnumeration.TaskFeedBack;
 
 /**
  * @author Kuan Tien Long This class handle all the commands passed in by the
@@ -32,19 +31,19 @@ public class CommandExecutor {
      * @param command the command to execute
      * @param task the task to execute
      * @return 
+     * @throws InvalidCommandException 
      */
-    public TaskFeedBack execute(Command command, Task task) {
+    public void execute(Command command, Task task) throws InvalidCommandException {
 
-        if (command == null) {
-            return TaskFeedBack.FEEDBACK_INVALID;
-        }
-
+        assert(command != null);
+        assert(task != null);
+        
         command.setDataHandler(dataHandler);
         command.setTask(task);
         command.setUndoHandler(undoHandler);
         System.out.println(task);
 
-        return command.execute();
+        command.execute();
     }
 
 }

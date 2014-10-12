@@ -3,7 +3,7 @@
  */
 package logic.command.commandList;
 
-import definedEnumeration.TaskFeedBack;
+import logic.InvalidCommandException;
 
 /**
  * @author TienLong This class makes use of the Command interface to implement
@@ -11,9 +11,9 @@ import definedEnumeration.TaskFeedBack;
  */
 public class ExitCommand extends Command {
 
-    public TaskFeedBack execute() {
+    public void execute() throws InvalidCommandException {
         System.out.println("exit");
-        return TaskFeedBack.FEEDBACK_EXIT;
+        System.exit(0);
     }
 
     /*

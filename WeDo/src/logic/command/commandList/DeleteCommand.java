@@ -3,8 +3,8 @@
  */
 package logic.command.commandList;
 
+import logic.InvalidCommandException;
 import logic.utility.StringHandler;
-import definedEnumeration.TaskFeedBack;
 
 /**
  * @author TienLong This class makes use of the Command interface to implement
@@ -16,7 +16,7 @@ public class DeleteCommand extends Command {
     private int index = NOT_SET;
 
 
-    public TaskFeedBack execute() {
+    public void execute() throws InvalidCommandException {
 
         System.out.println("delete");
 
@@ -32,10 +32,9 @@ public class DeleteCommand extends Command {
 
             dataHandler.removeTask(task);
             undoHandler.addUndo(this);
-            return TaskFeedBack.FEEDBACK_VALID;
 
         } else {
-            return TaskFeedBack.FEEDBACK_INVALID;
+            throw new InvalidCommandException("Deleting failed");
         }
     }
 
