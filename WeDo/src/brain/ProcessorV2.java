@@ -1,7 +1,7 @@
 package brain;
 
 
-import logic.command.CommandHandler;
+import logic.LogicManager;
 import logic.utility.Task;
 import userInterface.UserIntSwing;
 import dataStorage.BasicDataHandler;
@@ -17,8 +17,8 @@ public class ProcessorV2 {
 		//list = dataHand.getList("today");
 	    ObservableList<Task> observableList = new ObservableList<Task>(null);
 	    DataHandler dataHandler = new BasicDataHandler(observableList);
-        CommandHandler commandHandler = new CommandHandler(dataHandler);	    
-        UserIntSwing swi = new UserIntSwing(commandHandler, observableList);
+        LogicManager logicManager = new LogicManager(dataHandler);	    
+        UserIntSwing swi = new UserIntSwing(logicManager, observableList);
         observableList.addObserver(swi);
 		swi.execute();
 	}

@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dataStorage.ObservableList;
-import logic.command.CommandHandler;
+import logic.LogicManager;
 import logic.utility.Task;
 import ui.CommandGuide;
 import ui.UserLogic;
@@ -33,7 +33,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static JButton btnHelp;
 	
 	private InteractiveForm interForm;
-	private CommandHandler commandHandler;
+	private LogicManager logicManager;
     private ObservableList<Task> observableList;
 
 	/**
@@ -65,8 +65,8 @@ public class UserIntSwing extends JPanel implements Observer {
 	/**
 	 * Create the application.
 	 */
-	public UserIntSwing(CommandHandler commandHandler, ObservableList<Task> observableList) {
-		this.commandHandler = commandHandler;
+	public UserIntSwing(LogicManager logicManager, ObservableList<Task> observableList) {
+		this.logicManager = logicManager;
 		this.observableList = observableList;
 		taskList = observableList.getList();
         initialize();
@@ -102,7 +102,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				//String textInput = "";
 			//	textInput += textField.getText();
 				//lblDisplay.setText(textField.getText());
-				commandHandler.executeCommand(textField.getText());
+			    logicManager.processUserInput(textField.getText());
 				textField.setText("");
 				//processor.executeCommand(textInput);
 				
@@ -121,7 +121,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				// lblDisplay.setText(textField.getText());
 				// textArea.setText(textField.getText());
 				// textField.setText("");
-				commandHandler.executeCommand(textField.getText());
+			    logicManager.processUserInput(textField.getText());
 				textField.setText("");
 				// for (int i = 0; i < taskList.size(); i++) {
 				// textArea_1.append((String) taskList.get(i) + "\n");

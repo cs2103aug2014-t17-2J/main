@@ -47,7 +47,7 @@ public class EditCommand extends Command {
             return TaskFeedBack.FEEDBACK_INVALID;
         }
             dataHandler.editTask(source, task);
-            undoHandler.add(this);
+            undoHandler.addUndo(this);
         
         return TaskFeedBack.FEEDBACK_VALID;
     }

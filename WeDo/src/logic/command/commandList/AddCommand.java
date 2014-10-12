@@ -19,7 +19,7 @@ public class AddCommand extends Command {
     public TaskFeedBack execute() {
         System.out.println("adding");
         if (dataHandler.addTask(task)) {
-            undoHandler.add(this);
+            undoHandler.addUndo(this);
             return TaskFeedBack.FEEDBACK_VALID;
         } else {
             return TaskFeedBack.FEEDBACK_INVALID;

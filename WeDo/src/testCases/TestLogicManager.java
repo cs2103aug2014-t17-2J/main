@@ -5,7 +5,7 @@ package testCases;
 
 import java.util.Scanner;
 
-import logic.command.CommandHandler;
+import logic.LogicManager;
 
 import org.junit.Test;
 
@@ -16,16 +16,16 @@ import dataStorage.DataHandler;
  * @author Kuan Tien Long
  *
  */
-public class TestCommandHandler {
+public class TestLogicManager {
 
     @Test
     public void test() 
     {
         
-        CommandHandler commandHandler = new CommandHandler(new BasicDataHandler());
+        LogicManager logicManager = new LogicManager(new BasicDataHandler());
         Scanner sc = new Scanner(System.in);
         while(true)
-        commandHandler.executeCommand(sc.nextLine());
+         logicManager.processUserInput(sc.nextLine());
 //        commandHandler.executeCommand("date 18/09 2pm to 22/9 2am -add buy for me something priority med");
 //        commandHandler.executeCommand("clear 18/09 to 19/09");
 //        commandHandler.executeCommand("clear 1");

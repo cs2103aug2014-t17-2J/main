@@ -21,7 +21,6 @@ public class ViewCommand extends Command {
 
         previousView = dataHandler.getObservableList().getList();
         dataHandler.view(task);
-        undoHandler.add(this);
 
         return TaskFeedBack.FEEDBACK_VALID;
     }

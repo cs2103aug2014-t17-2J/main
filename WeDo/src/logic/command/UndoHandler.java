@@ -33,7 +33,7 @@ public class UndoHandler {
         return redoStack.size() > 0;
     }
 
-    public void add(Command command) {
+    public void addUndo(Command command) {
         if (!redoStack.isEmpty() && currentState == State.STATE_UNDO) {
             redoStack.clear();
         }

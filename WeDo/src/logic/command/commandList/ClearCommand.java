@@ -27,7 +27,7 @@ public class ClearCommand extends Command {
                 task.getEndDate());
 
         if (dataHandler.clearTask(task.getStarDate(), task.getEndDate())) {
-            undoHandler.add(this);
+            undoHandler.addUndo(this);
             return TaskFeedBack.FEEDBACK_VALID;
         } else {
             return TaskFeedBack.FEEDBACK_INVALID;
@@ -48,4 +48,5 @@ public class ClearCommand extends Command {
 
         }
     }
+
 }

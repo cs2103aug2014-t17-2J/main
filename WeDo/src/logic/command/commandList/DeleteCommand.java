@@ -31,7 +31,7 @@ public class DeleteCommand extends Command {
         
 
             dataHandler.removeTask(task);
-            undoHandler.add(this);
+            undoHandler.addUndo(this);
             return TaskFeedBack.FEEDBACK_VALID;
 
         } else {
