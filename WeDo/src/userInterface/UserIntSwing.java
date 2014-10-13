@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import brain.ProcessorV2;
 import dataStorage.ObservableList;
 import logic.InvalidCommandException;
 import logic.LogicManager;
@@ -43,7 +42,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	public void execute() {
 		EventQueue.invokeLater(new Runnable() {
-			@SuppressWarnings("static-access")
 			public void run() {
 				try {
 				//	UserIntSwing window = new UserIntSwing(commandHandler, observableList);
@@ -57,13 +55,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 	}
     
-   
-
-	public UserIntSwing()
-	{
-	    
-	}
-	
 	/**
 	 * Create the application.
 	 */

@@ -30,20 +30,6 @@ public class UserLogic {
 			UserIntSwing.textField.setText("");
 		}
 	}
-		
-//	public static void processTextField() {
-//
-//		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
-//			public void keyReleased(KeyEvent arg) {
-//				//UserIntSwing.lblWarning.setText(CommandGuide.getTipMessage(UserIntSwing.textField.getText()));
-//
-//				if (UserIntSwing.textField.getText().length() > 0
-//						&& arg.getKeyCode() == KeyEvent.VK_ENTER) {
-//				}
-//				//UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(UserIntSwing.textField.getText()));
-//			}
-//		});
-//	}
 	
 	public static void processHotKeys(KeyEvent arg1){
 		if (UserIntSwing.textField.getText().length() == 0){
