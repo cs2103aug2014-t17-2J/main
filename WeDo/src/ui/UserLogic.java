@@ -24,30 +24,26 @@ public class UserLogic {
 		});
 	}
 	
-<<<<<<< HEAD
 	public static void processTextField(KeyEvent arg1) {
 		if (UserIntSwing.textField.getText().length() > 0
 				&& arg1.getKeyCode() == KeyEvent.VK_ENTER) {
 			UserIntSwing.textField.setText("");
 		}
-=======
-	public static void processTextField() {
-
-		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
-
-			@Override
-			public void keyReleased(KeyEvent arg) {
-				//UserIntSwing.lblWarning.setText(CommandGuide.getTipMessage(UserIntSwing.textField.getText()));
-
-				if (UserIntSwing.textField.getText().length() > 0
-						&& arg.getKeyCode() == KeyEvent.VK_ENTER) {
-				}
-
-				//UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(UserIntSwing.textField.getText()));
-			}
-		});
->>>>>>> b703baf3fecbde06f29855d852d0f8217e505883
 	}
+		
+//	public static void processTextField() {
+//
+//		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
+//			public void keyReleased(KeyEvent arg) {
+//				//UserIntSwing.lblWarning.setText(CommandGuide.getTipMessage(UserIntSwing.textField.getText()));
+//
+//				if (UserIntSwing.textField.getText().length() > 0
+//						&& arg.getKeyCode() == KeyEvent.VK_ENTER) {
+//				}
+//				//UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(UserIntSwing.textField.getText()));
+//			}
+//		});
+//	}
 	
 	public static void processHotKeys(KeyEvent arg1){
 		if (UserIntSwing.textField.getText().length() == 0){
