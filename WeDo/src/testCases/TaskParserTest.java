@@ -8,8 +8,8 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import logic.Task;
-import logic.TaskParserBasic;
+import logic.taskParser.TaskParserBasic;
+import logic.utility.Task;
 
 import org.junit.Test;
 

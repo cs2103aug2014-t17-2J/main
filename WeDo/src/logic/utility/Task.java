@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic;
+package logic.utility;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

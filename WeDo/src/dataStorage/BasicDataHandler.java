@@ -4,9 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Observer;
 
-import logic.Command;
-import logic.Task;
-import logic.UndoHandler;
+import logic.command.UndoHandler;
+import logic.utility.Task;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -20,7 +19,7 @@ public class BasicDataHandler implements DataHandler {
 
 	private String currentList;
 
-	UndoHandler undoHandler;
+	UndoHandler undoHandler = new UndoHandler();
 	FileHandler fileHandler;
 
 	ObservableList<Task> observableList;
@@ -33,6 +32,16 @@ public class BasicDataHandler implements DataHandler {
 		observableList = new ObservableList<Task>(new ArrayList<Task>(mainList.get(TODAY)));
 		currentList = TODAY;
 	}
+	
+	public BasicDataHandler(ObservableList<Task> observableList) 
+	{
+        fileHandler = new FileHandler();
+        populateLists();
+        this.observableList = observableList;
+        observableList.replaceList(new ArrayList<Task>(mainList.get(TODAY)));
+        currentList = TODAY;
+    }
+    
 
 	public ObservableList<Task> getObservableList(){
 		return observableList;
@@ -83,16 +92,8 @@ public class BasicDataHandler implements DataHandler {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dataStorage.DataHandler#addUndoCommand(logic.Command)
-	 */
-	@Override
-	public void addUndoCommand(Command command) {
-		if(command != null && undoHandler != null)
-		undoHandler.add(command);
-	}
+	
+	
 
 	/*
 	 * (non-Javadoc)
@@ -102,15 +103,14 @@ public class BasicDataHandler implements DataHandler {
 	@Override
 	public boolean addTask(Task task) {
 		System.out.println(determineDate(task));
-//		if (onDisplay(task) == true) {
-//			observableList.add(task);
-//		}
-		observableList.add(task);
-
+		if (onDisplay(task) == true) {
+			observableList.add(task);
+		}
+//		observableList.add(task);
 		mainList.put(determineDate(task), task);
 		System.out.println(task.getID()+" is added");
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -141,9 +141,9 @@ public class BasicDataHandler implements DataHandler {
 		LocalDate today = LocalDate.now();
 		LocalDate tomorrow = today.plusDays(1);
 
-		if ( today.equals(task.getEndDate()) || today.equals(task.getStarDate())) {
+		if ( today.equals(task.getEndDate())) {
 			return TODAY;
-		} else if (tomorrow.equals(task.getEndDate()) || tomorrow.equals(task.getStarDate())){
+		} else if (tomorrow.equals(task.getEndDate())){
 			return TOMORROW;
 		}
 
@@ -188,13 +188,17 @@ public class BasicDataHandler implements DataHandler {
 		observableList.replaceList(displayedTask);
 	}
 
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see dataStorage.BasicDataHandler#canRemove(int)
 	 */
-	public boolean validIndex(int index) {
-		if (index >= observableList.getList().size() || index < 0) {
+	public boolean indexValid(int index) {
+	    
+
+	    
+		if (index >= (observableList.getList().size()) || index < 0) {
 			return false;
 		} else {
 			return true;
@@ -224,9 +228,8 @@ public class BasicDataHandler implements DataHandler {
 	 * 
 	 * @see dataStorage.DataHandler#remove(int)
 	 */
-	@Override
 	public boolean removeTask(int index) {
-		if (validIndex(index)) {
+		if (indexValid(index)) {
 			System.out.println("deleted " + observableList.get(index));
 			mainList.remove(determineDate(getTask(index)), getTask(index));
 			observableList.remove(index);
@@ -242,12 +245,12 @@ public class BasicDataHandler implements DataHandler {
 	 * @see dataStorage.DataHandler#editTask()
 	 */
 	@Override
-	public boolean editTask(int index,Task task) {
+	public boolean editTask(Task source,Task replacement) {
 		
-		removeTask(index);
-		addTask(task);
+		removeTask(source);
+		addTask(replacement);
 		
-		return false;
+		return true;
 	}
 
 	/*
@@ -271,7 +274,7 @@ public class BasicDataHandler implements DataHandler {
 		observableList.remove(task);
 		mainList.remove(determineDate(task), task);
 		
-		return false;
+		return true;
 	}
 
 	/*
@@ -285,21 +288,28 @@ public class BasicDataHandler implements DataHandler {
 		return mainList;
 	}
 
-	public boolean remove(Task task) {
-
-		mainList.remove(currentList, task);
-
-		return false;
-	}
 
 	
     /* (non-Javadoc)
      * @see dataStorage.DataHandler#view(java.lang.String)
      */
     @Override
-    public void view(String theFourList) {
+    public void view(Task task) {
         // TODO Auto-generated method stub
+        if (task.getEndDate() != LocalDate.MAX)
+        {
+            observableList.replaceList(new ArrayList<Task>(mainList.get(determineDate(task))));
+            currentList = this.determineDate(task);
+        }
+        else
+        {
+            observableList.replaceList(new ArrayList<Task>(mainList.get(task.getDescription())));
+            currentList = task.getDescription();
+        }
         
     }
+    
+    
+
 
 }

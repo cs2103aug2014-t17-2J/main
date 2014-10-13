@@ -3,9 +3,9 @@ package testCases;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import logic.Task;
-
+import logic.utility.Task;
 import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
 

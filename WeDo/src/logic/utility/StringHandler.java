@@ -1,4 +1,4 @@
-package logic;
+package logic.utility;
 
 import java.time.LocalDateTime;
 import java.util.regex.Matcher;
@@ -256,6 +256,8 @@ public class StringHandler {
      */
     public static boolean contains(String source, String[]... keyArrays)
     {
+        source = source.toLowerCase();
+        
         for (String[] keyArray : keyArrays) 
         {
             for (String key : keyArray)     

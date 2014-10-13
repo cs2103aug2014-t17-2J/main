@@ -5,26 +5,28 @@ package testCases;
 
 import java.util.Scanner;
 
-import logic.CommandHandler;
+import logic.InvalidCommandException;
+import logic.LogicManager;
 
 import org.junit.Test;
 
-import brain.Processor;
 import dataStorage.BasicDataHandler;
+import dataStorage.DataHandler;
 
 /**
  * @author Kuan Tien Long
  *
  */
-public class TestCommandHandler {
+public class TestLogicManager {
 
     @Test
-    public void test() 
+    public void test() throws InvalidCommandException 
     {
-        CommandHandler commandHandler = new CommandHandler(new Processor());
+        
+        LogicManager logicManager = new LogicManager(new BasicDataHandler());
         Scanner sc = new Scanner(System.in);
         while(true)
-        commandHandler.executeCommand(sc.nextLine());
+         logicManager.processUserInput(sc.nextLine());
 //        commandHandler.executeCommand("date 18/09 2pm to 22/9 2am -add buy for me something priority med");
 //        commandHandler.executeCommand("clear 18/09 to 19/09");
 //        commandHandler.executeCommand("clear 1");
