@@ -14,25 +14,27 @@ import ui.Action;
  */
 public final class Keywords {
 
-	private static final String ADD_TASK_IDENTIFIER_1 = "-add";
-	private static final String ADD_TASK_IDENTIFIER_2 = "-a";
+	private static final String ADD_TASK_IDENTIFIER_1 = "-add ";
+	private static final String ADD_TASK_IDENTIFIER_2 = "-a ";
+	private static final String ADD_TASK_IDENTIFIER_3 = "-new ";
 	
-	private static final String READ_TASK_IDENTIFIER_1 = "-read";
-	private static final String READ_TASK_IDENTIFIER_2 = "-view";
+	private static final String VIEW_TASK_IDENTIFIER_1 = "-view ";
+	private static final String VIEW_TASK_IDENTIFIER_2 = "-read ";
+	private static final String VIEW_TASK_IDENTIFIER_3 = "-display ";
 
-	private static final String UPDATE_TASK_IDENTIFIER_1 = "-update";
-	private static final String UPDATE_TASK_IDENTIFIER_2 = "-edit";
-	private static final String UPDATE_TASK_IDENTIFIER_3 = "-upd";
+	private static final String EDIT_TASK_IDENTIFIER_1 = "-edit ";
+	private static final String EDIT_TASK_IDENTIFIER_2 = "-update ";
+	private static final String EDIT_TASK_IDENTIFIER_3 = "-upd ";
 
-	private static final String DELETE_TASK_IDENTIFIER_1 = "-delete";
-	private static final String DELETE_TASK_IDENTIFIER_2 = "-d";
-	private static final String DELETE_TASK_IDENTIFIER_3 = "-del";
+	private static final String DELETE_TASK_IDENTIFIER_1 = "-delete ";
+	private static final String DELETE_TASK_IDENTIFIER_2 = "-d ";
+	private static final String DELETE_TASK_IDENTIFIER_3 = "-del ";
 
-	private static final String DATE_IDENTIFIER = "-on";
-	private static final String DUE_DATE_IDENTIFIER = "-by";
-	private static final String TIME_IDENTIFIER = "-at";
-	private static final String REMARKS_IDENTIFIER = "-remarks";
-	private static final String UNDO_ACTION_IDENTIFIER = "-undo";
+	private static final String DATE_IDENTIFIER = "-on ";
+	private static final String DUE_DATE_IDENTIFIER = "-by ";
+	private static final String TIME_IDENTIFIER = "-at ";
+	private static final String REMARKS_IDENTIFIER = "-remarks ";
+	private static final String UNDO_ACTION_IDENTIFIER = "-undo ";
 
 	private static final Map<String, Action> actionMap = createMap();
 
@@ -42,18 +44,19 @@ public final class Keywords {
 
 		map.put(ADD_TASK_IDENTIFIER_1, Action.ADD);
 		map.put(ADD_TASK_IDENTIFIER_2, Action.ADD);
+		map.put(ADD_TASK_IDENTIFIER_3, Action.ADD);
+		
+		map.put(VIEW_TASK_IDENTIFIER_1, Action.VIEW);
+		map.put(VIEW_TASK_IDENTIFIER_2, Action.VIEW);
+		map.put(VIEW_TASK_IDENTIFIER_3, Action.VIEW);
 
-		map.put(UPDATE_TASK_IDENTIFIER_1, Action.UPDATE);
-		map.put(UPDATE_TASK_IDENTIFIER_2, Action.UPDATE);
-		map.put(UPDATE_TASK_IDENTIFIER_3, Action.UPDATE);
+		map.put(EDIT_TASK_IDENTIFIER_1, Action.EDIT);
+		map.put(EDIT_TASK_IDENTIFIER_2, Action.EDIT);
+		map.put(EDIT_TASK_IDENTIFIER_3, Action.EDIT);
 
 		map.put(DELETE_TASK_IDENTIFIER_1, Action.DELETE);
 		map.put(DELETE_TASK_IDENTIFIER_2, Action.DELETE);
 		map.put(DELETE_TASK_IDENTIFIER_3, Action.DELETE);
-		
-		map.put(READ_TASK_IDENTIFIER_1, Action.READ);
-		map.put(READ_TASK_IDENTIFIER_2, Action.READ);
-
 
 		map.put(UNDO_ACTION_IDENTIFIER, Action.UNDO);
 
@@ -82,17 +85,17 @@ public final class Keywords {
 	public static String getAddTaskIdentifier() {
 		return ADD_TASK_IDENTIFIER_1;
 	}
+	
+	public static String getViewTaskIdentifier() {
+		return VIEW_TASK_IDENTIFIER_1;
+	}
 
-	public static String getUpdateTaskIdentifier() {
-		return UPDATE_TASK_IDENTIFIER_1;
+	public static String getEditTaskIdentifier() {
+		return EDIT_TASK_IDENTIFIER_1;
 	}
 
 	public static String getDeleteTaskIdentifier() {
 		return DELETE_TASK_IDENTIFIER_1;
-	}
-
-	public static String getListTaskIdentifier() {
-		return READ_TASK_IDENTIFIER_1;
 	}
 	
 	public static String getDateIdentifier() {

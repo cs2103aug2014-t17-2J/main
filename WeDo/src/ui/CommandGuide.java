@@ -5,11 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ui.Keywords;
-import userInterface.UserIntSwing;
 
 public class CommandGuide {
 	private static final String GENERAL_GUIDE = buildGeneralGuideString();
 	private static final String ADD_GUIDE = buildAddGuideString();
+	private static final String VIEW_GUIDE = buildViewGuideString();
+	private static final String EDIT_GUIDE = buildEditGuideString();
+	private static final String DELETE_GUIDE = buildDeleteGuideString();
 	
 	private static final String HTML_OPEN = "<html>";
 	private static final String HTML_CLOSE = "</html>";
@@ -48,19 +50,25 @@ public class CommandGuide {
 		switch (action) {
 		case ADD:
 			return String.format(ADD_GUIDE, identifier);
+		case VIEW:
+			return String.format(VIEW_GUIDE, identifier);
+		case EDIT:
+			return String.format(EDIT_GUIDE, identifier);
+		case DELETE:
+			return String.format(DELETE_GUIDE, identifier);
 		default:
 			return GENERAL_GUIDE;
 		}
 	}
 	
-	public static void processGuide(){
-		if(UserIntSwing.textField.getText() == ""){
-			UserIntSwing.lblWarning.setText(buildGeneralGuideString());
-		}
-		else if(UserIntSwing.textField.getText() == "-add"){
-		
-		}
-	}
+//	public static void processGuide(){
+//		if(UserIntSwing.textField.getText() == ""){
+//			UserIntSwing.lblHelp.setText(buildGeneralGuideString());
+//		}
+//		else if(UserIntSwing.textField.getText() == "-add"){
+//		
+//		}
+//	}
 
 	public static String buildGeneralGuideString() {
 
@@ -69,14 +77,14 @@ public class CommandGuide {
 		str.append("Type any of the following to begin:");
 		str.append(HTML_BREAK);
 		str.append(Keywords.getAddTaskIdentifier() + " | ");
-		str.append(Keywords.getUpdateTaskIdentifier() + " | ");
-		str.append(Keywords.getDeleteTaskIdentifier() + " | ");
-		str.append(Keywords.getListTaskIdentifier());
+		str.append(Keywords.getViewTaskIdentifier() + " | ");
+		str.append(Keywords.getEditTaskIdentifier() + " | ");
+		str.append(Keywords.getDeleteTaskIdentifier());
 
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	private static String buildAddGuideString() {
+	static String buildAddGuideString() {
 
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		String date = sdf.format(new Date());
@@ -93,6 +101,18 @@ public class CommandGuide {
 		str.append(HTML_BREAK);
 
 		return wrapWithHtmlTag(str.toString());
+	}
+	
+	static String buildViewGuideString(){
+		return " ";
+	}
+	
+	static String buildEditGuideString(){
+		return " ";
+	}
+	
+	static String buildDeleteGuideString(){
+		return " ";
 	}
 
 	private static String wrapWithHtmlTag(String text) {
