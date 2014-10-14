@@ -8,9 +8,9 @@ package ui;
 public enum Action {
 	
 	ADD                 (true, true),
-	UPDATE              (true, true),
+	VIEW                (false, false),
+	EDIT                (true, true),
 	DELETE              (true, true),
-	READ                (false, false),
 	UNDO                (false, true),
 	INVALID             (false, false);
 	

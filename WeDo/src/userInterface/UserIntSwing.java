@@ -42,7 +42,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	public void execute() {
 		EventQueue.invokeLater(new Runnable() {
-			@SuppressWarnings("static-access")
 			public void run() {
 				try {
 				//	UserIntSwing window = new UserIntSwing(commandHandler, observableList);
@@ -56,13 +55,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 	}
     
-   
-
-	public UserIntSwing()
-	{
-	    
-	}
-	
 	/**
 	 * Create the application.
 	 */
@@ -92,10 +84,14 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased(KeyEvent e) {
-				UserLogic.processHotKeys(e);
+			public void keyReleased(KeyEvent arg1) {
+				UserLogic.processHotKeys(arg1);
+				UserLogic.processTextField(arg1);
 			}
 		});
+		
+		// Setup the Help label
+		//CommandGuide.processGuide();
 		
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -145,6 +141,9 @@ public class UserIntSwing extends JPanel implements Observer {
 		JLabel lblHelp = new JLabel("Label Help");
 		lblHelp.setBounds(10, 330, 496, 56);
 		frame.getContentPane().add(lblHelp);
+		
+		//Set the Help Label
+		lblHelp.setText(CommandGuide.buildGeneralGuideString());
 		//UserInterface.processHotKeys();
 
 		JButton btnHelp = new JButton("F1 <Help>");
@@ -202,7 +201,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		//for the user to type immediately when the program runs 
 		UserLogic.addFrameWindowFocusListener();
 		
-		UserLogic.processTextField();
+		//UserLogic.processTextField();
 		
 		JButton btnDel = new JButton("F5 <Delete>");
 		btnDel.setBounds(450, 11, 100, 23);
