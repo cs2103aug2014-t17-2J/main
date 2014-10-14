@@ -43,8 +43,6 @@ public class CommandGuide {
 
 		String identifier = tokens[ACTION_IDENTIFIER_INDEX];
 		String message = buildGuideMessage(identifier);
-		
-		System.out.println(message);
 
 		return message;
 	}
