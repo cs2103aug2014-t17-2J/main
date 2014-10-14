@@ -22,11 +22,14 @@ public class TaskParserPlus implements TaskParser {
 
     private final String startDelimiter = "{[";
     private final String endDelimiter = "]}";
+   
 
     public Task buildTask(StringBuilder userInputBuilder) {
         String userInput = userInputBuilder.toString();
         String wordsUsed;
         Task task = new Task();
+        
+        
         userInput = StringHandler.convertImplicitFormalDate(userInput);
         userInput = StringHandler.convertFormalDate(userInput);
         
@@ -34,7 +37,7 @@ public class TaskParserPlus implements TaskParser {
         userInput = findDateFormat(userInput); // replace non date with
                                                // delimiter
 
-//        userInput = KeyMatcher.replaceMatchedWithKey(createFakeMultiMapForShortForm(), userInput);
+       userInput = KeyMatcher.replaceMatchedWithKey(createFakeMultiMapForShortForm(), userInput);
         
         
         System.out.println("to date parser " + userInput);
@@ -66,19 +69,22 @@ public class TaskParserPlus implements TaskParser {
     }
 
     private String replaceDateKeyWords(String source) {
+        
         return source.replaceAll(
                 "(?i) in$| on$| from$| at$| by$| date$|^in |^on |^from |^at |^by |^date ",
                 "");
     }
+    
 
-    public String findDateFormat(String source) {
+
+    private String findDateFormat(String source) {
         source = replaceDigits(source);
         source = nextWordContainsDateFormat(source);
         source = previousWordContainsDateFormat(source);
         return source;
     }
 
-    public String previousWordContainsDateFormat(String source) {
+    private String previousWordContainsDateFormat(String source) {
         final String numRegex = "(\\w+\\s+)(\\{\\[\\d+\\]\\})";
         final int WORD_GROUP = 1;
         final int DIGIT_GROUP = 2;
@@ -105,7 +111,7 @@ public class TaskParserPlus implements TaskParser {
         return digit;
     }
 
-    public String nextWordContainsDateFormat(String source) {
+    private String nextWordContainsDateFormat(String source) {
         final String numRegex = "(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
         final int DIGIT_GROUP = 1;
         final int WORD_GROUP = 2;
@@ -126,7 +132,7 @@ public class TaskParserPlus implements TaskParser {
         return matcher.appendTail(result).toString();
     }
 
-    public String replaceDigits(String source) {
+    private String replaceDigits(String source) {
         final String numRegex = "((?<=^|\\s)\\d+(?=$|\\s))";
         final int digitGroup = 1;
 

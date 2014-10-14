@@ -13,14 +13,14 @@ import definedEnumeration.Priority;
  */
 public class Task 
 {
-    private static int ID = 1;
+    private static int uniqueID = 1;
     private Priority priority;
     private LocalDate startDate = LocalDate.MAX;
     private LocalDate endDate = LocalDate.MAX;
     private LocalTime startTime = LocalTime.MAX;
     private LocalTime endTime = LocalTime.MAX;
     private String description;
-    private boolean isCompleted;
+    private boolean isCompleted = false;
    
     @Override
     public boolean equals(Object other)
@@ -50,19 +50,19 @@ public class Task
     
     public Task()
     {
-        ID++;
+        uniqueID++;
     }
     /**
      * @return the iD
      */
     public int getID() {
-        return ID;
+        return uniqueID;
     }
     /**
      * @param iD the iD to set
      */
     public void setID(int iD) {
-        ID = iD;
+        uniqueID = iD;
     }
     /**
      * @return the priority

@@ -26,7 +26,7 @@ public class TestLogicManager {
         LogicManager logicManager = new LogicManager(new BasicDataHandler());
         Scanner sc = new Scanner(System.in);
         while(true)
-         logicManager.processUserInput(sc.nextLine());
+         logicManager.processCommand(sc.nextLine());
 //        commandHandler.executeCommand("date 18/09 2pm to 22/9 2am -add buy for me something priority med");
 //        commandHandler.executeCommand("clear 18/09 to 19/09");
 //        commandHandler.executeCommand("clear 1");
