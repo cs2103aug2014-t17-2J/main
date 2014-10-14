@@ -23,6 +23,11 @@ public class CommandGuide {
 	private static final String WHITESPACE_PATTERN = "\\s+";
 	private static final String IDENTIFIER_PLACEHOLDER = "%1$s";
 	
+	private static final String COMMAND_TODAY = "today";
+	private static final String COMMAND_YESTERDAY = "yesterday";
+	private static final String COMMAND_TOMORROW = "tomorrow";
+	private static final String LABEL_SAMPLE_DATE = "14/10/2014";
+	
 	private static final int MIN_TOKENS_LENGTH = 1;
 	private static final int ACTION_IDENTIFIER_INDEX = 0;
 	
@@ -38,11 +43,13 @@ public class CommandGuide {
 
 		String identifier = tokens[ACTION_IDENTIFIER_INDEX];
 		String message = buildGuideMessage(identifier);
+		
+		System.out.println(message);
 
 		return message;
 	}
 
-	private static String buildGuideMessage(String identifier) {
+	public static String buildGuideMessage(String identifier) {
 
 		identifier = identifier.toLowerCase();
 		Action action = Keywords.resolveActionIdentifier(identifier);
@@ -96,23 +103,49 @@ public class CommandGuide {
 		str.append("- Normal Task: ");
 		str.append(underline(IDENTIFIER_PLACEHOLDER) + " meet Prof Aaron ");
 		str.append(underline(Keywords.getDateIdentifier()) + " " + date + " ");
-		str.append(underline(Keywords.getTimeIdentifier()) + " 12.00 - 14.00 ");
-		str.append(underline(Keywords.getRemarksIdentifier()) + " Consultation");
+		str.append(underline(Keywords.getTimeIdentifier()) + " 12pm - 2pm");
 		str.append(HTML_BREAK);
 
 		return wrapWithHtmlTag(str.toString());
 	}
 	
 	static String buildViewGuideString(){
-		return " ";
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		String date = sdf.format(new Date());
+		StringBuilder str = new StringBuilder();
+
+		str.append("To view tasks for today, type:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " ");
+		str.append(underline(COMMAND_TODAY));
+		str.append(HTML_BREAK);
+
+		str.append("To view tasks for a certain day, type:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " " + date + " OR ");
+		str.append(underline(COMMAND_YESTERDAY) + " OR ");
+		str.append(underline(COMMAND_TOMORROW));
+
+		return wrapWithHtmlTag(str.toString());
 	}
 	
 	static String buildEditGuideString(){
-		return " ";
+		StringBuilder str = new StringBuilder();
+
+		str.append("To edit a task, ");
+		str.append("select the task number and type:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " 1 ");
+		str.append(LABEL_SAMPLE_DATE);
+
+		return wrapWithHtmlTag(str.toString());
 	}
 	
 	static String buildDeleteGuideString(){
-		return " ";
+		StringBuilder str = new StringBuilder();
+
+		str.append("To delete a task, ");
+		str.append("select the task number and type:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " 1");
+
+		return wrapWithHtmlTag(str.toString());
 	}
 
 	private static String wrapWithHtmlTag(String text) {

@@ -24,12 +24,12 @@ public class UserLogic {
 		});
 	}
 	
-	public static void processTextField(KeyEvent arg1) {
-		if (UserIntSwing.textField.getText().length() > 0
-				&& arg1.getKeyCode() == KeyEvent.VK_ENTER) {
-			UserIntSwing.textField.setText("");
-		}
-	}
+//	public static void processTextField(KeyEvent arg1) {
+//		if (UserIntSwing.textField.getText().length() > 0
+//				&& arg1.getKeyCode() == KeyEvent.VK_ENTER) {
+//			UserIntSwing.textField.setText("");
+//		}
+//	}
 	
 	public static void processHotKeys(KeyEvent arg1){
 		if (UserIntSwing.textField.getText().length() == 0){

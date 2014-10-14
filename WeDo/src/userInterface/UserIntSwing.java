@@ -21,6 +21,7 @@ import logic.LogicManager;
 import logic.utility.Task;
 import ui.CommandGuide;
 import ui.UserLogic;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -78,15 +79,26 @@ public class UserIntSwing extends JPanel implements Observer {
 		JLabel lblDisplay = new JLabel("My Label");
 		lblDisplay.setBounds(10, 42, 157, 20);
 		frame.getContentPane().add(lblDisplay);
+		
+		JLabel lblHelp = new JLabel("Label Help");
+		lblHelp.setVerticalAlignment(SwingConstants.TOP);
+		lblHelp.setBounds(10, 337, 496, 96);
+		frame.getContentPane().add(lblHelp);
 
 		//ArrayList<String> taskList = new ArrayList<String>();
-
+		
+		//Set the Help Label
+		lblHelp.setText(CommandGuide.buildGeneralGuideString());
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg1) {
 				UserLogic.processHotKeys(arg1);
-				UserLogic.processTextField(arg1);
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				String command = textField.getText();
+				lblHelp.setText(CommandGuide.getGuideMessage(command + " "));
 			}
 		});
 		
@@ -137,14 +149,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 		btnEnter.setBounds(406, 305, 100, 23);
 		frame.getContentPane().add(btnEnter);
-
-		JLabel lblHelp = new JLabel("Label Help");
-		lblHelp.setBounds(10, 330, 496, 56);
-		frame.getContentPane().add(lblHelp);
-		
-		//Set the Help Label
-		lblHelp.setText(CommandGuide.buildGeneralGuideString());
-		//UserInterface.processHotKeys();
 
 		JButton btnHelp = new JButton("F1 <Help>");
 		btnHelp.setBounds(10, 11, 100, 23);
