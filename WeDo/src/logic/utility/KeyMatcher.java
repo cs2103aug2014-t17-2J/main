@@ -55,7 +55,7 @@ public class KeyMatcher
             {
                 if(input.toLowerCase().contains(" " + value.toLowerCase() + " "))
                 {
-                    input.toLowerCase().replaceAll(" " + value.toLowerCase() + " ", " " + key + " ");
+                    input = input.toLowerCase().replaceAll(" " + value.toLowerCase() + " ", " " + key + " ");
                 }
             }
         }
