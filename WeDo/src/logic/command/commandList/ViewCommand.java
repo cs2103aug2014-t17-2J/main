@@ -21,7 +21,7 @@ public class ViewCommand extends Command {
 
         previousView = dataHandler.getObservableList().getList();
         dataHandler.view(task);
-
+        undoHandler.addUndo(this);
     }
 
     /*
