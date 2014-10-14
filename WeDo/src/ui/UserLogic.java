@@ -32,18 +32,23 @@ public class UserLogic {
 //	}
 	
 	public static void processHotKeys(KeyEvent arg1){
+		String getCommand;
 		if (UserIntSwing.textField.getText().length() == 0){
 			if(arg1.getKeyCode() == KeyEvent.VK_F2){
-				UserIntSwing.textField.setText(Keywords.getAddTaskIdentifier());
+				getCommand = Keywords.getAddTaskIdentifier();
+				UserIntSwing.textField.setText(getCommand);
 			}
 			else if(arg1.getKeyCode() == KeyEvent.VK_F3){
-				UserIntSwing.textField.setText(Keywords.getViewTaskIdentifier());
+				getCommand = Keywords.getViewTaskIdentifier();
+				UserIntSwing.textField.setText(getCommand);
 			}
 			else if(arg1.getKeyCode() == KeyEvent.VK_F4){
-				UserIntSwing.textField.setText(Keywords.getEditTaskIdentifier());
+				getCommand = Keywords.getEditTaskIdentifier();
+				UserIntSwing.textField.setText(getCommand);
 			}
 			else if(arg1.getKeyCode() == KeyEvent.VK_F5){
-				UserIntSwing.textField.setText(Keywords.getDeleteTaskIdentifier());
+				getCommand = Keywords.getDeleteTaskIdentifier();
+				UserIntSwing.textField.setText(getCommand);
 			}
 		}
 	}
