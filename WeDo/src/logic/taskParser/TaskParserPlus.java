@@ -22,11 +22,14 @@ public class TaskParserPlus implements TaskParser {
 
     private final String startDelimiter = "{[";
     private final String endDelimiter = "]}";
+   
 
     public Task buildTask(StringBuilder userInputBuilder) {
         String userInput = userInputBuilder.toString();
         String wordsUsed;
         Task task = new Task();
+        
+        
         userInput = StringHandler.convertImplicitFormalDate(userInput);
         userInput = StringHandler.convertFormalDate(userInput);
         
@@ -66,10 +69,13 @@ public class TaskParserPlus implements TaskParser {
     }
 
     private String replaceDateKeyWords(String source) {
+        
         return source.replaceAll(
                 "(?i) in$| on$| from$| at$| by$| date$|^in |^on |^from |^at |^by |^date ",
                 "");
     }
+    
+
 
     private String findDateFormat(String source) {
         source = replaceDigits(source);
