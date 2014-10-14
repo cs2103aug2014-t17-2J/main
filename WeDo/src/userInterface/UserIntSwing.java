@@ -104,7 +104,7 @@ public class UserIntSwing extends JPanel implements Observer {
 			//	textInput += textField.getText();
 				//lblDisplay.setText(textField.getText());
 			    try {
-                    logicManager.processUserInput(textField.getText());
+                    logicManager.processCommand(textField.getText());
                 } catch (InvalidCommandException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -128,7 +128,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				// textArea.setText(textField.getText());
 				// textField.setText("");
 			    try {
-                    logicManager.processUserInput(textField.getText());
+                    logicManager.processCommand(textField.getText());
                 } catch (InvalidCommandException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

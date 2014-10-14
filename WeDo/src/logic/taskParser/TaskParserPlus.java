@@ -71,14 +71,14 @@ public class TaskParserPlus implements TaskParser {
                 "");
     }
 
-    public String findDateFormat(String source) {
+    private String findDateFormat(String source) {
         source = replaceDigits(source);
         source = nextWordContainsDateFormat(source);
         source = previousWordContainsDateFormat(source);
         return source;
     }
 
-    public String previousWordContainsDateFormat(String source) {
+    private String previousWordContainsDateFormat(String source) {
         final String numRegex = "(\\w+\\s+)(\\{\\[\\d+\\]\\})";
         final int WORD_GROUP = 1;
         final int DIGIT_GROUP = 2;
@@ -105,7 +105,7 @@ public class TaskParserPlus implements TaskParser {
         return digit;
     }
 
-    public String nextWordContainsDateFormat(String source) {
+    private String nextWordContainsDateFormat(String source) {
         final String numRegex = "(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
         final int DIGIT_GROUP = 1;
         final int WORD_GROUP = 2;
@@ -126,7 +126,7 @@ public class TaskParserPlus implements TaskParser {
         return matcher.appendTail(result).toString();
     }
 
-    public String replaceDigits(String source) {
+    private String replaceDigits(String source) {
         final String numRegex = "((?<=^|\\s)\\d+(?=$|\\s))";
         final int digitGroup = 1;
 

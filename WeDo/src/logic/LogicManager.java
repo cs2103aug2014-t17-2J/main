@@ -19,7 +19,7 @@ public class LogicManager
 {
     
     private DataHandler dataHandler;
-    private UndoHandler undoHandler;
+    private CommandExecutor commandExecutor;
     
 
     /**
@@ -30,27 +30,29 @@ public class LogicManager
      */
     public LogicManager(DataHandler dataHandler) {
         this.dataHandler = dataHandler;
-        undoHandler = new UndoHandler();
+        this.commandExecutor = new CommandExecutor(this.dataHandler);
     } 
 
-    public void processUserInput(String userInput) throws InvalidCommandException {
+    /**
+     * @param userInput the input that the user entered which will be decipher into task and command
+     * @throws InvalidCommandException      
+     */
+    public void processCommand(String userInput) throws InvalidCommandException {
 
+        final String INVALID_COMMAND = "The command given was invalid";
         StringBuilder userInputBuilder = new StringBuilder(userInput);
-        
+
         TaskParserPlus taskParser = new TaskParserPlus();
-        Task task = taskParser.buildTask(userInputBuilder);
-        
         CommandParser commandParser = new CommandParser();
+
+        Task task = taskParser.buildTask(userInputBuilder);
+
         Command command = commandParser.getCommand(userInputBuilder.toString());
-        
-        
-        if (command == null) 
-        {
-            throw new InvalidCommandException("Command given was invalid");
+
+        if (command == null) {
+            throw new InvalidCommandException(INVALID_COMMAND);
         }
-        
-        
-        CommandExecutor commandExecutor = new CommandExecutor(dataHandler);
+
         commandExecutor.execute(command, task);
-    }   
+    }
 }

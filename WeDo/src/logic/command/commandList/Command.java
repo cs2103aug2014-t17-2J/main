@@ -12,10 +12,7 @@ public abstract class Command {
     protected DataHandler dataHandler;
     protected UndoHandler undoHandler;
 
-    protected void buildTask(StringBuilder userInput) {
-        TaskParserBasic taskParser = new TaskParserBasic();
-        this.task = taskParser.buildTask(userInput);
-    }
+
 
     public void setTask(Task task) {
         this.task = task;

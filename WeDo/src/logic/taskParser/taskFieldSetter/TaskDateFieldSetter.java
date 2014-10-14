@@ -23,7 +23,7 @@ import logic.utility.Task;
  */
 public class TaskDateFieldSetter implements TaskFieldSetter {
 
-    /* (non-Javadoc)
+    /* (non-Javadoc)4
      * @see logic.taskParser.taskFieldSetter.TaskFieldSetter#set(logic.Task, java.lang.String)
      */
     @Override
@@ -31,9 +31,6 @@ public class TaskDateFieldSetter implements TaskFieldSetter {
 
        
         Parser nattyParser = new Parser();
-        
-   //     arguments = StringHandler.convertImplicitFormalDate(arguments);
-   //     arguments = StringHandler.convertFormalDate(arguments);
         
         List<DateGroup> dateGroups = nattyParser.parse(source);
         if (dateAvailable(dateGroups))
