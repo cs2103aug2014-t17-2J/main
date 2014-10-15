@@ -4,11 +4,15 @@ package ui;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import userInterface.UserIntSwing;
 
 public class UserLogic {
 	//private static final String EXIT_PROGRAM = "exit";
+	private static final String DATE_FORMAT = "dd/MM/yyyy";
 	
 	/**
 	 *This operation puts the focus on the textField 
@@ -22,6 +26,14 @@ public class UserLogic {
 			}
 			public void windowLostFocus(WindowEvent arg0) {}
 		});
+	}
+	
+	public static String setTodayDate(){
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		String date = sdf.format(new Date());
+		String dateDisplay = "You are viewing: " + date;
+		
+		return dateDisplay;
 	}
 	
 //	public static void processTextField(KeyEvent arg1) {

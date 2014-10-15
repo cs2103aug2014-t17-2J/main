@@ -19,7 +19,7 @@ public class CommandGuide {
 	private static final String HTML_UNDERLINE_OPEN = "<u>";
 	private static final String HTML_UNDERLINE_CLOSE = "</u>";
 	private static final String TAG_WRAP_STRING = "%s%s%s";
-	private static final String DATE_FORMAT = "dd/MM/yy";
+	private static final String DATE_FORMAT = "dd/MM/yyyy";
 	private static final String WHITESPACE_PATTERN = "\\s+";
 	private static final String IDENTIFIER_PLACEHOLDER = "%1$s";
 	
@@ -103,6 +103,16 @@ public class CommandGuide {
 		str.append(underline(Keywords.getDateIdentifier()) + " " + date + " ");
 		str.append(underline(Keywords.getTimeIdentifier()) + " 12pm - 2pm");
 		str.append(HTML_BREAK);
+		
+		str.append("- Deadline Task: ");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " submit proposal ");
+		str.append(underline(Keywords.getDueDateIdentifier()) + " " + date
+				+ " ");
+		str.append(underline(Keywords.getTimeIdentifier()) + " 10pm");
+		str.append(HTML_BREAK);
+
+		str.append("- Floating Task: ");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " learn cooking");
 
 		return wrapWithHtmlTag(str.toString());
 	}

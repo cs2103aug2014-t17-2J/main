@@ -76,15 +76,17 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel lblDisplay = new JLabel("My Label");
-		lblDisplay.setBounds(10, 42, 157, 20);
-		frame.getContentPane().add(lblDisplay);
+		JLabel lblTodayDate = new JLabel("");
+		lblTodayDate.setBounds(10, 0, 157, 20);
+		frame.getContentPane().add(lblTodayDate);
+		
+		lblTodayDate.setText(UserLogic.setTodayDate());
 		
 		JLabel lblHelp = new JLabel("Label Help");
 		lblHelp.setVerticalAlignment(SwingConstants.TOP);
 		lblHelp.setBounds(10, 337, 496, 96);
 		frame.getContentPane().add(lblHelp);
-
+		
 		//ArrayList<String> taskList = new ArrayList<String>();
 		
 		//Set the Help Label
@@ -151,7 +153,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().add(btnEnter);
 
 		JButton btnHelp = new JButton("F1 <Help>");
-		btnHelp.setBounds(10, 11, 100, 23);
+		btnHelp.setBounds(10, 26, 100, 23);
 		frame.getContentPane().add(btnHelp);
 
 		JButton btnAdd = new JButton("F2 <Add>");
@@ -184,15 +186,15 @@ public class UserIntSwing extends JPanel implements Observer {
 			}
 		});
 
-		btnAdd.setBounds(120, 11, 100, 23);
+		btnAdd.setBounds(120, 26, 100, 23);
 		frame.getContentPane().add(btnAdd);
 
 		JButton btnView = new JButton("F3 <View>");
-		btnView.setBounds(230, 11, 100, 23);
+		btnView.setBounds(230, 26, 100, 23);
 		frame.getContentPane().add(btnView);
 
 		JButton btnEdit = new JButton("F4 <Edit>");
-		btnEdit.setBounds(340, 11, 100, 23);
+		btnEdit.setBounds(340, 26, 100, 23);
 		frame.getContentPane().add(btnEdit);
 
 		interForm = new InteractiveForm();
@@ -208,7 +210,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		//UserLogic.processTextField();
 		
 		JButton btnDel = new JButton("F5 <Delete>");
-		btnDel.setBounds(450, 11, 100, 23);
+		btnDel.setBounds(450, 26, 100, 23);
 		frame.getContentPane().add(btnDel);
 		
 		JLabel lblWarning = new JLabel("");
