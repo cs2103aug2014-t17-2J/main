@@ -14,8 +14,8 @@ import definedEnumeration.Priority;
  */
 public class AbstractTask {
     
-    protected static final LocalTime TIME_NOT_SET = LocalTime.MAX;
-    protected static final LocalDate DATE_NOT_SET = LocalDate.MAX;
+    public static final LocalTime TIME_NOT_SET = LocalTime.MAX;
+    public static final LocalDate DATE_NOT_SET = LocalDate.MAX;
     protected static final boolean DEFAULT_COMPLETE_STATUS = false;
     
     private static int uniqueID = 1;

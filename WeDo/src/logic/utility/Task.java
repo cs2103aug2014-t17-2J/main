@@ -16,8 +16,8 @@ public class Task
     private static int uniqueID = 1;
     private Priority priority;
     private LocalDate startDate = LocalDate.MAX;
-    private LocalDate endDate = LocalDate.MAX;
     private LocalTime startTime = LocalTime.MAX;
+    private LocalDate endDate = LocalDate.MAX;
     private LocalTime endTime = LocalTime.MAX;
     private String description;
     private boolean isCompleted = false;
