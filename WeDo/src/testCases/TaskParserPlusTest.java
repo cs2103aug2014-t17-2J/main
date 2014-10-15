@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import logic.taskParser.TaskParserPlus;
-import logic.taskParser.Parser;
+import logic.taskParser.ParserManager;
 import logic.utility.Task;
 
 import org.junit.Test;

@@ -50,6 +50,11 @@ public class CommandParser {
         }
     }
     
+    public Command getCommand()
+    {
+        return command;
+    }
+    
 
     /**
      * This function create a map of commands and add them to the multi map. The

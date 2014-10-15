@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.EnumSet;
 
-import logic.taskParser.ParserFlag;
+import logic.taskParser.ParserFlags;
 
 import org.junit.Test;
 
@@ -19,31 +19,31 @@ public class ParserFlagTest {
 
     @Test
     public void test() {
-        EnumSet<ParserFlag> myFlags = EnumSet.noneOf(ParserFlag.class);
+        EnumSet<ParserFlags> myFlags = EnumSet.noneOf(ParserFlags.class);
 
-        myFlags.add(ParserFlag.COMMAND_FLAG);
-        myFlags.add(ParserFlag.DESCRIPTION_FLAG);
+        myFlags.add(ParserFlags.COMMAND_FLAG);
+        myFlags.add(ParserFlags.DESCRIPTION_FLAG);
 
-        assertTrue(ParserFlag.isParseValid(myFlags));
+        assertTrue(ParserFlags.isParseValid(myFlags));
 
-        myFlags.remove(ParserFlag.COMMAND_FLAG);
+        myFlags.remove(ParserFlags.COMMAND_FLAG);
 
-        assertFalse(ParserFlag.isParseValid(myFlags));
+        assertFalse(ParserFlags.isParseValid(myFlags));
 
-        myFlags = EnumSet.noneOf(ParserFlag.class);
-        assertFalse(ParserFlag.isParseValid(myFlags));
+        myFlags = EnumSet.noneOf(ParserFlags.class);
+        assertFalse(ParserFlags.isParseValid(myFlags));
 
-        myFlags.add(ParserFlag.DATE_FLAG);
-        assertFalse(ParserFlag.isParseValid(myFlags));
+        myFlags.add(ParserFlags.DATE_FLAG);
+        assertFalse(ParserFlags.isParseValid(myFlags));
 
-        myFlags.add(ParserFlag.PRIORITY_FLAG);
-        assertFalse(ParserFlag.isParseValid(myFlags));
+        myFlags.add(ParserFlags.PRIORITY_FLAG);
+        assertFalse(ParserFlags.isParseValid(myFlags));
 
-        myFlags.add(ParserFlag.DESCRIPTION_FLAG);
-        assertFalse(ParserFlag.isParseValid(myFlags));
+        myFlags.add(ParserFlags.DESCRIPTION_FLAG);
+        assertFalse(ParserFlags.isParseValid(myFlags));
 
-        myFlags.add(ParserFlag.COMMAND_FLAG);
-        assertTrue(ParserFlag.isParseValid(myFlags));
+        myFlags.add(ParserFlags.COMMAND_FLAG);
+        assertTrue(ParserFlags.isParseValid(myFlags));
 
     }
 

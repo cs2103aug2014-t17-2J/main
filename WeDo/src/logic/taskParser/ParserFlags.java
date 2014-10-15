@@ -11,11 +11,11 @@ import java.util.EnumSet;
  *         ParserFlag keep track of parses that are executed successfully.
  *         <p>
  */
-public enum ParserFlag {
+public enum ParserFlags {
     DATE_FLAG, PRIORITY_FLAG, DESCRIPTION_FLAG, COMMAND_FLAG;
 
-    private static final EnumSet<ParserFlag> VALID_PARSE = EnumSet.of(
-            ParserFlag.DESCRIPTION_FLAG, ParserFlag.COMMAND_FLAG);
+    private static final EnumSet<ParserFlags> VALID_PARSE = EnumSet.of(
+            ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
 
     /**
      * <p>
@@ -26,7 +26,7 @@ public enum ParserFlag {
      * @param flagSet the set of ParserFlag to be tested
      * @return if it contains all of the VALID_PARSE flag
      */
-    public static boolean isParseValid(EnumSet<ParserFlag> flagSet) {
+    public static boolean isParseValid(EnumSet<ParserFlags> flagSet) {
 
         if (flagSet.containsAll(VALID_PARSE)) {
             return true;

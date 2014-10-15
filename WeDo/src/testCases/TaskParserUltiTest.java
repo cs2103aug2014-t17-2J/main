@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.Scanner;
 
-import logic.taskParser.Parser;
+import logic.taskParser.ParserManager;
 
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class TaskParserUltiTest {
     @Test
     public void test() {
       Scanner sc = new Scanner(System.in);
-      Parser ulti = new Parser();
+      ParserManager ulti = new ParserManager();
       while(true)
       {
           String input = sc.nextLine();

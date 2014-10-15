@@ -16,13 +16,15 @@ public class AbstractTask {
     
     public static final LocalTime TIME_NOT_SET = LocalTime.MAX;
     public static final LocalDate DATE_NOT_SET = LocalDate.MAX;
+   // public static final Priority PRIORITY_NOT_SET = Priority.PRIORITY_UNDEFINED;
     protected static final boolean DEFAULT_COMPLETE_STATUS = false;
+    public static final Priority PRIORITY_NOT_SET = Priority.PRIORITY_UNDEFINED;
     
     private static int uniqueID = 1;
     
     private Priority priority;
     private String description;
-    private boolean isCompleted = false;
+    private boolean isCompleted = DEFAULT_COMPLETE_STATUS;
     
     
     public AbstractTask(Priority priority, String description, boolean isComplete)

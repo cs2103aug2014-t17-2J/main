@@ -61,6 +61,11 @@ public class DateParser {
         }
     }
 
+    public int getNumberOfDates()
+    {
+        return dateList.size();
+    }
+    
     public boolean isTimeSet() {
         return isTimeSet;
     }
