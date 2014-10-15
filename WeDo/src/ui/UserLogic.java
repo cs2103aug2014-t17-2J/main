@@ -1,6 +1,9 @@
 //@Andy Hsu Wei Qiang
 package ui;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
@@ -13,6 +16,7 @@ import userInterface.UserIntSwing;
 public class UserLogic {
 	//private static final String EXIT_PROGRAM = "exit";
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
+	private static final int taskbarHeight = 45;
 	
 	/**
 	 *This operation puts the focus on the textField 
@@ -28,6 +32,10 @@ public class UserLogic {
 		});
 	}
 	
+	/**
+	 *This operation sets the date for today and display
+	 *on the top of the application
+	 */
 	public static String setTodayDate(){
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		String date = sdf.format(new Date());
@@ -36,6 +44,19 @@ public class UserLogic {
 		return dateDisplay;
 	}
 	
+	/**
+	 *This operation sets the program at the 
+	 *bottom right hand corner of screen
+	 */
+	public static void setupFrameLocation() {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
+		Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
+		int Xcoordinate = (int) rect.getMaxX() - UserIntSwing.frame.getWidth();
+		int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() - taskbarHeight;
+		UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
+	}
+
 //	public static void processTextField(KeyEvent arg1) {
 //		if (UserIntSwing.textField.getText().length() > 0
 //				&& arg1.getKeyCode() == KeyEvent.VK_ENTER) {

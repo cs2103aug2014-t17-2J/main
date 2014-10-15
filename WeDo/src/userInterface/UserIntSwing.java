@@ -75,6 +75,8 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.setBounds(100, 100, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		UserLogic.setupFrameLocation();
 
 		JLabel lblTodayDate = new JLabel("");
 		lblTodayDate.setBounds(10, 0, 157, 20);
