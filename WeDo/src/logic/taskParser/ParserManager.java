@@ -75,6 +75,19 @@ public class ParserManager {
 
     }
 
+    /**
+     * Build deadline with the results stored in the parser(s)
+     * 
+     * @param parseFlags
+     *            the set of flags which consist of successful parses
+     * @param dateParser
+     *            that may consist of the parsed date result
+     * @param priorityParser
+     *            that may consist of the parsed priority result
+     * @param descriptionParser
+     *            that may consist of the parsed description result
+     * @return DeadLineTask which consist of description, priority, end date, end time
+     */
     private AbstractTask buildDeadLineTask(EnumSet<ParserFlags> parseFlags,
             DateParser dateParser, PriorityParser priorityParser,
             DescriptionParser descriptionParser) {
@@ -89,6 +102,19 @@ public class ParserManager {
         }
     }
 
+    /**
+     * Build timed task with the results stored in the parser(s)
+     * 
+     * @param parseFlags
+     *            the set of flags which consist of successful parses
+     * @param dateParser
+     *            that may consist of the parsed date result
+     * @param priorityParser
+     *            that may consist of the parsed priority result
+     * @param descriptionParser
+     *            that may consist of the parsed description result
+     * @return TimedTask which consist of description, priority, end date, end time, start date, start time
+     */
     private AbstractTask buildTimedTask(EnumSet<ParserFlags> parseFlags,
             DateParser dateParser, PriorityParser priorityParser,
             DescriptionParser descriptionParser) {
@@ -105,6 +131,19 @@ public class ParserManager {
         }
     }
 
+    /**
+     * Build timed task with the results stored in the parser(s)
+     * 
+     * @param parseFlags
+     *            the set of flags which consist of successful parses
+     * @param dateParser
+     *            that may consist of the parsed date result
+     * @param priorityParser
+     *            that may consist of the parsed priority result
+     * @param descriptionParser
+     *            that may consist of the parsed description result
+     * @return FloatingTask which consist of description, priority
+     */
     private AbstractTask buildFloatingTask(EnumSet<ParserFlags> parseFlags,
             PriorityParser priorityParser, DescriptionParser descriptionParser) {
         if (!parseFlags.contains(ParserFlags.PRIORITY_FLAG)) {
