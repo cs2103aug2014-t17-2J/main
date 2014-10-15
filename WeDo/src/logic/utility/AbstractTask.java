@@ -42,7 +42,6 @@ public class AbstractTask {
         this.description = description;
     }
     
-    
     /**
      * @return the uniqueID
      */
@@ -90,6 +89,39 @@ public class AbstractTask {
      */
     public void setCompleted(boolean isCompleted) {
         this.isCompleted = isCompleted;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "AbstractTask [priority=" + priority + ", description="
+                + description + ", isCompleted=" + isCompleted + "]";
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractTask other = (AbstractTask) obj;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        } else if (!description.equals(other.description))
+            return false;
+        if (isCompleted != other.isCompleted)
+            return false;
+        if (priority != other.priority)
+            return false;
+        return true;
     }
     
 }

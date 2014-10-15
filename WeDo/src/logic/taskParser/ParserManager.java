@@ -37,6 +37,9 @@ public class ParserManager {
             command = commandParser.getCommand();
             task = buildTask(parseFlags, dateParser, priorityParser,
                     descriptionParser);
+            
+            System.out.println(task);
+            
             return true;
         } else {
             return false;

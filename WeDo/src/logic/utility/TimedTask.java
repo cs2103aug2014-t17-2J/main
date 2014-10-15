@@ -25,7 +25,7 @@ public class TimedTask extends DeadLineTask {
      */
     public TimedTask(Priority priority, String description, LocalDate endDate,
             LocalTime endTime, LocalDate startDate, LocalTime startTime) {
-        
+
         super(priority, description, endDate, endTime);
 
         this.startDate = startDate;
@@ -35,10 +35,24 @@ public class TimedTask extends DeadLineTask {
     public TimedTask(Priority priority, String description, boolean isComplete,
             LocalDate endDate, LocalTime endTime, LocalDate startDate,
             LocalTime startTime) {
-        
+
         super(priority, description, isComplete, endDate, endTime);
-        
+
         this.startDate = startDate;
         this.startTime = startTime;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "TimedTask [startDate=" + startDate + ", startTime=" + startTime
+                + ", getEndDate()=" + getEndDate() + ", getEndTime()="
+                + getEndTime() + ", getPriority()="
+                + getPriority() + ", getDescription()=" + getDescription()
+                + ", isCompleted()=" + isCompleted() + "]";
     }
 }

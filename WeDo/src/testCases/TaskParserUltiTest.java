@@ -24,7 +24,7 @@ public class TaskParserUltiTest {
       while(true)
       {
           String input = sc.nextLine();
-        //  ulti.buildTask(new StringBuilder(input));
+          ulti.interpret(input);
 
       }
     }

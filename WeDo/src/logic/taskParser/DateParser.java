@@ -80,7 +80,7 @@ public class DateParser {
         final int START_DATE_INDEX = 0;
 
         if (END_DATE_INDEX == START_DATE_INDEX) {
-            return AbstractTask.DATE_NOT_SET;
+            return getStartDate();
 
         } else {
             return dateToLocalDate(dateList.get(END_DATE_INDEX));
@@ -103,7 +103,7 @@ public class DateParser {
         final int START_TIME_INDEX = 0;
 
         if (END_TIME_INDEX == START_TIME_INDEX) {
-            return AbstractTask.TIME_NOT_SET;
+            return getStartTime();
         }
 
         if (isTimeSet) {
