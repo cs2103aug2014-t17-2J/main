@@ -1,6 +1,7 @@
 package dataStorage;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Observer;
 
@@ -29,26 +30,32 @@ public class BasicDataHandler implements DataHandler {
 	public BasicDataHandler() {
 		fileHandler = new FileHandler();
 		populateLists();
-		observableList = new ObservableList<Task>(new ArrayList<Task>(mainList.get(TODAY)));
+		observableList = new ObservableList<Task>(new ArrayList<Task>(
+				mainList.get(TODAY)));
 		currentList = TODAY;
-	}
-	
-	public BasicDataHandler(ObservableList<Task> observableList) 
-	{
-        fileHandler = new FileHandler();
-        populateLists();
-        this.observableList = observableList;
-        observableList.replaceList(new ArrayList<Task>(mainList.get(TODAY)));
-        currentList = TODAY;
-    }
-    
+		fileHandler.writeLog(LocalTime.now() + " : DataHandler initialized");
 
-	public ObservableList<Task> getObservableList(){
+	}
+
+	public BasicDataHandler(ObservableList<Task> observableList) {
+		fileHandler = new FileHandler();
+		populateLists();
+		this.observableList = observableList;
+		observableList.replaceList(new ArrayList<Task>(mainList.get(TODAY)));
+		currentList = TODAY;
+		fileHandler.writeLog(LocalTime.now() + " : DataHandler initialized");
+	}
+
+	public ObservableList<Task> getObservableList() {
+
+		fileHandler.writeLog(LocalTime.now() + " : ObservableList retrieved!");
 		return observableList;
 	}
-	
+
 	public void addObserver(Observer observer) {
 		observableList.addObserver(observer);
+		fileHandler.writeLog(LocalTime.now() + " : Added observer "
+				+ observer.toString());
 	}
 
 	/**
@@ -59,10 +66,10 @@ public class BasicDataHandler implements DataHandler {
 	public boolean populateLists() {
 		mainList = ArrayListMultimap.create();
 
-//		addToMultimap(TODAY, fileHandler.getList(TODAY));
-//		addToMultimap(TOMORROW, fileHandler.getList(TOMORROW));
-//		addToMultimap(UPCOMING, fileHandler.getList(UPCOMING));
-//		addToMultimap(SOMEDAY, fileHandler.getList(SOMEDAY));
+		// addToMultimap(TODAY, fileHandler.getList(TODAY));
+		// addToMultimap(TOMORROW, fileHandler.getList(TOMORROW));
+		// addToMultimap(UPCOMING, fileHandler.getList(UPCOMING));
+		// addToMultimap(SOMEDAY, fileHandler.getList(SOMEDAY));
 
 		return false;
 	}
@@ -92,9 +99,6 @@ public class BasicDataHandler implements DataHandler {
 
 	}
 
-	
-	
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -106,21 +110,23 @@ public class BasicDataHandler implements DataHandler {
 		if (onDisplay(task) == true) {
 			observableList.add(task);
 		}
-//		observableList.add(task);
+		// observableList.add(task);
 		mainList.put(determineDate(task), task);
-		
+
 		save();
-		System.out.println(task.getID()+" is added");
+		System.out.println(task.getID() + " is added");
+
+		fileHandler.writeLog(LocalTime.now() + " : Added Task " + task.getID());
 
 		return true;
 	}
-	
-	
+
 	public String save() {
-		
+
 		fileHandler.clear();
-		fileHandler.writeToFile("deadLine",new ArrayList<Task>(mainList.values()));
-		
+		fileHandler.writeToFile("deadLine",
+				new ArrayList<Task>(mainList.values()));
+		fileHandler.writeLog(LocalTime.now() + " : Saved!");
 		return null;
 	}
 
@@ -133,7 +139,7 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	public boolean onDisplay(Task task) {
 
-		if (determineDate(task) == currentList) {
+		if (determineDate(task).equalsIgnoreCase(currentList)) {
 			return true;
 		} else {
 			return false;
@@ -152,13 +158,14 @@ public class BasicDataHandler implements DataHandler {
 		LocalDate today = LocalDate.now();
 		LocalDate tomorrow = today.plusDays(1);
 
-		if ( today.equals(task.getEndDate())) {
+		if (today.equals(task.getEndDate())) {
 			return TODAY;
-		} else if (tomorrow.equals(task.getEndDate())){
+		} else if (tomorrow.equals(task.getEndDate())) {
 			return TOMORROW;
 		}
 
-		else if (task.getEndDate() == LocalDate.MAX && task.getStarDate() == LocalDate.MAX) {
+		else if (task.getEndDate() == LocalDate.MAX
+				&& task.getStarDate() == LocalDate.MAX) {
 			return SOMEDAY;
 		} else {
 			return UPCOMING;
@@ -197,8 +204,9 @@ public class BasicDataHandler implements DataHandler {
 	@Override
 	public void setDisplayedTasks(ArrayList<Task> displayedTask) {
 		observableList.replaceList(displayedTask);
-	}
+		fileHandler.writeLog(LocalTime.now() + " : changed displayed list ");
 
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -206,9 +214,7 @@ public class BasicDataHandler implements DataHandler {
 	 * @see dataStorage.BasicDataHandler#canRemove(int)
 	 */
 	public boolean indexValid(int index) {
-	    
 
-	    
 		if (index >= (observableList.getList().size()) || index < 0) {
 			return false;
 		} else {
@@ -221,6 +227,7 @@ public class BasicDataHandler implements DataHandler {
      */
 	private void clearDisplayedList() {
 		observableList.clearList();
+
 	}
 
 	/*
@@ -241,10 +248,13 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	public boolean removeTask(int index) {
 		if (indexValid(index)) {
+
+			fileHandler.writeLog(LocalTime.now() + " : deleted "
+					+ observableList.get(index));
+
 			System.out.println("deleted " + observableList.get(index));
 			mainList.remove(determineDate(getTask(index)), getTask(index));
 			observableList.remove(index);
-
 			return true;
 		}
 		return false;
@@ -256,11 +266,13 @@ public class BasicDataHandler implements DataHandler {
 	 * @see dataStorage.DataHandler#editTask()
 	 */
 	@Override
-	public boolean editTask(Task source,Task replacement) {
-		
+	public boolean editTask(Task source, Task replacement) {
+
+		fileHandler.writeLog(LocalTime.now() + " : edited " + source.getID());
+
 		removeTask(source);
 		addTask(replacement);
-		
+
 		return true;
 	}
 
@@ -271,7 +283,7 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public Task getTask(int index) {
-		
+
 		return observableList.get(index);
 	}
 
@@ -282,9 +294,10 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean removeTask(Task task) {
+
 		observableList.remove(task);
 		mainList.remove(determineDate(task), task);
-		
+
 		return true;
 	}
 
@@ -299,28 +312,24 @@ public class BasicDataHandler implements DataHandler {
 		return mainList;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dataStorage.DataHandler#view(java.lang.String)
+	 */
+	@Override
+	public void view(Task task) {
+		// TODO Auto-generated method stub
+		if (task.getEndDate() != LocalDate.MAX) {
+			observableList.replaceList(new ArrayList<Task>(mainList
+					.get(determineDate(task))));
+			currentList = this.determineDate(task);
+		} else {
+			observableList.replaceList(new ArrayList<Task>(mainList.get(task
+					.getDescription())));
+			currentList = task.getDescription();
+		}
 
-	
-    /* (non-Javadoc)
-     * @see dataStorage.DataHandler#view(java.lang.String)
-     */
-    @Override
-    public void view(Task task) {
-        // TODO Auto-generated method stub
-        if (task.getEndDate() != LocalDate.MAX)
-        {
-            observableList.replaceList(new ArrayList<Task>(mainList.get(determineDate(task))));
-            currentList = this.determineDate(task);
-        }
-        else
-        {
-            observableList.replaceList(new ArrayList<Task>(mainList.get(task.getDescription())));
-            currentList = task.getDescription();
-        }
-        
-    }
-    
-    
-
+	}
 
 }

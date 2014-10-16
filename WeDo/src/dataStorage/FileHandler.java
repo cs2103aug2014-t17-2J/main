@@ -90,6 +90,26 @@ public class FileHandler {
 		return null;
 	}
 	
+	public String writeLog(String log) {
+		
+		
+		try {
+			FileWriter fstream = new FileWriter("LogFile.txt", true);
+			BufferedWriter bw = new BufferedWriter(fstream);
+			
+			bw.write(log);
+			bw.newLine();
+			bw.close();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	
+		
+		return null;
+	}
+	
 	
 	public JSONObject toJSON(String type,ArrayList<Task> tasks) {
 		
