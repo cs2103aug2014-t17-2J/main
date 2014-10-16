@@ -5,18 +5,18 @@ package logic.taskParser;
 
 import java.util.EnumSet;
 
+import logic.command.commandList.AddCommand;
 import logic.command.commandList.Command;
-import logic.utility.AbstractTask;
-import logic.utility.DeadLineTask;
-import logic.utility.FloatingTask;
-import logic.utility.TimedTask;
+import logic.command.commandList.RedoCommand;
+import logic.command.commandList.UndoCommand;
+import logic.utility.Task;
 
 /**
  * @author Kuan Tien Long
  *
  */
 public class ParserManager {
-    private AbstractTask task;
+    private Task task;
     private Command command;
 
     /**
@@ -33,15 +33,37 @@ public class ParserManager {
         EnumSet<ParserFlags> parseFlags = tryParse(userInput, dateParser,
                 priorityParser, descriptionParser, commandParser);
 
-        if (ParserFlags.isParseValid(parseFlags)) {
+        if (ParserFlags.isCommandParsed(parseFlags))
+        {
             command = commandParser.getCommand();
-            task = buildTask(parseFlags, dateParser, priorityParser,
-                    descriptionParser);
-            
-            System.out.println(task);
-            
-            return true;
-        } else {
+
+            if(command instanceof AddCommand && ParserFlags.isParseValidForAdd(parseFlags))
+            {
+                task = buildTask(parseFlags, dateParser, priorityParser,
+                        descriptionParser);
+                return true;
+            }
+            else
+            {
+                if(command instanceof RedoCommand || command instanceof UndoCommand)
+                {
+                    return true;
+                }
+                else if(ParserFlags.isCommandValid(parseFlags))
+                {
+                    task = buildTask(parseFlags, dateParser, priorityParser,
+                            descriptionParser);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+           
+        } 
+        else 
+        {
             return false;
         }
     }
@@ -59,7 +81,7 @@ public class ParserManager {
      *            that may consist of the parsed description result
      * @return
      */
-    private AbstractTask buildTask(EnumSet<ParserFlags> parseFlags,
+    private Task buildTask(EnumSet<ParserFlags> parseFlags,
             DateParser dateParser, PriorityParser priorityParser,
             DescriptionParser descriptionParser) {
 
@@ -89,19 +111,20 @@ public class ParserManager {
      *            that may consist of the parsed priority result
      * @param descriptionParser
      *            that may consist of the parsed description result
-     * @return DeadLineTask which consist of description, priority, end date, end time
+     * @return DeadLineTask which consist of description, priority, end date,
+     *         end time
      */
-    private AbstractTask buildDeadLineTask(EnumSet<ParserFlags> parseFlags,
+    private Task buildDeadLineTask(EnumSet<ParserFlags> parseFlags,
             DateParser dateParser, PriorityParser priorityParser,
             DescriptionParser descriptionParser) {
         if (!parseFlags.contains(ParserFlags.PRIORITY_FLAG)) {
-            return new DeadLineTask(AbstractTask.PRIORITY_NOT_SET,
-                    descriptionParser.getDescription(),
-                    dateParser.getEndDate(), dateParser.getEndTime());
+            return new Task(descriptionParser.getDescription(),
+                    Task.PRIORITY_NOT_SET, dateParser.getEndDate(),
+                    dateParser.getEndTime());
         } else {
-            return new DeadLineTask(priorityParser.getPriority(),
-                    descriptionParser.getDescription(),
-                    dateParser.getEndDate(), dateParser.getEndTime());
+            return new Task(descriptionParser.getDescription(),
+                    priorityParser.getPriority(), dateParser.getEndDate(),
+                    dateParser.getEndTime());
         }
     }
 
@@ -116,21 +139,22 @@ public class ParserManager {
      *            that may consist of the parsed priority result
      * @param descriptionParser
      *            that may consist of the parsed description result
-     * @return TimedTask which consist of description, priority, end date, end time, start date, start time
+     * @return TimedTask which consist of description, priority, end date, end
+     *         time, start date, start time
      */
-    private AbstractTask buildTimedTask(EnumSet<ParserFlags> parseFlags,
+    private Task buildTimedTask(EnumSet<ParserFlags> parseFlags,
             DateParser dateParser, PriorityParser priorityParser,
             DescriptionParser descriptionParser) {
         if (!parseFlags.contains(ParserFlags.PRIORITY_FLAG)) {
-            return new TimedTask(AbstractTask.PRIORITY_NOT_SET,
-                    descriptionParser.getDescription(),
-                    dateParser.getEndDate(), dateParser.getEndTime(),
-                    dateParser.getStartDate(), dateParser.getStartTime());
+            return new Task(descriptionParser.getDescription(),
+                    Task.PRIORITY_NOT_SET, dateParser.getStartDate(),
+                    dateParser.getStartTime(), dateParser.getEndDate(),
+                    dateParser.getEndTime());
         } else {
-            return new TimedTask(priorityParser.getPriority(),
-                    descriptionParser.getDescription(),
-                    dateParser.getEndDate(), dateParser.getEndTime(),
-                    dateParser.getStartDate(), dateParser.getStartTime());
+            return new Task(descriptionParser.getDescription(),
+                    priorityParser.getPriority(), dateParser.getStartDate(),
+                    dateParser.getStartTime(), dateParser.getEndDate(),
+                    dateParser.getEndTime());
         }
     }
 
@@ -147,14 +171,14 @@ public class ParserManager {
      *            that may consist of the parsed description result
      * @return FloatingTask which consist of description, priority
      */
-    private AbstractTask buildFloatingTask(EnumSet<ParserFlags> parseFlags,
+    private Task buildFloatingTask(EnumSet<ParserFlags> parseFlags,
             PriorityParser priorityParser, DescriptionParser descriptionParser) {
         if (!parseFlags.contains(ParserFlags.PRIORITY_FLAG)) {
-            return new FloatingTask(AbstractTask.PRIORITY_NOT_SET,
-                    descriptionParser.getDescription());
+            return new Task(descriptionParser.getDescription(),
+                    Task.PRIORITY_NOT_SET);
         } else {
-            return new FloatingTask(priorityParser.getPriority(),
-                    descriptionParser.getDescription());
+            return new Task(descriptionParser.getDescription(),
+                    priorityParser.getPriority());
         }
     }
 
@@ -210,7 +234,7 @@ public class ParserManager {
     /**
      * @return the task
      */
-    public AbstractTask getTask() {
+    public Task getTask() {
         return task;
     }
 

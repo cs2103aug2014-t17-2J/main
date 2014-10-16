@@ -24,26 +24,26 @@ public class ParserFlagTest {
         myFlags.add(ParserFlags.COMMAND_FLAG);
         myFlags.add(ParserFlags.DESCRIPTION_FLAG);
 
-        assertTrue(ParserFlags.isParseValid(myFlags));
+        assertTrue(ParserFlags.isParseValidForAdd(myFlags));
 
         myFlags.remove(ParserFlags.COMMAND_FLAG);
 
-        assertFalse(ParserFlags.isParseValid(myFlags));
+        assertFalse(ParserFlags.isParseValidForAdd(myFlags));
 
         myFlags = EnumSet.noneOf(ParserFlags.class);
-        assertFalse(ParserFlags.isParseValid(myFlags));
+        assertFalse(ParserFlags.isParseValidForAdd(myFlags));
 
         myFlags.add(ParserFlags.DATE_FLAG);
-        assertFalse(ParserFlags.isParseValid(myFlags));
+        assertFalse(ParserFlags.isParseValidForAdd(myFlags));
 
         myFlags.add(ParserFlags.PRIORITY_FLAG);
-        assertFalse(ParserFlags.isParseValid(myFlags));
+        assertFalse(ParserFlags.isParseValidForAdd(myFlags));
 
         myFlags.add(ParserFlags.DESCRIPTION_FLAG);
-        assertFalse(ParserFlags.isParseValid(myFlags));
+        assertFalse(ParserFlags.isParseValidForAdd(myFlags));
 
         myFlags.add(ParserFlags.COMMAND_FLAG);
-        assertTrue(ParserFlags.isParseValid(myFlags));
+        assertTrue(ParserFlags.isParseValidForAdd(myFlags));
 
     }
 

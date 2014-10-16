@@ -122,7 +122,7 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	public boolean onDisplay(Task task) {
 
-		if (determineDate(task) == currentList) {
+		if (determineDate(task).equalsIgnoreCase(currentList)) {
 			return true;
 		} else {
 			return false;
