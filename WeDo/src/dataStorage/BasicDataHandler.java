@@ -1,5 +1,7 @@
 package dataStorage;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Observer;
@@ -109,11 +111,19 @@ public class BasicDataHandler implements DataHandler {
 //		observableList.add(task);
 		mainList.put(determineDate(task), task);
 		
-		fileHandler.writeToFile(fileHandler.toJSON("deadline", new ArrayList<Task>(mainList.values())));
-		
+		save();
 		System.out.println(task.getID()+" is added");
 
 		return true;
+	}
+	
+	
+	public String save() {
+		
+		fileHandler.clear();
+		fileHandler.writeToFile("deadLine",new ArrayList<Task>(mainList.values()));
+		
+		return null;
 	}
 
 	/**

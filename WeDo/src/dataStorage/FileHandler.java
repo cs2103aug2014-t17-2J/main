@@ -48,12 +48,30 @@ public class FileHandler {
 	
 	}
 	
+	public void clear() {
+
+		try {
+			FileWriter fstream = new FileWriter(fileName, false);
+			BufferedWriter bw = new BufferedWriter(fstream);
+			
+			bw.write("");
+			bw.close();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	
+	}
+	
 	
 	/**
 	 * @param three lists to be written to the file
 	 * @return the status of writing to file
 	 */
-	public String writeToFile(JSONObject tasks) {
+	public String writeToFile(String type,ArrayList<Task> taskList) {
+		
+		JSONObject tasks = toJSON(type,taskList);
 		
 		try {
 			FileWriter fstream = new FileWriter(fileName, true);
