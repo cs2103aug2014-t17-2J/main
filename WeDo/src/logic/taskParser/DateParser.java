@@ -51,6 +51,8 @@ public class DateParser {
 
         if (dateAvailable(dateGroups)) {
             wordUsed = getWordUsed(source, dateGroups);
+            
+            source = DateStringMassager.removeDelimiters(source);
             wordRemaining = StringHandler.removeFirstMatched(source, wordUsed);
             dateList = getDateList(dateGroups);
             isTimeSet = isTimeInferred(dateGroups);

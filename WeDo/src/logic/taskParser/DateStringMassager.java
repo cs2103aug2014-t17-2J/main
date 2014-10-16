@@ -111,7 +111,7 @@ public class DateStringMassager {
         return matcher.appendTail(result).toString();
     }
 
-    private static String removeDelimiters(String digit) {
+    public static String removeDelimiters(String digit) {
         digit = StringHandler.removeAll(digit, Pattern.quote(startDelimiter));
         digit = StringHandler.removeAll(digit, Pattern.quote(endDelimiter));
         return digit;
