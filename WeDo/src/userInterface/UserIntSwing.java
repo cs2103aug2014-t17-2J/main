@@ -165,28 +165,6 @@ public class UserIntSwing extends JPanel implements Observer {
 				textField.setText("-add");
 			}
 		});
-		// btnAdd.addKeyListener(new KeyAdapter() {
-		// @Override
-		// public void keyPressed(KeyEvent e) {
-		// int keyCode = e.getKeyCode();
-		// if(keyCode == KeyEvent.VK_F2){
-		// textField.setText("-add");
-		// }
-
-		// }
-		// });
-
-		textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				//lblHelp.setText(commandGuide.getGuideMessage("ADD"));
-
-				// textArea_1.append(taskList+"\n"); //displays the entire
-				// arrayList in [a,b,c] format
-
-				//textField.setText("");
-			}
-		});
 
 		btnAdd.setBounds(120, 26, 100, 23);
 		frame.getContentPane().add(btnAdd);
