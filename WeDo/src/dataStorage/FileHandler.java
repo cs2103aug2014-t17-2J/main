@@ -4,22 +4,64 @@ import java.util.ArrayList;
 
 import logic.utility.Task;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+
+@SuppressWarnings("unchecked")
+
 public class FileHandler {
 
 	private String fileName;
-
+	private final String ID = "ID";
+	private final String DESCRPTION = "Description";
+	private final String S_DATE = "Start Date";
+	private final String E_DATE = "End Date";
+	private final String S_TIME = "Start Time";
+	private final String E_TIME = "End Time";
+	private final String PRIORITY = "Priority";
+	private final String STATUS = "Status";
+	
 	public FileHandler() {
 
 	}
 
 	/**
-	 * @param the
-	 *            name of the file to be written
+	 * @param three lists to be written to the file
 	 * @return the status of writing to file
 	 */
-	public String writeToFile(String fName) {
-
+	public String writeToFile(JSONArray allTasks) {
+		
 		return null;
+	}
+	
+	
+	public JSONObject toJSON(String type,ArrayList<Task> tasks) {
+		
+		JSONObject obj = new JSONObject();
+		JSONArray allTask = new JSONArray();
+		JSONObject task = new JSONObject();
+		
+		for(Task t:tasks) {
+		
+		}
+		
+		return null;
+	}
+	
+	private JSONObject taskToJSON(Task task) {
+		JSONObject tmp = new JSONObject();
+		
+		tmp.put(ID, task.getID());
+		tmp.put(DESCRPTION, task.getDescription());
+		tmp.put(S_DATE, task.getStarDate());
+		tmp.put(E_DATE, task.getEndDate());
+		tmp.put(S_TIME, task.getStartTime());
+		tmp.put(E_TIME, task.getEndTime());
+		tmp.put(PRIORITY, task.getPriority());
+		tmp.put(STATUS, task.isValid());
+		
+		return tmp;
 	}
 
 	/**
