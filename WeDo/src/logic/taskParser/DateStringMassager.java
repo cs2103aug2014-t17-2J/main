@@ -24,10 +24,10 @@ import logic.utility.StringHandler;
  */
 public class DateStringMassager {
 
-    private final String startDelimiter = "{[";
-    private final String endDelimiter = "]}";
+    private static final String startDelimiter = "{[";
+    private static final String endDelimiter = "]}";
 
-    public String massageData(String source) 
+    public static String massageData(String source) 
     {
         source = convertImplicitFormalDate(source);
         source = convertFormalDate(source);
@@ -40,15 +40,57 @@ public class DateStringMassager {
         return source;
     }
     
+    /**
+     * @param source the String that will be searched
+     * @param dateWordUsed the words used for parsing the date
+     * @return the dateConnector word ("by","at","from" etc) or "" if there is no dateConnector word
+     */
+    public static String getDateConnector(String source, String dateWordUsed)
+    {
+        final int WORD_GROUP = 1;
+        String regexPattern = "(\\w+\\s+)(?=" + dateWordUsed + ")";
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(source);
+       
+        
+        if(matcher.find())
+        {
+            String possibleWord = matcher.group(WORD_GROUP);
+            
+            if(matchAvailableDateConnector(possibleWord))
+            {
+                return possibleWord;
+            }
+            else
+            {
+                return "";
+            }
+        }
+        else
+        {
+            return "";
+        }
+    }
+    
+    private static boolean matchAvailableDateConnector(String source)
+    {
+        String regexPattern =  "(?i)^in |^on |^from |^at |^by |^date ";
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(source);
+        
+        return matcher.find();
+       
+    }
+    
 
-    private String replaceNonDateDigitWithDelimiter(String source) {
+    private static String replaceNonDateDigitWithDelimiter(String source) {
         source = replaceDigits(source);
         source = nextWordContainsDateFormat(source);
         source = previousWordContainsDateFormat(source);
         return source;
     }
 
-    private String previousWordContainsDateFormat(String source) {
+    private static String previousWordContainsDateFormat(String source) {
         final String numRegex = "(\\w+\\s+)(\\{\\[\\d+\\]\\})";
         final int WORD_GROUP = 1;
         final int DIGIT_GROUP = 2;
@@ -69,13 +111,13 @@ public class DateStringMassager {
         return matcher.appendTail(result).toString();
     }
 
-    private String removeDelimiters(String digit) {
+    private static String removeDelimiters(String digit) {
         digit = StringHandler.removeAll(digit, Pattern.quote(startDelimiter));
         digit = StringHandler.removeAll(digit, Pattern.quote(endDelimiter));
         return digit;
     }
 
-    private String nextWordContainsDateFormat(String source) {
+    private static String nextWordContainsDateFormat(String source) {
         final String numRegex = "(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
         final int DIGIT_GROUP = 1;
         final int WORD_GROUP = 2;
@@ -96,7 +138,7 @@ public class DateStringMassager {
         return matcher.appendTail(result).toString();
     }
 
-    private String replaceDigits(String source) {
+    private static String replaceDigits(String source) {
         final String numRegex = "((?<=^|\\s)\\d+(?=$|\\s))";
         final int digitGroup = 1;
 
@@ -113,7 +155,7 @@ public class DateStringMassager {
 
     }
 
-    private boolean containsDateFormat(String source) {
+    private static boolean containsDateFormat(String source) {
         DateFormatSymbols dateFormat = new DateFormatSymbols();
         String[] shortWeekdays = dateFormat.getShortWeekdays();
         String[] longWeekdays = dateFormat.getWeekdays();
@@ -136,7 +178,7 @@ public class DateStringMassager {
      *            which may consist of DD/MM/YYYY format
      * @return replaced string with YYYY/MM/DD format
      */
-    private String convertFormalDate(String source) {
+    private static String convertFormalDate(String source) {
         final int yearGroup = 3;
         final int monthGroup = 2;
         final int dayGroup = 1;
@@ -155,7 +197,7 @@ public class DateStringMassager {
 
     }
 
-    private String convertImplicitFormalDate(String source) {
+    private static String convertImplicitFormalDate(String source) {
         source = convertDateDDMM(source);
         source = convertDateDDMMYY(source);
         return source;
@@ -169,7 +211,7 @@ public class DateStringMassager {
      *            which consist of DD/MM/YY format
      * @return replaced string with DD/MM/20YY format
      */
-    private String convertDateDDMMYY(String source) {
+    private static String convertDateDDMMYY(String source) {
         final int inferredYear = 20;
 
         final int startGroup = 1;
@@ -203,7 +245,7 @@ public class DateStringMassager {
      *            which consist of DD/MM format
      * @return replaced string with DD/MM/YYYY format
      */
-    private String convertDateDDMM(String source) {
+    private static String convertDateDDMM(String source) {
         final int inferredYear = LocalDateTime.now().getYear();
         final int startGroup = 1;
         final int dayGroup = 2;
@@ -231,7 +273,7 @@ public class DateStringMassager {
      * This is a temp solution as the real data will be from a file.
      * @return
      */
-    private Multimap<String, String> createFakeMultiMapForShortForm() {
+    private static Multimap<String, String> createFakeMultiMapForShortForm() {
 
         Multimap<String, String> mappedWords = ArrayListMultimap.create();
         String tomorrow = "tomorrow";

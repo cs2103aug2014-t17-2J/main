@@ -44,8 +44,7 @@ public class DateParser {
         }
         
         
-        DateStringMassager dateStringMassager = new DateStringMassager();
-        source = dateStringMassager.massageData(source);
+        source = DateStringMassager.massageData(source);
 
         Parser nattyParser = new Parser();
         List<DateGroup> dateGroups = nattyParser.parse(source);
@@ -140,7 +139,10 @@ public class DateParser {
         }
 
         String dateText = source.substring(startPosition, endPosition);
-        return dateText;
+        String dateConnector = DateStringMassager.getDateConnector(source, dateText);
+        
+        System.out.println("wordUsed = " + dateConnector + dateText);
+        return dateConnector + dateText;
     }
 
     public LocalDate dateToLocalDate(Date date) {

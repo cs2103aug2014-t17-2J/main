@@ -12,6 +12,7 @@ import java.util.Scanner;
 import logic.taskParser.ParserManager;
 import logic.taskParser.TaskParserPlus;
 import logic.utility.AbstractTask;
+import logic.utility.DeadLineTask;
 import logic.utility.FloatingTask;
 import logic.utility.Task;
 
@@ -44,11 +45,11 @@ public class TaskManagerTest {
         taskParser.interpret("-add floating task");
         assertEquals(expectedTask, taskParser.getTask());
 
-        // expectedTask.setEndDate(LocalDate.of(2014, 9, 12));
-        // expectedTask.setDescription("momo");
-        // expectedTask.setPriority(Priority.PRIORITY_HIGH);
+        expectedTask = new DeadLineTask(Priority.PRIORITY_HIGH,"momo", LocalDate.of(2014, 9, 12), AbstractTask.TIME_NOT_SET);
+        taskParser.interpret("-add momo by 12 sept priority high");
+        assertEquals(expectedTask, taskParser.getTask());
+
         // assertEquals(expectedTask,
-        // taskParser.interpret(("-add momo on 12 sept priority high")));
         //
         // expectedTask.setStartDate(LocalDate.of(2014, 9, 12));
         // expectedTask.setEndDate(LocalDate.of(2014, 9, 18));
