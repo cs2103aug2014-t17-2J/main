@@ -115,7 +115,8 @@ public class BasicDataHandler implements DataHandler {
 
 		save();
 		System.out.println(task.getID() + " is added");
-
+		
+		fileHandler.read();
 		fileHandler.writeLog(LocalTime.now() + " : Added Task " + task.getID());
 
 		return true;
