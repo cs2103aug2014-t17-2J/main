@@ -108,9 +108,20 @@ public class BasicDataHandler implements DataHandler {
 		}
 //		observableList.add(task);
 		mainList.put(determineDate(task), task);
+		
+		save();
 		System.out.println(task.getID()+" is added");
 
 		return true;
+	}
+	
+	
+	public String save() {
+		
+		fileHandler.clear();
+		fileHandler.writeToFile("deadLine",new ArrayList<Task>(mainList.values()));
+		
+		return null;
 	}
 
 	/**
