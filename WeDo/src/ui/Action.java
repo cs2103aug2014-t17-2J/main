@@ -1,4 +1,4 @@
-// @author A0112636M
+// @Andy Hsu Wei Qiang
 package ui;
 
 /**

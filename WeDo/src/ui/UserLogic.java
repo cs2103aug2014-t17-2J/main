@@ -7,10 +7,10 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.java.balloontip.BalloonTip;
 import userInterface.UserIntSwing;
 
 public class UserLogic {
@@ -64,6 +64,9 @@ public class UserLogic {
 //		}
 //	}
 	
+	/**
+	 *This operation process the hotkeys shortcut function. 
+	 */
 	public static void processHotKeys(KeyEvent arg1){
 		String getCommand;
 		if (UserIntSwing.textField.getText().length() == 0){
@@ -84,5 +87,11 @@ public class UserLogic {
 				UserIntSwing.textField.setText(getCommand);
 			}
 		}
+	}
+	
+	public static BalloonTip processDisplayTip(){
+		BalloonTip myBalloonTip = new BalloonTip(UserIntSwing.btnHelp, "Press F1 for Help");
+		
+		return myBalloonTip;
 	}
 }

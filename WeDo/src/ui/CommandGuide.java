@@ -105,14 +105,14 @@ public class CommandGuide {
 		str.append(HTML_BREAK);
 		
 		str.append("- Deadline Task: ");
-		str.append(underline(IDENTIFIER_PLACEHOLDER) + " submit proposal ");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " submit assignment ");
 		str.append(underline(Keywords.getDueDateIdentifier()) + " " + date
 				+ " ");
 		str.append(underline(Keywords.getTimeIdentifier()) + " 10pm");
 		str.append(HTML_BREAK);
 
 		str.append("- Floating Task: ");
-		str.append(underline(IDENTIFIER_PLACEHOLDER) + " learn cooking");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " learn programming");
 
 		return wrapWithHtmlTag(str.toString());
 	}
@@ -122,14 +122,14 @@ public class CommandGuide {
 		String date = sdf.format(new Date());
 		StringBuilder str = new StringBuilder();
 
-		str.append("To view tasks for today, type:" + HTML_BREAK);
+		str.append("-To view tasks for today, type:" + HTML_BREAK);
 		str.append(underline(IDENTIFIER_PLACEHOLDER) + " ");
 		str.append(underline(COMMAND_TODAY));
 		str.append(HTML_BREAK);
 
-		str.append("To view tasks for a certain day, type:" + HTML_BREAK);
-		str.append(underline(IDENTIFIER_PLACEHOLDER) + " " + date + " OR ");
-		str.append(underline(COMMAND_YESTERDAY) + " OR ");
+		str.append("-To view tasks for a certain day, type:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " " + date + " | ");
+		str.append(underline(COMMAND_YESTERDAY) + " | ");
 		str.append(underline(COMMAND_TOMORROW));
 
 		return wrapWithHtmlTag(str.toString());

@@ -1,5 +1,6 @@
 package userInterface;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,9 +10,11 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -21,7 +24,19 @@ import logic.LogicManager;
 import logic.utility.Task;
 import ui.CommandGuide;
 import ui.UserLogic;
+
 import javax.swing.SwingConstants;
+
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.AttachLocation;
+import net.java.balloontip.BalloonTip.Orientation;
+import net.java.balloontip.styles.BalloonTipStyle;
+import net.java.balloontip.styles.EdgedBalloonStyle;
+
+import java.lang.Object;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -37,7 +52,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	private InteractiveForm interForm;
 	private LogicManager logicManager;
     private ObservableList<Task> observableList;
-
 	/**
 	 * Launch the application.
 	 */
@@ -65,13 +79,12 @@ public class UserIntSwing extends JPanel implements Observer {
 		taskList = observableList.getList();
         initialize();
 	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 
-		frame = new JFrame();
+		frame = new JFrame("WeDo");
 		frame.setBounds(100, 100, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -153,19 +166,28 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 		btnEnter.setBounds(406, 305, 100, 23);
 		frame.getContentPane().add(btnEnter);
-
+	
 		JButton btnHelp = new JButton("F1 <Help>");
+		btnHelp.addMouseListener(new MouseAdapter() {
+			BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.green);
+			BalloonTip myBalloonTip = new BalloonTip(btnHelp, new JLabel("Press F1 for Help"), edgedLook, 
+					Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 20, false);
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				System.out.println("mouse entered!");
+				myBalloonTip.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				System.out.println("mouse exited!");
+				myBalloonTip.setVisible(false);
+			}
+		});
+
 		btnHelp.setBounds(10, 26, 100, 23);
 		frame.getContentPane().add(btnHelp);
 
 		JButton btnAdd = new JButton("F2 <Add>");
-
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textField.setText("-add");
-			}
-		});
-
 		btnAdd.setBounds(120, 26, 100, 23);
 		frame.getContentPane().add(btnAdd);
 
@@ -197,7 +219,11 @@ public class UserIntSwing extends JPanel implements Observer {
 		lblWarning.setBounds(10, 256, 496, 47);
 		frame.getContentPane().add(lblWarning);
 	}
-
+	
+	private void conroltest(BalloonTip balloonTip){
+		setVisible(false);
+	}
+	
 	private void addFrameWindowFocusListener() {
 		// TODO Auto-generated method stub
 		
