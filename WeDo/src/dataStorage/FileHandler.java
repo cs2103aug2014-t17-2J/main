@@ -1,5 +1,8 @@
 package dataStorage;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import logic.utility.Task;
@@ -23,14 +26,48 @@ public class FileHandler {
 	private final String STATUS = "Status";
 	
 	public FileHandler() {
-
+		
+		fileName = "WeDo.txt";
+		createFile();
+			
 	}
+	
+	
+	public void createFile() {
 
+		try {
+			FileWriter fstream = new FileWriter(fileName, true);
+			BufferedWriter bw = new BufferedWriter(fstream);
+
+			bw.close();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	
+	}
+	
+	
 	/**
 	 * @param three lists to be written to the file
 	 * @return the status of writing to file
 	 */
-	public String writeToFile(JSONArray allTasks) {
+	public String writeToFile(JSONObject tasks) {
+		
+		try {
+			FileWriter fstream = new FileWriter(fileName, true);
+			BufferedWriter bw = new BufferedWriter(fstream);
+			
+			bw.write(tasks.toString());
+			bw.newLine();
+			bw.close();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	
 		
 		return null;
 	}
