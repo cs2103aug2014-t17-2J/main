@@ -1,5 +1,6 @@
 package userInterface;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,9 +10,11 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -21,7 +24,19 @@ import logic.LogicManager;
 import logic.utility.Task;
 import ui.CommandGuide;
 import ui.UserLogic;
+
 import javax.swing.SwingConstants;
+
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.AttachLocation;
+import net.java.balloontip.BalloonTip.Orientation;
+import net.java.balloontip.styles.BalloonTipStyle;
+import net.java.balloontip.styles.EdgedBalloonStyle;
+
+import java.lang.Object;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -37,7 +52,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	private InteractiveForm interForm;
 	private LogicManager logicManager;
     private ObservableList<Task> observableList;
-
 	/**
 	 * Launch the application.
 	 */
@@ -65,26 +79,29 @@ public class UserIntSwing extends JPanel implements Observer {
 		taskList = observableList.getList();
         initialize();
 	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 
-		frame = new JFrame();
+		frame = new JFrame("WeDo");
 		frame.setBounds(100, 100, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		UserLogic.setupFrameLocation();
 
-		JLabel lblDisplay = new JLabel("My Label");
-		lblDisplay.setBounds(10, 42, 157, 20);
-		frame.getContentPane().add(lblDisplay);
+		JLabel lblTodayDate = new JLabel("");
+		lblTodayDate.setBounds(10, 0, 157, 20);
+		frame.getContentPane().add(lblTodayDate);
+		
+		lblTodayDate.setText(UserLogic.setTodayDate());
 		
 		JLabel lblHelp = new JLabel("Label Help");
 		lblHelp.setVerticalAlignment(SwingConstants.TOP);
 		lblHelp.setBounds(10, 337, 496, 96);
 		frame.getContentPane().add(lblHelp);
-
+		
 		//ArrayList<String> taskList = new ArrayList<String>();
 		
 		//Set the Help Label
@@ -149,50 +166,37 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 		btnEnter.setBounds(406, 305, 100, 23);
 		frame.getContentPane().add(btnEnter);
-
+	
 		JButton btnHelp = new JButton("F1 <Help>");
-		btnHelp.setBounds(10, 11, 100, 23);
+		btnHelp.addMouseListener(new MouseAdapter() {
+			BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.green);
+			BalloonTip myBalloonTip = new BalloonTip(btnHelp, new JLabel("Press F1 for Help"), edgedLook, 
+					Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 20, false);
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				System.out.println("mouse entered!");
+				myBalloonTip.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				System.out.println("mouse exited!");
+				myBalloonTip.setVisible(false);
+			}
+		});
+
+		btnHelp.setBounds(10, 26, 100, 23);
 		frame.getContentPane().add(btnHelp);
 
 		JButton btnAdd = new JButton("F2 <Add>");
-
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textField.setText("-add");
-			}
-		});
-		// btnAdd.addKeyListener(new KeyAdapter() {
-		// @Override
-		// public void keyPressed(KeyEvent e) {
-		// int keyCode = e.getKeyCode();
-		// if(keyCode == KeyEvent.VK_F2){
-		// textField.setText("-add");
-		// }
-
-		// }
-		// });
-
-		textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				//lblHelp.setText(commandGuide.getGuideMessage("ADD"));
-
-				// textArea_1.append(taskList+"\n"); //displays the entire
-				// arrayList in [a,b,c] format
-
-				//textField.setText("");
-			}
-		});
-
-		btnAdd.setBounds(120, 11, 100, 23);
+		btnAdd.setBounds(120, 26, 100, 23);
 		frame.getContentPane().add(btnAdd);
 
 		JButton btnView = new JButton("F3 <View>");
-		btnView.setBounds(230, 11, 100, 23);
+		btnView.setBounds(230, 26, 100, 23);
 		frame.getContentPane().add(btnView);
 
 		JButton btnEdit = new JButton("F4 <Edit>");
-		btnEdit.setBounds(340, 11, 100, 23);
+		btnEdit.setBounds(340, 26, 100, 23);
 		frame.getContentPane().add(btnEdit);
 
 		interForm = new InteractiveForm();
@@ -208,14 +212,18 @@ public class UserIntSwing extends JPanel implements Observer {
 		//UserLogic.processTextField();
 		
 		JButton btnDel = new JButton("F5 <Delete>");
-		btnDel.setBounds(450, 11, 100, 23);
+		btnDel.setBounds(450, 26, 100, 23);
 		frame.getContentPane().add(btnDel);
 		
 		JLabel lblWarning = new JLabel("");
 		lblWarning.setBounds(10, 256, 496, 47);
 		frame.getContentPane().add(lblWarning);
 	}
-
+	
+	private void conroltest(BalloonTip balloonTip){
+		setVisible(false);
+	}
+	
 	private void addFrameWindowFocusListener() {
 		// TODO Auto-generated method stub
 		
