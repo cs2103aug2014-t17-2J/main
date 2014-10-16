@@ -109,7 +109,7 @@ public class BasicDataHandler implements DataHandler {
 //		observableList.add(task);
 		mainList.put(determineDate(task), task);
 		
-		fileHandler.toJSON("deadline", new ArrayList<Task>(mainList.values()));
+		fileHandler.writeToFile(fileHandler.toJSON("deadline", new ArrayList<Task>(mainList.values())));
 		
 		System.out.println(task.getID()+" is added");
 
