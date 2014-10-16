@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -126,6 +127,8 @@ public class InteractiveForm extends JPanel {
              //frame.pack();
              frame.setVisible(false);
          } catch (Exception e) {
+        	 
+        	 JOptionPane.showMessageDialog(null,"ALERT MESSAGE","TITLE", JOptionPane.WARNING_MESSAGE);
              e.printStackTrace();
          }
          

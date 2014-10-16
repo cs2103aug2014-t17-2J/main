@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -116,6 +117,10 @@ public class UserIntSwing extends JPanel implements Observer {
 			public void keyPressed(KeyEvent e) {
 				String command = textField.getText();
 				lblHelp.setText(CommandGuide.getGuideMessage(command + " "));
+				
+				if(e.getKeyCode() == KeyEvent.VK_F1){
+					JOptionPane.showMessageDialog(null, "The Help is not done!");
+				}
 			}
 		});
 		
@@ -233,6 +238,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	public void update(Observable arg0, Object arg1) 
 	{
         taskList = observableList.getList();
+        assert(taskList!=null);
 		interForm.updateTable(taskList);		
 	}
 }
