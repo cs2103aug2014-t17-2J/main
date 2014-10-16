@@ -38,18 +38,21 @@ public class FileHandler {
 	
 	public JSONObject toJSON(String type,ArrayList<Task> tasks) {
 		
-		JSONObject obj = new JSONObject();
+		JSONObject taskObj = new JSONObject();
 		JSONArray allTask = new JSONArray();
-		JSONObject task = new JSONObject();
 		
 		for(Task t:tasks) {
-		
+			allTask.add(taskToJSON(t));
 		}
 		
-		return null;
+		taskObj.put(type, allTask);
+		System.out.println(taskObj.toString());
+		
+		return taskObj;
 	}
 	
 	private JSONObject taskToJSON(Task task) {
+		
 		JSONObject tmp = new JSONObject();
 		
 		tmp.put(ID, task.getID());
