@@ -88,5 +88,18 @@ public class TaskManagerTest {
         taskParser.interpret("add hello page 321 to 232 and pg 23123 to 21321 at 8pm to 10 pm");
         assertEquals(expectedTask, taskParser.getTask());
 
+        
+        expectedTask = new Task("bake cookies", Task.PRIORITY_NOT_SET ,LocalDate.now(), Task.TIME_NOT_SET);  
+        taskParser.interpret("add bake cookies today");
+        assertEquals(expectedTask, taskParser.getTask());
+        
+        expectedTask = new Task("meeting3", Task.PRIORITY_NOT_SET ,LocalDate.now(), Task.TIME_NOT_SET);  
+        taskParser.interpret("add meeting3 today");
+        assertEquals(expectedTask, taskParser.getTask());
+        
+        expectedTask = new Task("meeting", Task.PRIORITY_NOT_SET ,LocalDate.now(), LocalTime.of(3, 0));  
+        taskParser.interpret("add meeting 3 today");
+        assertEquals(expectedTask, taskParser.getTask());
+
     }
 }
