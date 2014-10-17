@@ -146,7 +146,7 @@ public class DateStringMassager {
 
     
     private static String removeDelimiterForDateDigitByNextWord(String source) {
-        final String numRegex = "(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
+        final String numRegex = "(?<=\\s)(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
         final int DIGIT_GROUP = 1;
         final int WORD_GROUP = 2;
         Pattern pattern = Pattern.compile(numRegex);
@@ -211,10 +211,11 @@ public class DateStringMassager {
         String[] shortMonths = dateFormat.getShortMonths();
         String[] longMonths = dateFormat.getMonths();
         String[] timeUnit = { "hour", "hr", "minute", "min", "second", "sec",
-                "am", "pm", "day", "week", "month" };
-
+                "am", "pm"};
+        String[] commonDateShortForm = { "sept", "day", "week", "month", "today", "tomorrow"};
+        
         if (StringHandler.containsWord(source, shortWeekdays, longWeekdays,
-                shortMonths, longMonths, timeUnit)) {
+                shortMonths, longMonths, timeUnit, commonDateShortForm)) {
             return true;
         } else {
             return false;
