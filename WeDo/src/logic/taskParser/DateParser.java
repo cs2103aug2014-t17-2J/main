@@ -30,30 +30,44 @@ public class DateParser {
     private boolean isTimeSet;
 
     public boolean parseDate(String source) {
-        
-        
+
         if (source == null) {
             return false;
         }
 
         source = source.trim();
 
-        if (source.isEmpty()) 
-        {
+        if (source.isEmpty()) {
             return false;
         }
-        
-        
+
         source = DateStringMassager.massageData(source);
 
         Parser nattyParser = new Parser();
         List<DateGroup> dateGroups = nattyParser.parse(source);
 
         if (dateAvailable(dateGroups)) {
-            wordUsed = getWordUsed(source, dateGroups);
             
-            source = DateStringMassager.removeDelimiters(source);
+
+
+            
+            String dateWordUsed = DateStringMassager.removeWordDelimiter(getDateWordUsed(source, dateGroups));
+            
+            source = DateStringMassager.removeDigitDelimiters(source);
+            source = DateStringMassager.removeWordDelimiter(source);
+            
+            String dateConnector = DateStringMassager.getDateConnector(source, dateWordUsed);
+            wordUsed =  dateConnector + dateWordUsed;
+            
+            System.out.println("Total wordUsed = " + wordUsed);
+
+
+                    
+            
+
+          
             wordRemaining = StringHandler.removeFirstMatched(source, wordUsed);
+            
             dateList = getDateList(dateGroups);
             isTimeSet = isTimeInferred(dateGroups);
             return true;
@@ -62,11 +76,10 @@ public class DateParser {
         }
     }
 
-    public int getNumberOfDates()
-    {
+    public int getNumberOfDates() {
         return dateList.size();
     }
-    
+
     public boolean isTimeSet() {
         return isTimeSet;
     }
@@ -130,7 +143,7 @@ public class DateParser {
         return !dateGroups.get(0).isTimeInferred();
     }
 
-    private String getWordUsed(String source, List<DateGroup> dateGroups) {
+    private String getDateWordUsed(String source, List<DateGroup> dateGroups) {
         int startPosition = source.length();
         int endPosition = 0;
         for (DateGroup dateGroup : dateGroups) {
@@ -141,10 +154,9 @@ public class DateParser {
         }
 
         String dateText = source.substring(startPosition, endPosition);
-        String dateConnector = DateStringMassager.getDateConnector(source, dateText);
-        
-        System.out.println("wordUsed = " + dateConnector + dateText);
-        return dateConnector + dateText;
+
+        System.out.println("wordUsed for date = " + dateText);
+        return dateText;
     }
 
     public LocalDate dateToLocalDate(Date date) {
@@ -158,7 +170,6 @@ public class DateParser {
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
                 .toLocalTime();
     }
-
 
     /**
      * @return the wordUsed

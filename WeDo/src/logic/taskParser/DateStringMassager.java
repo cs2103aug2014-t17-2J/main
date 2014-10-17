@@ -24,8 +24,9 @@ import logic.utility.StringHandler;
  */
 public class DateStringMassager {
 
-    private static final String startDelimiter = "{[";
-    private static final String endDelimiter = "]}";
+    private static final String START_DIGIT_DELIMITER = "{[";
+    private static final String END_DIGIT_DELIMITER = "]}";
+    private static final String WORD_DELIMITER = ".";
 
     public static String massageData(String source) 
     {
@@ -33,9 +34,12 @@ public class DateStringMassager {
         source = convertFormalDate(source);
         
         source = replaceNonDateDigitWithDelimiter(source);
-    
+        source = replaceWordWithDelimiter(source);
+        
         source = KeyMatcher.replaceMatchedWithKey(
                 createFakeMultiMapForShortForm(), source);
+        
+        System.out.println("massage date is " + source);
         
         return source;
     }
@@ -47,8 +51,9 @@ public class DateStringMassager {
      */
     public static String getDateConnector(String source, String dateWordUsed)
     {
+                
         final int WORD_GROUP = 1;
-        String regexPattern = "(\\w+\\s+)(?=" + dateWordUsed + ")";
+        String regexPattern = "(\\w+\\s+)(?=" + Pattern.quote(dateWordUsed) + ")";
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(source);
        
@@ -84,13 +89,34 @@ public class DateStringMassager {
     
 
     private static String replaceNonDateDigitWithDelimiter(String source) {
-        source = replaceDigits(source);
-        source = nextWordContainsDateFormat(source);
-        source = previousWordContainsDateFormat(source);
+        source = replaceAllDigitsWithDelimiter(source);
+        source = replaceWordDigitAtEndWithDelimiter(source);
+        source = removeDelimiterForDateDigitByNextWord(source);
+        source = removeDelimiterForDateDigitByPreviousWord(source);
         return source;
     }
 
-    private static String previousWordContainsDateFormat(String source) {
+    /**
+     * @param source
+     * @return
+     */
+    private static String replaceWordDigitAtEndWithDelimiter(String source) 
+    {
+        final String numRegex = "(?<=[A-z])(\\d+)(?=\\s)";
+        final int DIGIT_GROUP = 1;
+        Pattern pattern = Pattern.compile(numRegex);
+        Matcher matcher = pattern.matcher(source);
+        StringBuffer result = new StringBuffer();
+        
+        while (matcher.find()) {
+            matcher.appendReplacement(result,
+                    START_DIGIT_DELIMITER + matcher.group(DIGIT_GROUP) + END_DIGIT_DELIMITER);
+        }
+
+        return matcher.appendTail(result).toString();
+    }
+
+    private static String removeDelimiterForDateDigitByPreviousWord(String source) {
         final String numRegex = "(\\w+\\s+)(\\{\\[\\d+\\]\\})";
         final int WORD_GROUP = 1;
         final int DIGIT_GROUP = 2;
@@ -103,7 +129,7 @@ public class DateStringMassager {
             String word = matcher.group(WORD_GROUP);
 
             if (containsDateFormat(matcher.group(WORD_GROUP))) {
-                digit = removeDelimiters(digit);
+                digit = removeDigitDelimiters(digit);
             }
             matcher.appendReplacement(result, word + digit);
         }
@@ -111,13 +137,15 @@ public class DateStringMassager {
         return matcher.appendTail(result).toString();
     }
 
-    public static String removeDelimiters(String digit) {
-        digit = StringHandler.removeAll(digit, Pattern.quote(startDelimiter));
-        digit = StringHandler.removeAll(digit, Pattern.quote(endDelimiter));
-        return digit;
+    public static String removeDigitDelimiters(String source) {
+        source = StringHandler.removeAll(source, Pattern.quote(START_DIGIT_DELIMITER));
+        source = StringHandler.removeAll(source, Pattern.quote(END_DIGIT_DELIMITER));
+        return source;
     }
 
-    private static String nextWordContainsDateFormat(String source) {
+
+    
+    private static String removeDelimiterForDateDigitByNextWord(String source) {
         final String numRegex = "(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
         final int DIGIT_GROUP = 1;
         final int WORD_GROUP = 2;
@@ -130,7 +158,7 @@ public class DateStringMassager {
             String word = matcher.group(WORD_GROUP);
 
             if (containsDateFormat(matcher.group(WORD_GROUP))) {
-                digit = removeDelimiters(digit);
+                digit = removeDigitDelimiters(digit);
             }
             matcher.appendReplacement(result, digit + word);
         }
@@ -138,7 +166,7 @@ public class DateStringMassager {
         return matcher.appendTail(result).toString();
     }
 
-    private static String replaceDigits(String source) {
+    private static String replaceAllDigitsWithDelimiter(String source) {
         final String numRegex = "((?<=^|\\s)\\d+(?=$|\\s))";
         final int digitGroup = 1;
 
@@ -148,11 +176,32 @@ public class DateStringMassager {
 
         while (matcher.find()) {
             matcher.appendReplacement(result,
-                    startDelimiter + matcher.group(digitGroup) + endDelimiter);
+                    START_DIGIT_DELIMITER + matcher.group(digitGroup) + END_DIGIT_DELIMITER);
         }
 
         return matcher.appendTail(result).toString();
 
+    }
+    
+    private static String replaceWordWithDelimiter(String source) {
+        final String numRegex = "([A-z]+(?=\\s))";
+        
+        final int WORD_GROUP = 1;
+
+        Pattern pattern = Pattern.compile(numRegex);
+        Matcher matcher = pattern.matcher(source);
+        StringBuffer result = new StringBuffer();
+
+        while (matcher.find()) {
+            matcher.appendReplacement(result, matcher.group(WORD_GROUP) + WORD_DELIMITER);
+        }
+
+        return matcher.appendTail(result).toString().trim();
+
+    }
+    public static String removeWordDelimiter(String source)
+    {
+        return  StringHandler.removeAll(source, Pattern.quote(WORD_DELIMITER));
     }
 
     private static boolean containsDateFormat(String source) {
@@ -164,7 +213,7 @@ public class DateStringMassager {
         String[] timeUnit = { "hour", "hr", "minute", "min", "second", "sec",
                 "am", "pm", "day", "week", "month" };
 
-        if (StringHandler.contains(source, shortWeekdays, longWeekdays,
+        if (StringHandler.containsWord(source, shortWeekdays, longWeekdays,
                 shortMonths, longMonths, timeUnit)) {
             return true;
         } else {

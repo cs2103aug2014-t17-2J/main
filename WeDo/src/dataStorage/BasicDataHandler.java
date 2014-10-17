@@ -147,7 +147,7 @@ public class BasicDataHandler implements DataHandler {
 			return TOMORROW;
 		}
 
-		else if (task.getEndDate() == LocalDate.MAX && task.getStarDate() == LocalDate.MAX) {
+		else if (task.getEndDate() == LocalDate.MAX && task.getStartDate() == LocalDate.MAX) {
 			return SOMEDAY;
 		} else {
 			return UPCOMING;

@@ -227,7 +227,7 @@ public class Task
     /**
      * @return the start
      */
-    public LocalDate getStarDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
     /**
@@ -249,13 +249,13 @@ public class Task
         this.endDate = end;
     }
     /**
-     * @return the valid
+     * @return the isCompleted
      */
-    public boolean isCompleted() {
+    public boolean getCompleted() {
         return isCompleted;
     }
     /**
-     * @param valid the valid to set
+     * @param isCompleted the isCompleted to set
      */
     public void setCompleted(boolean valid) {
         this.isCompleted = valid;
