@@ -256,9 +256,8 @@ public class StringHandler {
      * @return
      */
     public static boolean containsWord(String source, String[]... keyArrays)
-    {
-                
-        source = " " +source.toLowerCase()+ " ";
+    {     
+        source = " " + source.toLowerCase() + " ";
         
         for (String[] keyArray : keyArrays) 
         {
