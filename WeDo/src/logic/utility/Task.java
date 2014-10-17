@@ -215,8 +215,15 @@ public class Task
      * @return the priority
      */
     public Priority getPriority() {
-        return priority;
-    }
+        if(priority == null)
+        {
+            return PRIORITY_NOT_SET;
+        }
+        else
+        {
+            return priority;
+        }    
+      }
     /**
      * @param priority the priority to set
      */
@@ -228,7 +235,15 @@ public class Task
      * @return the start
      */
     public LocalDate getStartDate() {
-        return startDate;
+        if(startDate == null)
+        {
+            return DATE_NOT_SET;
+        }
+        else
+        {
+            return startDate;
+        }   
+        
     }
     /**
      * @param start the start to set
@@ -240,7 +255,15 @@ public class Task
      * @return the end
      */
     public LocalDate getEndDate() {
-        return endDate;
+        if(endDate == null)
+        {
+            return DATE_NOT_SET;
+        }
+        else
+        {
+            return endDate;
+        }   
+        
     }
     /**
      * @param end the end to set
@@ -252,7 +275,8 @@ public class Task
      * @return the isCompleted
      */
     public boolean getCompleted() {
-        return isCompleted;
+            return isCompleted;
+
     }
     /**
      * @param isCompleted the isCompleted to set
@@ -277,7 +301,14 @@ public class Task
      * @return the startTime
      */
     public LocalTime getStartTime() {
-        return startTime;
+        if(startTime == null)
+        {
+            return TIME_NOT_SET;
+        }
+        else
+        {
+            return startTime;
+        }
     }
     /**
      * @param startTime the startTime to set
@@ -289,7 +320,14 @@ public class Task
      * @return the endTime
      */
     public LocalTime getEndTime() {
-        return endTime;
+        if(endTime == null)
+        {
+            return TIME_NOT_SET;
+        }
+        else
+        {
+            return endTime;
+        }
     }
     /**
      * @param endTime the endTime to set

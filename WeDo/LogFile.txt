@@ -38,3 +38,64 @@
 12:37:51.157 : DataHandler initialized
 12:39:55.366 : DataHandler initialized
 12:41:55.785 : DataHandler initialized
+20:29:04.788 : DataHandler initialized
+20:31:27.309 : DataHandler initialized
+20:31:27.314 : Saved!
+20:31:27.314 : Added Task 1
+20:31:27.315 : Saved!
+20:31:27.315 : Added Task 2
+20:31:27.316 : Saved!
+20:31:27.316 : Added Task 3
+20:31:27.321 : DataHandler initialized
+20:31:27.321 : Saved!
+20:31:27.322 : Added Task 5
+20:31:27.322 : Saved!
+20:31:27.322 : Added Task 6
+20:31:27.323 : Saved!
+20:31:27.323 : Added Task 7
+20:31:27.324 : Saved!
+20:31:27.324 : Added Task 8
+20:31:27.325 : Saved!
+20:31:27.325 : Added Task 9
+20:31:27.327 : DataHandler initialized
+20:31:27.327 : DataHandler initialized
+20:32:27.181 : DataHandler initialized
+20:32:27.204 : Saved!
+20:32:27.204 : Added Task 1
+20:32:27.205 : Saved!
+20:32:27.205 : Added Task 2
+20:32:27.206 : Saved!
+20:32:27.206 : Added Task 3
+20:32:27.211 : DataHandler initialized
+20:32:27.212 : Saved!
+20:32:27.212 : Added Task 5
+20:32:27.213 : Saved!
+20:32:27.213 : Added Task 6
+20:32:27.214 : Saved!
+20:32:27.214 : Added Task 7
+20:32:27.215 : Saved!
+20:32:27.215 : Added Task 8
+20:32:27.216 : Saved!
+20:32:27.217 : Added Task 9
+20:32:27.218 : DataHandler initialized
+20:32:27.218 : DataHandler initialized
+20:32:39.039 : DataHandler initialized
+20:32:39.066 : Saved!
+20:32:39.066 : Added Task 1
+20:32:39.067 : Saved!
+20:32:39.067 : Added Task 2
+20:32:39.068 : Saved!
+20:32:39.068 : Added Task 3
+20:33:09.806 : DataHandler initialized
+20:33:09.815 : Saved!
+20:33:09.815 : Added Task 5
+20:33:09.816 : Saved!
+20:33:09.817 : Added Task 6
+20:33:09.818 : Saved!
+20:33:09.818 : Added Task 7
+20:33:09.819 : Saved!
+20:33:09.819 : Added Task 8
+20:33:09.820 : Saved!
+20:33:09.821 : Added Task 9
+20:33:09.822 : DataHandler initialized
+20:33:09.823 : DataHandler initialized
