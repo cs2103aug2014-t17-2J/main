@@ -35,6 +35,11 @@ public class Task
     public Task()
     {
         uniqueID++;
+        
+        this.priority = PRIORITY_NOT_SET;
+        this.startDate = this.endDate = DATE_NOT_SET;
+        this.startTime = this.endTime = TIME_NOT_SET;
+        this.isCompleted = DEFAULT_COMPLETE_STATUS;
     }
     
 
@@ -50,6 +55,9 @@ public class Task
      */
     public Task(String description, Priority priority, LocalDate startDate,
             LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+       
+        uniqueID++;
+        
         this.description = description;
         this.priority = priority;
         this.startDate = startDate;
@@ -74,6 +82,9 @@ public class Task
     public Task(String description, Priority priority, LocalDate startDate,
             LocalTime startTime, LocalDate endDate, LocalTime endTime,
             boolean isCompleted) {
+        
+        uniqueID++;
+        
         this.description = description;
         this.priority = priority;
         this.startDate = startDate;
@@ -94,6 +105,9 @@ public class Task
      */
     public Task(String description, Priority priority, LocalDate endDate,
             LocalTime endTime) {
+
+        uniqueID++;
+        
         this.description = description;
         this.priority = priority;
         this.endDate = endDate;
@@ -114,7 +128,9 @@ public class Task
      */
     public Task(String description, Priority priority, LocalDate endDate,
             LocalTime endTime, boolean isCompleted) {
-        super();
+
+        uniqueID++;
+        
         this.description = description;
         this.priority = priority;
         this.endDate = endDate;
@@ -133,7 +149,9 @@ public class Task
      * @param priority
      */
     public Task(String description, Priority priority) {
-        super();
+
+        uniqueID++;
+        
         this.description = description;
         this.priority = priority;
 
@@ -150,7 +168,9 @@ public class Task
      * @param isCompleted
      */
     public Task(String description, Priority priority, boolean isCompleted) {
-        super();
+
+        uniqueID++;
+        
         this.description = description;
         this.priority = priority;
         this.isCompleted = isCompleted;
