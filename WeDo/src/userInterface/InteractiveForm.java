@@ -22,7 +22,7 @@ import logic.utility.Task;
 public class InteractiveForm extends JPanel {
 
 	public static final String[] columnNames = { "task", "description",
-			"start date", "end date", "start time", "end time", "priority", " " };
+			"start date", "end date", "start time", "end time", "priority", "check", " " };
 
 	protected JTable table;
 	protected JScrollPane scroller;
@@ -127,7 +127,6 @@ public class InteractiveForm extends JPanel {
              //frame.pack();
              frame.setVisible(false);
          } catch (Exception e) {
-        	 
         	 JOptionPane.showMessageDialog(null,"ALERT MESSAGE","TITLE", JOptionPane.WARNING_MESSAGE);
              e.printStackTrace();
          }

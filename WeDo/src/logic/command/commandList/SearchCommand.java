@@ -28,7 +28,7 @@ public class SearchCommand extends Command {
         if (searchList.isEmpty()) {
             throw new InvalidCommandException("Search failed unable to find...");
         } else {
-            displayedTask = dataHandler.getDisplayedTasks(task.getStarDate(),
+            displayedTask = dataHandler.getDisplayedTasks(task.getStartDate(),
                     task.getEndDate());
         }
     }

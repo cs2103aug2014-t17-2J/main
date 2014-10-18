@@ -19,7 +19,8 @@ public class InteractiveTableModel extends AbstractTableModel {
 	public static final int INDEX_STARTTIME = 4;
 	public static final int INDEX_ENDTIME = 5;
 	public static final int INDEX_PRIORITY = 6;
-	public static final int INDEX_HIDDEN = 7;
+	public static final int INDEX_CHECK = 7;
+	public static final int INDEX_HIDDEN = 8;
 
 	protected String[] columnNames;
 	protected Vector dataVector;
@@ -49,6 +50,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 		case INDEX_STARTTIME:
 		case INDEX_ENDTIME:
 		case INDEX_PRIORITY:
+		case INDEX_CHECK:
 			return String.class;
 		default:
 			return Object.class;
@@ -73,6 +75,8 @@ public class InteractiveTableModel extends AbstractTableModel {
 			return tableInfo.getEndTime();
 		case INDEX_PRIORITY:
 			return tableInfo.getPriority();
+		case INDEX_CHECK:
+			return tableInfo.getCheck();
 		default:
 			return new Object();
 		}
@@ -102,6 +106,9 @@ public class InteractiveTableModel extends AbstractTableModel {
 		case INDEX_PRIORITY:
 			tableInfo.setPriority((String) value);
 			break;
+		case INDEX_CHECK:
+			tableInfo.setCheck((String) value);
+			break;
 		default:
 			System.out.println("invalid index");
 		}
@@ -127,7 +134,8 @@ public class InteractiveTableModel extends AbstractTableModel {
         		tableInfo.getEndDate().trim().equals("") &&
         		tableInfo.getStartTime().trim().equals("") &&
         		tableInfo.getEndTime().trim().equals("") &&
-        		tableInfo.getPriority().trim().equals(""))
+        		tableInfo.getPriority().trim().equals("") &&
+        		tableInfo.getCheck().trim().equals(""))
         {
            return true;
         }
@@ -159,8 +167,8 @@ public class InteractiveTableModel extends AbstractTableModel {
 			
 			this.setValueAt(""+(row+1), row, INDEX_TASK);
 			this.setValueAt(task.getDescription(), row, INDEX_DESCRIPTION);
-			if(task.getStarDate() != null && task.getStarDate() != LocalDate.MAX)
-			this.setValueAt(task.getStarDate().format(dateFormatter), row, INDEX_STARTDATE);
+			if(task.getStartDate() != null && task.getStartDate() != LocalDate.MAX)
+			this.setValueAt(task.getStartDate().format(dateFormatter), row, INDEX_STARTDATE);
 			if(task.getEndDate() != null && task.getEndDate() != LocalDate.MAX)
 			this.setValueAt(task.getEndDate().format(dateFormatter), row, INDEX_ENDDATE);
 			if(task.getStartTime()!= null && task.getStartTime() != LocalTime.MAX)
@@ -169,6 +177,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 			this.setValueAt(task.getEndTime().format(timeFormatter), row, INDEX_ENDTIME);
 			if(task.getPriority() != null && !task.getPriority().toString().isEmpty())
 			this.setValueAt(task.getPriority().toString(), row, INDEX_PRIORITY);
+			this.setValueAt(task.isValid(), row, INDEX_CHECK);
 			row++;
 			
 		}

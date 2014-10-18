@@ -132,7 +132,7 @@ public class FileHandler {
 		
 		tmp.put(ID, task.getID());
 		tmp.put(DESCRPTION, task.getDescription());
-		tmp.put(S_DATE, task.getStarDate());
+		tmp.put(S_DATE, task.getStartDate());
 		tmp.put(E_DATE, task.getEndDate());
 		tmp.put(S_TIME, task.getStartTime());
 		tmp.put(E_TIME, task.getEndTime());
