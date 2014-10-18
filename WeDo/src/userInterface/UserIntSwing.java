@@ -122,25 +122,15 @@ public class UserIntSwing extends JPanel implements Observer {
 			}
 
 			public void keyPressed(KeyEvent e) {
-				String command = textField.getText();
-				lblHelp.setText(CommandGuide.getGuideMessage(command + " "));
-
-				if (e.getKeyCode() == KeyEvent.VK_F1) {
-					JOptionPane
-							.showMessageDialog(null, "The Help is not done!");
-				}
-			}
-
-			public void keyPressed2(KeyEvent arg2) {
 				try {
 					String command = textField.getText();
 					lblHelp.setText(CommandGuide.getGuideMessage(command + " "));
 						frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
+					} catch (Exception ex) {
+						ex.printStackTrace();
 				}
 				
-				if(arg2.getKeyCode() == KeyEvent.VK_F1){
+				if(e.getKeyCode() == KeyEvent.VK_F1){
 					JOptionPane.showMessageDialog(null, "The Help is not done!");
 				}
 			}
