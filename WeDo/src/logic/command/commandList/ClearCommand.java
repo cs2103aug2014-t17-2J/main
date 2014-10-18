@@ -23,10 +23,10 @@ public class ClearCommand extends Command {
     public void execute() throws InvalidCommandException {
         System.out.println("clear");
 
-        storedList = dataHandler.getDisplayedTasks(task.getStarDate(),
+        storedList = dataHandler.getDisplayedTasks(task.getStartDate(),
                 task.getEndDate());
 
-        if (dataHandler.clearTask(task.getStarDate(), task.getEndDate())) {
+        if (dataHandler.clearTask(task.getStartDate(), task.getEndDate())) {
             undoHandler.addUndo(this);
         } else {
             throw new InvalidCommandException("Clear failed");

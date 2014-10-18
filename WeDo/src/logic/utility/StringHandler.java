@@ -250,13 +250,14 @@ public class StringHandler {
     }
     
     /**
+     * This function search for words that matches with values at keyArrays
      * @param source the string that is to be searched
      * @param keyArrays the string arrays which have the keys to search for
      * @return
      */
-    public static boolean contains(String source, String[]... keyArrays)
-    {
-        source = source.toLowerCase();
+    public static boolean containsWord(String source, String[]... keyArrays)
+    {     
+        source = " " + source.toLowerCase() + " ";
         
         for (String[] keyArray : keyArrays) 
         {
@@ -264,7 +265,8 @@ public class StringHandler {
             {
                 if(!key.isEmpty())
                 {
-                    if(source.contains(key.toLowerCase()))
+                    key = " " + key.toLowerCase() + " ";
+                    if(source.contains(key))
                     {
                         return true;
                     }

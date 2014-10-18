@@ -3,7 +3,7 @@ package userInterface;
 public class TableInformation {
 
 	protected String task, description, startDate, endDate, startTime, endTime,
-			priority;
+			priority, check;
 
 	public TableInformation() {
 		task = "";
@@ -13,6 +13,7 @@ public class TableInformation {
 		startTime = "";
 		endTime = "";
 		priority = "";
+		check = "";
 	}
 
 	public String getTask() {
@@ -69,5 +70,13 @@ public class TableInformation {
 
 	public void setPriority(String priority) {
 		this.priority = priority;
+	}
+	
+	public String getCheck(){
+		return check;
+	}
+	
+	public void setCheck(String check){
+		this.check = check;
 	}
 }

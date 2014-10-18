@@ -30,10 +30,7 @@ public class BasicDataHandlerTest {
 	@Test
 	public void testAddTask() {
 		
-		Task task1 = new Task();
-		task1.setDescription("this is task 1");
-		task1.setEndDate(LocalDate.now());
-		task1.setPriority(priority.PRIORITY_HIGH);
+		Task task1 = new Task("this is task 1", Priority.PRIORITY_HIGH, LocalDate.now(), Task.TIME_NOT_SET);
 		datahandler.addTask(task1);
 		ArrayList<Task> tmp1 = new ArrayList<Task>(datahandler.getMainList().get("today"));
 		System.out.println(tmp1.get(0));
@@ -95,10 +92,7 @@ public class BasicDataHandlerTest {
 	@Test
 	public void testRemoveTaskTask() {
 		
-		Task task1 = new Task();
-		task1.setDescription("this is task today 1");
-		task1.setEndDate(LocalDate.now());
-		task1.setPriority(priority.PRIORITY_HIGH);
+        Task task1 = new Task("this is task 1", Priority.PRIORITY_HIGH, LocalDate.now(), Task.TIME_NOT_SET);
 		datahandler.addTask(task1);
 		
 		Task task2 = new Task();
