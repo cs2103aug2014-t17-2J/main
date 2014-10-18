@@ -8,8 +8,10 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import logic.taskParser.TaskParserPlus;
+import logic.taskParser.ParserManager;
 import logic.utility.Task;
 
 import org.junit.Test;
@@ -24,18 +26,20 @@ public class TaskParserPlusTest {
 
     @Test
     public void test() {
-
+        
+//        Scanner sc = new Scanner(System.in);
+//        TaskParserUlti ulti = new TaskParserUlti();
+//        while(true)
+//        {
+//            String input = sc.nextLine();
+//            ulti.buildTask(new StringBuilder(input));
+//
+//        }
 
         Task expectedTask = new Task();
         TaskParserPlus taskParser = new TaskParserPlus();
 
-//        Scanner sc = new Scanner(System.in);
-//        while(true)
-//        {
-//            String input = sc.nextLine();
-//            taskParser.buildTask(new StringBuilder(input));
-//
-//        }
+
         
         expectedTask.setDescription("floating task");
         assertEquals(

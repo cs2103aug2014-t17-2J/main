@@ -70,4 +70,41 @@ public class DeadLineTask extends AbstractTask {
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "DeadLineTask [endDate=" + endDate + ", endTime=" + endTime
+                + ", getPriority()=" + getPriority() + ", getDescription()="
+                + getDescription() + ", isCompleted()=" + isCompleted()
+                +  "]";
+    }
+
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DeadLineTask other = (DeadLineTask) obj;
+        if (endDate == null) {
+            if (other.endDate != null)
+                return false;
+        } else if (!endDate.equals(other.endDate))
+            return false;
+        if (endTime == null) {
+            if (other.endTime != null)
+                return false;
+        } else if (!endTime.equals(other.endTime))
+            return false;
+        return true;
+    }
 }

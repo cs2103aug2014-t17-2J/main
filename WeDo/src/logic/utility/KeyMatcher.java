@@ -21,6 +21,11 @@ public class KeyMatcher
      */
     public static<K> K matchKey(Multimap<K, String> multimap, String input)
     {
+        if(input == null || input.isEmpty())
+        {
+            return null;
+        }
+        
         input = input.toLowerCase();
         input = " " + input + " ";
         

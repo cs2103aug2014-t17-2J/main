@@ -25,4 +25,14 @@ public class FloatingTask extends AbstractTask {
         super(priority, description, isComplete);
         // TODO Auto-generated constructor stub
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "FloatingTask [getPriority()=" + getPriority()
+                + ", getDescription()=" + getDescription() + ", isCompleted()="
+                + isCompleted() + "]";
+    }
 }

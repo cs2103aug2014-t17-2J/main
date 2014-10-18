@@ -137,7 +137,7 @@ public class FileHandler {
 		tmp.put(S_TIME, task.getStartTime());
 		tmp.put(E_TIME, task.getEndTime());
 		tmp.put(PRIORITY, task.getPriority());
-		tmp.put(STATUS, task.isValid());
+		tmp.put(STATUS, task.getCompleted());
 		
 		return tmp;
 	}

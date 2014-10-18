@@ -7,6 +7,7 @@ package logic;
  * @author Kuan Tien Long
  *
  */
+@SuppressWarnings("serial")
 public class InvalidCommandException extends Exception 
 {
 

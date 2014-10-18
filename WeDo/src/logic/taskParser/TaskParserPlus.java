@@ -158,7 +158,7 @@ public class TaskParserPlus implements TaskParser {
         String[] timeUnit = { "hour", "hr", "minute", "min", "second", "sec",
                 "am", "pm", "day", "week", "month" };
 
-        if (StringHandler.contains(source, shortWeekdays, longWeekdays,
+        if (StringHandler.containsWord(source, shortWeekdays, longWeekdays,
                 shortMonths, longMonths, timeUnit)) {
             return true;
         } else {

@@ -5,6 +5,7 @@ package logic.utility;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+
 import definedEnumeration.Priority;
 
 /**
@@ -13,15 +14,184 @@ import definedEnumeration.Priority;
  */
 public class Task 
 {
-    private static int uniqueID = 1;
-    private Priority priority;
-    private LocalDate startDate = LocalDate.MAX;
-    private LocalDate endDate = LocalDate.MAX;
-    private LocalTime startTime = LocalTime.MAX;
-    private LocalTime endTime = LocalTime.MAX;
+    public static final LocalTime TIME_NOT_SET = LocalTime.MAX;
+    public static final LocalDate DATE_NOT_SET = LocalDate.MAX;
+    public static final Priority PRIORITY_NOT_SET = Priority.PRIORITY_UNDEFINED;
+    public static final boolean DEFAULT_COMPLETE_STATUS = false;
+    
+    private static final int INITIAL_ID = 0;
+    
+    
+    private static int uniqueID = INITIAL_ID;
     private String description;
-    private boolean isCompleted = false;
+    private Priority priority;
+    private LocalDate startDate;
+    private LocalTime startTime;
+    private LocalDate endDate;
+    private LocalTime endTime;
+    private boolean isCompleted;
+    
+    // blank task constructor
+    public Task()
+    {
+        uniqueID++;
+        
+        this.priority = PRIORITY_NOT_SET;
+        this.startDate = this.endDate = DATE_NOT_SET;
+        this.startTime = this.endTime = TIME_NOT_SET;
+        this.isCompleted = DEFAULT_COMPLETE_STATUS;
+    }
+    
+
+    /**
+     * Constructor for <b>timed</b> task without completed status
+     * 
+     * @param description
+     * @param priority
+     * @param startDate
+     * @param startTime
+     * @param endDate
+     * @param endTime
+     */
+    public Task(String description, Priority priority, LocalDate startDate,
+            LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+       
+        uniqueID++;
+        
+        this.description = description;
+        this.priority = priority;
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
+        isCompleted =DEFAULT_COMPLETE_STATUS;
+    }
+    
+
+    /**
+     * Constructor for <b>timed</b> task with completed status 
+     * 
+     * @param description
+     * @param priority
+     * @param startDate
+     * @param startTime
+     * @param endDate
+     * @param endTime
+     * @param isCompleted
+     */
+    public Task(String description, Priority priority, LocalDate startDate,
+            LocalTime startTime, LocalDate endDate, LocalTime endTime,
+            boolean isCompleted) {
+        
+        uniqueID++;
+        
+        this.description = description;
+        this.priority = priority;
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
+        this.isCompleted = isCompleted;
+    }
+    
+    
    
+    /**
+     * Constructor for <b>deadline</b> task without completed status
+     * @param description
+     * @param priority
+     * @param endDate
+     * @param endTime
+     */
+    public Task(String description, Priority priority, LocalDate endDate,
+            LocalTime endTime) {
+
+        uniqueID++;
+        
+        this.description = description;
+        this.priority = priority;
+        this.endDate = endDate;
+        this.endTime = endTime;
+        this.startDate = DATE_NOT_SET;
+        this.startTime = TIME_NOT_SET;
+        this.isCompleted = DEFAULT_COMPLETE_STATUS;
+    }
+    
+    
+    /**
+     * Constructor for <b>deadline</b> task with completed status
+     * @param description
+     * @param priority
+     * @param endDate
+     * @param endTime
+     * @param isCompleted
+     */
+    public Task(String description, Priority priority, LocalDate endDate,
+            LocalTime endTime, boolean isCompleted) {
+
+        uniqueID++;
+        
+        this.description = description;
+        this.priority = priority;
+        this.endDate = endDate;
+        this.endTime = endTime;
+        this.isCompleted = isCompleted;
+        this.startDate = DATE_NOT_SET;
+        this.startTime = TIME_NOT_SET;
+    }
+
+
+
+
+    /**
+     * Constructor for <b>floating</b> task without completed status
+     * @param description
+     * @param priority
+     */
+    public Task(String description, Priority priority) {
+
+        uniqueID++;
+        
+        this.description = description;
+        this.priority = priority;
+
+        this.startDate = this.endDate = DATE_NOT_SET;
+        this.startTime = this.endTime = TIME_NOT_SET;
+        this.isCompleted = DEFAULT_COMPLETE_STATUS;
+    }
+
+
+    /**
+     * Constructor for <b>deadline</b> task with completed status
+     * @param description
+     * @param priority
+     * @param isCompleted
+     */
+    public Task(String description, Priority priority, boolean isCompleted) {
+
+        uniqueID++;
+        
+        this.description = description;
+        this.priority = priority;
+        this.isCompleted = isCompleted;
+
+        this.startDate = this.endDate = DATE_NOT_SET;
+        this.startTime = this.endTime = TIME_NOT_SET;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public boolean equals(Object other)
     {
@@ -48,10 +218,7 @@ public class Task
         
     }
     
-    public Task()
-    {
-        uniqueID++;
-    }
+
     /**
      * @return the iD
      */
@@ -68,8 +235,15 @@ public class Task
      * @return the priority
      */
     public Priority getPriority() {
-        return priority;
-    }
+        if(priority == null)
+        {
+            return PRIORITY_NOT_SET;
+        }
+        else
+        {
+            return priority;
+        }    
+      }
     /**
      * @param priority the priority to set
      */
@@ -81,7 +255,15 @@ public class Task
      * @return the start
      */
     public LocalDate getStartDate() {
-        return startDate;
+        if(startDate == null)
+        {
+            return DATE_NOT_SET;
+        }
+        else
+        {
+            return startDate;
+        }   
+        
     }
     /**
      * @param start the start to set
@@ -93,7 +275,15 @@ public class Task
      * @return the end
      */
     public LocalDate getEndDate() {
-        return endDate;
+        if(endDate == null)
+        {
+            return DATE_NOT_SET;
+        }
+        else
+        {
+            return endDate;
+        }   
+        
     }
     /**
      * @param end the end to set
@@ -102,15 +292,16 @@ public class Task
         this.endDate = end;
     }
     /**
-     * @return the valid
+     * @return the isCompleted
      */
-    public boolean isValid() {
-        return isCompleted;
+    public boolean getCompleted() {
+            return isCompleted;
+
     }
     /**
-     * @param valid the valid to set
+     * @param isCompleted the isCompleted to set
      */
-    public void setValid(boolean valid) {
+    public void setCompleted(boolean valid) {
         this.isCompleted = valid;
     }
     /**
@@ -130,7 +321,14 @@ public class Task
      * @return the startTime
      */
     public LocalTime getStartTime() {
-        return startTime;
+        if(startTime == null)
+        {
+            return TIME_NOT_SET;
+        }
+        else
+        {
+            return startTime;
+        }
     }
     /**
      * @param startTime the startTime to set
@@ -142,7 +340,14 @@ public class Task
      * @return the endTime
      */
     public LocalTime getEndTime() {
-        return endTime;
+        if(endTime == null)
+        {
+            return TIME_NOT_SET;
+        }
+        else
+        {
+            return endTime;
+        }
     }
     /**
      * @param endTime the endTime to set
@@ -153,9 +358,4 @@ public class Task
     /**
      * @return the testPriority
      */
-
-
-    
-    
-    
 }
