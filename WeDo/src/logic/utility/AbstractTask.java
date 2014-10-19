@@ -14,15 +14,17 @@ import definedEnumeration.Priority;
  */
 public class AbstractTask {
     
-    protected static final LocalTime TIME_NOT_SET = LocalTime.MAX;
-    protected static final LocalDate DATE_NOT_SET = LocalDate.MAX;
+    public static final LocalTime TIME_NOT_SET = LocalTime.MAX;
+    public static final LocalDate DATE_NOT_SET = LocalDate.MAX;
+    public static final Priority PRIORITY_NOT_SET = Priority.PRIORITY_UNDEFINED;
+    private boolean isCompleted = DEFAULT_COMPLETE_STATUS;
     protected static final boolean DEFAULT_COMPLETE_STATUS = false;
+
     
-    private static int uniqueID = 1;
+    private static int uniqueID = 0;
     
     private Priority priority;
     private String description;
-    private boolean isCompleted = false;
     
     
     public AbstractTask(Priority priority, String description, boolean isComplete)
@@ -39,7 +41,6 @@ public class AbstractTask {
         this.priority = priority;
         this.description = description;
     }
-    
     
     /**
      * @return the uniqueID
@@ -88,6 +89,39 @@ public class AbstractTask {
      */
     public void setCompleted(boolean isCompleted) {
         this.isCompleted = isCompleted;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "AbstractTask [priority=" + priority + ", description="
+                + description + ", isCompleted=" + isCompleted + "]";
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractTask other = (AbstractTask) obj;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        } else if (!description.equals(other.description))
+            return false;
+        if (isCompleted != other.isCompleted)
+            return false;
+        if (priority != other.priority)
+            return false;
+        return true;
     }
     
 }

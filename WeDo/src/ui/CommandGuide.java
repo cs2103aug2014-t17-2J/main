@@ -65,15 +65,6 @@ public class CommandGuide {
 			return GENERAL_GUIDE;
 		}
 	}
-	
-//	public static void processGuide(){
-//		if(UserIntSwing.textField.getText() == ""){
-//			UserIntSwing.lblHelp.setText(buildGeneralGuideString());
-//		}
-//		else if(UserIntSwing.textField.getText() == "-add"){
-//		
-//		}
-//	}
 
 	public static String buildGeneralGuideString() {
 
@@ -99,7 +90,7 @@ public class CommandGuide {
 		str.append(HTML_BREAK);
 
 		str.append("- Normal Task: ");
-		str.append(underline(IDENTIFIER_PLACEHOLDER) + " meet Prof Aaron ");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " meet Dr Damith ");
 		str.append(underline(Keywords.getDateIdentifier()) + " " + date + " ");
 		str.append(underline(Keywords.getTimeIdentifier()) + " 12pm - 2pm");
 		str.append(HTML_BREAK);

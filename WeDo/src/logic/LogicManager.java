@@ -7,6 +7,7 @@ import logic.command.CommandExecutor;
 import logic.command.CommandParser;
 import logic.command.UndoHandler;
 import logic.command.commandList.Command;
+import logic.parser.ParserManager;
 import logic.taskParser.TaskParserPlus;
 import logic.utility.Task;
 import dataStorage.DataHandler;
@@ -42,17 +43,25 @@ public class LogicManager
         final String INVALID_COMMAND = "The command given was invalid";
         StringBuilder userInputBuilder = new StringBuilder(userInput);
 
-        TaskParserPlus taskParser = new TaskParserPlus();
-        CommandParser commandParser = new CommandParser();
-
-        Task task = taskParser.buildTask(userInputBuilder);
-
-        Command command = commandParser.getCommand(userInputBuilder.toString());
-
-        if (command == null) {
-            throw new InvalidCommandException(INVALID_COMMAND);
+        ParserManager parserManager = new ParserManager();
+        if(parserManager.interpret(userInput))
+        {
+            Task task = parserManager.getTask();
+            Command command = parserManager.getCommand();
+            commandExecutor.execute(command, task);
         }
-
-        commandExecutor.execute(command, task);
+        
+//        TaskParserPlus taskParser = new TaskParserPlus();
+//        CommandParser commandParser = new CommandParser();
+//
+//        Task task = taskParser.buildTask(userInputBuilder);
+//
+//        Command command = commandParser.getCommand(userInputBuilder.toString());
+//
+//        if (command == null) {
+//            throw new InvalidCommandException(INVALID_COMMAND);
+//        }
+//
+//        commandExecutor.execute(command, task);
     }
 }
