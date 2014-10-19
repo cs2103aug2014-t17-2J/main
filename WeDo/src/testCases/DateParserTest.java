@@ -107,7 +107,6 @@ public class DateParserTest {
 
     @Test
     public void test() {
-        parseValidDateWithYYYYMD("0000/1/1");
         parseValidDateWithDMY("1/1/00");
         parseValidDateWithDDMMYY("31/12/9999");
         parseValidDateWithDDMYY("10/9/99");
@@ -118,8 +117,43 @@ public class DateParserTest {
         parseInvalidDateWithDDMMYY("30/13/74");
         parseInvalidDateWithDDMMYYY("11/11/100");
         parseInvalidDateWithDDMMYYYY("1/1/10000");
+        parseValidDateWithYYYYMD("0000/1/1");
+        parseValidDateWithYYYYMMDD("9999/12/31");
+        parseInvalidDateWithYYYMDD("999/9/10");
+        parseInvalidDateWithYYYYYMMDD("10000/11/11");
+        parseInvalidDateWithYYYYMD("8888/5/0");
+        parseInvalidDateWithYYYYMDD("1024/8/32");
+
+
     }
 
+    private void parseInvalidDateWithYYYYMDD(String source) {
+        DateParser dateParser = new DateParser();
+        assertFalse(dateParser.tryParse(source));
+    }
+
+    private void parseInvalidDateWithYYYYMD(String source) {
+        DateParser dateParser = new DateParser();
+        assertFalse(dateParser.tryParse(source));
+    }
+
+    private void parseInvalidDateWithYYYYYMMDD(String source) {
+        DateParser dateParser = new DateParser();
+        assertFalse(dateParser.tryParse(source));
+    }
+    
+    private void parseInvalidDateWithYYYMDD(String source) {
+        DateParser dateParser = new DateParser();
+        assertFalse(dateParser.tryParse(source));
+    }
+    
+    private void parseValidDateWithYYYYMMDD(String source) {
+        DateParser dateParser = new DateParser();
+        assertTrue(dateParser.tryParse(source));
+
+        assertEquals(dateParser.getEndDate(), LocalDate.of(9999, 12, 31));
+    }
+    
     private void parseValidDateWithYYYYMD(String source) {
         DateParser dateParser = new DateParser();
         assertTrue(dateParser.tryParse(source));
