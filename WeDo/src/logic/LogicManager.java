@@ -4,11 +4,8 @@
 package logic;
 
 import logic.command.CommandExecutor;
-import logic.command.CommandParser;
-import logic.command.UndoHandler;
 import logic.command.commandList.Command;
 import logic.parser.ParserManager;
-import logic.taskParser.TaskParserPlus;
 import logic.utility.Task;
 import dataStorage.DataHandler;
 
@@ -40,9 +37,6 @@ public class LogicManager
      */
     public void processCommand(String userInput) throws InvalidCommandException {
 
-        final String INVALID_COMMAND = "The command given was invalid";
-        StringBuilder userInputBuilder = new StringBuilder(userInput);
-
         ParserManager parserManager = new ParserManager();
         if(parserManager.interpret(userInput))
         {
@@ -50,18 +44,6 @@ public class LogicManager
             Command command = parserManager.getCommand();
             commandExecutor.execute(command, task);
         }
-        
-//        TaskParserPlus taskParser = new TaskParserPlus();
-//        CommandParser commandParser = new CommandParser();
-//
-//        Task task = taskParser.buildTask(userInputBuilder);
-//
-//        Command command = commandParser.getCommand(userInputBuilder.toString());
-//
-//        if (command == null) {
-//            throw new InvalidCommandException(INVALID_COMMAND);
-//        }
-//
-//        commandExecutor.execute(command, task);
+       
     }
 }

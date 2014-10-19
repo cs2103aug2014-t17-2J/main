@@ -52,7 +52,18 @@ public class DateParser {
             return false;
         }
 
+        if(formalDateContainsNegativeNumber(source))
+        {
+            return false;
+        }
+        
         source = DateStringMassager.massageData(source);
+        
+        if(formalDateContainsZero(source) || formalDateContainsInvalidRange(source))
+        {
+            return false;
+        }
+        
 
         Parser nattyParser = new Parser();
         List<DateGroup> dateGroups = nattyParser.parse(source);
@@ -86,6 +97,82 @@ public class DateParser {
         } else {
             return false;
         }
+    }
+
+    private boolean formalDateContainsZero(String source) {
+        return source.matches(".*\\d\\d\\d\\d/0+/|\\d\\d\\d\\d/\\d+/0+|\\d+/0+/.*");
+    }
+
+    private boolean formalDateContainsNegativeNumber(String source) {
+        return source.matches(".*-\\d+/|/-\\d+.*");
+    }
+    
+    private boolean formalDateContainsInvalidRange(String source) 
+    {
+        final int yearGroup = 1;
+        final int monthGroup = 2;
+        final int dayGroup = 3;
+                
+        String yyyymmddRegex = "(\\d+)[/-](\\d+)[/-](\\d+)";
+        
+         
+        Pattern pattern = Pattern.compile(yyyymmddRegex);
+        Matcher matcher = pattern.matcher(source);
+        
+        
+        while (matcher.find()) 
+        {
+            int year = Integer.parseInt(matcher.group(yearGroup));
+            int month = Integer.parseInt(matcher.group(monthGroup));
+            int day = Integer.parseInt(matcher.group(dayGroup));
+            
+            if(isYearInvalid(year))
+            {
+                return true;
+            }
+            
+            if(monthIsInvalid(month))
+            {
+                return true;
+            }
+            
+            if(dayIsInvalid(day))
+            {
+                return true;
+            }
+
+               
+        }
+        
+        
+        return false;
+    }
+
+    private boolean isYearInvalid(int year) {
+        return yearContains3Digit(year) | yearContainsMoreThan4Digit(year);
+    }
+
+
+    private boolean dayIsInvalid(int day) 
+    {
+        final int MAX_DAY = 31;
+        return day > MAX_DAY;
+    }
+
+    private boolean monthIsInvalid(int month) {
+        final int MAX_MONTH = 12;
+        return month > MAX_MONTH;
+    }
+    private boolean yearContainsMoreThan4Digit(int year) {
+        final int MAX_4DIGIT_YEAR = 9999;
+        return year > MAX_4DIGIT_YEAR;
+    }
+
+    private boolean yearContains3Digit(int year) 
+    {
+        final int MAX_2DIGIT_YEAR = 99;
+        final int MIN_4DIGIT_YEAR = 1000;
+        return year > MAX_2DIGIT_YEAR && year < MIN_4DIGIT_YEAR;
     }
     
     /**
