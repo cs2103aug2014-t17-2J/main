@@ -60,11 +60,10 @@ public class UserLogic {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
 		Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-		int Xcoordinate = (int) rect.getMaxX() - UserIntSwing.frame.getWidth();
-		int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() - taskbarHeight;
-		//HelpMenu.frame.setLocation(Xcoordinate, Ycoordinate);
+		int Xcoordinate = (int) rect.getMaxX() - HelpMenu.frame.getWidth();
+		int Ycoordinate = (int) rect.getMaxY() - HelpMenu.frame.getHeight() - taskbarHeight;
+		HelpMenu.frame.setLocation(Xcoordinate, Ycoordinate);
 	}
-
 
 	/**
 	 *This operation process the hotkeys shortcut function. 
