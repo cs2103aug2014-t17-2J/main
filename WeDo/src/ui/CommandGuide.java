@@ -65,15 +65,6 @@ public class CommandGuide {
 			return GENERAL_GUIDE;
 		}
 	}
-	
-//	public static void processGuide(){
-//		if(UserIntSwing.textField.getText() == ""){
-//			UserIntSwing.lblHelp.setText(buildGeneralGuideString());
-//		}
-//		else if(UserIntSwing.textField.getText() == "-add"){
-//		
-//		}
-//	}
 
 	public static String buildGeneralGuideString() {
 

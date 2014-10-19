@@ -18,8 +18,7 @@ public class BalloonTipGuide {
 
 	public static void setVisible(boolean b) {
 		// TODO Auto-generated method stub
-		myBalloonTip.setVisible(true);
-		
+		myBalloonTip.setVisible(b);
 	}
 
 }
