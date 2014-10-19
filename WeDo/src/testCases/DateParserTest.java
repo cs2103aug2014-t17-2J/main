@@ -11,6 +11,7 @@ import logic.parser.DateParser;
 
 import org.junit.Test;
 
+//@formatter:off
 /**
  * @author Kuan Tien Long
  * 
@@ -104,11 +105,12 @@ import org.junit.Test;
  *| 10000 | 1     |      |
  *+-------+-------+------+
  */
+//@formatter:on
+
 public class DateParserTest {
 
     @Test
     public void test() {
-        
 
         parseValidDateWithDMY("1/1/00");
         parseValidDateWithDDMMYY("31/12/9999");
@@ -122,71 +124,61 @@ public class DateParserTest {
         parseInvalidDateWithDDMMYYYY("1/1/10000");
     }
 
-    private void parseInvalidDateWithDDMMYYYY(String source) 
-    {
+    private void parseInvalidDateWithDDMMYYYY(String source) {
         DateParser dateParser = new DateParser();
-        assertFalse( dateParser.tryParse(source));
-    }
-    
-    private void parseInvalidDateWithDDMMYYY(String source) 
-    {
-        DateParser dateParser = new DateParser();
-        assertFalse( dateParser.tryParse(source));
+        assertFalse(dateParser.tryParse(source));
     }
 
-    private void parseInvalidDateWithDDMMYY(String source) 
-    {
+    private void parseInvalidDateWithDDMMYYY(String source) {
         DateParser dateParser = new DateParser();
-        assertFalse( dateParser.tryParse(source));
+        assertFalse(dateParser.tryParse(source));
     }
-    
-    private void parseInvalidDateWithDMYYYY(String source) 
-    {
+
+    private void parseInvalidDateWithDDMMYY(String source) {
         DateParser dateParser = new DateParser();
-        assertFalse( dateParser.tryParse(source));
+        assertFalse(dateParser.tryParse(source));
     }
-    
-    private void parseInvalidDateWithDDMYYYY(String source) 
-    {
+
+    private void parseInvalidDateWithDMYYYY(String source) {
         DateParser dateParser = new DateParser();
-        assertFalse( dateParser.tryParse(source));
+        assertFalse(dateParser.tryParse(source));
     }
-    
-    private void parseInvalidDateWithDMYY(String source) 
-    {
+
+    private void parseInvalidDateWithDDMYYYY(String source) {
         DateParser dateParser = new DateParser();
-        assertFalse( dateParser.tryParse(source));
+        assertFalse(dateParser.tryParse(source));
     }
-   
-    private void parseValidDateWithDDMMYYYY(String source) 
-    {
+
+    private void parseInvalidDateWithDMYY(String source) {
         DateParser dateParser = new DateParser();
-        assertTrue( dateParser.tryParse(source));
+        assertFalse(dateParser.tryParse(source));
+    }
+
+    private void parseValidDateWithDDMMYYYY(String source) {
+        DateParser dateParser = new DateParser();
+        assertTrue(dateParser.tryParse(source));
         assertEquals(dateParser.getEndDate(), LocalDate.of(0, 11, 12));
     }
-    
-    private void parseValidDateWithDDMYY(String source) 
-    {
+
+    private void parseValidDateWithDDMYY(String source) {
         DateParser dateParser = new DateParser();
-        assertTrue( dateParser.tryParse(source));
+        assertTrue(dateParser.tryParse(source));
         System.out.println("Hello" + dateParser.getMydate());
 
         assertEquals(dateParser.getEndDate(), LocalDate.of(2099, 9, 10));
     }
-    
-    private void parseValidDateWithDDMMYY(String source) 
-    {
+
+    private void parseValidDateWithDDMMYY(String source) {
         DateParser dateParser = new DateParser();
-        assertTrue( dateParser.tryParse(source));
+        assertTrue(dateParser.tryParse(source));
         System.out.println("Hello" + dateParser.getMydate());
 
         assertEquals(dateParser.getEndDate(), LocalDate.of(9999, 12, 31));
     }
 
-    private void parseValidDateWithDMY(String source) 
-    {
+    private void parseValidDateWithDMY(String source) {
         DateParser dateParser = new DateParser();
-        assertTrue( dateParser.tryParse(source));
+        assertTrue(dateParser.tryParse(source));
         System.out.println("Hello" + dateParser.getMydate());
 
         assertEquals(dateParser.getEndDate(), LocalDate.of(2000, 1, 1));
