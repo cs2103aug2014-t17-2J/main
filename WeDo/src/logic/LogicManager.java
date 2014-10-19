@@ -7,7 +7,7 @@ import logic.command.CommandExecutor;
 import logic.command.CommandParser;
 import logic.command.UndoHandler;
 import logic.command.commandList.Command;
-import logic.taskParser.ParserManager;
+import logic.parser.ParserManager;
 import logic.taskParser.TaskParserPlus;
 import logic.utility.Task;
 import dataStorage.DataHandler;

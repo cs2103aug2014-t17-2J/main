@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.taskParser;
+package logic.parser;
 
 import java.util.EnumSet;
 

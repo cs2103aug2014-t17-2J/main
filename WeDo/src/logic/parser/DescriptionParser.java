@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.taskParser;
+package logic.parser;
 
 import logic.utility.StringHandler;
 
@@ -15,7 +15,12 @@ public class DescriptionParser
     private String wordRemaining;
     private String description;
     
-    public boolean parseDescription(String source)
+    /**
+     * <p> The source will be parsed to see if it contains date.
+     * @param source the String to be parsed
+     * @return if source contains valid description 
+     */
+    public boolean tryParse(String source)
     {
         if (source == null) {
             return false;
