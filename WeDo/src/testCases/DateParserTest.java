@@ -88,21 +88,17 @@ import org.junit.Test;
  * +-------+-------+------+
  *| Year  | Month | Date |
  *+-------+-------+------+
- *| 00    | 1     | 1    |
+ *| 0000  | 1     | 1    |
  *+-------+-------+------+
  *| 9999  | 12    | 31   |
  *+-------+-------+------+
- *| 99    | 9     | 10   |
+ *| 999    | 9     | 10  |
  *+-------+-------+------+
- *| 0000  | 11    | 11   |
+ *| 10000  | 11    | 11  |
  *+-------+-------+------+
- *| 88    | 5     | 0    |
+ *| 8888  | 5     | 0    |
  *+-------+-------+------+
  *| 1024  | 8     | 32   |
- *+-------+-------+------+
- *| 100   | 11    | 11   |
- *+-------+-------+------+
- *| 10000 | 1     |      |
  *+-------+-------+------+
  */
 //@formatter:on
@@ -111,7 +107,7 @@ public class DateParserTest {
 
     @Test
     public void test() {
-
+        parseValidDateWithYYYYMD("0000/1/1");
         parseValidDateWithDMY("1/1/00");
         parseValidDateWithDDMMYY("31/12/9999");
         parseValidDateWithDDMYY("10/9/99");
@@ -124,6 +120,13 @@ public class DateParserTest {
         parseInvalidDateWithDDMMYYYY("1/1/10000");
     }
 
+    private void parseValidDateWithYYYYMD(String source) {
+        DateParser dateParser = new DateParser();
+        assertTrue(dateParser.tryParse(source));
+
+        assertEquals(dateParser.getEndDate(), LocalDate.of(0000, 1, 1));
+    }
+    
     private void parseInvalidDateWithDDMMYYYY(String source) {
         DateParser dateParser = new DateParser();
         assertFalse(dateParser.tryParse(source));
@@ -163,7 +166,6 @@ public class DateParserTest {
     private void parseValidDateWithDDMYY(String source) {
         DateParser dateParser = new DateParser();
         assertTrue(dateParser.tryParse(source));
-        System.out.println("Hello" + dateParser.getMydate());
 
         assertEquals(dateParser.getEndDate(), LocalDate.of(2099, 9, 10));
     }
@@ -171,7 +173,6 @@ public class DateParserTest {
     private void parseValidDateWithDDMMYY(String source) {
         DateParser dateParser = new DateParser();
         assertTrue(dateParser.tryParse(source));
-        System.out.println("Hello" + dateParser.getMydate());
 
         assertEquals(dateParser.getEndDate(), LocalDate.of(9999, 12, 31));
     }
@@ -179,7 +180,6 @@ public class DateParserTest {
     private void parseValidDateWithDMY(String source) {
         DateParser dateParser = new DateParser();
         assertTrue(dateParser.tryParse(source));
-        System.out.println("Hello" + dateParser.getMydate());
 
         assertEquals(dateParser.getEndDate(), LocalDate.of(2000, 1, 1));
     }
