@@ -232,7 +232,7 @@ public class DateStringMassager {
         final int yearGroup = 3;
         final int monthGroup = 2;
         final int dayGroup = 1;
-        final String ddmmyyyyRegex = "([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])[/-](\\d+)";
+        final String ddmmyyyyRegex = "(?<!\\d)([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])[/-](\\d+)";
         
         Pattern pattern = Pattern.compile(ddmmyyyyRegex);
         Matcher matcher = pattern.matcher(source);
@@ -272,6 +272,7 @@ public class DateStringMassager {
         final int endGroup = 5;
 
         final String ddmmyyRegex = "([^\\w]|^)+([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])[/-](\\d\\d)([^\\w]|$)+";
+       
         Pattern pattern = Pattern.compile(ddmmyyRegex);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
@@ -303,7 +304,8 @@ public class DateStringMassager {
         final int monthGroup = 3;
         final int endGroup = 4;
 
-        final String ddmmyyRegex = "([^\\w]|^)+([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])([^\\w]|$)";
+//        final String ddmmyyRegex = "([^\\w]|^)+([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])([^\\w]|$)";
+        final String ddmmyyRegex = "(\\s+|^)+([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])(\\s+|$)";
         Pattern pattern = Pattern.compile(ddmmyyRegex);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
