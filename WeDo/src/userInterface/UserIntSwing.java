@@ -38,6 +38,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -84,6 +85,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	private void initialize() {
 		frame = new JFrame("WeDo");
+		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.setBounds(100, 100, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -97,7 +99,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		
 		JLabel lblHelp = new JLabel("Label Help");
 		lblHelp.setVerticalAlignment(SwingConstants.TOP);
-		lblHelp.setBounds(10, 337, 496, 96);
+		lblHelp.setBounds(10, 354, 496, 96);
 		frame.getContentPane().add(lblHelp);
 		
 		//ArrayList<String> taskList = new ArrayList<String>();
@@ -231,6 +233,11 @@ public class UserIntSwing extends JPanel implements Observer {
 		JLabel lblWarning = new JLabel("");
 		lblWarning.setBounds(10, 256, 496, 47);
 		frame.getContentPane().add(lblWarning);
+		
+		JLabel lblQuickHelp = new JLabel("Quick Help");
+		lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 14));
+		lblQuickHelp.setBounds(10, 337, 80, 14);
+		frame.getContentPane().add(lblQuickHelp);
 	}
 	
 	private void addFrameWindowFocusListener() {

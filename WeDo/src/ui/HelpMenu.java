@@ -1,3 +1,9 @@
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class creates the Help Menu when 
+ * user hotkey <F1> is pressed
+ * 
+ */
 package ui;
 
 import javax.swing.JMenu;
@@ -6,10 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
-
-import userInterface.UserIntSwing;
-
-import javax.swing.ImageIcon;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -89,7 +91,6 @@ public class HelpMenu {
         frame.setContentPane(menu.createHelpPane());
         
         JLabel lblEnter = new JLabel("Press <F1> again to exit the Help Menu");
-        lblEnter.setBackground(new Color(0, 255, 0));
         frame.getContentPane().add(lblEnter, BorderLayout.SOUTH);
     }
     

@@ -1,6 +1,7 @@
 //@ Andy Hsu Wei Qiang
 package ui;
 
+import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -85,7 +86,7 @@ public class CommandGuide {
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		String date = sdf.format(new Date());
 		StringBuilder str = new StringBuilder();
-
+		
 		str.append("To schedule a task, type:");
 		str.append(HTML_BREAK);
 
@@ -155,5 +156,4 @@ public class CommandGuide {
 		return String.format(TAG_WRAP_STRING, HTML_UNDERLINE_OPEN, text,
 				HTML_UNDERLINE_CLOSE);
 	}
-
 }
