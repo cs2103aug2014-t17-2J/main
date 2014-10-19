@@ -444,3 +444,11 @@
 21:05:03.546 : DataHandler initialized
 21:05:03.546 : DataHandler initialized
 >>>>>>> 22b2b8395cea094b03c9eb35ed851bc705a73b6b
+19:17:55.179 : DataHandler initialized
+19:22:26.215 : DataHandler initialized
+19:22:40.103 : Saved!
+19:22:40.121 : Added Task 1
+19:22:47.407 : ObservableList retrieved!
+15:13:08.656 : DataHandler initialized
+15:16:04.652 : DataHandler initialized
+15:16:14.481 : DataHandler initialized

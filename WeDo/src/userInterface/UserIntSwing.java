@@ -120,10 +120,6 @@ public class UserIntSwing extends JPanel implements Observer {
 					} catch (Exception e) {
 						e.printStackTrace();
 				}
-				
-				if(arg2.getKeyCode() == KeyEvent.VK_F1){
-					JOptionPane.showMessageDialog(null, "The Help is not done!");
-				}
 			}
 		});
 		
