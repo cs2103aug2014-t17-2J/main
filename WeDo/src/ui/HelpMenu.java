@@ -65,8 +65,7 @@ public class HelpMenu {
         frame.addKeyListener(new KeyAdapter() {
         	@Override
         	public void keyPressed(KeyEvent arg0) {
-        		if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
-        			System.out.println("Enter Press");
+        		if(arg0.getKeyCode() == KeyEvent.VK_F1){
         			frame.dispose();
         		}
         	}
@@ -79,10 +78,17 @@ public class HelpMenu {
         //Display the window.
         frame.setSize(450, 260);
         frame.setVisible(true);
+        
+        //Set the location of the Help Menu
         frame.setLocation(Xcoordinate, Ycoordinate);
+        
+        //Set the focus to the main frame
+        frame.setFocusable(true);
+        
+        //Create a Help content container on the frame
         frame.setContentPane(menu.createHelpPane());
         
-        JLabel lblEnter = new JLabel("Press <Enter> to exit the Help Menu");
+        JLabel lblEnter = new JLabel("Press <F1> again to exit the Help Menu");
         lblEnter.setBackground(new Color(0, 255, 0));
         frame.getContentPane().add(lblEnter, BorderLayout.SOUTH);
     }
