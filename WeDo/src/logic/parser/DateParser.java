@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -70,7 +69,6 @@ public class DateParser {
             wordUsed =  dateConnector + dateWordUsed;
             
             System.out.println("Total wordUsed = " + wordUsed);
-
 
             wordRemaining = StringHandler.removeFirstMatched(source, wordUsed);
             

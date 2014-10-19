@@ -1,9 +1,6 @@
 package ui;
 
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
@@ -20,11 +17,7 @@ public class HelpMenu {
  
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
-        JMenu menu, submenu;
-        JMenuItem menuItem;
-        JRadioButtonMenuItem rbMenuItem;
-        JCheckBoxMenuItem cbMenuItem;
-        
+        JMenu menu;
         //Create the menu bar.
         menuBar = new JMenuBar();
  

@@ -1,19 +1,28 @@
 package dataStorage;
 
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import logic.utility.Task;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import definedEnumeration.Priority;
 
 
 @SuppressWarnings("unchecked")
 
 public class FileHandler {
+	
+	final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
 
 	private String fileName;
 	private final String ID = "ID";
@@ -23,7 +32,7 @@ public class FileHandler {
 	private final String S_TIME = "Start Time";
 	private final String E_TIME = "End Time";
 	private final String PRIORITY = "Priority";
-	private final String STATUS = "Status";
+	private final String STATUS = "Completed";
 	
 	public FileHandler() {
 		
@@ -132,14 +141,86 @@ public class FileHandler {
 		
 		tmp.put(ID, task.getID());
 		tmp.put(DESCRPTION, task.getDescription());
-		tmp.put(S_DATE, task.getStartDate());
-		tmp.put(E_DATE, task.getEndDate());
-		tmp.put(S_TIME, task.getStartTime());
-		tmp.put(E_TIME, task.getEndTime());
+		tmp.put(S_DATE, task.getStartDate().toString());
+		tmp.put(E_DATE, task.getEndDate().toString());
+		tmp.put(S_TIME, task.getStartTime().toString());
+		tmp.put(E_TIME, task.getEndTime().toString());
 		tmp.put(PRIORITY, task.getPriority());
 		tmp.put(STATUS, task.getCompleted());
 		
 		return tmp;
+	}
+	
+	// @SuppressWarnings("unchecked")
+	    public void read() {
+	        JSONParser parser = new JSONParser();
+	 
+	        try {
+	 
+	            Object obj = parser.parse(new FileReader(fileName));
+	 
+	            JSONObject jsonObject = (JSONObject) obj;
+	            
+	            
+	            
+	            JSONArray companyList = (JSONArray) jsonObject.get("deadLine");
+	            
+	            JSONObject test = (JSONObject) companyList.get(0);
+	            
+	            Task task = jsonToTask(test);
+	            
+	            System.out.println(task.getID());
+	            System.out.println(task.getDescription());
+	            System.out.println(task.getStartDate());
+	            System.out.println(task.getEndDate());
+	            System.out.println(task.getStartTime());
+	            System.out.println(task.getEndTime());
+	            System.out.println(task.getPriority());
+	            System.out.println(task.getCompleted());
+
+	            
+	 
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	
+	
+	private Task jsonToTask(JSONObject jTask) {
+		
+		Task task = new Task();
+		
+		task.setID(Integer.parseInt(jTask.get(ID).toString()));
+		task.setDescription(jTask.get(DESCRPTION).toString());
+		task.setStartDate(LocalDate.parse(jTask.get(S_DATE).toString()));
+		task.setEndDate(LocalDate.parse(jTask.get(E_DATE).toString()));
+		task.setStartTime(LocalTime.parse(jTask.get(S_TIME).toString()));
+		task.setEndTime(LocalTime.parse(jTask.get(E_TIME).toString()));
+		task.setPriority(checkPriority(jTask));
+		task.setCompleted((boolean) jTask.get(STATUS));
+		
+		
+		return task;
+		
+	}
+	
+	private Priority checkPriority(JSONObject jTask) {
+		
+		if(jTask.get(PRIORITY) == null) {
+			return Priority.PRIORITY_UNDEFINED;
+		}
+		
+		String pri = jTask.get(PRIORITY).toString();
+		
+		if(pri.equalsIgnoreCase(Priority.PRIORITY_HIGH.toString())) {
+			return Priority.PRIORITY_HIGH;
+		} else if(pri.equalsIgnoreCase(Priority.PRIORITY_MEDIUM.toString())) {
+			return Priority.PRIORITY_MEDIUM;
+		} else if(pri.equalsIgnoreCase(Priority.PRIORITY_LOW.toString())) {
+			return Priority.PRIORITY_LOW;
+		} else {
+			return Priority.PRIORITY_UNDEFINED;
+		}
 	}
 
 	/**

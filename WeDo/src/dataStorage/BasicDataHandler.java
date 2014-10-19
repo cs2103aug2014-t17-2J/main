@@ -115,7 +115,8 @@ public class BasicDataHandler implements DataHandler {
 
 		save();
 		System.out.println(task.getID() + " is added");
-
+		
+//		fileHandler.read();
 		fileHandler.writeLog(LocalTime.now() + " : Added Task " + task.getID());
 
 		return true;
@@ -145,6 +146,24 @@ public class BasicDataHandler implements DataHandler {
 			return false;
 		}
 	}
+	
+	private int daysFromToday(LocalDate date) {
+		LocalDate today = LocalDate.now();
+		int numDays;
+		
+		if(date == LocalDate.MAX) {
+			return -1;  // someday
+		}
+		else {
+			for(numDays=0; !today.equals(date)  ; numDays++) {
+				today = today.plusDays(1);
+			}
+			
+			System.out.println("dayss " + numDays);
+			return numDays;
+		}
+		
+	}
 
 	/**
 	 * This function determines the date of the task to know which key of the
@@ -154,21 +173,13 @@ public class BasicDataHandler implements DataHandler {
 	 * @return
 	 */
 	public String determineDate(Task task) {
-
-		LocalDate today = LocalDate.now();
-		LocalDate tomorrow = today.plusDays(1);
-
-		if (today.equals(task.getEndDate())) {
-			return TODAY;
-		} else if (tomorrow.equals(task.getEndDate())) {
-			return TOMORROW;
-		}
-
-		else if (task.getEndDate() == LocalDate.MAX
-				&& task.getStartDate() == LocalDate.MAX) {
-			return SOMEDAY;
-		} else {
-			return UPCOMING;
+		
+		switch(daysFromToday(task.getEndDate())) {
+		
+		case -1 : return SOMEDAY;
+		case  0 : return TODAY;
+		case  1 : return TOMORROW;
+		default : return UPCOMING;
 		}
 
 	}

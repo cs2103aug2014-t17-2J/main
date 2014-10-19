@@ -7,6 +7,7 @@
 .metadata
 bin/
 tmp/
+*.txt
 *.tmp
 *.bak
 *.swp
@@ -215,3 +216,4 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 WeDo/WeDo.txt
+WeDo/LogFile.txt
