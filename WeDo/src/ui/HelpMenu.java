@@ -2,17 +2,23 @@ package ui;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
 
 import userInterface.UserIntSwing;
+
 import javax.swing.ImageIcon;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JLabel;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
  
 /*
  * This class is the help menu the shows
@@ -74,10 +80,27 @@ public class HelpMenu {
         frame.setSize(450, 260);
         frame.setVisible(true);
         frame.setLocation(Xcoordinate, Ycoordinate);
+        frame.setContentPane(menu.createHelpPane());
         
         JLabel lblEnter = new JLabel("Press <Enter> to exit the Help Menu");
         lblEnter.setBackground(new Color(0, 255, 0));
         frame.getContentPane().add(lblEnter, BorderLayout.SOUTH);
+    }
+    
+    public Container createHelpPane() {
+        //Create the content-pane-to-be.
+        JPanel contentPane = new JPanel(new BorderLayout());
+        contentPane.setOpaque(true);
+ 
+        //Create a scrolled text area.
+        output = new JTextArea(5, 30);
+        output.setEditable(false);
+        scrollPane = new JScrollPane(output);
+ 
+        //Add the text area to the content pane.
+        contentPane.add(scrollPane, BorderLayout.CENTER);
+ 
+        return contentPane;
     }
  
     public static void main(String[] args) {
