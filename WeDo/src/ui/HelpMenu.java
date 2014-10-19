@@ -5,6 +5,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
+
+import userInterface.UserIntSwing;
  
 /*
  * This class is the help menu the shows
@@ -15,6 +17,9 @@ public class HelpMenu {
 	JTextArea output;
     JScrollPane scrollPane;
     String newline = "\n";
+    
+	private static final int Xcoordinate = 310;
+	private static final int Ycoordinate = 225;
  
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
@@ -37,8 +42,6 @@ public class HelpMenu {
         //Build second menu in the menu bar.
         menu = new JMenu("<Delete Command>");
         menuBar.add(menu);
-        
-        UserLogic.setupHelpFrameLocation();
  
         return menuBar;
     }
@@ -54,6 +57,7 @@ public class HelpMenu {
         //Display the window.
         frame.setSize(450, 260);
         frame.setVisible(true);
+        frame.setLocation(Xcoordinate, Ycoordinate);
     }
  
     public static void main(String[] args) {
