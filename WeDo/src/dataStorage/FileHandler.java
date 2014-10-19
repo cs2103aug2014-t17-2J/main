@@ -151,7 +151,7 @@ public class FileHandler {
 		return tmp;
 	}
 	
-	 @SuppressWarnings("unchecked")
+	// @SuppressWarnings("unchecked")
 	    public void read() {
 	        JSONParser parser = new JSONParser();
 	 
@@ -170,6 +170,13 @@ public class FileHandler {
 	            Task task = jsonToTask(test);
 	            
 	            System.out.println(task.getID());
+	            System.out.println(task.getDescription());
+	            System.out.println(task.getStarDate());
+	            System.out.println(task.getEndDate());
+	            System.out.println(task.getStartTime());
+	            System.out.println(task.getEndTime());
+	            System.out.println(task.getPriority());
+	            System.out.println(task.isValid());
 
 	            
 	 
