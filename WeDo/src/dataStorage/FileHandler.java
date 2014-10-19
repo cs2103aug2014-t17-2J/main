@@ -141,12 +141,12 @@ public class FileHandler {
 		
 		tmp.put(ID, task.getID());
 		tmp.put(DESCRPTION, task.getDescription());
-		tmp.put(S_DATE, task.getStarDate().toString());
+		tmp.put(S_DATE, task.getStartDate().toString());
 		tmp.put(E_DATE, task.getEndDate().toString());
 		tmp.put(S_TIME, task.getStartTime().toString());
 		tmp.put(E_TIME, task.getEndTime().toString());
 		tmp.put(PRIORITY, task.getPriority());
-		tmp.put(STATUS, task.isValid());
+		tmp.put(STATUS, task.getCompleted());
 		
 		return tmp;
 	}
@@ -171,12 +171,12 @@ public class FileHandler {
 	            
 	            System.out.println(task.getID());
 	            System.out.println(task.getDescription());
-	            System.out.println(task.getStarDate());
+	            System.out.println(task.getStartDate());
 	            System.out.println(task.getEndDate());
 	            System.out.println(task.getStartTime());
 	            System.out.println(task.getEndTime());
 	            System.out.println(task.getPriority());
-	            System.out.println(task.isValid());
+	            System.out.println(task.getCompleted());
 
 	            
 	 
@@ -197,7 +197,8 @@ public class FileHandler {
 		task.setStartTime(LocalTime.parse(jTask.get(S_TIME).toString()));
 		task.setEndTime(LocalTime.parse(jTask.get(E_TIME).toString()));
 		task.setPriority(checkPriority(jTask));
-		task.setValid((boolean) jTask.get(STATUS));
+		task.setCompleted((boolean) jTask.get(STATUS));
+		
 		
 		return task;
 		
