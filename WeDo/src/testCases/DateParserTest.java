@@ -117,9 +117,29 @@ public class DateParserTest {
         parseInvalidDateWithDMYY("0/5/88");
         parseInvalidDateWithDDMYYYY("32/8/1024");
         parseInvalidDateWithDMYYYY("1/0/2048");
-
+        parseInvalidDateWithDDMMYY("30/13/74");
+        parseInvalidDateWithDDMMYYY("11/11/100");
+        parseInvalidDateWithDDMMYYYY("1/1/10000");
     }
 
+    private void parseInvalidDateWithDDMMYYYY(String source) 
+    {
+        DateParser dateParser = new DateParser();
+        assertFalse( dateParser.tryParse(source));
+    }
+    
+    private void parseInvalidDateWithDDMMYYY(String source) 
+    {
+        DateParser dateParser = new DateParser();
+        assertFalse( dateParser.tryParse(source));
+    }
+
+    private void parseInvalidDateWithDDMMYY(String source) 
+    {
+        DateParser dateParser = new DateParser();
+        assertFalse( dateParser.tryParse(source));
+    }
+    
     private void parseInvalidDateWithDMYYYY(String source) 
     {
         DateParser dateParser = new DateParser();

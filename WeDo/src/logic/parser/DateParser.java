@@ -100,7 +100,7 @@ public class DateParser {
     }
 
     private boolean formalDateContainsZero(String source) {
-        return source.matches(".*\\d\\d\\d\\d/0+/|\\d\\d\\d\\d/\\d+/0+.*");
+        return source.matches(".*\\d\\d\\d\\d/0+/|\\d\\d\\d\\d/\\d+/0+|\\d+/0+/.*");
     }
 
     private boolean formalDateContainsNegativeNumber(String source) {
@@ -113,7 +113,7 @@ public class DateParser {
         final int monthGroup = 2;
         final int dayGroup = 3;
                 
-        String yyyymmddRegex = "(\\d+)[/-](0?[1-9]|1[012])[/-](3[01]|[012]?[0-9])";
+        String yyyymmddRegex = "(\\d+)[/-](\\d+)[/-](\\d+)";
         
          
         Pattern pattern = Pattern.compile(yyyymmddRegex);
