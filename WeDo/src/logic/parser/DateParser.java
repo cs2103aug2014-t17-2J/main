@@ -52,7 +52,17 @@ public class DateParser {
             return false;
         }
 
+        if(formalDateContainsNegativeNumber(source))
+        {
+            return false;
+        }
+        
         source = DateStringMassager.massageData(source);
+        
+        if(formalDateContainsZero(source))
+        {
+            return false;
+        }
 
         Parser nattyParser = new Parser();
         List<DateGroup> dateGroups = nattyParser.parse(source);
@@ -86,6 +96,14 @@ public class DateParser {
         } else {
             return false;
         }
+    }
+
+    private boolean formalDateContainsZero(String source) {
+        return source.matches(".*\\d\\d\\d\\d/0+/|\\d\\d\\d\\d/\\d+/0+.*");
+    }
+
+    private boolean formalDateContainsNegativeNumber(String source) {
+        return source.matches(".*-\\d+/|/-\\d+.*");
     }
     
     /**
