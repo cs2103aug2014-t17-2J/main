@@ -110,8 +110,16 @@ public class DateParserTest {
     public void test() {
         parseDateWithDMY("1/1/00");
         parseDateWithDDMMYY("31/12/9999");
+        parseDateWithDDMYY("10/9/99");
     }
 
+    private void parseDateWithDDMYY(String source) 
+    {
+        DateParser dateParser = new DateParser();
+        assertTrue( dateParser.tryParse(source));
+        assertEquals(dateParser.getEndDate(), LocalDate.of(2099, 9, 10));
+    }
+    
     private void parseDateWithDDMMYY(String source) 
     {
         DateParser dateParser = new DateParser();
