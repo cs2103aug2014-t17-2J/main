@@ -1,0 +1,129 @@
+/**
+ * 
+ */
+package testCases;
+
+import static org.junit.Assert.*;
+
+import java.time.LocalDate;
+
+import logic.parser.DateParser;
+
+import org.junit.Test;
+
+/**
+ * @author Kuan Tien Long
+ * 
+ * Possible format for formal dates are
+ * Date range [1..31]
+ * Month Range [1..12]
+ * Year Range [00..99] [0000...9999]
+ *+-------------+--------------+-------------+
+ *| Date Format | Month Format | Year Format |
+ *+-------------+--------------+-------------+
+ *| DD          | MM           | YYYY        |
+ *+-------------+--------------+-------------+
+ *| D           | M            | YY          |
+ *+-------------+--------------+-------------+
+ *
+ * Invalid format for formal dates are
+ *+---------------------+----------------------+---------------------+
+ *| Invalid Date Format | Invalid Month Format | Invalid Year Format |
+ *+---------------------+----------------------+---------------------+
+ *| 0                   | 0                    | 100                 |
+ *+---------------------+----------------------+---------------------+
+ *| 32                  | 13                   | 10000               |
+ *+---------------------+----------------------+---------------------+
+ *
+ * Possible arrangement for formal date are
+ *+---------------------+---------------------+
+ *| Date / Month / Year | Year / Month / Date |
+ *+---------------------+---------------------+
+ *| DD / MM / YYYY      | YYYY / MM / DD      |
+ *+---------------------+---------------------+
+ *| DD / MM / YY        |                     |
+ *+---------------------+---------------------+
+ *| D / MM / YYYY       | YYYY / M / DD       |
+ *+---------------------+---------------------+
+ *| D / MM / YY         |                     |
+ *+---------------------+---------------------+
+ *| DD / M / YYYY       | YYYY / MM / D       |
+ *+---------------------+---------------------+
+ *| DD / M / YY         |                     |
+ *+---------------------+---------------------+
+ *| D / M / YYYY        | YYYY / M / D        |
+ *+---------------------+---------------------+
+ *| D / M / YY          |                     |
+ *+---------------------+---------------------+
+ * 
+ * Using heuristic evaluation, we can eliminate most of the test case leaving the following
+ * for Date/Month/Year/format
+ * +------+-------+-------+
+ *| Date | Month | Year  |
+ *+------+-------+-------+
+ *| 1    | 1     | 00    |
+ *+------+-------+-------+
+ *| 31   | 12    | 9999  |
+ *+------+-------+-------+
+ *| 10   | 9     | 99    |
+ *+------+-------+-------+
+ *| 11   | 11    | 0000  |
+ *+------+-------+-------+
+ *| 0    | 5     | 88    |
+ *+------+-------+-------+
+ *| 32   | 8     | 1024  |
+ *+------+-------+-------+
+ *| 1    | 0     | 2048  |
+ *+------+-------+-------+
+ *| 30   | 13    | 74    |
+ *+------+-------+-------+
+ *| 11   | 11    | 100   |
+ *+------+-------+-------+
+ *| 1    | 1     | 10000 |
+ *+------+-------+-------+
+ *
+ * Since month is still in the middle slot, we will only test Date and Year 
+ * For Year/Month/Date format
+ * +-------+-------+------+
+ *| Year  | Month | Date |
+ *+-------+-------+------+
+ *| 00    | 1     | 1    |
+ *+-------+-------+------+
+ *| 9999  | 12    | 31   |
+ *+-------+-------+------+
+ *| 99    | 9     | 10   |
+ *+-------+-------+------+
+ *| 0000  | 11    | 11   |
+ *+-------+-------+------+
+ *| 88    | 5     | 0    |
+ *+-------+-------+------+
+ *| 1024  | 8     | 32   |
+ *+-------+-------+------+
+ *| 100   | 11    | 11   |
+ *+-------+-------+------+
+ *| 10000 | 1     |      |
+ *+-------+-------+------+
+ */
+public class DateParserTest {
+
+    @Test
+    public void test() {
+        parseDateWithDMY("1/1/00");
+        parseDateWithDDMMYY("31/12/9999");
+    }
+
+    private void parseDateWithDDMMYY(String source) 
+    {
+        DateParser dateParser = new DateParser();
+        assertTrue( dateParser.tryParse(source));
+        assertEquals(dateParser.getEndDate(), LocalDate.of(9999, 12, 31));
+    }
+
+    private void parseDateWithDMY(String source) 
+    {
+        DateParser dateParser = new DateParser();
+        assertTrue( dateParser.tryParse(source));
+        assertEquals(dateParser.getEndDate(), LocalDate.of(2000, 1, 1));
+    }
+
+}
