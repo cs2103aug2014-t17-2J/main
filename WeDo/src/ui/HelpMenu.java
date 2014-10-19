@@ -5,15 +5,21 @@ import javax.swing.JMenuBar;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
+
+import userInterface.UserIntSwing;
  
 /*
  * This class is the help menu the shows
  * different command to the user
  */
 public class HelpMenu {
-    JTextArea output;
+    public static JFrame frame;
+	JTextArea output;
     JScrollPane scrollPane;
     String newline = "\n";
+    
+	private static final int Xcoordinate = 310;
+	private static final int Ycoordinate = 225;
  
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
@@ -43,16 +49,15 @@ public class HelpMenu {
     private static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("Help Menu");
- 
+   		
         //Create and set up the content pane.
-        HelpMenu demo = new HelpMenu();
-        frame.setJMenuBar(demo.createMenuBar());
+        HelpMenu menu = new HelpMenu();
+        frame.setJMenuBar(menu.createMenuBar());
         
         //Display the window.
         frame.setSize(450, 260);
         frame.setVisible(true);
-        
-       // UserLogic.setupHelpFrameLocation();
+        frame.setLocation(Xcoordinate, Ycoordinate);
     }
  
     public static void main(String[] args) {
