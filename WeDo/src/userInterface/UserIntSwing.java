@@ -107,15 +107,14 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased(KeyEvent arg1) {
-				UserLogic.processHotKeys(arg1);
-			}
-			@Override
-			public void keyPressed(KeyEvent arg2) {
+			public void keyPressed(KeyEvent arg1) {
 				try {
 					String command = textField.getText();
 					lblHelp.setText(CommandGuide.getGuideMessage(command + " "));
-						frame.setVisible(true);
+					frame.setVisible(true);
+					
+					//process the hotkey functions
+					UserLogic.processHotKeys(arg1);
 					} catch (Exception e) {
 						e.printStackTrace();
 				}
