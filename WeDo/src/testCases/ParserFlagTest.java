@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.EnumSet;
 
-import logic.taskParser.ParserFlags;
+import logic.parser.ParserFlags;
 
 import org.junit.Test;
 

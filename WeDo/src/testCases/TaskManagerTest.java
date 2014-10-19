@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
 
-import logic.taskParser.ParserManager;
+import logic.parser.ParserManager;
 import logic.taskParser.TaskParserPlus;
 import logic.utility.Task;
 import logic.utility.DeadLineTask;

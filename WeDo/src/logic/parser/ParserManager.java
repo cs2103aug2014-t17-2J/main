@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.taskParser;
+package logic.parser;
 
 import java.util.EnumSet;
 
@@ -204,27 +204,27 @@ public class ParserManager {
         EnumSet<ParserFlags> parseFlags = EnumSet.noneOf(ParserFlags.class);
 
         System.out.println("to date parser " + userInput);
-        if (dateParser.parseDate(userInput)) {
+        if (dateParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.DATE_FLAG);
             userInput = dateParser.getWordRemaining();
         }
 
         System.out.println("to priority parser is " + userInput);
 
-        if (priorityParser.parsePriority(userInput)) {
+        if (priorityParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.PRIORITY_FLAG);
             userInput = priorityParser.getWordRemaining();
         }
 
         System.out.println("to description parser is " + userInput);
 
-        if (descriptionParser.parseDescription(userInput)) {
+        if (descriptionParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.DESCRIPTION_FLAG);
             userInput = descriptionParser.getWordRemaining();
         }
 
         System.out.println("to command parser is " + userInput);
-        if (commandParser.parseCommand(userInput)) {
+        if (commandParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.COMMAND_FLAG);
         }
 

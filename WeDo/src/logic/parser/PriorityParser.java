@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.taskParser;
+package logic.parser;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,7 +27,12 @@ public class PriorityParser {
     private String wordUsed;
     private Priority priority;
 
-    public boolean parsePriority(String source)
+    /**
+     * <p> The source will be parsed to see if it contains date.
+     * @param source the String to be parsed
+     * @return if source contains valid priority 
+     */
+    public boolean tryParse(String source)
     {
         String firstTwoWords = StringHandler.getFirstTwoWords(source);
         String lastTwoWords = StringHandler.getLastTwoWords(source);

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.taskParser;
+package logic.parser;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -29,7 +29,12 @@ public class DateParser {
     private List<Date> dateList;
     private boolean isTimeSet;
 
-    public boolean parseDate(String source) {
+    /**
+     * <p> The source will be parsed to see if it contains date.
+     * @param source the String to be parsed
+     * @return if source contains valid date 
+     */
+    public boolean tryParse(String source) {
 
         if (source == null) {
             return false;

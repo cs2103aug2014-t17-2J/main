@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.taskParser;
+package logic.parser;
 
 import java.text.DateFormatSymbols;
 import java.time.LocalDateTime;

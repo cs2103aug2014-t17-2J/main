@@ -10,8 +10,8 @@ import java.time.LocalTime;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import logic.parser.ParserManager;
 import logic.taskParser.TaskParserPlus;
-import logic.taskParser.ParserManager;
 import logic.utility.Task;
 
 import org.junit.Test;

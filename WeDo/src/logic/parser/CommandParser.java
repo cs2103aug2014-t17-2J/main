@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.taskParser;
+package logic.parser;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,12 +33,14 @@ public class CommandParser {
     private Command command;
     
     
+
     /**
-     * @param userInput
-     * @return
+     * <p> The source will be parsed to see if it contains date.
+     * @param source the String to be parsed
+     * @return if source contains valid command 
      */
-    public boolean parseCommand(String userInput) {
-        String possibleCommand = StringHandler.getFirstWord(userInput);
+    public boolean tryParse(String source) {
+        String possibleCommand = StringHandler.getFirstWord(source);
         command = KeyMatcher.matchKey(createFakeMultiMap(), possibleCommand);
         if(command != null)
         {
