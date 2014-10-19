@@ -10,9 +10,6 @@ import java.awt.event.WindowFocusListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.JOptionPane;
-
-import net.java.balloontip.BalloonTip;
 import userInterface.UserIntSwing;
 
 public class UserLogic {
@@ -58,24 +55,27 @@ public class UserLogic {
 		int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() - taskbarHeight;
 		UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
 	}
-
-//	public static void processTextField(KeyEvent arg1) {
-//		if (UserIntSwing.textField.getText().length() > 0
-//				&& arg1.getKeyCode() == KeyEvent.VK_ENTER) {
-//			UserIntSwing.textField.setText("");
-//		}
-//	}
 	
+	public static void setupHelpFrameLocation() {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
+		Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
+		int Xcoordinate = (int) rect.getMaxX() - UserIntSwing.frame.getWidth();
+		int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() - taskbarHeight;
+		//HelpMenu.frame.setLocation(Xcoordinate, Ycoordinate);
+	}
+
+
 	/**
 	 *This operation process the hotkeys shortcut function. 
 	 */
 	public static void processHotKeys(KeyEvent arg1){
 		String getCommand;
+		if(arg1.getKeyCode() == KeyEvent.VK_F1){
+			HelpMenu.main(null);
+		}
 		if (UserIntSwing.textField.getText().length() == 0){
-			if(arg1.getKeyCode() == KeyEvent.VK_F1){
-				JOptionPane.showMessageDialog(null, "The Help is not done!");
-			}
-			else if(arg1.getKeyCode() == KeyEvent.VK_F2){
+			if(arg1.getKeyCode() == KeyEvent.VK_F2){
 				getCommand = Keywords.getAddTaskIdentifier();
 				UserIntSwing.textField.setText(getCommand);
 			}
