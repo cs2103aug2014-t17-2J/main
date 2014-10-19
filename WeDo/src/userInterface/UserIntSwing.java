@@ -10,11 +10,9 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,6 +21,7 @@ import dataStorage.ObservableList;
 import logic.InvalidCommandException;
 import logic.LogicManager;
 import logic.utility.Task;
+import ui.BalloonTipGuide;
 import ui.CommandGuide;
 import ui.UserLogic;
 
@@ -35,7 +34,6 @@ import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 
 import java.lang.Object;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.FocusAdapter;
@@ -51,8 +49,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static JLabel lblWarning;
 	public static JLabel lblHelp;
 	public static JButton btnHelp;
-	private JLabel lblFloatingPage = new JLabel(" ");
-	
 	private InteractiveForm interForm;
 	private LogicManager logicManager;
     private ObservableList<Task> observableList;
@@ -124,10 +120,6 @@ public class UserIntSwing extends JPanel implements Observer {
 					} catch (Exception e) {
 						e.printStackTrace();
 				}
-				
-				if(arg2.getKeyCode() == KeyEvent.VK_F1){
-					JOptionPane.showMessageDialog(null, "The Help is not done!");
-				}
 			}
 		});
 		
@@ -180,9 +172,8 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().add(btnEnter);
 		
 		JButton btnHelp = new JButton("F1 <Help>");
-		btnHelp.setToolTipText("hiii");
 		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
-		BalloonTip helpBalloonTip = new BalloonTip(btnHelp, new JLabel("Hello world!"), edgedLook, 
+		BalloonTip helpBalloonTip = new BalloonTip(btnHelp, new JLabel("Press F1 for Help"), edgedLook, 
 				Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 20, false);
 		btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
@@ -200,22 +191,16 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().add(btnHelp);
 
 		JButton btnAdd = new JButton("F2 <Add>");
-		btnAdd.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent arg0) {
-			}
-		});
+		BalloonTip AddBalloonTip = new BalloonTip(btnAdd, new JLabel("Press F2 to Add"), edgedLook, 
+				Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 20, false);
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.green);
-				BalloonTip myBalloonTip = new BalloonTip(btnAdd, new JLabel("Press F2 for Add"), edgedLook, 
-						Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 20, false);
-				myBalloonTip.setVisible(true);
+				AddBalloonTip.setVisible(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
-				//myBalloonTip.setVisible(false);
+				AddBalloonTip.setVisible(false);
 			}
 		});
 		btnAdd.setBounds(120, 26, 100, 23);

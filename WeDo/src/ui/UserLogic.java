@@ -10,6 +10,8 @@ import java.awt.event.WindowFocusListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+
 import net.java.balloontip.BalloonTip;
 import userInterface.UserIntSwing;
 
@@ -70,7 +72,10 @@ public class UserLogic {
 	public static void processHotKeys(KeyEvent arg1){
 		String getCommand;
 		if (UserIntSwing.textField.getText().length() == 0){
-			if(arg1.getKeyCode() == KeyEvent.VK_F2){
+			if(arg1.getKeyCode() == KeyEvent.VK_F1){
+				JOptionPane.showMessageDialog(null, "The Help is not done!");
+			}
+			else if(arg1.getKeyCode() == KeyEvent.VK_F2){
 				getCommand = Keywords.getAddTaskIdentifier();
 				UserIntSwing.textField.setText(getCommand);
 			}
@@ -87,11 +92,5 @@ public class UserLogic {
 				UserIntSwing.textField.setText(getCommand);
 			}
 		}
-	}
-	
-	public static BalloonTip processDisplayTip(){
-		BalloonTip myBalloonTip = new BalloonTip(UserIntSwing.btnHelp, "Press F1 for Help");
-		
-		return myBalloonTip;
 	}
 }
