@@ -2,8 +2,6 @@ package ui;
 
 public class HelpGuide {
 	private static final String TAG_WRAP_STRING = "%s%s%s";
-	private static final String COMMAND_WRAP_STRING = "%s%s";
-	private static final String TITLE_WRAP_STRING = "%s%s%s%s%s";
 	private static final String HTML_BREAK = "<br>";
 	private static final String HTML_OPEN = "<html>";
 	private static final String HTML_CLOSE = "</html>";
@@ -21,8 +19,8 @@ public class HelpGuide {
 
 		StringBuilder str = new StringBuilder();
 
-		str.append(title("Advance Help command for "));
-		str.append(command("ADD"));
+		str.append(underline(bold("Advance Help command for ")));
+		str.append(underline(italic(bold(fontColor("ADD")))));
 		str.append(HTML_BREAK);
 		str.append(underline("add") + " | " + underline("create") 
 				+ " | " + underline("cre8") );
@@ -42,14 +40,18 @@ public class HelpGuide {
 				HTML_UNDERLINE_CLOSE);
 	}
 	
-	private static String title(String text) {
-		return String.format(TITLE_WRAP_STRING, HTML_UNDERLINE_OPEN, 
-				HTML_BOLD_OPEN, HTML_FONTSIZE_OPEN, 
-				text, HTML_FONT_CLOSE, HTML_BOLD_CLOSE, HTML_UNDERLINE_CLOSE);
+	private static String bold(String text) {
+		return String.format(TAG_WRAP_STRING, HTML_BOLD_OPEN, text, 
+				HTML_BOLD_CLOSE);
 	}
 	
-	private static String command(String text){
-		return String.format(COMMAND_WRAP_STRING, HTML_ITALIC_OPEN, HTML_FONTCOLOR_OPEN, 
-				text, HTML_FONT_CLOSE, HTML_ITALIC_CLOSE);
+	private static String fontColor(String text){
+		return String.format(TAG_WRAP_STRING, HTML_FONTCOLOR_OPEN, 
+				text, HTML_FONT_CLOSE);
+	}
+	
+	private static String italic(String text){
+		return String.format(TAG_WRAP_STRING, HTML_ITALIC_OPEN, 
+				text, HTML_ITALIC_CLOSE);
 	}
 }
