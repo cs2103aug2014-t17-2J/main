@@ -19,7 +19,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
  
 /*
  * This class is the help menu the shows
@@ -33,16 +35,41 @@ public class HelpMenu {
     
 	private static final int Xcoordinate = 310;
 	private static final int Ycoordinate = 225;
- 
+	
+//    public Container createHelpPane() {
+//        //Create the content-pane-to-be.
+//        JPanel contentPane = new JPanel(new BorderLayout());
+//        contentPane.setOpaque(true);
+// 
+//        //Create a scrolled text area.
+//        output = new JTextArea(5, 30);
+//        output.setEditable(false);
+//        scrollPane = new JScrollPane(output);
+// 
+//        //Add the text area to the content pane.
+//        contentPane.add(scrollPane, BorderLayout.CENTER);
+// 
+//        return contentPane;
+//    }
+    
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
         //Create the menu bar.
         menuBar = new JMenuBar();
+        
+        JLabel lblHelp = new JLabel("");
+        lblHelp.setBounds(0, 0, 434, 183);
+        lblHelp.setBackground(new Color(224, 255, 255));
+        lblHelp.setOpaque(true);
  
         //Build the <Add> menu.
         JMenu menuAdd;
         menuAdd = new JMenu("<Add Command>");
         menuBar.add(menuAdd);
+        //createHelpLabel().setText("testing");
+        lblHelp.setText("This is the Add command!");
+        //menuAdd.add(lblHelp);
+        
  
         //Build second menu <View> menu in the menu bar.
         JMenu menuView;
@@ -60,6 +87,15 @@ public class HelpMenu {
         menuBar.add(menuDelete);
  
         return menuBar;
+    }
+    
+    private static JLabel createHelpLabel(){
+        JLabel lblHelp = new JLabel("");
+        lblHelp.setBounds(0, 0, 434, 183);
+        lblHelp.setBackground(new Color(224, 255, 255));
+        lblHelp.setOpaque(true);
+        
+        return lblHelp;
     }
 
     private static void createAndShowGUI() {
@@ -79,7 +115,7 @@ public class HelpMenu {
         frame.setJMenuBar(menu.createMenuBar());
         
         //Display the window.
-        frame.setSize(450, 260);
+        frame.setSize(450, 261);
         frame.setVisible(true);
         
         //Set the location of the Help Menu
@@ -87,28 +123,16 @@ public class HelpMenu {
         
         //Set the focus to the main frame
         frame.setFocusable(true);
+        frame.getContentPane().setLayout(null);
         
-        //Create a Help content container on the frame
-        frame.setContentPane(menu.createHelpPane());
+        JLabel lblEnter = new JLabel("   Press <F1> again to exit the Help Menu");
+        lblEnter.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        lblEnter.setBackground(new Color(127, 255, 212));
+        lblEnter.setBounds(0, 179, 434, 21);
+        lblEnter.setOpaque(true);
+        frame.getContentPane().add(lblEnter);
         
-        JLabel lblEnter = new JLabel("Press <F1> again to exit the Help Menu");
-        frame.getContentPane().add(lblEnter, BorderLayout.SOUTH);
-    }
-    
-    public Container createHelpPane() {
-        //Create the content-pane-to-be.
-        JPanel contentPane = new JPanel(new BorderLayout());
-        contentPane.setOpaque(true);
- 
-        //Create a scrolled text area.
-        output = new JTextArea(5, 30);
-        output.setEditable(false);
-        scrollPane = new JScrollPane(output);
- 
-        //Add the text area to the content pane.
-        contentPane.add(scrollPane, BorderLayout.CENTER);
- 
-        return contentPane;
+        frame.getContentPane().add(createHelpLabel());
     }
  
     public static void main(String[] args) {
