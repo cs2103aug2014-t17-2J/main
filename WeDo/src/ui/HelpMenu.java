@@ -6,8 +6,6 @@
  */
 package ui;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -18,16 +16,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JLabel;
+
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.AttachLocation;
+import net.java.balloontip.BalloonTip.Orientation;
+import net.java.balloontip.styles.BalloonTipStyle;
+import net.java.balloontip.styles.EdgedBalloonStyle;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.io.IOException;
 /*
  * This class is the help menu the shows
  * different command to the user
@@ -84,7 +84,7 @@ public class HelpMenu {
         
         JPanel jpAdd = new JPanel();
         JLabel lblAdd = new JLabel();
-        lblAdd.setText("You are in area of Tab1");
+        lblAdd.setText(HelpGuide.buildHelpGuideAddString());
         jpAdd.add(lblAdd);
         jtp.addTab("<Add>", jpAdd);
         
