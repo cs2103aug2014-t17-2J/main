@@ -1,7 +1,6 @@
 //@ Andy Hsu Wei Qiang
 package ui;
 
-import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

@@ -19,7 +19,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
  
 /*
@@ -37,26 +36,28 @@ public class HelpMenu {
  
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
-        JMenu menu;
         //Create the menu bar.
         menuBar = new JMenuBar();
  
-        //Build the first menu.
-        menu = new JMenu("<Add Command>");
-        menu.setIcon(null);
-        menuBar.add(menu);
+        //Build the <Add> menu.
+        JMenu menuAdd;
+        menuAdd = new JMenu("<Add Command>");
+        menuBar.add(menuAdd);
  
-        //Build second menu in the menu bar.
-        menu = new JMenu("<View Command>");
-        menuBar.add(menu);
+        //Build second menu <View> menu in the menu bar.
+        JMenu menuView;
+        menuView = new JMenu("<View Command>");
+        menuBar.add(menuView);
         
-        //Build second menu in the menu bar.
-        menu = new JMenu("<Edit Command>");
-        menuBar.add(menu);
+        //Build third menu <Edit> menu in the menu bar.
+        JMenu menuEdit;
+        menuEdit = new JMenu("<Edit Command>");
+        menuBar.add(menuEdit);
         
-        //Build second menu in the menu bar.
-        menu = new JMenu("<Delete Command>");
-        menuBar.add(menu);
+        //Build forth menu <Delete> menu in the menu bar.
+        JMenu menuDelete;
+        menuDelete = new JMenu("<Delete Command>");
+        menuBar.add(menuDelete);
  
         return menuBar;
     }

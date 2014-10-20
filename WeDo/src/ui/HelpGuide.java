@@ -7,7 +7,7 @@ public class HelpGuide {
 
 		StringBuilder str = new StringBuilder();
 
-		str.append("");
+		str.append("Advance Help for <Add> Command");
 		str.append(HTML_BREAK);
 		str.append(Keywords.getAddTaskIdentifier() + " | ");
 		str.append(Keywords.getViewTaskIdentifier() + " | ");
