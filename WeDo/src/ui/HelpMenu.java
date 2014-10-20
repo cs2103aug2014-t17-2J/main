@@ -6,6 +6,8 @@
  */
 package ui;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -16,18 +18,16 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-
-import javax.swing.JSplitPane;
-import javax.swing.JLayeredPane;
-import javax.swing.JToolBar;
-import javax.swing.JSeparator;
- 
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.IOException;
 /*
  * This class is the help menu the shows
  * different command to the user
@@ -38,8 +38,8 @@ public class HelpMenu {
     JScrollPane scrollPane;
     String newline = "\n";
     
-	private static final int Xcoordinate = 189;
-	private static final int Ycoordinate = 285;
+	private static final int Xcoordinate = 310;
+	private static final int Ycoordinate = 258;
 	
 //    public Container createHelpPane() {
 //        //Create the content-pane-to-be.
@@ -83,9 +83,7 @@ public class HelpMenu {
 		JTabbedPane jtp = new JTabbedPane(JTabbedPane.TOP);
         
         JPanel jpAdd = new JPanel();
-        jpAdd.setLayout(null);
         JLabel lblAdd = new JLabel();
-        lblAdd.setBounds(140, 5, 144, 14);
         lblAdd.setText("You are in area of Tab1");
         jpAdd.add(lblAdd);
         jtp.addTab("<Add>", jpAdd);
@@ -133,7 +131,7 @@ public class HelpMenu {
 	 */
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("Help Menu");
+        JFrame frame = new JFrame("-Help Menu-");
         frame.addKeyListener(new KeyAdapter() {
         	@Override
         	public void keyPressed(KeyEvent arg0) {
@@ -143,15 +141,17 @@ public class HelpMenu {
         	}
         });
         
+        //Disable Resize
+        frame.setResizable(false);
+        
         //call the method to change the appearance of the frame
         changeAppearance();
-        frame.pack();
         	
         //Create and set up the content pane.
         frame.getContentPane().add(createMenuTab(), BorderLayout.CENTER);
         
         //Display the window.
-        frame.setSize(450, 261);
+        frame.setSize(330, 261);
         frame.setVisible(true);
         
         //Set the location of the Help Menu beside the main window
