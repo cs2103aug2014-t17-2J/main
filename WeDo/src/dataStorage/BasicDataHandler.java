@@ -20,7 +20,6 @@ public class BasicDataHandler implements DataHandler {
 	private final String DEADLINE = "deadLine";
 	private final String TIMED = "timed";
 	private final String FLOATING = "floating";
-	
 
 	private String currentList;
 
@@ -29,8 +28,8 @@ public class BasicDataHandler implements DataHandler {
 
 	ObservableList<Task> observableList;
 	Multimap<String, Task> mainList;
-	Multimap<LocalDate,Task> deadLineList,timedList;
-	ArrayList<String> somedayList;
+	Multimap<LocalDate, Task> deadLineList, timedList;
+	ArrayList<Task> floatingList;
 
 	public BasicDataHandler() {
 		fileHandler = new FileHandler();
@@ -69,8 +68,11 @@ public class BasicDataHandler implements DataHandler {
 	 * @return whether the operation is successful.
 	 */
 	public boolean populateLists() {
-		mainList = ArrayListMultimap.create();
 
+		mainList = ArrayListMultimap.create();
+		deadLineList = ArrayListMultimap.create();
+		timedList = ArrayListMultimap.create();
+		floatingList = new ArrayList<Task>();
 		// addToMultimap(TODAY, fileHandler.getList(TODAY));
 		// addToMultimap(TOMORROW, fileHandler.getList(TOMORROW));
 		// addToMultimap(UPCOMING, fileHandler.getList(UPCOMING));
@@ -111,7 +113,18 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean addTask(Task task) {
-	
+
+		String taskType = determineTaskType(task);
+
+		if (taskType.equals(DEADLINE)) {
+			deadLineList.put(task.getEndDate(), task);
+
+		} else if (taskType.equals(TIMED)) {
+			timedList.put(task.getEndDate(), task);
+		} else {
+			floatingList.add(task);
+		}
+
 		if (onDisplay(task) == true) {
 			observableList.add(task);
 		}
@@ -120,7 +133,7 @@ public class BasicDataHandler implements DataHandler {
 
 		save();
 		System.out.println(task.getID() + " is added");
-		
+
 		fileHandler.read("deadLine");
 		fileHandler.writeLog(LocalTime.now() + " : Added Task " + task.getID());
 
@@ -151,35 +164,35 @@ public class BasicDataHandler implements DataHandler {
 			return false;
 		}
 	}
-	
+
 	private String determineTaskType(Task task) {
-		if(task.getEndDate() == LocalDate.MAX && task.getStartDate() == LocalDate.MAX) {
+		if (task.getEndDate() == LocalDate.MAX
+				&& task.getStartDate() == LocalDate.MAX) {
 			return FLOATING;
-		}
-		else if(task.getEndTime()==LocalTime.MAX && task.getEndTime() == LocalTime.MAX && task.getEndDate()!=LocalDate.MAX) {
+		} else if (task.getEndTime() == LocalTime.MAX
+				&& task.getStartTime() == LocalTime.MAX
+				&& task.getEndDate() != LocalDate.MAX) {
 			return DEADLINE;
-		}
-		else {
+		} else {
 			return TIMED;
 		}
 	}
-	
+
 	private int daysFromToday(LocalDate date) {
 		LocalDate today = LocalDate.now();
 		int numDays;
-		
-		if(date == LocalDate.MAX) {
-			return -1;  // someday
-		}
-		else {
-			for(numDays=0; !today.equals(date)  ; numDays++) {
+
+		if (date == LocalDate.MAX) {
+			return -1; // someday
+		} else {
+			for (numDays = 0; !today.equals(date); numDays++) {
 				today = today.plusDays(1);
 			}
-			
+
 			System.out.println("dayss " + numDays);
 			return numDays;
 		}
-		
+
 	}
 
 	/**
@@ -190,13 +203,17 @@ public class BasicDataHandler implements DataHandler {
 	 * @return
 	 */
 	public String determineDate(Task task) {
-		
-		switch(daysFromToday(task.getEndDate())) {
-		
-		case -1 : return SOMEDAY;
-		case  0 : return TODAY;
-		case  1 : return TOMORROW;
-		default : return UPCOMING;
+
+		switch (daysFromToday(task.getEndDate())) {
+
+		case -1:
+			return SOMEDAY;
+		case 0:
+			return TODAY;
+		case 1:
+			return TOMORROW;
+		default:
+			return UPCOMING;
 		}
 
 	}
