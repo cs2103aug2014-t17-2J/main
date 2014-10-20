@@ -25,7 +25,7 @@ public class BasicDataHandler implements DataHandler {
 
 	ObservableList<Task> observableList;
 	Multimap<String, Task> mainList;
-	ArrayList<String> test;
+	ArrayList<String> somedayList;
 
 	public BasicDataHandler() {
 		fileHandler = new FileHandler();
@@ -116,7 +116,7 @@ public class BasicDataHandler implements DataHandler {
 		save();
 		System.out.println(task.getID() + " is added");
 		
-//		fileHandler.read();
+		fileHandler.read("deadLine");
 		fileHandler.writeLog(LocalTime.now() + " : Added Task " + task.getID());
 
 		return true;

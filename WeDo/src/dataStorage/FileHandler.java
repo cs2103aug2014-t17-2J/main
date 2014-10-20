@@ -130,7 +130,7 @@ public class FileHandler {
 		}
 		
 		taskObj.put(type, allTask);
-		System.out.println(taskObj.toString());
+//		System.out.println(taskObj.toString());
 		
 		return taskObj;
 	}
@@ -145,14 +145,16 @@ public class FileHandler {
 		tmp.put(E_DATE, task.getEndDate().toString());
 		tmp.put(S_TIME, task.getStartTime().toString());
 		tmp.put(E_TIME, task.getEndTime().toString());
-		tmp.put(PRIORITY, task.getPriority());
+		tmp.put(PRIORITY, task.getPriority().toString());
 		tmp.put(STATUS, task.getCompleted());
 		
 		return tmp;
 	}
 	
 	// @SuppressWarnings("unchecked")
-	    public void read() {
+	    public ArrayList<Task> read(String type) {
+	    	
+	    	ArrayList<Task> tasks = new ArrayList<Task>();
 	        JSONParser parser = new JSONParser();
 	 
 	        try {
@@ -160,29 +162,37 @@ public class FileHandler {
 	            Object obj = parser.parse(new FileReader(fileName));
 	 
 	            JSONObject jsonObject = (JSONObject) obj;
+	            JSONArray taskLists = (JSONArray) jsonObject.get(type);
+	            
+	            for(Object tObj: taskLists) {
+	            	JSONObject j = (JSONObject) tObj;
+	            	Task t = jsonToTask(j);
+	            	tasks.add(t);
+//	            	System.out.println(t.toString());
+	            }
 	            
 	            
+//	            JSONObject test = (JSONObject) taskLists.get(0);
 	            
-	            JSONArray companyList = (JSONArray) jsonObject.get("deadLine");
+//	            Task task = jsonToTask(test);
 	            
-	            JSONObject test = (JSONObject) companyList.get(0);
-	            
-	            Task task = jsonToTask(test);
-	            
-	            System.out.println(task.getID());
-	            System.out.println(task.getDescription());
-	            System.out.println(task.getStartDate());
-	            System.out.println(task.getEndDate());
-	            System.out.println(task.getStartTime());
-	            System.out.println(task.getEndTime());
-	            System.out.println(task.getPriority());
-	            System.out.println(task.getCompleted());
+//	            System.out.println(task.getID());
+//	            System.out.println(task.getDescription());
+//	            System.out.println(task.getStartDate());
+//	            System.out.println(task.getEndDate());
+//	            System.out.println(task.getStartTime());
+//	            System.out.println(task.getEndTime());
+//	            System.out.println(task.getPriority());
+//	            System.out.println(task.getCompleted());
 
 	            
 	 
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
+	        
+	        System.out.println(tasks.toString());
+	        return tasks;
 	    }
 	
 	
@@ -206,9 +216,6 @@ public class FileHandler {
 	
 	private Priority checkPriority(JSONObject jTask) {
 		
-		if(jTask.get(PRIORITY) == null) {
-			return Priority.PRIORITY_UNDEFINED;
-		}
 		
 		String pri = jTask.get(PRIORITY).toString();
 		
