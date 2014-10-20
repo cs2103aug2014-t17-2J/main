@@ -11,6 +11,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,6 +22,11 @@ import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+
+import javax.swing.JSplitPane;
+import javax.swing.JLayeredPane;
+import javax.swing.JToolBar;
+import javax.swing.JSeparator;
  
 /*
  * This class is the help menu the shows
@@ -49,6 +56,26 @@ public class HelpMenu {
 // 
 //        return contentPane;
 //    }
+    /**
+  	 * UIManager.setLookAndFeel() method to set the look and feel
+  	 */
+	private static void changeAppearance(){
+        try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * This class creates the Main Tab Menu
 	 */
@@ -56,7 +83,9 @@ public class HelpMenu {
 		JTabbedPane jtp = new JTabbedPane(JTabbedPane.TOP);
         
         JPanel jpAdd = new JPanel();
+        jpAdd.setLayout(null);
         JLabel lblAdd = new JLabel();
+        lblAdd.setBounds(140, 5, 144, 14);
         lblAdd.setText("You are in area of Tab1");
         jpAdd.add(lblAdd);
         jtp.addTab("<Add>", jpAdd);
@@ -113,9 +142,13 @@ public class HelpMenu {
         		}
         	}
         });
-   		
+        
+        //call the method to change the appearance of the frame
+        changeAppearance();
+        frame.pack();
+        	
         //Create and set up the content pane.
-        frame.getContentPane().add(createMenuTab(), BorderLayout.NORTH);
+        frame.getContentPane().add(createMenuTab(), BorderLayout.CENTER);
         
         //Display the window.
         frame.setSize(450, 261);
