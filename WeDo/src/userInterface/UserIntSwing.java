@@ -39,6 +39,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.Font;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
+import java.awt.Component;
+import java.awt.Window.Type;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -85,9 +88,10 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	private void initialize() {
 		frame = new JFrame("WeDo");
+		frame.setForeground(Color.WHITE);
 		frame.getContentPane().setBackground(new Color(255, 204, 255));
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		frame.setBounds(100, 100, 600, 500);
+		frame.setBounds(100, 100, 722, 465); //windowSize
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		UserLogic.setupFrameLocation();
@@ -221,7 +225,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().add(btnEdit);
 
 		interForm = new InteractiveForm();
-		interForm.execute(frame);
+		interForm.execute(frame);	//to execute the table
 		
 		//Setup the Help label
 		lblHelp.setText(CommandGuide.buildGeneralGuideString());
@@ -245,6 +249,15 @@ public class UserIntSwing extends JPanel implements Observer {
 		lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 14));
 		lblQuickHelp.setBounds(10, 337, 80, 14);
 		frame.getContentPane().add(lblQuickHelp);
+		
+		JButton btnSearch = new JButton("F6 <Search>");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnSearch.setBackground(new Color(153, 204, 255));
+		btnSearch.setBounds(560, 26, 110, 23);
+		frame.getContentPane().add(btnSearch);
 	}
 	
 	private void addFrameWindowFocusListener() {
