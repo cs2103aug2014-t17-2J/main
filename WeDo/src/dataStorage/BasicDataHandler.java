@@ -11,6 +11,8 @@ import logic.utility.Task;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 public class BasicDataHandler implements DataHandler {
 
 	private final String TODAY = "today";
@@ -73,6 +75,8 @@ public class BasicDataHandler implements DataHandler {
 		deadLineList = ArrayListMultimap.create();
 		timedList = ArrayListMultimap.create();
 		floatingList = new ArrayList<Task>();
+		
+		deadLineList 
 		// addToMultimap(TODAY, fileHandler.getList(TODAY));
 		// addToMultimap(TOMORROW, fileHandler.getList(TOMORROW));
 		// addToMultimap(UPCOMING, fileHandler.getList(UPCOMING));
@@ -85,10 +89,9 @@ public class BasicDataHandler implements DataHandler {
 	 * This function put the Arraylist of tasks into a specific key of the
 	 * Multimap
 	 */
-	public void addToMultimap(String key, ArrayList<Task> value) {
-		for (int i = 0; i < value.size(); i++) {
-			mainList.put(key, value.get(i));
-		}
+	public MultiMap<LocalDate,Task> addToMultimap(ArrayList<Task> tasks)) {
+		
+		
 
 	}
 
@@ -143,8 +146,12 @@ public class BasicDataHandler implements DataHandler {
 	public String save() {
 
 		fileHandler.clear();
-		fileHandler.writeToFile("deadLine",
-				new ArrayList<Task>(mainList.values()));
+		fileHandler.writeToFile(DEADLINE, new ArrayList<Task>(deadLineList.values()));
+		fileHandler.writeToFile(TIMED, new ArrayList<Task>(timedList.values()));
+		fileHandler.writeToFile(FLOATING,floatingList);
+		
+//		fileHandler.writeToFile("deadLine",
+//				new ArrayList<Task>(mainList.values()));
 		fileHandler.writeLog(LocalTime.now() + " : Saved!");
 		return null;
 	}
@@ -171,6 +178,7 @@ public class BasicDataHandler implements DataHandler {
 			return FLOATING;
 		} else if (task.getEndTime() == LocalTime.MAX
 				&& task.getStartTime() == LocalTime.MAX
+				&& task.getStartDate() == LocalDate.MAX
 				&& task.getEndDate() != LocalDate.MAX) {
 			return DEADLINE;
 		} else {
@@ -356,6 +364,13 @@ public class BasicDataHandler implements DataHandler {
 		// TODO Auto-generated method stub
 		return mainList;
 	}
+	
+	public ArrayList<Task> getTasksRange(LocalDate start,LocalDate end){
+		
+		
+		
+		return null;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -364,16 +379,40 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public void view(Task task) {
-		// TODO Auto-generated method stub
-		if (task.getEndDate() != LocalDate.MAX) {
-			observableList.replaceList(new ArrayList<Task>(mainList
-					.get(determineDate(task))));
-			currentList = this.determineDate(task);
-		} else {
-			observableList.replaceList(new ArrayList<Task>(mainList.get(task
-					.getDescription())));
-			currentList = task.getDescription();
+		
+		System.out.println(task.getStartDate().toString());
+		System.out.println(task.getEndDate().toString());
+		System.out.println(task.getDescription());
+		ArrayList<Task> tmp = new ArrayList<Task>();
+		String type = determineTaskType(task);
+		
+		if(task.getDescription().equals(SOMEDAY)) {
+			observableList.replaceList(floatingList);
+			
 		}
+		else if(type.equals(DEADLINE)) {
+			
+			tmp.addAll(deadLineList.get(task.getEndDate()));
+			tmp.addAll(timedList.get(task.getEndDate()));
+			observableList.replaceList(tmp);
+			
+		}
+		else {
+			tmp.addAll(new ArrayList<Task>(deadLineList.values()));
+			tmp.addAll(new ArrayList<Task>(timedList.values()));
+			observableList.replaceList(tmp);
+		}
+		
+		// TODO Auto-generated method stub
+//		if (task.getEndDate() != LocalDate.MAX) {
+//			observableList.replaceList(new ArrayList<Task>(mainList
+//					.get(determineDate(task))));
+//			currentList = this.determineDate(task);
+//		} else {
+//			observableList.replaceList(new ArrayList<Task>(mainList.get(task
+//					.getDescription())));
+//			currentList = task.getDescription();
+//		}
 
 	}
 
