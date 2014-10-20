@@ -6,9 +6,8 @@
  */
 package ui;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
@@ -20,7 +19,6 @@ import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
  
 /*
@@ -52,52 +50,40 @@ public class HelpMenu {
 //        return contentPane;
 //    }
     
-    public JMenuBar createMenuBar() {
-        JMenuBar menuBar;
-        //Create the menu bar.
-        menuBar = new JMenuBar();
+	/**
+	 * This class creates the Main Tab Menu
+	 */
+    private static JTabbedPane createMenuTab() {
+		JTabbedPane jtp = new JTabbedPane(JTabbedPane.TOP);
         
-        JLabel lblHelp = new JLabel("");
-        lblHelp.setBounds(0, 0, 434, 183);
-        lblHelp.setBackground(new Color(224, 255, 255));
-        lblHelp.setOpaque(true);
+        JPanel jp1 = new JPanel();
+        JLabel label1 = new JLabel();
+        label1.setText("You are in area of Tab1");
+        jp1.add(label1);
+        jtp.addTab("Tab1", jp1);
+        JPanel jp2 = new JPanel();
+        JLabel label2 = new JLabel();
+        label2.setText("You are in area of Tab2");
+        jp2.add(label2);
+        jtp.addTab("Tab2", jp2);
  
-        //Build the <Add> menu.
-        JMenu menuAdd;
-        menuAdd = new JMenu("<Add Command>");
-        menuBar.add(menuAdd);
-        //createHelpLabel().setText("testing");
-        lblHelp.setText("This is the Add command!");
-        //menuAdd.add(lblHelp);
-        
- 
-        //Build second menu <View> menu in the menu bar.
-        JMenu menuView;
-        menuView = new JMenu("<View Command>");
-        menuBar.add(menuView);
-        
-        //Build third menu <Edit> menu in the menu bar.
-        JMenu menuEdit;
-        menuEdit = new JMenu("<Edit Command>");
-        menuBar.add(menuEdit);
-        
-        //Build forth menu <Delete> menu in the menu bar.
-        JMenu menuDelete;
-        menuDelete = new JMenu("<Delete Command>");
-        menuBar.add(menuDelete);
- 
-        return menuBar;
+        return jtp;
     }
-    
-    private static JLabel createHelpLabel(){
-        JLabel lblHelp = new JLabel("");
-        lblHelp.setBounds(0, 0, 434, 183);
-        lblHelp.setBackground(new Color(224, 255, 255));
-        lblHelp.setOpaque(true);
+	/**
+	 * This class creates the Exit Insruction Label
+	 */
+    private static JLabel createExitLabel(){
+        JLabel lblExit = new JLabel("   Press <F1> again to exit the Help Menu");
+        lblExit.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        lblExit.setBackground(new Color(127, 255, 212));
+        lblExit.setBounds(0, 193, 434, 30);
+        lblExit.setOpaque(true);
         
-        return lblHelp;
+        return lblExit;
     }
-
+	/**
+	 * Initialize the contents of the frame.
+	 */
     private static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("Help Menu");
@@ -111,30 +97,24 @@ public class HelpMenu {
         });
    		
         //Create and set up the content pane.
-        HelpMenu menu = new HelpMenu();
-        frame.setJMenuBar(menu.createMenuBar());
+        frame.getContentPane().add(createMenuTab(), BorderLayout.NORTH);
         
         //Display the window.
         frame.setSize(450, 261);
         frame.setVisible(true);
         
-        //Set the location of the Help Menu
+        //Set the location of the Help Menu beside the main window
         frame.setLocation(Xcoordinate, Ycoordinate);
         
         //Set the focus to the main frame
         frame.setFocusable(true);
         frame.getContentPane().setLayout(null);
         
-        JLabel lblEnter = new JLabel("   Press <F1> again to exit the Help Menu");
-        lblEnter.setFont(new Font("Times New Roman", Font.BOLD, 12));
-        lblEnter.setBackground(new Color(127, 255, 212));
-        lblEnter.setBounds(0, 179, 434, 21);
-        lblEnter.setOpaque(true);
-        frame.getContentPane().add(lblEnter);
-        
-        frame.getContentPane().add(createHelpLabel());
+        frame.getContentPane().add(createExitLabel());
     }
- 
+	/**
+	 * Launch the application.
+	 */
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
