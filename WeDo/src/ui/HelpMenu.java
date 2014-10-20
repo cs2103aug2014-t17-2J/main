@@ -31,8 +31,8 @@ public class HelpMenu {
     JScrollPane scrollPane;
     String newline = "\n";
     
-	private static final int Xcoordinate = 310;
-	private static final int Ycoordinate = 225;
+	private static final int Xcoordinate = 189;
+	private static final int Ycoordinate = 285;
 	
 //    public Container createHelpPane() {
 //        //Create the content-pane-to-be.
@@ -49,23 +49,41 @@ public class HelpMenu {
 // 
 //        return contentPane;
 //    }
-    
 	/**
 	 * This class creates the Main Tab Menu
 	 */
     private static JTabbedPane createMenuTab() {
 		JTabbedPane jtp = new JTabbedPane(JTabbedPane.TOP);
         
-        JPanel jp1 = new JPanel();
-        JLabel label1 = new JLabel();
-        label1.setText("You are in area of Tab1");
-        jp1.add(label1);
-        jtp.addTab("Tab1", jp1);
-        JPanel jp2 = new JPanel();
-        JLabel label2 = new JLabel();
-        label2.setText("You are in area of Tab2");
-        jp2.add(label2);
-        jtp.addTab("Tab2", jp2);
+        JPanel jpAdd = new JPanel();
+        JLabel lblAdd = new JLabel();
+        lblAdd.setText("You are in area of Tab1");
+        jpAdd.add(lblAdd);
+        jtp.addTab("<Add>", jpAdd);
+        
+        JPanel jpView = new JPanel();
+        JLabel lblView = new JLabel();
+        lblView.setText("You are in area of Tab2");
+        jpView.add(lblView);
+        jtp.addTab("<View>", jpView);
+        
+        JPanel jpEdit = new JPanel();
+        JLabel lblEdit = new JLabel();
+        lblEdit.setText("You are in area of Tab3");
+        jpEdit.add(lblEdit);
+        jtp.addTab("<Edit>", jpEdit);
+        
+        JPanel jpDelete = new JPanel();
+        JLabel lblDelete = new JLabel();
+        lblDelete.setText("You are in area of Tab4");
+        jpDelete.add(lblDelete);
+        jtp.addTab("<Delete>", jpDelete);
+        
+        JPanel jpSearch = new JPanel();
+        JLabel lblSearch = new JLabel();
+        lblSearch.setText("You are in area of Tab5");
+        jpSearch.add(lblSearch);
+        jtp.addTab("<Search>", jpSearch);
  
         return jtp;
     }
@@ -110,6 +128,7 @@ public class HelpMenu {
         frame.setFocusable(true);
         frame.getContentPane().setLayout(null);
         
+        //Create the Exit Instruction Label
         frame.getContentPane().add(createExitLabel());
     }
 	/**
