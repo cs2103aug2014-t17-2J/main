@@ -85,6 +85,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	private void initialize() {
 		frame = new JFrame("WeDo");
+		frame.getContentPane().setBackground(new Color(255, 204, 255));
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.setBounds(100, 100, 600, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -151,6 +152,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.setColumns(10);
 
 		JButton btnEnter = new JButton("ENTER");
+		btnEnter.setBackground(new Color(153, 204, 255));
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// lblDisplay.setText(textField.getText());
@@ -172,6 +174,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().add(btnEnter);
 		
 		JButton btnHelp = new JButton("F1 <Help>");
+		btnHelp.setBackground(new Color(153, 204, 255));
 		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
 		BalloonTip helpBalloonTip = new BalloonTip(btnHelp, new JLabel("Press F1 for Help"), edgedLook, 
 				Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 20, false);
@@ -191,6 +194,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().add(btnHelp);
 
 		JButton btnAdd = new JButton("F2 <Add>");
+		btnAdd.setBackground(new Color(153, 204, 255));
 		BalloonTip AddBalloonTip = new BalloonTip(btnAdd, new JLabel("Press F2 to Add"), edgedLook, 
 				Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 20, false);
 		btnAdd.addMouseListener(new MouseAdapter() {
@@ -207,10 +211,12 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().add(btnAdd);
 
 		JButton btnView = new JButton("F3 <View>");
+		btnView.setBackground(new Color(153, 204, 255));
 		btnView.setBounds(230, 26, 100, 23);
 		frame.getContentPane().add(btnView);
 
 		JButton btnEdit = new JButton("F4 <Edit>");
+		btnEdit.setBackground(new Color(153, 204, 255));
 		btnEdit.setBounds(340, 26, 100, 23);
 		frame.getContentPane().add(btnEdit);
 
@@ -227,6 +233,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		//UserLogic.processTextField();
 		
 		JButton btnDel = new JButton("F5 <Delete>");
+		btnDel.setBackground(new Color(153, 204, 255));
 		btnDel.setBounds(450, 26, 100, 23);
 		frame.getContentPane().add(btnDel);
 		

@@ -121,11 +121,11 @@ public class InteractiveForm extends JPanel {
                  }
              });
              frame.getContentPane().add(new InteractiveForm());
-            
+            //set the position of the table (10,60) and the size of the table (560,200)
             this.setBounds(10, 60, 560, 200);
      		frame.getContentPane().add(this);
-             //frame.pack();
-             frame.setVisible(false);
+             //frame.pack(); //the window is minimised
+             //frame.setVisible(false); //does not make a difference
          } catch (Exception e) {
         	 JOptionPane.showMessageDialog(null,"ALERT MESSAGE","TITLE", JOptionPane.WARNING_MESSAGE);
              e.printStackTrace();
