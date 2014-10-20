@@ -17,6 +17,10 @@ public class BasicDataHandler implements DataHandler {
 	private final String TOMORROW = "tomorrow";
 	private final String UPCOMING = "upcoming";
 	private final String SOMEDAY = "someday";
+	private final String DEADLINE = "deadLine";
+	private final String TIMED = "timed";
+	private final String FLOATING = "floating";
+	
 
 	private String currentList;
 
@@ -25,6 +29,7 @@ public class BasicDataHandler implements DataHandler {
 
 	ObservableList<Task> observableList;
 	Multimap<String, Task> mainList;
+	Multimap<LocalDate,Task> deadLineList,timedList;
 	ArrayList<String> somedayList;
 
 	public BasicDataHandler() {
@@ -106,7 +111,7 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean addTask(Task task) {
-		System.out.println(determineDate(task));
+	
 		if (onDisplay(task) == true) {
 			observableList.add(task);
 		}
@@ -144,6 +149,18 @@ public class BasicDataHandler implements DataHandler {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	private String determineTaskType(Task task) {
+		if(task.getEndDate() == LocalDate.MAX && task.getStartDate() == LocalDate.MAX) {
+			return FLOATING;
+		}
+		else if(task.getEndTime()==LocalTime.MAX && task.getEndTime() == LocalTime.MAX && task.getEndDate()!=LocalDate.MAX) {
+			return DEADLINE;
+		}
+		else {
+			return TIMED;
 		}
 	}
 	
