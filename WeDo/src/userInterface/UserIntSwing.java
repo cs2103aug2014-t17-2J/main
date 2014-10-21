@@ -320,7 +320,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().setLayout(groupLayout);
 
 		interForm = new InteractiveForm();
-		interForm.execute(frame); // to execute the table
+		interForm.execute(frame); // to display the table
 
 		// This operation puts the focus on the textField
 		// for the user to type immediately when the program runs

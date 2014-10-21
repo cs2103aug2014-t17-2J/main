@@ -37,6 +37,17 @@ public class InteractiveForm extends JPanel {
 
 	public void updateTable(ArrayList<Task> taskList) {
 		tableModel.updateTable(taskList);
+        ColumnsAutoSizer.sizeColumnsToFit(table);
+		//resize();
+		System.out.println("resize?");
+	}
+
+	public void resize() {
+		TableColumn desc = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_DESCRIPTION);
+		desc.sizeWidthToFit();
+		desc.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_HIDDEN));
 	}
 
 	public void initComponent() {
@@ -54,17 +65,24 @@ public class InteractiveForm extends JPanel {
 		scroller = new javax.swing.JScrollPane(table);
 		table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,
 				300));
-		
-		TableColumn hidden = table.getColumnModel().getColumn(InteractiveTableModel.INDEX_HIDDEN);
-		
-		//hidden.setMinWidth(2);
-	//	hidden.setPreferredWidth(2);
-	//	hidden.setMaxWidth(2);
-		hidden.setCellRenderer(new InteractiveRenderer(InteractiveTableModel.INDEX_HIDDEN));
-		
+
+		TableColumn hidden = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_HIDDEN);
+		TableColumn taskID = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_TASK);
+		taskID.setMaxWidth(15);
+		taskID.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_TASK));
+
+		hidden.setMinWidth(2);
+		hidden.setPreferredWidth(2);
+		hidden.setMaxWidth(2);
+		hidden.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_HIDDEN));
+
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
-}
+	}
 
 	public void highlightLastRow(int row) {
 		int lastrow = tableModel.getRowCount();
@@ -78,6 +96,7 @@ public class InteractiveForm extends JPanel {
 	}
 
 	class InteractiveRenderer extends DefaultTableCellRenderer {
+
 		protected int interactiveColumn;
 
 		public InteractiveRenderer(int interactiveColumn) {
@@ -110,7 +129,6 @@ public class InteractiveForm extends JPanel {
 				System.out.println("row: " + row + " column: " + column);
 				table.setColumnSelectionInterval(column + 1, column + 1);
 				table.setRowSelectionInterval(row, row);
-		
 			}
 		}
 	}
@@ -125,7 +143,7 @@ public class InteractiveForm extends JPanel {
 					System.exit(0);
 				}
 			});
-			//frame.getContentPane().add(new InteractiveForm());
+			// frame.getContentPane().add(new InteractiveForm());
 			// set the position of the table (10,60) and the size of the table
 			// (560,200)
 			// this.setBounds(10, 60, 660, 200);
