@@ -158,6 +158,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		JButton btnSearch = new JButton("F6 <Search>");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("search");
 			}
 		});
 		btnSearch.setBackground(new Color(153, 204, 255));

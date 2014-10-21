@@ -19,15 +19,15 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
 
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.AttachLocation;
+import net.java.balloontip.BalloonTip.Orientation;
+import net.java.balloontip.styles.BalloonTipStyle;
+import net.java.balloontip.styles.EdgedBalloonStyle;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-
-import javax.swing.JSplitPane;
-import javax.swing.JLayeredPane;
-import javax.swing.JToolBar;
-import javax.swing.JSeparator;
- 
 /*
  * This class is the help menu the shows
  * different command to the user
@@ -38,8 +38,8 @@ public class HelpMenu {
     JScrollPane scrollPane;
     String newline = "\n";
     
-	private static final int Xcoordinate = 189;
-	private static final int Ycoordinate = 285;
+	private static final int Xcoordinate = 310;
+	private static final int Ycoordinate = 258;
 	
 //    public Container createHelpPane() {
 //        //Create the content-pane-to-be.
@@ -83,34 +83,32 @@ public class HelpMenu {
 		JTabbedPane jtp = new JTabbedPane(JTabbedPane.TOP);
         
         JPanel jpAdd = new JPanel();
-        jpAdd.setLayout(null);
         JLabel lblAdd = new JLabel();
-        lblAdd.setBounds(140, 5, 144, 14);
-        lblAdd.setText("You are in area of Tab1");
+        lblAdd.setText(HelpGuide.buildHelpGuideAddString());
         jpAdd.add(lblAdd);
         jtp.addTab("<Add>", jpAdd);
         
         JPanel jpView = new JPanel();
         JLabel lblView = new JLabel();
-        lblView.setText("You are in area of Tab2");
+        lblView.setText(HelpGuide.buildHelpGuideViewString());
         jpView.add(lblView);
         jtp.addTab("<View>", jpView);
         
         JPanel jpEdit = new JPanel();
         JLabel lblEdit = new JLabel();
-        lblEdit.setText("You are in area of Tab3");
+        lblEdit.setText(HelpGuide.buildHelpGuideEditString());
         jpEdit.add(lblEdit);
         jtp.addTab("<Edit>", jpEdit);
         
         JPanel jpDelete = new JPanel();
         JLabel lblDelete = new JLabel();
-        lblDelete.setText("You are in area of Tab4");
+        lblDelete.setText(HelpGuide.buildHelpGuideDeleteString());
         jpDelete.add(lblDelete);
         jtp.addTab("<Delete>", jpDelete);
         
         JPanel jpSearch = new JPanel();
         JLabel lblSearch = new JLabel();
-        lblSearch.setText("You are in area of Tab5");
+        lblSearch.setText(HelpGuide.buildHelpGuideSearchString());
         jpSearch.add(lblSearch);
         jtp.addTab("<Search>", jpSearch);
  
@@ -133,7 +131,7 @@ public class HelpMenu {
 	 */
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("Help Menu");
+        JFrame frame = new JFrame("-Help Menu-");
         frame.addKeyListener(new KeyAdapter() {
         	@Override
         	public void keyPressed(KeyEvent arg0) {
@@ -143,15 +141,17 @@ public class HelpMenu {
         	}
         });
         
+        //Disable Resize
+        frame.setResizable(false);
+        
         //call the method to change the appearance of the frame
         changeAppearance();
-        frame.pack();
         	
         //Create and set up the content pane.
         frame.getContentPane().add(createMenuTab(), BorderLayout.CENTER);
         
         //Display the window.
-        frame.setSize(450, 261);
+        frame.setSize(340, 450);
         frame.setVisible(true);
         
         //Set the location of the Help Menu beside the main window
