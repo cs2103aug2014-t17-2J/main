@@ -12,8 +12,11 @@ public class HelpGuide {
 	private static final String HTML_ITALIC_OPEN = "<i>";
 	private static final String HTML_ITALIC_CLOSE = "</i>";
 	private static final String HTML_FONTSIZE_OPEN = "<font size=+1>";
-	private static final String HTML_FONTCOLOR_OPEN = "<font color=red>";
+	private static final String HTML_FONTCOLORRED_OPEN = "<font color=#C80000 >"; //red
+	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=green>"; 
 	private static final String HTML_FONT_CLOSE = "</font>";
+	private static final String space = " ";
+	private static final String spaceOr = " | ";
 	
 	public static String buildHelpGuideAddString() {
 
@@ -33,12 +36,34 @@ public class HelpGuide {
 		str.append(" create a task.");
 		
 		str.append(HTML_BREAK);
-		str.append("-If you add a task without any date or time");
+		str.append("1. " + bold("Normal Task."));
 		str.append(HTML_BREAK);
-		str.append("E.g. add Finish Revising Programming");
+		str.append("You can add a task specifying the date and time duration");
 		str.append(HTML_BREAK);
-		str.append("This task will categorized as Floating Task");
+		str.append(fontColorRed("E.g. \"add Project Meeting 21/10/2014 12pm - 2pm\""));
 		
+		str.append(HTML_BREAK);
+		str.append("2. " + bold("Deadline Task."));
+		str.append(HTML_BREAK);
+		str.append("You can add a task specifying the deadline");
+		str.append(HTML_BREAK);
+		str.append(fontColorRed("E.g. \"create Submit Assignment by 21/10/2014 at 2pm\""));
+		
+		 /* 1. If you add a task without any date or time
+		  * E.g. add Finish Revising Programming
+		  * This task will categorized as Floating Task. */
+		str.append(HTML_BREAK);
+		str.append("3. " + bold("Floating Task."));
+		str.append(HTML_BREAK);
+		str.append("You can add a task WITHOUT any date or time");
+		str.append(HTML_BREAK);
+		str.append(fontColorRed("E.g. \"cre8 Finish Revising Programming\""));
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("Special shortcut keyword can also be used");
+		str.append(HTML_BREAK);
+		str.append("Specifying the date: ");
+		str.append(underline("tomorrow") + spaceOr + underline("tmr") + spaceOr + underline("tml"));
 
 		return wrapWithHtmlTag(str.toString());
 	}
@@ -105,7 +130,7 @@ public class HelpGuide {
 		strMsg = underline(strMsg);
 		strMsg = upFontSize(strMsg);
 		strMsg = italic(strMsg);
-		strMsg = fontColor(strMsg);
+		strMsg = fontColorGreen(strMsg);
 		
 		return strMsg;
 	}
@@ -129,8 +154,13 @@ public class HelpGuide {
 				text, HTML_ITALIC_CLOSE);
 	}
 	
-	private static String fontColor(String text){
-		return String.format(TAG_WRAP_STRING, HTML_FONTCOLOR_OPEN, 
+	private static String fontColorRed(String text){
+		return String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				text, HTML_FONT_CLOSE);
+	}
+	
+	private static String fontColorGreen(String text){
+		return String.format(TAG_WRAP_STRING, HTML_FONTCOLORGREEN_OPEN, 
 				text, HTML_FONT_CLOSE);
 	}
 	
