@@ -2,49 +2,46 @@ package userInterface;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 
-import dataStorage.ObservableList;
 import logic.InvalidCommandException;
 import logic.LogicManager;
 import logic.utility.Task;
-import ui.BalloonTipGuide;
-import ui.CommandGuide;
-import ui.UserLogic;
-
-import javax.swing.SwingConstants;
-
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.AttachLocation;
 import net.java.balloontip.BalloonTip.Orientation;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
-
-import java.lang.Object;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.Font;
+import ui.CommandGuide;
+import ui.UserLogic;
+import dataStorage.ObservableList;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
 
-	ArrayList<Task> taskList;	
-	
+	ArrayList<Task> taskList;
+
 	public static JFrame frame;
 	public static JTextField textField;
 	public static JLabel lblWarning;
@@ -52,7 +49,8 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static JButton btnHelp;
 	private InteractiveForm interForm;
 	private LogicManager logicManager;
-    private ObservableList<Task> observableList;
+	private ObservableList<Task> observableList;
+
 	/**
 	 * Launch the application.
 	 */
@@ -60,9 +58,10 @@ public class UserIntSwing extends JPanel implements Observer {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-				//	UserIntSwing window = new UserIntSwing(commandHandler, observableList);
-				    initialize();
-					//observableList.addObserver(window);
+					// UserIntSwing window = new UserIntSwing(commandHandler,
+					// observableList);
+					//initialize(); //reduce the initialize count
+					// observableList.addObserver(window);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,186 +69,279 @@ public class UserIntSwing extends JPanel implements Observer {
 			}
 		});
 	}
-    
+
 	/**
 	 * Create the application.
 	 */
-	public UserIntSwing(LogicManager logicManager, ObservableList<Task> observableList) {
+	public UserIntSwing(LogicManager logicManager,
+			ObservableList<Task> observableList) {
 		this.logicManager = logicManager;
 		this.observableList = observableList;
 		taskList = observableList.getList();
-        initialize();
+		initialize(); //reduce the initialize count
 	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame("WeDo");
+		frame.getContentPane().setEnabled(false);
+		frame.setForeground(Color.WHITE);
+		frame.getContentPane().setBackground(new Color(255, 204, 255));
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		frame.setBounds(100, 100, 600, 500);
+		frame.setBounds(100, 100, 650, 480); // windowSize
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+
 		UserLogic.setupFrameLocation();
 
+		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
+				Color.BLUE);
+
+		JLabel lblWarning_1 = new JLabel("warning");
+
 		JLabel lblTodayDate = new JLabel("");
-		lblTodayDate.setBounds(10, 0, 157, 20);
-		frame.getContentPane().add(lblTodayDate);
-		
+
 		lblTodayDate.setText(UserLogic.setTodayDate());
-		
-		JLabel lblHelp = new JLabel("Label Help");
-		lblHelp.setVerticalAlignment(SwingConstants.TOP);
-		lblHelp.setBounds(10, 354, 496, 96);
-		frame.getContentPane().add(lblHelp);
-		
-		//ArrayList<String> taskList = new ArrayList<String>();
-		
-		//Set the Help Label
-		lblHelp.setText(CommandGuide.buildGeneralGuideString());
-		textField = new JTextField();
-		textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg1) {
-				try {
-					String command = textField.getText();
-					lblHelp.setText(CommandGuide.getGuideMessage(command + " "));
-					frame.setVisible(true);
-					
-					//process the hotkey functions
-					UserLogic.processHotKeys(arg1);
-					} catch (Exception e) {
-						e.printStackTrace();
-				}
-			}
-		});
-		
-		// Setup the Help label
-		//CommandGuide.processGuide();
-		
-		textField.addActionListener(new ActionListener() {
+
+		JLabel lblHelp_1 = new JLabel("Label Help");
+		lblHelp_1.setVerticalAlignment(SwingConstants.TOP);
+
+		// Set the Help Label
+		lblHelp_1.setText(CommandGuide.buildGeneralGuideString());
+
+		JButton btnHelp_1 = new JButton("F1 <Help>");
+		btnHelp_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				//String textInput = "";
-			//	textInput += textField.getText();
-				//lblDisplay.setText(textField.getText());
-			    try {
-                    logicManager.processCommand(textField.getText());
-                } catch (InvalidCommandException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
 				textField.setText("");
-				//processor.executeCommand(textInput);
-				
-				//taskList.add(textInput);
-
-			//	textField.setText("");
 			}
 		});
-		textField.setBounds(10, 306, 386, 20);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
-
-		JButton btnEnter = new JButton("ENTER");
-		btnEnter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				// lblDisplay.setText(textField.getText());
-				// textArea.setText(textField.getText());
-				// textField.setText("");
-			    try {
-                    logicManager.processCommand(textField.getText());
-                } catch (InvalidCommandException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-				textField.setText("");
-				// for (int i = 0; i < taskList.size(); i++) {
-				// textArea_1.append((String) taskList.get(i) + "\n");
-				// }
-			}
-		});
-		btnEnter.setBounds(406, 305, 100, 23);
-		frame.getContentPane().add(btnEnter);
-		
-		JButton btnHelp = new JButton("F1 <Help>");
-		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
-		BalloonTip helpBalloonTip = new BalloonTip(btnHelp, new JLabel("Press F1 for Help"), edgedLook, 
-				Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 20, false);
-		btnHelp.addMouseListener(new MouseAdapter() {
+		btnHelp_1.setBackground(new Color(153, 204, 255));
+		BalloonTip helpBalloonTip = new BalloonTip(btnHelp_1, new JLabel(
+				"Press F1 for Help"), edgedLook, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		btnHelp_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				System.out.println("mouse entered!");
 				helpBalloonTip.setVisible(true);
 			}
+
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				System.out.println("mouse exited!");
 				helpBalloonTip.setVisible(false);
 			}
 		});
-		btnHelp.setBounds(10, 26, 100, 23);
-		frame.getContentPane().add(btnHelp);
 
 		JButton btnAdd = new JButton("F2 <Add>");
-		BalloonTip AddBalloonTip = new BalloonTip(btnAdd, new JLabel("Press F2 to Add"), edgedLook, 
-				Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 20, false);
+		btnAdd.setToolTipText("");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textField.setText("add");
+			}
+		});
+		btnAdd.setBackground(new Color(153, 204, 255));
+		BalloonTip AddBalloonTip = new BalloonTip(btnAdd, new JLabel(
+				"Press F2 to Add"), edgedLook, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				AddBalloonTip.setVisible(true);
 			}
+
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				AddBalloonTip.setVisible(false);
 			}
 		});
-		btnAdd.setBounds(120, 26, 100, 23);
-		frame.getContentPane().add(btnAdd);
 
 		JButton btnView = new JButton("F3 <View>");
-		btnView.setBounds(230, 26, 100, 23);
-		frame.getContentPane().add(btnView);
+		btnView.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("view");
+			}
+		});
+		btnView.setToolTipText("Click for Viewing Tasks!");
+		btnView.setBackground(new Color(153, 204, 255));
 
 		JButton btnEdit = new JButton("F4 <Edit>");
-		btnEdit.setBounds(340, 26, 100, 23);
-		frame.getContentPane().add(btnEdit);
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("edit");
+			}
+		});
+		btnEdit.setBackground(new Color(153, 204, 255));
+
+		// UserLogic.processTextField();
+
+		JButton btnDel = new JButton("F5 <Delete>");
+		btnDel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("delete");
+			}
+		});
+		btnDel.setBackground(new Color(153, 204, 255));
+
+		JButton btnSearch = new JButton("F6 <Search>");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("search");
+			}
+		});
+		btnSearch.setBackground(new Color(153, 204, 255));
+
+		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg1) {
+				try {
+					String command = textField.getText();
+					lblHelp_1.setText(CommandGuide.getGuideMessage(command
+							+ " "));
+					frame.setVisible(true);
+
+					// process the hotkey functions
+					UserLogic.processHotKeys(arg1);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		// Setup the Help label
+		// CommandGuide.processGuide();
+
+		textField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				// String textInput = "";
+				// textInput += textField.getText();
+				try {
+					logicManager.processCommand(textField.getText());
+				} catch (InvalidCommandException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				textField.setText("");
+
+			}
+		});
+		textField.setColumns(10);
+
+		JLabel lblQuickHelp = new JLabel("Quick Help");
+		lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
+				| Font.ITALIC, 14));
+
+		JButton btnEnter = new JButton("ENTER");
+		btnEnter.setBackground(new Color(153, 204, 255));
+		btnEnter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// lblDisplay.setText(textField.getText());
+				// textArea.setText(textField.getText());
+				// textField.setText("");
+				try {
+					logicManager.processCommand(textField.getText());
+				} catch (InvalidCommandException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				textField.setText("");
+			}
+		});
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTodayDate)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnHelp_1, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)))
+							.addGap(18))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+							.addGap(18))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblQuickHelp, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+							.addGap(507))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+							.addGap(10)
+							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+							.addGap(46))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(501, Short.MAX_VALUE))))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(lblTodayDate)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnAdd)
+						.addComponent(btnView)
+						.addComponent(btnEdit)
+						.addComponent(btnDel)
+						.addComponent(btnSearch)
+						.addComponent(btnHelp_1))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnEnter)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblWarning_1)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblQuickHelp)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblHelp_1)
+					.addGap(51))
+		);
+		frame.getContentPane().setLayout(groupLayout);
 
 		interForm = new InteractiveForm();
-		interForm.execute(frame);
+		interForm.execute(frame); // to display the table
+		panel.setLayout(new BorderLayout(0, 0));
+		panel.add(interForm);
 		
-		//Setup the Help label
-		lblHelp.setText(CommandGuide.buildGeneralGuideString());
-		
-		//This operation puts the focus on the textField 
-		//for the user to type immediately when the program runs 
+		// This operation puts the focus on the textField
+		// for the user to type immediately when the program runs
 		UserLogic.addFrameWindowFocusListener();
-		
-		//UserLogic.processTextField();
-		
-		JButton btnDel = new JButton("F5 <Delete>");
-		btnDel.setBounds(450, 26, 100, 23);
-		frame.getContentPane().add(btnDel);
-		
-		JLabel lblWarning = new JLabel("");
-		lblWarning.setBounds(10, 256, 496, 47);
-		frame.getContentPane().add(lblWarning);
-		
-		JLabel lblQuickHelp = new JLabel("Quick Help");
-		lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 14));
-		lblQuickHelp.setBounds(10, 337, 80, 14);
-		frame.getContentPane().add(lblQuickHelp);
 	}
-	
+
 	private void addFrameWindowFocusListener() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) 
-	{
-        taskList = observableList.getList();
-        assert(taskList!=null);
-		interForm.updateTable(taskList);		
+	public void update(Observable arg0, Object arg1) {
+		taskList = observableList.getList();
+		assert (taskList != null);
+		interForm.updateTable(taskList);
 	}
 }

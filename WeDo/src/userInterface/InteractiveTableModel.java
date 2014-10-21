@@ -112,7 +112,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 		default:
 			System.out.println("invalid index");
 		}
-		fireTableCellUpdated(row,column);
+		fireTableCellUpdated(row, column);
 	}
 
 	@Override
@@ -124,68 +124,78 @@ public class InteractiveTableModel extends AbstractTableModel {
 	public int getRowCount() {
 		return dataVector.size();
 	}
-	
+
 	public boolean hasEmptyRow() {
-        if (dataVector.size() == 0) return false;
-        TableInformation tableInfo = (TableInformation)dataVector.get(dataVector.size() - 1);
-        if (tableInfo.getTask().trim().equals("") &&
-        		tableInfo.getDescription().trim().equals("") &&
-        		tableInfo.getStartDate().trim().equals("") &&
-        		tableInfo.getEndDate().trim().equals("") &&
-        		tableInfo.getStartTime().trim().equals("") &&
-        		tableInfo.getEndTime().trim().equals("") &&
-        		tableInfo.getPriority().trim().equals("") &&
-        		tableInfo.getCheck().trim().equals(""))
-        {
-           return true;
-        }
-        else return false;
-    }
-	
-	 public void addEmptyRow() {
-         dataVector.add(new TableInformation());
-         fireTableRowsInserted(
-            dataVector.size() - 1,
-            dataVector.size() - 1);
-     }
+		if (dataVector.size() == 0)
+			return false;
+		TableInformation tableInfo = (TableInformation) dataVector
+				.get(dataVector.size() - 1);
+		if (tableInfo.getTask().trim().equals("")
+				&& tableInfo.getDescription().trim().equals("")
+				&& tableInfo.getStartDate().trim().equals("")
+				&& tableInfo.getEndDate().trim().equals("")
+				&& tableInfo.getStartTime().trim().equals("")
+				&& tableInfo.getEndTime().trim().equals("")
+				&& tableInfo.getPriority().trim().equals("")
+				&& tableInfo.getCheck().trim().equals("")) {
+			return true;
+		} else
+			return false;
+	}
 
-	public void updateTable(ArrayList<Task> taskList) 
-	{
+	public void addEmptyRow() {
+		dataVector.add(new TableInformation());
+		fireTableRowsInserted(dataVector.size() - 1, dataVector.size() - 1);
+	}
+
+	public void updateTable(ArrayList<Task> taskList) {
 		int row = 0;
-		
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-	    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
 
-		
+		DateTimeFormatter dateFormatter = DateTimeFormatter
+				.ofPattern("dd/MM/YYYY");
+		DateTimeFormatter timeFormatter = DateTimeFormatter
+				.ofPattern("hh:mm a");
+
 		clearRows();
-		for(Task task : taskList)
-		{
-			if(!this.hasEmptyRow())
-			{
+		for (Task task : taskList) {
+			if (!this.hasEmptyRow()) {
 				this.addEmptyRow();
 			}
-			
-			this.setValueAt(""+(row+1), row, INDEX_TASK);
+
+			this.setValueAt("" + (row + 1), row, INDEX_TASK);
 			this.setValueAt(task.getDescription(), row, INDEX_DESCRIPTION);
-			if(task.getStartDate() != null && task.getStartDate() != LocalDate.MAX)
-			this.setValueAt(task.getStartDate().format(dateFormatter), row, INDEX_STARTDATE);
-			if(task.getEndDate() != null && task.getEndDate() != LocalDate.MAX)
-			this.setValueAt(task.getEndDate().format(dateFormatter), row, INDEX_ENDDATE);
-			if(task.getStartTime()!= null && task.getStartTime() != LocalTime.MAX)
-			this.setValueAt(task.getStartTime().format(timeFormatter), row, INDEX_STARTTIME);
-			if(task.getEndTime()!= null && task.getEndTime() != LocalTime.MAX)
-			this.setValueAt(task.getEndTime().format(timeFormatter), row, INDEX_ENDTIME);
-			if(task.getPriority() != null && !task.getPriority().toString().isEmpty())
-			this.setValueAt(task.getPriority().toString(), row, INDEX_PRIORITY);
-			//this.setValueAt(task.isCompleted(), row, INDEX_CHECK);
+			if (task.getStartDate() != null
+					&& task.getStartDate() != LocalDate.MAX) {
+				this.setValueAt(task.getStartDate().format(dateFormatter), row,
+						INDEX_STARTDATE);
+			}
+			if (task.getEndDate() != null && task.getEndDate() != LocalDate.MAX) {
+				this.setValueAt(task.getEndDate().format(dateFormatter), row,
+						INDEX_ENDDATE);
+			}
+			if (task.getStartTime() != null
+					&& task.getStartTime() != LocalTime.MAX) {
+				this.setValueAt(task.getStartTime().format(timeFormatter), row,
+						INDEX_STARTTIME);
+			}
+			if (task.getEndTime() != null && task.getEndTime() != LocalTime.MAX) {
+				this.setValueAt(task.getEndTime().format(timeFormatter), row,
+						INDEX_ENDTIME);
+			}
+			if (task.getPriority() != null
+					&& !task.getPriority().toString().isEmpty()) {
+				this.setValueAt(task.getPriority().toString(), row,
+						INDEX_PRIORITY);
+			}
+
+			// this.setValueAt(""+(row+6), row, INDEX_CHECK);
 			row++;
-			
+
 		}
-		
+
 	}
-	
-	public void clearRows()
-	{
+
+	public void clearRows() {
 		dataVector.clear();
 		this.addEmptyRow();
 	}

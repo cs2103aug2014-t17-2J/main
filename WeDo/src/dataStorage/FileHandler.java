@@ -78,9 +78,9 @@ public class FileHandler {
 	 * @param three lists to be written to the file
 	 * @return the status of writing to file
 	 */
-	public String writeToFile(String type,ArrayList<Task> taskList) {
+	public String writeToFile(ArrayList<Task> deadLine,ArrayList<Task> timed,ArrayList<Task> floating) {
 		
-		JSONObject tasks = toJSON(type,taskList);
+		JSONObject tasks = toJSON(deadLine,timed,floating);
 		
 		try {
 			FileWriter fstream = new FileWriter(fileName, true);
@@ -119,6 +119,18 @@ public class FileHandler {
 		return null;
 	}
 	
+	public JSONObject toJSON(ArrayList<Task> deadLine,ArrayList<Task> timed,ArrayList<Task> floating) {
+		JSONObject all = new JSONObject();
+		JSONArray lists = new JSONArray();
+		
+		lists.add(toJSON("deadLine",deadLine));
+		lists.add(toJSON("timed",timed));
+		lists.add(toJSON("floating",floating));
+		all.put("all tasks", lists);
+		
+		return all;
+	}
+	
 	
 	public JSONObject toJSON(String type,ArrayList<Task> tasks) {
 		
@@ -130,7 +142,7 @@ public class FileHandler {
 		}
 		
 		taskObj.put(type, allTask);
-		System.out.println(taskObj.toString());
+//		System.out.println(taskObj.toString());
 		
 		return taskObj;
 	}
@@ -145,14 +157,16 @@ public class FileHandler {
 		tmp.put(E_DATE, task.getEndDate().toString());
 		tmp.put(S_TIME, task.getStartTime().toString());
 		tmp.put(E_TIME, task.getEndTime().toString());
-		tmp.put(PRIORITY, task.getPriority());
+		tmp.put(PRIORITY, task.getPriority().toString());
 		tmp.put(STATUS, task.getCompleted());
 		
 		return tmp;
 	}
 	
 	// @SuppressWarnings("unchecked")
-	    public void read() {
+	    public ArrayList<Task> read(String type) {
+	    	
+	    	ArrayList<Task> tasks = new ArrayList<Task>();
 	        JSONParser parser = new JSONParser();
 	 
 	        try {
@@ -160,29 +174,37 @@ public class FileHandler {
 	            Object obj = parser.parse(new FileReader(fileName));
 	 
 	            JSONObject jsonObject = (JSONObject) obj;
+	            JSONArray taskLists = (JSONArray) jsonObject.get(type);
+	            
+	            for(Object tObj: taskLists) {
+	            	JSONObject j = (JSONObject) tObj;
+	            	Task t = jsonToTask(j);
+	            	tasks.add(t);
+	            	System.out.println(t.toString());
+	            }
 	            
 	            
+//	            JSONObject test = (JSONObject) taskLists.get(0);
 	            
-	            JSONArray companyList = (JSONArray) jsonObject.get("deadLine");
+//	            Task task = jsonToTask(test);
 	            
-	            JSONObject test = (JSONObject) companyList.get(0);
-	            
-	            Task task = jsonToTask(test);
-	            
-	            System.out.println(task.getID());
-	            System.out.println(task.getDescription());
-	            System.out.println(task.getStartDate());
-	            System.out.println(task.getEndDate());
-	            System.out.println(task.getStartTime());
-	            System.out.println(task.getEndTime());
-	            System.out.println(task.getPriority());
-	            System.out.println(task.getCompleted());
+//	            System.out.println(task.getID());
+//	            System.out.println(task.getDescription());
+//	            System.out.println(task.getStartDate());
+//	            System.out.println(task.getEndDate());
+//	            System.out.println(task.getStartTime());
+//	            System.out.println(task.getEndTime());
+//	            System.out.println(task.getPriority());
+//	            System.out.println(task.getCompleted());
 
 	            
 	 
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
+	        
+	        System.out.println(tasks.toString());
+	        return tasks;
 	    }
 	
 	
@@ -206,9 +228,6 @@ public class FileHandler {
 	
 	private Priority checkPriority(JSONObject jTask) {
 		
-		if(jTask.get(PRIORITY) == null) {
-			return Priority.PRIORITY_UNDEFINED;
-		}
 		
 		String pri = jTask.get(PRIORITY).toString();
 		
