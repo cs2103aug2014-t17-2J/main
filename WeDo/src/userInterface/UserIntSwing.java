@@ -58,7 +58,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				try {
 					// UserIntSwing window = new UserIntSwing(commandHandler,
 					// observableList);
-					initialize();
+					//initialize(); //reduce the initialize count
 					// observableList.addObserver(window);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -76,7 +76,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		this.logicManager = logicManager;
 		this.observableList = observableList;
 		taskList = observableList.getList();
-		initialize();
+		initialize(); //reduce the initialize count
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
 				Color.BLUE);
 
-		JLabel lblWarning_1 = new JLabel("");
+		JLabel lblWarning_1 = new JLabel("warning");
 
 		JLabel lblTodayDate = new JLabel("");
 
@@ -109,6 +109,11 @@ public class UserIntSwing extends JPanel implements Observer {
 		lblHelp_1.setText(CommandGuide.buildGeneralGuideString());
 
 		JButton btnHelp_1 = new JButton("F1 <Help>");
+		btnHelp_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("");
+			}
+		});
 		btnHelp_1.setBackground(new Color(153, 204, 255));
 		BalloonTip helpBalloonTip = new BalloonTip(btnHelp_1, new JLabel(
 				"Press F1 for Help"), edgedLook, Orientation.RIGHT_BELOW,
@@ -128,6 +133,12 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 
 		JButton btnAdd = new JButton("F2 <Add>");
+		btnAdd.setToolTipText("");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textField.setText("add");
+			}
+		});
 		btnAdd.setBackground(new Color(153, 204, 255));
 		BalloonTip AddBalloonTip = new BalloonTip(btnAdd, new JLabel(
 				"Press F2 to Add"), edgedLook, Orientation.RIGHT_BELOW,
@@ -145,19 +156,36 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 
 		JButton btnView = new JButton("F3 <View>");
+		btnView.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("view");
+			}
+		});
+		btnView.setToolTipText("Click for Viewing Tasks!");
 		btnView.setBackground(new Color(153, 204, 255));
 
 		JButton btnEdit = new JButton("F4 <Edit>");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("edit");
+			}
+		});
 		btnEdit.setBackground(new Color(153, 204, 255));
 
 		// UserLogic.processTextField();
 
 		JButton btnDel = new JButton("F5 <Delete>");
+		btnDel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField.setText("delete");
+			}
+		});
 		btnDel.setBackground(new Color(153, 204, 255));
 
 		JButton btnSearch = new JButton("F6 <Search>");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField.setText("search");
 			}
 		});
 		btnSearch.setBackground(new Color(153, 204, 255));
@@ -222,145 +250,73 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout
-				.setHorizontalGroup(groupLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								groupLayout
-										.createSequentialGroup()
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addComponent(
-																lblWarning_1)
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addContainerGap()
-																		.addComponent(
-																				lblTodayDate))
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addContainerGap()
-																		.addComponent(
-																				btnHelp_1,
-																				GroupLayout.DEFAULT_SIZE,
-																				93,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				btnAdd,
-																				GroupLayout.DEFAULT_SIZE,
-																				91,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				btnView,
-																				GroupLayout.DEFAULT_SIZE,
-																				93,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				btnEdit,
-																				GroupLayout.DEFAULT_SIZE,
-																				91,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				btnDel,
-																				GroupLayout.DEFAULT_SIZE,
-																				103,
-																				Short.MAX_VALUE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				btnSearch,
-																				GroupLayout.DEFAULT_SIZE,
-																				105,
-																				Short.MAX_VALUE)))
-										.addGap(18))
-						.addGroup(
-								groupLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(lblQuickHelp,
-												GroupLayout.DEFAULT_SIZE, 117,
-												Short.MAX_VALUE).addGap(507))
-						.addGroup(
-								Alignment.TRAILING,
-								groupLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addGroup(
-																groupLayout
-																		.createSequentialGroup()
-																		.addComponent(
-																				textField,
-																				GroupLayout.DEFAULT_SIZE,
-																				478,
-																				Short.MAX_VALUE)
-																		.addGap(38)
-																		.addComponent(
-																				btnEnter,
-																				GroupLayout.DEFAULT_SIZE,
-																				90,
-																				Short.MAX_VALUE))
-														.addComponent(
-																lblHelp_1,
-																GroupLayout.PREFERRED_SIZE,
-																0,
-																Short.MAX_VALUE))
-										.addGap(18)));
-		groupLayout
-				.setVerticalGroup(groupLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								groupLayout
-										.createSequentialGroup()
-										.addComponent(lblTodayDate)
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.BASELINE)
-														.addComponent(btnAdd)
-														.addComponent(btnView)
-														.addComponent(btnEdit)
-														.addComponent(btnDel)
-														.addComponent(btnSearch)
-														.addComponent(btnHelp_1))
-										.addGap(184)
-										.addComponent(lblWarning_1)
-										.addPreferredGap(
-												ComponentPlacement.RELATED, 91,
-												Short.MAX_VALUE)
-										.addGroup(
-												groupLayout
-														.createParallelGroup(
-																Alignment.BASELINE)
-														.addComponent(
-																textField,
-																GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(btnEnter))
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addComponent(lblQuickHelp)
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addComponent(lblHelp_1).addGap(43)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblTodayDate))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnHelp_1, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)))
+					.addGap(18))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+					.addGap(18))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblQuickHelp, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+					.addGap(507))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(textField, GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+					.addGap(46))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(501, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(lblTodayDate)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnAdd)
+						.addComponent(btnView)
+						.addComponent(btnEdit)
+						.addComponent(btnDel)
+						.addComponent(btnSearch)
+						.addComponent(btnHelp_1))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(274)
+							.addComponent(btnEnter))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblWarning_1)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblQuickHelp)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblHelp_1)
+					.addGap(51))
+		);
 		frame.getContentPane().setLayout(groupLayout);
 
 		interForm = new InteractiveForm();
