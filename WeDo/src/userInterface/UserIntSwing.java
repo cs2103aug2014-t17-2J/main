@@ -36,6 +36,13 @@ import ui.UserLogic;
 import dataStorage.ObservableList;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.BoxLayout;
+import java.awt.GridLayout;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.JSplitPane;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -60,7 +67,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				try {
 					// UserIntSwing window = new UserIntSwing(commandHandler,
 					// observableList);
-					//initialize(); //reduce the initialize count
+					// initialize(); //reduce the initialize count
 					// observableList.addObserver(window);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -78,7 +85,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		this.logicManager = logicManager;
 		this.observableList = observableList;
 		taskList = observableList.getList();
-		initialize(); //reduce the initialize count
+		initialize(); // reduce the initialize count
 	}
 
 	/**
@@ -90,7 +97,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.setForeground(Color.WHITE);
 		frame.getContentPane().setBackground(new Color(255, 204, 255));
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		frame.setBounds(100, 100, 650, 480); // windowSize
+		frame.setBounds(100, 100, 675, 510); // windowSize
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		UserLogic.setupFrameLocation();
@@ -98,17 +105,9 @@ public class UserIntSwing extends JPanel implements Observer {
 		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
 				Color.BLUE);
 
-		JLabel lblWarning_1 = new JLabel("warning");
-
 		JLabel lblTodayDate = new JLabel("");
 
 		lblTodayDate.setText(UserLogic.setTodayDate());
-
-		JLabel lblHelp_1 = new JLabel("Label Help");
-		lblHelp_1.setVerticalAlignment(SwingConstants.TOP);
-
-		// Set the Help Label
-		lblHelp_1.setText(CommandGuide.buildGeneralGuideString());
 
 		JButton btnHelp_1 = new JButton("F1 <Help>");
 		btnHelp_1.addActionListener(new ActionListener() {
@@ -192,6 +191,19 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 		btnSearch.setBackground(new Color(153, 204, 255));
 
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+
+		JPanel panelBottom = new JPanel();
+		
+		JLabel lblHelp_1 = new JLabel("Label Help");
+		lblHelp_1.setVerticalAlignment(SwingConstants.TOP);
+
+		// Set the Help Label
+		lblHelp_1
+				.setText("<html>Type any of the following to begin:<br>add | view | edit | delete</html>");
+
+
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -230,10 +242,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 		textField.setColumns(10);
 
-		JLabel lblQuickHelp = new JLabel("Quick Help");
-		lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
-				| Font.ITALIC, 14));
-
 		JButton btnEnter = new JButton("ENTER");
 		btnEnter.setBackground(new Color(153, 204, 255));
 		btnEnter.addActionListener(new ActionListener() {
@@ -250,52 +258,37 @@ public class UserIntSwing extends JPanel implements Observer {
 				textField.setText("");
 			}
 		});
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
-							.addContainerGap())
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblTodayDate)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnHelp_1, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+									.addComponent(btnHelp_1, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+									.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+									.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+									.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+									.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)))
+									.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)))
 							.addGap(18))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-							.addGap(18))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblQuickHelp, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-							.addGap(507))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
-							.addGap(10)
-							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-							.addGap(46))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(501, Short.MAX_VALUE))))
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(panelBottom, GroupLayout.PREFERRED_SIZE, 639, Short.MAX_VALUE)
+								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE))
+							.addContainerGap())))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(lblTodayDate)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -307,27 +300,57 @@ public class UserIntSwing extends JPanel implements Observer {
 						.addComponent(btnSearch)
 						.addComponent(btnHelp_1))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnEnter)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblWarning_1)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+					.addGap(34)
+					.addComponent(panelBottom, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+
+		
+		JLabel lblWarning_1 = new JLabel("warning");
+		
+				JLabel lblQuickHelp = new JLabel("Quick Help");
+				lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
+						| Font.ITALIC, 14));
+		GroupLayout gl_panelBottom = new GroupLayout(panelBottom);
+		gl_panelBottom.setHorizontalGroup(
+			gl_panelBottom.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBottom.createSequentialGroup()
+					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 511, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+					.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+				.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
+				.addGroup(gl_panelBottom.createSequentialGroup()
+					.addComponent(lblQuickHelp)
+					.addContainerGap(572, Short.MAX_VALUE))
+				.addGroup(gl_panelBottom.createSequentialGroup()
+					.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panelBottom.setVerticalGroup(
+			gl_panelBottom.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBottom.createSequentialGroup()
+					.addComponent(lblWarning_1)
+					.addGap(11)
+					.addGroup(gl_panelBottom.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnEnter))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblQuickHelp)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblHelp_1)
-					.addGap(51))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
 		);
+		gl_panelBottom.setAutoCreateGaps(true);
+		panelBottom.setLayout(gl_panelBottom);
+
 		frame.getContentPane().setLayout(groupLayout);
 
 		interForm = new InteractiveForm();
 		interForm.execute(frame); // to display the table
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(interForm);
-		
+
 		// This operation puts the focus on the textField
 		// for the user to type immediately when the program runs
 		UserLogic.addFrameWindowFocusListener();
