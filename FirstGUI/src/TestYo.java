@@ -59,19 +59,19 @@ public class TestYo {
 		gbc_btnNewButton.gridy = 0;
 		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
 		
+		JButton btnEdit = new JButton("Edit");
+		GridBagConstraints gbc_btnEdit = new GridBagConstraints();
+		gbc_btnEdit.insets = new Insets(0, 0, 5, 5);
+		gbc_btnEdit.gridx = 1;
+		gbc_btnEdit.gridy = 0;
+		frame.getContentPane().add(btnEdit, gbc_btnEdit);
+		
 		JButton btnAdd = new JButton("Add");
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 		gbc_btnAdd.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAdd.gridx = 1;
+		gbc_btnAdd.gridx = 0;
 		gbc_btnAdd.gridy = 1;
 		frame.getContentPane().add(btnAdd, gbc_btnAdd);
-		
-		JButton btnEdit = new JButton("Edit");
-		GridBagConstraints gbc_btnEdit = new GridBagConstraints();
-		gbc_btnEdit.insets = new Insets(0, 0, 5, 0);
-		gbc_btnEdit.gridx = 2;
-		gbc_btnEdit.gridy = 1;
-		frame.getContentPane().add(btnEdit, gbc_btnEdit);
 		
 		JButton btnNewButton_1 = new JButton("New button");
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();

@@ -182,7 +182,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 					&& !task.getPriority().toString().isEmpty())
 				this.setValueAt(task.getPriority().toString(), row,
 						INDEX_PRIORITY);
-			// this.setValueAt(task.isCompleted(), row, INDEX_CHECK);
+			//this.setValueAt(""+(row+6), row, INDEX_CHECK);
 			row++;
 
 		}
