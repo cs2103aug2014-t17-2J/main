@@ -1,3 +1,9 @@
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class create the Help guide String
+ * which is shown on the Help Menu
+ * 
+ */
 package ui;
 
 public class HelpGuide {
