@@ -982,3 +982,100 @@
 14:13:52.049 : Saved!
 14:13:52.096 : Added Task 1
 14:14:22.066 : DataHandler initialized
+15:29:10.606 : DataHandler initialized
+15:29:38.816 : Saved!
+15:29:38.816 : Added Task 1
+15:29:41.850 : ObservableList retrieved!
+17:01:46.386 : DataHandler initialized
+17:02:09.097 : DataHandler initialized
+17:06:07.494 : DataHandler initialized
+17:06:17.236 : Saved!
+17:06:17.252 : Added Task 1
+17:08:01.241 : DataHandler initialized
+17:08:15.933 : Saved!
+17:08:15.948 : Added Task 1
+17:08:49.610 : DataHandler initialized
+17:09:01.472 : Saved!
+17:09:01.487 : Added Task 1
+17:09:04.361 : ObservableList retrieved!
+17:09:10.256 : Saved!
+17:09:10.272 : Added Task 3
+17:09:14.584 : ObservableList retrieved!
+17:09:20.150 : ObservableList retrieved!
+17:09:24.322 : ObservableList retrieved!
+17:09:31.650 : ObservableList retrieved!
+17:09:35.275 : ObservableList retrieved!
+17:11:47.784 : DataHandler initialized
+17:12:37.488 : DataHandler initialized
+17:13:09.291 : Saved!
+17:13:09.291 : Added Task 1
+17:13:14.298 : Saved!
+17:13:14.313 : Added Task 2
+17:13:17.566 : ObservableList retrieved!
+17:13:29.545 : Saved!
+17:13:29.560 : Added Task 4
+17:13:32.774 : ObservableList retrieved!
+17:13:37.188 : Saved!
+17:13:37.204 : Added Task 6
+17:13:40.469 : ObservableList retrieved!
+17:24:50.111 : DataHandler initialized
+17:29:37.092 : DataHandler initialized
+17:34:23.703 : DataHandler initialized
+17:35:21.748 : Saved!
+17:35:21.748 : Added Task 1
+17:35:27.373 : ObservableList retrieved!
+17:36:01.741 : Saved!
+17:36:01.741 : Added Task 3
+17:36:07.542 : ObservableList retrieved!
+17:55:52.038 : DataHandler initialized
+17:56:43.049 : Saved!
+17:56:43.064 : Added Task 1
+17:59:31.031 : DataHandler initialized
+17:59:57.904 : DataHandler initialized
+18:03:10.495 : DataHandler initialized
+18:03:30.493 : DataHandler initialized
+18:04:33.835 : DataHandler initialized
+18:08:04.011 : DataHandler initialized
+18:08:37.480 : DataHandler initialized
+18:10:03.120 : DataHandler initialized
+18:10:24.493 : Saved!
+18:10:24.509 : Added Task 1
+18:10:49.672 : Saved!
+18:10:49.688 : Added Task 2
+18:12:03.560 : DataHandler initialized
+18:14:09.181 : DataHandler initialized
+18:14:19.931 : ObservableList retrieved!
+18:14:24.728 : ObservableList retrieved!
+18:14:28.370 : Saved!
+18:14:28.385 : Added Task 3
+18:14:30.712 : ObservableList retrieved!
+18:14:41.819 : ObservableList retrieved!
+18:14:45.451 : ObservableList retrieved!
+18:14:49.269 : Saved!
+18:14:49.269 : Added Task 7
+18:14:52.439 : ObservableList retrieved!
+18:14:58.856 : Saved!
+18:14:58.856 : Added Task 9
+18:15:03.977 : ObservableList retrieved!
+18:16:52.762 : Saved!
+18:16:52.762 : Added Task 11
+18:17:09.677 : Saved!
+18:17:09.677 : Added Task 12
+18:17:28.955 : Saved!
+18:17:28.955 : Added Task 13
+18:17:37.859 : Saved!
+18:17:37.859 : Added Task 14
+18:17:49.455 : Saved!
+18:17:49.455 : Added Task 15
+18:29:41.382 : DataHandler initialized
+18:31:10.740 : DataHandler initialized
+18:32:14.200 : DataHandler initialized
+18:33:12.615 : DataHandler initialized
+18:33:30.768 : Saved!
+18:33:30.768 : Added Task 1
+18:33:42.848 : Saved!
+18:33:42.848 : Added Task 2
+18:35:39.082 : DataHandler initialized
+18:36:33.407 : DataHandler initialized
+18:39:13.697 : DataHandler initialized
+18:39:50.396 : DataHandler initialized
