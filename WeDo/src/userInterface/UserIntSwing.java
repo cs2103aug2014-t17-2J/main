@@ -1,5 +1,6 @@
 package userInterface;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -34,15 +35,6 @@ import net.java.balloontip.styles.EdgedBalloonStyle;
 import ui.CommandGuide;
 import ui.UserLogic;
 import dataStorage.ObservableList;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JSplitPane;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -195,14 +187,13 @@ public class UserIntSwing extends JPanel implements Observer {
 		panel.setBackground(Color.WHITE);
 
 		JPanel panelBottom = new JPanel();
-		
+
 		JLabel lblHelp_1 = new JLabel("Label Help");
 		lblHelp_1.setVerticalAlignment(SwingConstants.TOP);
 
 		// Set the Help Label
 		lblHelp_1
 				.setText("<html>Type any of the following to begin:<br>add | view | edit | delete</html>");
-
 
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
@@ -260,87 +251,172 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout
+				.setHorizontalGroup(groupLayout
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								groupLayout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.TRAILING)
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addGroup(
+																				groupLayout
+																						.createParallelGroup(
+																								Alignment.LEADING)
+																						.addComponent(
+																								lblTodayDate)
+																						.addGroup(
+																								groupLayout
+																										.createSequentialGroup()
+																										.addComponent(
+																												btnHelp_1,
+																												GroupLayout.DEFAULT_SIZE,
+																												97,
+																												Short.MAX_VALUE)
+																										.addPreferredGap(
+																												ComponentPlacement.RELATED)
+																										.addComponent(
+																												btnAdd,
+																												GroupLayout.DEFAULT_SIZE,
+																												95,
+																												Short.MAX_VALUE)
+																										.addPreferredGap(
+																												ComponentPlacement.RELATED)
+																										.addComponent(
+																												btnView,
+																												GroupLayout.DEFAULT_SIZE,
+																												97,
+																												Short.MAX_VALUE)
+																										.addPreferredGap(
+																												ComponentPlacement.RELATED)
+																										.addComponent(
+																												btnEdit,
+																												GroupLayout.DEFAULT_SIZE,
+																												96,
+																												Short.MAX_VALUE)
+																										.addPreferredGap(
+																												ComponentPlacement.RELATED)
+																										.addComponent(
+																												btnDel,
+																												GroupLayout.DEFAULT_SIZE,
+																												107,
+																												Short.MAX_VALUE)
+																										.addPreferredGap(
+																												ComponentPlacement.RELATED)
+																										.addComponent(
+																												btnSearch,
+																												GroupLayout.DEFAULT_SIZE,
+																												109,
+																												Short.MAX_VALUE)))
+																		.addGap(18))
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addGroup(
+																				groupLayout
+																						.createParallelGroup(
+																								Alignment.TRAILING)
+																						.addComponent(
+																								panelBottom,
+																								GroupLayout.PREFERRED_SIZE,
+																								639,
+																								Short.MAX_VALUE)
+																						.addComponent(
+																								panel,
+																								GroupLayout.DEFAULT_SIZE,
+																								639,
+																								Short.MAX_VALUE))
+																		.addContainerGap()))));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
+				Alignment.TRAILING)
+				.addGroup(
+						groupLayout
+								.createSequentialGroup()
 								.addComponent(lblTodayDate)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnHelp_1, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)))
-							.addGap(18))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(panelBottom, GroupLayout.PREFERRED_SIZE, 639, Short.MAX_VALUE)
-								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE))
-							.addContainerGap())))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(lblTodayDate)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnAdd)
-						.addComponent(btnView)
-						.addComponent(btnEdit)
-						.addComponent(btnDel)
-						.addComponent(btnSearch)
-						.addComponent(btnHelp_1))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-					.addGap(34)
-					.addComponent(panelBottom, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(
+										groupLayout
+												.createParallelGroup(
+														Alignment.BASELINE)
+												.addComponent(btnAdd)
+												.addComponent(btnView)
+												.addComponent(btnEdit)
+												.addComponent(btnDel)
+												.addComponent(btnSearch)
+												.addComponent(btnHelp_1))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(panel, GroupLayout.DEFAULT_SIZE,
+										224, Short.MAX_VALUE)
+								.addGap(34)
+								.addComponent(panelBottom,
+										GroupLayout.PREFERRED_SIZE, 153,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()));
 
-		
 		JLabel lblWarning_1 = new JLabel("warning");
-		
-				JLabel lblQuickHelp = new JLabel("Quick Help");
-				lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
-						| Font.ITALIC, 14));
+
+		JLabel lblQuickHelp = new JLabel("Quick Help");
+		lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
+				| Font.ITALIC, 14));
 		GroupLayout gl_panelBottom = new GroupLayout(panelBottom);
-		gl_panelBottom.setHorizontalGroup(
-			gl_panelBottom.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelBottom.createSequentialGroup()
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 511, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-					.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-				.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
-				.addGroup(gl_panelBottom.createSequentialGroup()
-					.addComponent(lblQuickHelp)
-					.addContainerGap(572, Short.MAX_VALUE))
-				.addGroup(gl_panelBottom.createSequentialGroup()
-					.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		gl_panelBottom.setVerticalGroup(
-			gl_panelBottom.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelBottom.createSequentialGroup()
-					.addComponent(lblWarning_1)
-					.addGap(11)
-					.addGroup(gl_panelBottom.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnEnter))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblQuickHelp)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
-		);
+		gl_panelBottom.setHorizontalGroup(gl_panelBottom
+				.createParallelGroup(Alignment.LEADING)
+				.addGroup(
+						gl_panelBottom
+								.createSequentialGroup()
+								.addComponent(textField,
+										GroupLayout.PREFERRED_SIZE, 511,
+										GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED,
+										18, Short.MAX_VALUE)
+								.addComponent(btnEnter,
+										GroupLayout.PREFERRED_SIZE, 100,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap())
+				.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 94,
+						GroupLayout.PREFERRED_SIZE)
+				.addGroup(
+						gl_panelBottom.createSequentialGroup()
+								.addComponent(lblQuickHelp)
+								.addContainerGap(572, Short.MAX_VALUE))
+				.addGroup(
+						gl_panelBottom
+								.createSequentialGroup()
+								.addComponent(lblHelp_1,
+										GroupLayout.DEFAULT_SIZE, 629,
+										Short.MAX_VALUE).addContainerGap()));
+		gl_panelBottom
+				.setVerticalGroup(gl_panelBottom
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_panelBottom
+										.createSequentialGroup()
+										.addComponent(lblWarning_1)
+										.addGap(11)
+										.addGroup(
+												gl_panelBottom
+														.createParallelGroup(
+																Alignment.BASELINE)
+														.addComponent(
+																textField,
+																GroupLayout.PREFERRED_SIZE,
+																23,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(btnEnter))
+										.addPreferredGap(
+												ComponentPlacement.RELATED)
+										.addComponent(lblQuickHelp)
+										.addPreferredGap(
+												ComponentPlacement.RELATED)
+										.addComponent(lblHelp_1,
+												GroupLayout.DEFAULT_SIZE, 76,
+												Short.MAX_VALUE)));
 		gl_panelBottom.setAutoCreateGaps(true);
 		panelBottom.setLayout(gl_panelBottom);
 
