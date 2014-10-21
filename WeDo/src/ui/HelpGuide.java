@@ -18,17 +18,36 @@ public class HelpGuide {
 	public static String buildHelpGuideAddString() {
 
 		StringBuilder str = new StringBuilder();
-
-		str.append(underline(bold("Advance Help command for ")));
-		str.append(underline(italic(bold(fontColor("ADD")))));
+	
+		str.append(makeTitleStr("Advance help command for "));
+		str.append(makeCommandStr("\"Add\""));
 		str.append(HTML_BREAK);
+		
+		str.append("You can use these commands: ");
 		str.append(underline("add") + " | " + underline("create") 
-				+ " | " + underline("cre8") );
-		str.append("task");
-		str.append("Date");
-		str.append("Time");
+				+ " | " + underline("cre8 ") + "to");
+		str.append(HTML_BREAK);
+		str.append("create a task.");
 
 		return wrapWithHtmlTag(str.toString());
+	}
+	
+	private static String makeTitleStr(String strMsg){
+		strMsg = bold(strMsg);
+		strMsg = underline(strMsg);
+		strMsg = upFontSize(strMsg);
+		
+		return strMsg;
+	}
+	
+	private static String makeCommandStr(String strMsg){
+		strMsg = bold(strMsg);
+		strMsg = underline(strMsg);
+		strMsg = upFontSize(strMsg);
+		strMsg = italic(strMsg);
+		strMsg = fontColor(strMsg);
+		
+		return strMsg;
 	}
 	
 	private static String wrapWithHtmlTag(String text) {
@@ -44,14 +63,19 @@ public class HelpGuide {
 		return String.format(TAG_WRAP_STRING, HTML_BOLD_OPEN, text, 
 				HTML_BOLD_CLOSE);
 	}
+		
+	private static String italic(String text){
+		return String.format(TAG_WRAP_STRING, HTML_ITALIC_OPEN, 
+				text, HTML_ITALIC_CLOSE);
+	}
 	
 	private static String fontColor(String text){
 		return String.format(TAG_WRAP_STRING, HTML_FONTCOLOR_OPEN, 
 				text, HTML_FONT_CLOSE);
 	}
 	
-	private static String italic(String text){
-		return String.format(TAG_WRAP_STRING, HTML_ITALIC_OPEN, 
-				text, HTML_ITALIC_CLOSE);
+	private static String upFontSize(String text){
+		return String.format(TAG_WRAP_STRING, HTML_FONTSIZE_OPEN, 
+				text, HTML_FONT_CLOSE);
 	}
 }
