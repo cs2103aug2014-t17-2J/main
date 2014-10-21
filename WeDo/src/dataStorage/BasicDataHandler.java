@@ -72,9 +72,9 @@ public class BasicDataHandler implements DataHandler {
 	public boolean populateLists() {
 
 		mainList = ArrayListMultimap.create();
-//		deadLineList = ArrayListMultimap.create();
-//		timedList = ArrayListMultimap.create();
-//		floatingList = new ArrayList<Task>();
+		deadLineList = ArrayListMultimap.create();
+		timedList = ArrayListMultimap.create();
+		floatingList = new ArrayList<Task>();
 //		
 //		deadLineList.putAll(addToMultimap(fileHandler.read(DEADLINE)));
 //		timedList = addToMultimap(fileHandler.read(TIMED));
@@ -145,7 +145,7 @@ public class BasicDataHandler implements DataHandler {
 		save();
 		System.out.println(task.getID() + " is added");
 
-		fileHandler.read("deadLine");
+		//fileHandler.read("deadLine");
 		fileHandler.writeLog(LocalTime.now() + " : Added Task " + task.getID());
 
 		return true;
@@ -154,9 +154,9 @@ public class BasicDataHandler implements DataHandler {
 	public String save() {
 
 		fileHandler.clear();
-		fileHandler.writeToFile(DEADLINE, new ArrayList<Task>(deadLineList.values()));
-		fileHandler.writeToFile(TIMED, new ArrayList<Task>(timedList.values()));
-		fileHandler.writeToFile(FLOATING,floatingList);
+		fileHandler.writeToFile(new ArrayList<Task>(deadLineList.values()),new ArrayList<Task>(timedList.values()),floatingList);
+//		fileHandler.writeToFile(TIMED, new ArrayList<Task>(timedList.values()));
+//		fileHandler.writeToFile(FLOATING,floatingList);
 		
 //		fileHandler.writeToFile("deadLine",
 //				new ArrayList<Task>(mainList.values()));

@@ -78,9 +78,9 @@ public class FileHandler {
 	 * @param three lists to be written to the file
 	 * @return the status of writing to file
 	 */
-	public String writeToFile(String type,ArrayList<Task> taskList) {
+	public String writeToFile(ArrayList<Task> deadLine,ArrayList<Task> timed,ArrayList<Task> floating) {
 		
-		JSONObject tasks = toJSON(type,taskList);
+		JSONObject tasks = toJSON(deadLine,timed,floating);
 		
 		try {
 			FileWriter fstream = new FileWriter(fileName, true);
@@ -117,6 +117,18 @@ public class FileHandler {
 	
 		
 		return null;
+	}
+	
+	public JSONObject toJSON(ArrayList<Task> deadLine,ArrayList<Task> timed,ArrayList<Task> floating) {
+		JSONObject all = new JSONObject();
+		JSONArray lists = new JSONArray();
+		
+		lists.add(toJSON("deadLine",deadLine));
+		lists.add(toJSON("timed",timed));
+		lists.add(toJSON("floating",floating));
+		all.put("all tasks", lists);
+		
+		return all;
 	}
 	
 	
