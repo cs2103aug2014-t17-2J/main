@@ -132,6 +132,24 @@ public class HelpGuide {
 		str.append(makeCommandStr("\"Edit\""));
 		str.append(HTML_BREAK);
 		
+		str.append("-You can use these commands: ");
+		str.append(underline("edit") + spaceOr + underline("modify") 
+				+ spaceOr + underline("update") + " to ");
+		str.append(HTML_BREAK);
+		str.append(" edit a specific task.");
+		
+		str.append(HTML_BREAK);
+		str.append("1. " + bold("Edit a specific task."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"edit 1 21/10/2014\""));
+		str.append(HTML_BREAK);
+		str.append("This will edit the task with ID 1 changing the date to the");
+		str.append(HTML_BREAK);
+		str.append("one specified in the command.");
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("---------------------------- END ----------------------------");
+
 		return wrapWithHtmlTag(str.toString());
 	}
 	
@@ -143,6 +161,24 @@ public class HelpGuide {
 		str.append(makeTitleStr("Advance help command for "));
 		str.append(makeCommandStr("\"Delete\""));
 		str.append(HTML_BREAK);
+		
+		str.append("-You can use these commands: ");
+		str.append(underline("delete") + spaceOr + underline("remove") 
+				+ spaceOr + underline("cancel"));
+		str.append(HTML_BREAK);
+		str.append(" to delete a specific task.");
+		
+		str.append(HTML_BREAK);
+		str.append("1. " + bold("Delete a specific task."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"delete 2\""));
+		str.append(HTML_BREAK);
+		str.append("By specifying the ID of the task, the task with the ID 2 in");
+		str.append(HTML_BREAK);
+		str.append("the above example will be removed.");
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("---------------------------- END ----------------------------");
 		
 		return wrapWithHtmlTag(str.toString());
 	}
