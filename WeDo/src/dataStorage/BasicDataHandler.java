@@ -72,11 +72,13 @@ public class BasicDataHandler implements DataHandler {
 	public boolean populateLists() {
 
 		mainList = ArrayListMultimap.create();
-		deadLineList = ArrayListMultimap.create();
-		timedList = ArrayListMultimap.create();
-		floatingList = new ArrayList<Task>();
-		
-		deadLineList 
+//		deadLineList = ArrayListMultimap.create();
+//		timedList = ArrayListMultimap.create();
+//		floatingList = new ArrayList<Task>();
+//		
+//		deadLineList.putAll(addToMultimap(fileHandler.read(DEADLINE)));
+//		timedList = addToMultimap(fileHandler.read(TIMED));
+//		floatingList = fileHandler.read(FLOATING);
 		// addToMultimap(TODAY, fileHandler.getList(TODAY));
 		// addToMultimap(TOMORROW, fileHandler.getList(TOMORROW));
 		// addToMultimap(UPCOMING, fileHandler.getList(UPCOMING));
@@ -89,9 +91,15 @@ public class BasicDataHandler implements DataHandler {
 	 * This function put the Arraylist of tasks into a specific key of the
 	 * Multimap
 	 */
-	public MultiMap<LocalDate,Task> addToMultimap(ArrayList<Task> tasks)) {
+	public Multimap<LocalDate,Task> addToMultimap(ArrayList<Task> tasks) {
 		
+		Multimap<LocalDate,Task> tmp = ArrayListMultimap.create();
 		
+		for(Task t: tasks) {
+			tmp.put(t.getEndDate(), t);
+		}
+		
+		return tmp;
 
 	}
 

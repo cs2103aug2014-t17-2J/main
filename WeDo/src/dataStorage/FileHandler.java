@@ -168,7 +168,7 @@ public class FileHandler {
 	            	JSONObject j = (JSONObject) tObj;
 	            	Task t = jsonToTask(j);
 	            	tasks.add(t);
-//	            	System.out.println(t.toString());
+	            	System.out.println(t.toString());
 	            }
 	            
 	            
