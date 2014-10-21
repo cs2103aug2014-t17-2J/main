@@ -10,7 +10,6 @@ import java.util.Map;
 import logic.utility.KeyMatcher;
 import logic.utility.StringHandler;
 
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
@@ -22,56 +21,51 @@ import definedEnumeration.Priority;
  *
  */
 public class PriorityParser {
-    
+
     private String wordRemaining;
     private String wordUsed;
     private Priority priority;
 
     /**
-     * <p> The source will be parsed to see if it contains date.
-     * @param source the String to be parsed
-     * @return if source contains valid priority 
+     * <p>
+     * The source will be parsed to see if it contains date.
+     * 
+     * @param source
+     *            the String to be parsed
+     * @return if source contains valid priority
      */
-    public boolean tryParse(String source)
-    {
+    public boolean tryParse(String source) {
         String firstTwoWords = StringHandler.getFirstTwoWords(source);
         String lastTwoWords = StringHandler.getLastTwoWords(source);
-        
-        
-        if(!tryParsePriority(firstTwoWords)) // failed first two word
-        {
-            if(!tryParsePriority(lastTwoWords)) // failed second two words
-            {
-                return false;
-            }
-            else
-            {
-                priority = KeyMatcher.matchKey(createPriorityLevelFakeMultiMap(), lastTwoWords); 
-                if(!isPriorityParsed())
-                {
-                    return false;
-                }
-                
-                wordUsed = lastTwoWords;
 
-            }
-        }
-        else
+        if (tryParsePriority(firstTwoWords)) // failed first two word
         {
-                priority = KeyMatcher.matchKey(createPriorityLevelFakeMultiMap(), firstTwoWords);   
-                if(!isPriorityParsed())
-                {
-                    return false;
-                }
-
+            priority = KeyMatcher.matchKey(createPriorityLevelFakeMultiMap(),
+                    firstTwoWords);
+            if (isPriorityParsed()) {
                 wordUsed = firstTwoWords;
+                wordRemaining = StringHandler.removeFirstMatched(source,
+                        wordUsed);
+
+                return true;
+            }
+        }
+
+        if (tryParsePriority(lastTwoWords)) // failed second two words
+        {
+            priority = KeyMatcher.matchKey(createPriorityLevelFakeMultiMap(),
+                    lastTwoWords);
+            if (isPriorityParsed()) {
+                wordUsed = lastTwoWords;
+                wordRemaining = StringHandler.removeFirstMatched(source,
+                        wordUsed);
+
+                return true;
+            }
 
         }
-        
-        
-        wordRemaining = StringHandler.removeFirstMatched(source, wordUsed);
-        
-        return true;
+
+        return false;
     }
 
     /**
@@ -79,11 +73,12 @@ public class PriorityParser {
      */
     private boolean isPriorityParsed() {
         return priority != null;
-        
+
     }
 
     /**
-     * @param source the source to be deciphered
+     * @param source
+     *            the source to be deciphered
      * @return whether priority key word is found
      */
     private boolean tryParsePriority(String source) {
@@ -96,25 +91,18 @@ public class PriorityParser {
         }
 
     }
-    
-    public Priority getPriority()
-    {
+
+    public Priority getPriority() {
         return priority;
     }
-    
-    public String getWordUsed()
-    {
+
+    public String getWordUsed() {
         return wordUsed;
     }
-    
-    public String getWordRemaining()
-    {
+
+    public String getWordRemaining() {
         return wordRemaining;
     }
-
-
-
-    
 
     private Multimap<String, String> createPriorityFakeMultiMap() {
 
@@ -143,13 +131,16 @@ public class PriorityParser {
 
         final Map<Priority, Collection<String>> highPriorityActions = ImmutableMap
                 .<Priority, Collection<String>> of(Priority.PRIORITY_HIGH,
-                        Arrays.asList("high", "urgent", "now"));
+                        Arrays.asList("high", "urgent", "top", "crucial",
+                                "important"));
         final Map<Priority, Collection<String>> mediumPriorityActions = ImmutableMap
                 .<Priority, Collection<String>> of(Priority.PRIORITY_MEDIUM,
-                        Arrays.asList("medium", "med", "later", "next time"));
+                        Arrays.asList("medium", "med", "normal", "neutral",
+                                "moderate"));
         final Map<Priority, Collection<String>> lowPriorityActions = ImmutableMap
                 .<Priority, Collection<String>> of(Priority.PRIORITY_LOW,
-                        Arrays.asList("low", "kiv", "when free", "-no"));
+                        Arrays.asList("low", "none", "when free", "no",
+                                "ignore"));
 
         addMapToMultiMap(highPriorityActions, availableActions);
         addMapToMultiMap(mediumPriorityActions, availableActions);
