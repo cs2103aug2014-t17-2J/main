@@ -5,15 +5,13 @@ package testCases;
 
 import static org.junit.Assert.*;
 
-import java.time.LocalDate;
-
-import logic.parser.DateParser;
 import logic.parser.PriorityParser;
 
 import org.junit.Test;
 
 import definedEnumeration.Priority;
 
+//@formatter:off
 /**
  * @author 
  *
@@ -42,6 +40,8 @@ import definedEnumeration.Priority;
  * To generate the table use : http://www.tablesgenerator.com/text_tables#
  * 
  */
+//@formatter:on
+
 public class PriorityParserTest {
 
     @Test
