@@ -58,7 +58,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				try {
 					// UserIntSwing window = new UserIntSwing(commandHandler,
 					// observableList);
-					initialize();
+					//initialize(); //reduce the initialize count
 					// observableList.addObserver(window);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -76,7 +76,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		this.logicManager = logicManager;
 		this.observableList = observableList;
 		taskList = observableList.getList();
-		//initialize(); //reduce the initialize count
+		initialize(); //reduce the initialize count
 	}
 
 	/**
