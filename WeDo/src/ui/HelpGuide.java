@@ -18,19 +18,79 @@ public class HelpGuide {
 	public static String buildHelpGuideAddString() {
 
 		StringBuilder str = new StringBuilder();
-	
+		
+		 /* Advance help command for "Add" */
 		str.append(makeTitleStr("Advance help command for "));
 		str.append(makeCommandStr("\"Add\""));
 		str.append(HTML_BREAK);
 		
-		str.append("You can use these commands: ");
+		 /* -You can use these commands: add | create | cre8 to
+		  * create a task. */
+		str.append("-You can use these commands: ");
 		str.append(underline("add") + " | " + underline("create") 
-				+ " | " + underline("cre8 ") + "to");
+				+ " | " + underline("cre8") + " to");
 		str.append(HTML_BREAK);
-		str.append("create a task.");
+		str.append(" create a task.");
+		
+		str.append(HTML_BREAK);
+		str.append("-If you add a task without any date or time");
+		str.append(HTML_BREAK);
+		str.append("E.g. add Finish Revising Programming");
+		str.append(HTML_BREAK);
+		str.append("This task will categorized as Floating Task");
+		
 
 		return wrapWithHtmlTag(str.toString());
 	}
+	
+	public static String buildHelpGuideViewString() {
+
+		StringBuilder str = new StringBuilder();
+		
+		 /* Advance help command for "View" */
+		str.append(makeTitleStr("Advance help command for "));
+		str.append(makeCommandStr("\"View\""));
+		str.append(HTML_BREAK);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String buildHelpGuideEditString() {
+
+		StringBuilder str = new StringBuilder();
+		
+		 /* Advance help command for "Edit" */
+		str.append(makeTitleStr("Advance help command for "));
+		str.append(makeCommandStr("\"Edit\""));
+		str.append(HTML_BREAK);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String buildHelpGuideDeleteString() {
+
+		StringBuilder str = new StringBuilder();
+		
+		 /* Advance help command for "Delete" */
+		str.append(makeTitleStr("Advance help command for "));
+		str.append(makeCommandStr("\"Delete\""));
+		str.append(HTML_BREAK);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String buildHelpGuideSearchString() {
+
+		StringBuilder str = new StringBuilder();
+		
+		 /* Advance help command for "Search" */
+		str.append(makeTitleStr("Advance help command for "));
+		str.append(makeCommandStr("\"Search\""));
+		str.append(HTML_BREAK);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
 	
 	private static String makeTitleStr(String strMsg){
 		strMsg = bold(strMsg);
