@@ -37,7 +37,8 @@ public class InteractiveForm extends JPanel {
 
 	public void updateTable(ArrayList<Task> taskList) {
 		tableModel.updateTable(taskList);
-        ColumnsAutoSizer.sizeColumnsToFit(table);
+		//ColumnsAutoSizer.sizeColumnsToFit(table, 2);
+      //ColumnsAutoSizer.sizeColumnsToFit(table.getColumnModel().getColumn(InteractiveTableModel.INDEX_DESCRIPTION));
 	}
 
 	public void initComponent() {

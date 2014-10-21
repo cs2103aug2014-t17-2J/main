@@ -252,6 +252,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -306,7 +307,7 @@ public class UserIntSwing extends JPanel implements Observer {
 						.addComponent(btnSearch)
 						.addComponent(btnHelp_1))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 228, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(btnEnter)
@@ -318,7 +319,7 @@ public class UserIntSwing extends JPanel implements Observer {
 					.addComponent(lblQuickHelp)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblHelp_1)
-					.addContainerGap(51, Short.MAX_VALUE))
+					.addGap(51))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 

@@ -5,13 +5,14 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+
 import java.awt.Component;
 import java.awt.FontMetrics;
 
 public class ColumnsAutoSizer {
 
 	public static void sizeColumnsToFit(JTable table) {
-		sizeColumnsToFit(table, 5);
+		sizeColumnsToFit(table, 8);
 	}
 
 	public static void sizeColumnsToFit(JTable table, int columnMargin) {
@@ -80,6 +81,7 @@ public class ColumnsAutoSizer {
 
 	private static int getMaximalRequiredColumnWidth(JTable table,
 			int columnIndex, int headerWidth) {
+		
 		int maxWidth = headerWidth;
 
 		TableColumn column = table.getColumnModel().getColumn(columnIndex);
