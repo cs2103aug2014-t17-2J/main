@@ -1125,3 +1125,9 @@
 18:46:55.148 : DataHandler initialized
 18:47:05.640 : DataHandler initialized
 >>>>>>> 8e36e0f0c422aa7cad9d358674d127cc66f2922c
+01:23:48.652 : DataHandler initialized
+01:24:44.442 : Saved!
+01:24:44.442 : Added Task 1
+01:26:48.294 : DataHandler initialized
+01:53:02.409 : Saved!
+01:53:02.409 : Added Task 1

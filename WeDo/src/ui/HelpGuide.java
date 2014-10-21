@@ -36,8 +36,8 @@ public class HelpGuide {
 		 /* -You can use these commands: add | create | cre8 to
 		  * create a task. */
 		str.append("-You can use these commands: ");
-		str.append(underline("add") + " | " + underline("create") 
-				+ " | " + underline("cre8") + " to");
+		str.append(underline("add") + spaceOr + underline("create") 
+				+ spaceOr + underline("cre8") + " to");
 		str.append(HTML_BREAK);
 		str.append(" create a task.");
 		
@@ -46,14 +46,14 @@ public class HelpGuide {
 		str.append(HTML_BREAK);
 		str.append("You can add a task specifying the date and time duration");
 		str.append(HTML_BREAK);
-		str.append(fontColorRed("E.g. \"add Project Meeting 21/10/2014 12pm - 2pm\""));
+		str.append(makeExample("E.g. \"add Project Meeting 21/10/2014 12pm - 2pm\""));
 		
 		str.append(HTML_BREAK);
 		str.append("2. " + bold("Deadline Task."));
 		str.append(HTML_BREAK);
 		str.append("You can add a task specifying the deadline");
 		str.append(HTML_BREAK);
-		str.append(fontColorRed("E.g. \"create Submit Assignment by 21/10/2014 at 2pm\""));
+		str.append(makeExample("E.g. \"create Submit Assignment by 21/10/2014 at 2pm\""));
 		
 		 /* 1. If you add a task without any date or time
 		  * E.g. add Finish Revising Programming
@@ -63,13 +63,16 @@ public class HelpGuide {
 		str.append(HTML_BREAK);
 		str.append("You can add a task WITHOUT any date or time");
 		str.append(HTML_BREAK);
-		str.append(fontColorRed("E.g. \"cre8 Finish Revising Programming\""));
+		str.append(makeExample("E.g. \"cre8 Finish Revising Programming\""));
 		
 		str.append(HTML_BREAK + HTML_BREAK);
 		str.append("Special shortcut keyword can also be used");
 		str.append(HTML_BREAK);
 		str.append("Specifying the date: ");
 		str.append(underline("tomorrow") + spaceOr + underline("tmr") + spaceOr + underline("tml"));
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("---------------------------- END ----------------------------");
 
 		return wrapWithHtmlTag(str.toString());
 	}
@@ -82,6 +85,40 @@ public class HelpGuide {
 		str.append(makeTitleStr("Advance help command for "));
 		str.append(makeCommandStr("\"View\""));
 		str.append(HTML_BREAK);
+		
+		str.append("-You can use these commands: ");
+		str.append(underline("view") + spaceOr + underline("read") 
+				+ " to view all");
+		str.append(HTML_BREAK);
+		str.append("the tasks on a specific date.");
+		
+		str.append(HTML_BREAK);
+		str.append("1. " + bold("View Tasks Today."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"view today\""));
+		str.append(HTML_BREAK);
+		str.append("All the tasks with today's date will be shown when the");
+		str.append(HTML_BREAK);
+		str.append("above command is entered.");
+		
+		str.append(HTML_BREAK);
+		str.append("2. " + bold("View Tasks on a specific date."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"view 21/10/2014\""));
+		str.append(HTML_BREAK);
+		str.append("You can also use " + underline("yesterday") + spaceOr + underline("tomorrow") 
+				+ " to view all the");
+		str.append(HTML_BREAK);
+		str.append("tasks dated yesterday or tomorrow respectively.");
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("Special shortcut keyword can also be used");
+		str.append(HTML_BREAK);
+		str.append("Specifying the date: ");
+		str.append(underline("tomorrow") + spaceOr + underline("tmr") + spaceOr + underline("tml"));
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("---------------------------- END ----------------------------");
 		
 		return wrapWithHtmlTag(str.toString());
 	}
@@ -137,6 +174,13 @@ public class HelpGuide {
 		strMsg = upFontSize(strMsg);
 		strMsg = italic(strMsg);
 		strMsg = fontColorGreen(strMsg);
+		
+		return strMsg;
+	}
+	
+	private static String makeExample(String strMsg){
+		strMsg = fontColorRed(strMsg);
+		strMsg = italic(strMsg);
 		
 		return strMsg;
 	}
