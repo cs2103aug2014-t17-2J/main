@@ -34,6 +34,8 @@ import net.java.balloontip.styles.EdgedBalloonStyle;
 import ui.CommandGuide;
 import ui.UserLogic;
 import dataStorage.ObservableList;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -248,47 +250,48 @@ public class UserIntSwing extends JPanel implements Observer {
 				textField.setText("");
 			}
 		});
+		
+		JPanel panel = new JPanel();
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblTodayDate))
+							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
+							.addContainerGap())
 						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnHelp_1, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)))
-					.addGap(18))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-					.addGap(18))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblQuickHelp, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-					.addGap(507))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(textField, GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
-					.addGap(10)
-					.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-					.addGap(46))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(501, Short.MAX_VALUE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTodayDate)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnHelp_1, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)))
+							.addGap(18))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+							.addGap(18))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblQuickHelp, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+							.addGap(507))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+							.addGap(10)
+							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+							.addGap(46))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(501, Short.MAX_VALUE))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -302,12 +305,12 @@ public class UserIntSwing extends JPanel implements Observer {
 						.addComponent(btnDel)
 						.addComponent(btnSearch)
 						.addComponent(btnHelp_1))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 228, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnEnter)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(274)
-							.addComponent(btnEnter))
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblWarning_1)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
@@ -315,13 +318,15 @@ public class UserIntSwing extends JPanel implements Observer {
 					.addComponent(lblQuickHelp)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblHelp_1)
-					.addGap(51))
+					.addContainerGap(51, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 
 		interForm = new InteractiveForm();
 		interForm.execute(frame); // to display the table
-
+		panel.setLayout(new BorderLayout(0, 0));
+		panel.add(interForm);
+		
 		// This operation puts the focus on the textField
 		// for the user to type immediately when the program runs
 		UserLogic.addFrameWindowFocusListener();

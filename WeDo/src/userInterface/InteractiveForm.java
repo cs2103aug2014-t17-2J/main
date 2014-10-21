@@ -38,16 +38,6 @@ public class InteractiveForm extends JPanel {
 	public void updateTable(ArrayList<Task> taskList) {
 		tableModel.updateTable(taskList);
         ColumnsAutoSizer.sizeColumnsToFit(table);
-		//resize();
-		System.out.println("resize?");
-	}
-
-	public void resize() {
-		TableColumn desc = table.getColumnModel().getColumn(
-				InteractiveTableModel.INDEX_DESCRIPTION);
-		desc.sizeWidthToFit();
-		desc.setCellRenderer(new InteractiveRenderer(
-				InteractiveTableModel.INDEX_HIDDEN));
 	}
 
 	public void initComponent() {
@@ -70,7 +60,7 @@ public class InteractiveForm extends JPanel {
 				InteractiveTableModel.INDEX_HIDDEN);
 		TableColumn taskID = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_TASK);
-		taskID.setMaxWidth(15);
+		taskID.setMaxWidth(10);
 		taskID.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_TASK));
 
