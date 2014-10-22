@@ -25,7 +25,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 import logic.InvalidCommandException;
+import logic.InvalidParseException;
 import logic.LogicManager;
+import logic.parser.ParseResult;
 import logic.utility.Task;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.AttachLocation;
@@ -222,11 +224,15 @@ public class UserIntSwing extends JPanel implements Observer {
 				// String textInput = "";
 				// textInput += textField.getText();
 				try {
-					logicManager.processCommand(textField.getText());
-				} catch (InvalidCommandException e1) {
+				    ParseResult parseResult = logicManager.processCommand(textField.getText());
+				    logicManager.executeCommand(parseResult);
+				} catch (InvalidParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+				} catch (InvalidCommandException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
 				textField.setText("");
 
 			}
@@ -241,11 +247,16 @@ public class UserIntSwing extends JPanel implements Observer {
 				// textArea.setText(textField.getText());
 				// textField.setText("");
 				try {
-					logicManager.processCommand(textField.getText());
-				} catch (InvalidCommandException e) {
+				    ParseResult parseResult = logicManager.processCommand(textField.getText());
+	                logicManager.executeCommand(parseResult);
+
+				} catch (InvalidParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				} catch (InvalidCommandException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 				textField.setText("");
 			}
 		});

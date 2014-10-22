@@ -163,7 +163,6 @@ public class FileHandler {
 		return tmp;
 	}
 	
-	// @SuppressWarnings("unchecked")
 	    public ArrayList<Task> read(String type) {
 	    	
 	    	ArrayList<Task> tasks = new ArrayList<Task>();
