@@ -16,6 +16,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 import javax.swing.JLabel;
 
@@ -28,6 +30,8 @@ import net.java.balloontip.styles.EdgedBalloonStyle;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 /*
  * This class is the help menu the shows
  * different command to the user
@@ -151,7 +155,7 @@ public class HelpMenu {
         frame.getContentPane().add(createMenuTab(), BorderLayout.CENTER);
         
         //Display the window.
-        frame.setSize(340, 450);
+        frame.setSize(350, 450);
         frame.setVisible(true);
         
         //Set the location of the Help Menu beside the main window
