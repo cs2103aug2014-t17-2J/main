@@ -1,14 +1,43 @@
 package logic;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import logic.utility.Task;
 
 import com.google.common.collect.Multimap;
 
+import dataStorage.BasicDataHandler;
+import dataStorage.DataHandler;
+
 /**
  */
 public class SearchEngine {
+	
+	BasicDataHandler dataHandler;
+	
+	public SearchEngine() {
+		dataHandler = new BasicDataHandler();
+		
+	}
+	
+	public void main(String[] args) throws IOException
+    {    
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Wagner Fischer Test\n");
+ 
+        while(true) 
+        {
+            /** Accept two strings **/
+            System.out.println("\nEnter string 1 :");
+            String str1 = br.readLine();
+            
+     
+            System.out.println(getWagnerList(str1).toString());    
+        }
+    }
 
     /**
      * @param source
@@ -57,6 +86,22 @@ public class SearchEngine {
     private boolean invalidSearchInput(String searchInput) {
         return searchInput == null || searchInput.trim().isEmpty();
     }
+    
+    public ArrayList<Task> getWagnerList(String str1){
+    	
+    	String str2;
+    	int distance;
+    	ArrayList<Task> tmp = new ArrayList<Task>();
+    	
+    	for(Task t: dataHandler.getAllTasks()) {
+    		distance = getDist(str1,t.getDescription());
+    		if(distance<=5) {
+    			tmp.add(t);
+    		}
+    	}
+    	return tmp;
+    }
+    
     
     public int getDist(String str1,String str2) {
     	
