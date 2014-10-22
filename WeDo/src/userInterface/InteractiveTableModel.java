@@ -164,32 +164,24 @@ public class InteractiveTableModel extends AbstractTableModel {
 
 			this.setValueAt("" + (row + 1), row, INDEX_TASK);
 			this.setValueAt(task.getDescription(), row, INDEX_DESCRIPTION);
-			if (task.getStartDate() != null
-					&& task.getStartDate() != LocalDate.MAX) {
+			if (!task.getStartDate().equals(null)
+					&& !task.getStartDate().equals(LocalDate.MAX)) {
 				this.setValueAt(task.getStartDate().format(dateFormatter), row,
 						INDEX_STARTDATE);
-			} else {
-				this.setValueAt("-", row, INDEX_STARTDATE);
-			}
-			if (task.getEndDate() != null && task.getEndDate() != LocalDate.MAX) {
+			} 
+			if (!task.getEndDate().equals(null) && !task.getEndDate().equals(LocalDate.MAX)) {
 				this.setValueAt(task.getEndDate().format(dateFormatter), row,
 						INDEX_ENDDATE);
-			} else {
-				this.setValueAt("-", row, INDEX_ENDDATE);
-			}
-			if (task.getStartTime() != null
-					&& task.getStartTime() != LocalTime.MAX) {
+			} 
+			if (!task.getStartTime().equals(null)
+					&& !task.getStartTime().equals(LocalTime.MAX)) {
 				this.setValueAt(task.getStartTime().format(timeFormatter), row,
 						INDEX_STARTTIME);
-			} else {
-				this.setValueAt("-", row, INDEX_STARTTIME);
-			}
-			if (task.getEndTime() != null && task.getEndTime() != LocalTime.MAX) {
+			} 
+			if (!task.getEndTime().equals(null) && !task.getEndTime().equals(LocalTime.MAX)) {
 				this.setValueAt(task.getEndTime().format(timeFormatter), row,
 						INDEX_ENDTIME);
-			} else {
-				this.setValueAt("-", row, INDEX_ENDTIME);
-			}
+			} 
 			if (task.getPriority() != null
 					&& !task.getPriority().toString().isEmpty()) {
 				this.setValueAt(task.getPriority().toString(), row,
