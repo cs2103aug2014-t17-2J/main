@@ -202,16 +202,14 @@ public class BasicDataHandler implements DataHandler {
 	}
 
 	private String determineTaskType(Task task) {
-		if (task.getEndDate() == LocalDate.MAX
-				&& task.getStartDate() == LocalDate.MAX) {
+		if (task.getEndDate().equals(LocalDate.MAX)
+				&& task.getStartDate().equals(LocalDate.MAX)) {
 			return FLOATING;
-		} else if (task.getEndTime() == LocalTime.MAX
-				&& task.getStartTime() == LocalTime.MAX
-				&& task.getStartDate() == LocalDate.MAX
-				&& task.getEndDate() != LocalDate.MAX) {
-			return DEADLINE;
-		} else {
+		} else if (!task.getEndTime().equals(LocalTime.MAX)
+				&& !task.getEndDate().equals(LocalTime.MAX)) {
 			return TIMED;
+		} else {
+			return DEADLINE;
 		}
 	}
 
@@ -336,7 +334,9 @@ public class BasicDataHandler implements DataHandler {
 
 			System.out.println("deleted " + observableList.get(index));
 			mainList.remove(determineDate(getTask(index)), getTask(index));
+			
 			observableList.remove(index);
+			save();
 			return true;
 		}
 		return false;
@@ -357,6 +357,10 @@ public class BasicDataHandler implements DataHandler {
 
 		return true;
 	}
+	
+	private boolean isInList(Task task,ArrayList<Task> tasks) {
+		return tasks.contains(task);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -376,10 +380,24 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	@Override
 	public boolean removeTask(Task task) {
-
+		
+		System.out.println(determineTaskType(task));
+		
 		observableList.remove(task);
 		mainList.remove(determineDate(task), task);
-
+		if(isInList(task,new ArrayList<Task>(deadLineList.values()))) {
+			System.out.println("deadlineee removed!");
+			deadLineList.remove(task.getEndDate(), task);
+		}
+		else if(isInList(task,new ArrayList<Task>(timedList.values()))) {
+			timedList.remove(task.getEndDate(), task);
+			System.out.println("timedddd removed!");
+		}
+		else {
+			floatingList.remove(task);
+			System.out.println("floatingggg removed!");
+		}
+		save();
 		return true;
 	}
 

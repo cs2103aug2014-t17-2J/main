@@ -5,6 +5,7 @@ package logic;
 
 import logic.command.CommandExecutor;
 import logic.command.commandList.Command;
+import logic.parser.ParseResult;
 import logic.parser.ParserManager;
 import logic.utility.Task;
 import dataStorage.DataHandler;
@@ -35,15 +36,16 @@ public class LogicManager
      * @param userInput the input that the user entered which will be decipher into task and command
      * @throws InvalidCommandException      
      */
-    public void processCommand(String userInput) throws InvalidCommandException {
+    public ParseResult processCommand(String userInput) throws InvalidParseException {
 
         ParserManager parserManager = new ParserManager();
-        if(parserManager.interpret(userInput))
-        {
-            Task task = parserManager.getTask();
-            Command command = parserManager.getCommand();
-            commandExecutor.execute(command, task);
-        }
+        return parserManager.interpret(userInput);
+        
        
+    }
+    
+    public void executeCommand(ParseResult parseResult) throws InvalidCommandException
+    {
+        commandExecutor.execute(parseResult.getCommand(), parseResult.getTask());
     }
 }
