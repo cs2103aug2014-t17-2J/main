@@ -1,13 +1,13 @@
 package userInterface;
 
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.FontMetrics;
+
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-
-import java.awt.Component;
-import java.awt.FontMetrics;
 
 public class ColumnsAutoSizer {
 
@@ -20,7 +20,25 @@ public class ColumnsAutoSizer {
 
 		if (tableHeader == null) {
 			// can't auto size a table without a header
-			return;
+			// return;
+			TableColumn hidden = table.getColumnModel().getColumn(
+					InteractiveTableModel.INDEX_HIDDEN);
+			// int lastCol = table.getColumnCount();
+			// table.getCOolumnModel().getColumn(lastCol).setMinWidth(2);
+			// table.getColumnModel().getColumn(lastCol).setPreferredWidth(2);
+			// table.getColumnModel().getColumn(lastCol).setMaxWidth(2);
+			// table.getColumn(lastCol).setWidth(2);
+			table.getColumnModel()
+					.getColumn(InteractiveTableModel.INDEX_HIDDEN)
+					.setMinWidth(2);
+			table.getColumnModel()
+					.getColumn(InteractiveTableModel.INDEX_HIDDEN)
+					.setPreferredWidth(2);
+			table.getColumnModel()
+					.getColumn(InteractiveTableModel.INDEX_HIDDEN)
+					.setMaxWidth(2);
+			table.getColumnModel()
+					.getColumn(InteractiveTableModel.INDEX_HIDDEN).setWidth(2);
 		}
 
 		FontMetrics headerFontMetrics = tableHeader.getFontMetrics(tableHeader
@@ -81,7 +99,7 @@ public class ColumnsAutoSizer {
 
 	private static int getMaximalRequiredColumnWidth(JTable table,
 			int columnIndex, int headerWidth) {
-		
+
 		int maxWidth = headerWidth;
 
 		TableColumn column = table.getColumnModel().getColumn(columnIndex);
