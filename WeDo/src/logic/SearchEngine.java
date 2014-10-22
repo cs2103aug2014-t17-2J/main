@@ -23,21 +23,6 @@ public class SearchEngine {
 		
 	}
 	
-	public void main(String[] args) throws IOException
-    {    
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Wagner Fischer Test\n");
- 
-        while(true) 
-        {
-            /** Accept two strings **/
-            System.out.println("\nEnter string 1 :");
-            String str1 = br.readLine();
-            
-     
-            System.out.println(getWagnerList(str1).toString());    
-        }
-    }
 
     /**
      * @param source
