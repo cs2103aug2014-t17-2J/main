@@ -1,4 +1,9 @@
-//@Andy Hsu Wei Qiang
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class handles all the GUI logic
+ * which the user execute.
+ * 
+ */
 package ui;
 
 import java.awt.GraphicsDevice;
@@ -92,5 +97,12 @@ public class UserLogic {
 				UserIntSwing.textField.setText(getCommand);
 			}
 		}
+	}
+	
+	public static String processWarningLabel(String text){
+		if(text.isEmpty()){
+			return "The input is blank! Please enter something!";
+		}
+		return "";
 	}
 }
