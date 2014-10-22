@@ -3,7 +3,7 @@
  */
 package logic.command.commandList;
 
-import logic.InvalidCommandException;
+import logic.exception.InvalidCommandException;
 
 /**
  * @author TienLong This class makes use of the Command interface to

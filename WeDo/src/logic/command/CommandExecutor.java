@@ -1,7 +1,7 @@
 package logic.command;
 
-import logic.InvalidCommandException;
 import logic.command.commandList.Command;
+import logic.exception.InvalidCommandException;
 import logic.utility.Task;
 import dataStorage.DataHandler;
 

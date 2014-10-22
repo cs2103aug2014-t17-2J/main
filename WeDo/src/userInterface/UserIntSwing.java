@@ -24,9 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
-import logic.InvalidCommandException;
-import logic.InvalidParseException;
 import logic.LogicManager;
+import logic.exception.InvalidCommandException;
+import logic.exception.InvalidParseException;
 import logic.parser.ParseResult;
 import logic.utility.Task;
 import net.java.balloontip.BalloonTip;

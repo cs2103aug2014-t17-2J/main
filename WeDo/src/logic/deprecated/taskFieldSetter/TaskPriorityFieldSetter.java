@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.taskParser.taskFieldSetter;
+package logic.deprecated.taskFieldSetter;
 
 import java.util.Arrays;
 import java.util.Collection;

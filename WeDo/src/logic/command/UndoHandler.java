@@ -5,8 +5,8 @@ package logic.command;
 
 import java.util.Stack;
 
-import logic.InvalidCommandException;
 import logic.command.commandList.Command;
+import logic.exception.InvalidCommandException;
 
 /**
  * @author Kuan Tien Long

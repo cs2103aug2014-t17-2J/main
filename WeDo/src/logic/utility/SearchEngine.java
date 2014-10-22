@@ -1,8 +1,6 @@
-package logic;
+package logic.utility;
 
 import java.util.ArrayList;
-
-import logic.utility.Task;
 
 import com.google.common.collect.Multimap;
 

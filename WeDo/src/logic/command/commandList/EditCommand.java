@@ -3,7 +3,7 @@
  */
 package logic.command.commandList;
 
-import logic.InvalidCommandException;
+import logic.exception.InvalidCommandException;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 

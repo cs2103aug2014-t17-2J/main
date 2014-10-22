@@ -1,15 +1,15 @@
 /**
  * 
  */
-package logic.taskParser;
+package logic.deprecated;
 
 import java.text.DateFormatSymbols;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import logic.taskParser.taskFieldSetter.TaskDateFieldSetter;
-import logic.taskParser.taskFieldSetter.TaskDescriptionFieldSetter;
-import logic.taskParser.taskFieldSetter.TaskFieldSetter;
+import logic.deprecated.taskFieldSetter.TaskDateFieldSetter;
+import logic.deprecated.taskFieldSetter.TaskDescriptionFieldSetter;
+import logic.deprecated.taskFieldSetter.TaskFieldSetter;
 import logic.utility.KeyMatcher;
 import logic.utility.StringHandler;
 import logic.utility.Task;

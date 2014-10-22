@@ -40,7 +40,7 @@ public class BasicDataHandlerTest {
 		Task task2 = new Task();
 		task2.setDescription("this is task 2");
 		task2.setEndDate(LocalDate.now().plusDays(1));
-		task2.setPriority(priority.PRIORITY_LOW);
+		task2.setPriority(Priority.PRIORITY_LOW);
 		datahandler.addTask(task2);
 		ArrayList<Task> tmp2 = new ArrayList<Task>(datahandler.getMainList().get("tomorrow"));
 		System.out.println(tmp2.get(0));
@@ -49,7 +49,7 @@ public class BasicDataHandlerTest {
 		Task task3 = new Task();
 		task3.setDescription("this is task 3");
 		task3.setEndDate(LocalDate.now().plusDays(2));
-		task3.setPriority(priority.PRIORITY_MEDIUM);
+		task3.setPriority(Priority.PRIORITY_MEDIUM);
 		datahandler.addTask(task3);
 		ArrayList<Task> tmp3 = new ArrayList<Task>(datahandler.getMainList().get("upcoming"));
 		System.out.println(tmp3.get(0));
@@ -57,7 +57,7 @@ public class BasicDataHandlerTest {
 		
 		Task task4 = new Task();
 		task4.setDescription("this is task 4");
-		task4.setPriority(priority.PRIORITY_MEDIUM);
+		task4.setPriority(Priority.PRIORITY_MEDIUM);
 		System.out.println(task4.getEndDate().getYear());
 		datahandler.addTask(task4);
 		ArrayList<Task> tmp4 = new ArrayList<Task>(datahandler.getMainList().get("someday"));
@@ -68,7 +68,7 @@ public class BasicDataHandlerTest {
 		Task task5 = new Task();
 		task5.setDescription("this is task 5");
 		task5.setEndDate(LocalDate.now());
-		task5.setPriority(priority.PRIORITY_LOW);
+		task5.setPriority(Priority.PRIORITY_LOW);
 		datahandler.addTask(task5);
 		ArrayList<Task> tmp5 = new ArrayList<Task>(datahandler.getMainList().get("today"));
 		System.out.println(tmp5.get(1));
@@ -98,25 +98,25 @@ public class BasicDataHandlerTest {
 		Task task2 = new Task();
 		task2.setDescription("this is task today 2");
 		task2.setEndDate(LocalDate.now());
-		task2.setPriority(priority.PRIORITY_LOW);
+		task2.setPriority(Priority.PRIORITY_LOW);
 		datahandler.addTask(task2);
 		
 		Task task3 = new Task();
 		task3.setDescription("this is task tmr 1");
 		task3.setEndDate(LocalDate.now().plusDays(1));
-		task3.setPriority(priority.PRIORITY_HIGH);
+		task3.setPriority(Priority.PRIORITY_HIGH);
 		datahandler.addTask(task3);
 		
 		Task task4 = new Task();
 		task4.setDescription("this is task tmr 2");
 		task4.setEndDate(LocalDate.now().plusDays(1));
-		task4.setPriority(priority.PRIORITY_MEDIUM);
+		task4.setPriority(Priority.PRIORITY_MEDIUM);
 		datahandler.addTask(task4);
 		
 		Task task5 = new Task();
 		task5.setDescription("this is task tmr 2");
 		task5.setEndDate(LocalDate.now().plusDays(1));
-		task5.setPriority(priority.PRIORITY_LOW);
+		task5.setPriority(Priority.PRIORITY_LOW);
 		datahandler.addTask(task5);
 		
 		assertEquals(datahandler.getMainList().size(),5);

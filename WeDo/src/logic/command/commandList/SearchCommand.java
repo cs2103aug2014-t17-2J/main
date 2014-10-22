@@ -5,8 +5,8 @@ package logic.command.commandList;
 
 import java.util.ArrayList;
 
-import logic.InvalidCommandException;
-import logic.SearchEngine;
+import logic.exception.InvalidCommandException;
+import logic.utility.SearchEngine;
 import logic.utility.Task;
 
 

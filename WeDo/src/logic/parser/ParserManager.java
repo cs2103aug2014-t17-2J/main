@@ -5,10 +5,10 @@ package logic.parser;
 
 import java.util.EnumSet;
 
-import logic.InvalidParseException;
 import logic.command.commandList.AddCommand;
 import logic.command.commandList.RedoCommand;
 import logic.command.commandList.UndoCommand;
+import logic.exception.InvalidParseException;
 import logic.utility.Task;
 
 /**
