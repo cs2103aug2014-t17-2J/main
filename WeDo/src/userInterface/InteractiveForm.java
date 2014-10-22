@@ -21,9 +21,9 @@ import logic.utility.Task;
 
 public class InteractiveForm extends JPanel {
 
-	public static final String[] columnNames = { "task", "description",
+	public static final String[] columnNames = { "ID", "description",
 			"start date", "end date", "start time", "end time", "priority",
-			"check", " " };
+			"check", "" };
 
 	protected JTable table;
 	protected JScrollPane scroller;
@@ -37,6 +37,8 @@ public class InteractiveForm extends JPanel {
 
 	public void updateTable(ArrayList<Task> taskList) {
 		tableModel.updateTable(taskList);
+		//ColumnsAutoSizer.sizeColumnsToFit(table, 2);
+      //ColumnsAutoSizer.sizeColumnsToFit(table.getColumnModel().getColumn(InteractiveTableModel.INDEX_DESCRIPTION));
 	}
 
 	public void initComponent() {
@@ -54,13 +56,21 @@ public class InteractiveForm extends JPanel {
 		scroller = new javax.swing.JScrollPane(table);
 		table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,
 				300));
+
 		TableColumn hidden = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_HIDDEN);
+		TableColumn taskID = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_TASK);
+		taskID.setMaxWidth(10);
+		taskID.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_TASK));
+
 		hidden.setMinWidth(2);
 		hidden.setPreferredWidth(2);
 		hidden.setMaxWidth(2);
 		hidden.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_HIDDEN));
+
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
 	}
@@ -77,6 +87,7 @@ public class InteractiveForm extends JPanel {
 	}
 
 	class InteractiveRenderer extends DefaultTableCellRenderer {
+
 		protected int interactiveColumn;
 
 		public InteractiveRenderer(int interactiveColumn) {
@@ -123,7 +134,7 @@ public class InteractiveForm extends JPanel {
 					System.exit(0);
 				}
 			});
-			frame.getContentPane().add(new InteractiveForm());
+			// frame.getContentPane().add(new InteractiveForm());
 			// set the position of the table (10,60) and the size of the table
 			// (560,200)
 			// this.setBounds(10, 60, 660, 200);

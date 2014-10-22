@@ -1,7 +1,11 @@
-//@ Andy Hsu Wei Qiang
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class create the guide for all commands
+ * All method using the commands can be called here
+ * 
+ */
 package ui;
 
-import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

@@ -90,25 +90,25 @@ public class HelpMenu {
         
         JPanel jpView = new JPanel();
         JLabel lblView = new JLabel();
-        lblView.setText("You are in area of Tab2");
+        lblView.setText(HelpGuide.buildHelpGuideViewString());
         jpView.add(lblView);
         jtp.addTab("<View>", jpView);
         
         JPanel jpEdit = new JPanel();
         JLabel lblEdit = new JLabel();
-        lblEdit.setText("You are in area of Tab3");
+        lblEdit.setText(HelpGuide.buildHelpGuideEditString());
         jpEdit.add(lblEdit);
         jtp.addTab("<Edit>", jpEdit);
         
         JPanel jpDelete = new JPanel();
         JLabel lblDelete = new JLabel();
-        lblDelete.setText("You are in area of Tab4");
+        lblDelete.setText(HelpGuide.buildHelpGuideDeleteString());
         jpDelete.add(lblDelete);
         jtp.addTab("<Delete>", jpDelete);
         
         JPanel jpSearch = new JPanel();
         JLabel lblSearch = new JLabel();
-        lblSearch.setText("You are in area of Tab5");
+        lblSearch.setText(HelpGuide.buildHelpGuideSearchString());
         jpSearch.add(lblSearch);
         jtp.addTab("<Search>", jpSearch);
  
@@ -151,7 +151,7 @@ public class HelpMenu {
         frame.getContentPane().add(createMenuTab(), BorderLayout.CENTER);
         
         //Display the window.
-        frame.setSize(330, 261);
+        frame.setSize(340, 450);
         frame.setVisible(true);
         
         //Set the location of the Help Menu beside the main window
