@@ -1,6 +1,7 @@
 package userInterface;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -78,22 +79,22 @@ public class InteractiveForm extends JPanel {
 		add(scroller, BorderLayout.CENTER);
 	}
 
-	public void colourPriority() {
-
-		int row = 0;
-		String s = table.getModel()
-				.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY)
-				.toString();
-
-		TableColumn priorityCol = table.getColumnModel().getColumn(
-				InteractiveTableModel.INDEX_PRIORITY);
-		if (s.equals("high")) {
-			System.out.println("high five");
-			priorityCol.setCellRenderer(null);
-			tableModel.fireTableRowsUpdated(0, tableModel.getRowCount());
-		}
-
-	}
+//	public void colourPriority() {
+//
+//		int row = 0;
+//		String s = table.getModel()
+//				.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY)
+//				.toString();
+//
+//		TableColumn priorityCol = table.getColumnModel().getColumn(
+//				InteractiveTableModel.INDEX_PRIORITY);
+//		if (s.equals("high")) {
+//			System.out.println("high five");
+//			priorityCol.setCellRenderer(null);
+//			tableModel.fireTableRowsUpdated(0, tableModel.getRowCount());
+//		}
+//
+//	}
 
 	public void highlightLastRow(int row) {
 		int lastrow = tableModel.getRowCount();
@@ -127,14 +128,23 @@ public class InteractiveForm extends JPanel {
 				}
 				highlightLastRow(row);
 			}
-
-			if (column == interactiveColumn) {
-				colourPriority();
-			}
-
 			return c;
 		}
 
+		public Component getTableCellRendererComponent2(JTable table, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column) {
+			
+			Component comp = super.getTableCellRendererComponent(table, value,
+					isSelected, hasFocus, row, column);
+			
+			if (!table.isRowSelected(row)) {
+				comp.setBackground(row % 2 == 0 ? getBackground()
+						: Color.LIGHT_GRAY);				
+			}
+			table.setPreferredScrollableViewportSize(table.getPreferredSize());
+			table.changeSelection(0, 0, false, false);
+			return comp;
+		}
 	}
 
 	public class InteractiveTableModelListener implements TableModelListener {
