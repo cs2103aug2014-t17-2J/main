@@ -78,6 +78,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		this.observableList = observableList;
 		taskList = observableList.getList();
 		initialize(); // reduce the initialize count
+		interForm.updateTable(taskList);
 	}
 
 	/**
