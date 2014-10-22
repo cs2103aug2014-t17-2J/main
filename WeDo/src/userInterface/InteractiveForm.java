@@ -37,7 +37,7 @@ public class InteractiveForm extends JPanel {
 
 	public void updateTable(ArrayList<Task> taskList) {
 		tableModel.updateTable(taskList);
-		colourPriority();
+		// colourPriority();
 		// ColumnsAutoSizer.sizeColumnsToFit(table, 3);
 		// ColumnsAutoSizer.sizeColumnsToFit(table);
 	}
@@ -64,7 +64,7 @@ public class InteractiveForm extends JPanel {
 				InteractiveTableModel.INDEX_TASK);
 
 		taskID.setMinWidth(5);
-		taskID.setPreferredWidth(5);
+		taskID.setPreferredWidth(10);
 		taskID.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_TASK));
 
@@ -79,18 +79,20 @@ public class InteractiveForm extends JPanel {
 	}
 
 	public void colourPriority() {
-		
+
 		int row = 0;
-		String s = table.getModel().getValueAt(row, InteractiveTableModel.INDEX_PRIORITY).toString();
-		
+		String s = table.getModel()
+				.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY)
+				.toString();
+
 		TableColumn priorityCol = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_PRIORITY);
-		if (priorityCol.equals("high")) {
+		if (s.equals("high")) {
 			System.out.println("high five");
 			priorityCol.setCellRenderer(null);
 			tableModel.fireTableRowsUpdated(0, tableModel.getRowCount());
 		}
-		
+
 	}
 
 	public void highlightLastRow(int row) {
@@ -125,8 +127,8 @@ public class InteractiveForm extends JPanel {
 				}
 				highlightLastRow(row);
 			}
-			
-			if(column == interactiveColumn){
+
+			if (column == interactiveColumn) {
 				colourPriority();
 			}
 
