@@ -8,7 +8,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.Scanner;
 
 import logic.InvalidCommandException;
+import logic.InvalidParseException;
 import logic.LogicManager;
+import logic.parser.ParseResult;
 import logic.utility.Task;
 
 import org.junit.Test;
@@ -35,7 +37,13 @@ public class TestLogicManager {
 
         BasicDataHandler dataHandler = new BasicDataHandler();
         LogicManager logicManager = new LogicManager(dataHandler);
-        logicManager.processCommand("add hello");
+        try {
+            ParseResult parseResult = logicManager.processCommand("add hello");
+            logicManager.executeCommand(parseResult);
+        } catch (InvalidParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         assertEquals(expectedMap, dataHandler.getMainList());
          

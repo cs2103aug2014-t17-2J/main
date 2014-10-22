@@ -37,8 +37,9 @@ public class InteractiveForm extends JPanel {
 
 	public void updateTable(ArrayList<Task> taskList) {
 		tableModel.updateTable(taskList);
-		//ColumnsAutoSizer.sizeColumnsToFit(table, 2);
-      //ColumnsAutoSizer.sizeColumnsToFit(table.getColumnModel().getColumn(InteractiveTableModel.INDEX_DESCRIPTION));
+		// colourPriority();
+		// ColumnsAutoSizer.sizeColumnsToFit(table, 3);
+		// ColumnsAutoSizer.sizeColumnsToFit(table);
 	}
 
 	public void initComponent() {
@@ -61,7 +62,9 @@ public class InteractiveForm extends JPanel {
 				InteractiveTableModel.INDEX_HIDDEN);
 		TableColumn taskID = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_TASK);
-		taskID.setMaxWidth(10);
+
+		taskID.setMinWidth(5);
+		taskID.setPreferredWidth(10);
 		taskID.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_TASK));
 
@@ -75,6 +78,23 @@ public class InteractiveForm extends JPanel {
 		add(scroller, BorderLayout.CENTER);
 	}
 
+	public void colourPriority() {
+
+		int row = 0;
+		String s = table.getModel()
+				.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY)
+				.toString();
+
+		TableColumn priorityCol = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_PRIORITY);
+		if (s.equals("high")) {
+			System.out.println("high five");
+			priorityCol.setCellRenderer(null);
+			tableModel.fireTableRowsUpdated(0, tableModel.getRowCount());
+		}
+
+	}
+
 	public void highlightLastRow(int row) {
 		int lastrow = tableModel.getRowCount();
 		if (row == lastrow - 1) {
@@ -82,7 +102,6 @@ public class InteractiveForm extends JPanel {
 		} else {
 			table.setRowSelectionInterval(row + 1, row + 1);
 		}
-
 		table.setColumnSelectionInterval(0, 0);
 	}
 
@@ -97,19 +116,25 @@ public class InteractiveForm extends JPanel {
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
+
 			Component c = super.getTableCellRendererComponent(table, value,
 					isSelected, hasFocus, row, column);
+
 			if (column == interactiveColumn && hasFocus) {
 				if ((InteractiveForm.this.tableModel.getRowCount() - 1) == row
 						&& !InteractiveForm.this.tableModel.hasEmptyRow()) {
 					InteractiveForm.this.tableModel.addEmptyRow();
 				}
-
 				highlightLastRow(row);
+			}
+
+			if (column == interactiveColumn) {
+				colourPriority();
 			}
 
 			return c;
 		}
+
 	}
 
 	public class InteractiveTableModelListener implements TableModelListener {
