@@ -202,16 +202,14 @@ public class BasicDataHandler implements DataHandler {
 	}
 
 	private String determineTaskType(Task task) {
-		if (task.getEndDate() == LocalDate.MAX
-				&& task.getStartDate() == LocalDate.MAX) {
+		if (task.getEndDate().equals(LocalDate.MAX)
+				&& task.getStartDate().equals(LocalDate.MAX)) {
 			return FLOATING;
-		} else if (task.getEndTime() == LocalTime.MAX
-				&& task.getStartTime() == LocalTime.MAX
-				&& task.getStartDate() == LocalDate.MAX
-				&& task.getEndDate() != LocalDate.MAX) {
-			return DEADLINE;
-		} else {
+		} else if (!task.getEndTime().equals(LocalTime.MAX)
+				&& !task.getEndDate().equals(LocalTime.MAX)) {
 			return TIMED;
+		} else {
+			return DEADLINE;
 		}
 	}
 
