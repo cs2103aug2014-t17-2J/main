@@ -200,7 +200,6 @@ public class FileHandler {
 				Task t = jsonToTask(j);
 				if(determineTaskType(t).equalsIgnoreCase(type)) {
 					tasks.add(t);
-					System.out.println(t.toString());
 
 				}
 			}

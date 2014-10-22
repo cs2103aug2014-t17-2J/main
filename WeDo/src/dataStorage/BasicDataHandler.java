@@ -38,6 +38,7 @@ public class BasicDataHandler implements DataHandler {
 		populateLists();
 		observableList = new ObservableList<Task>(new ArrayList<Task>(getToday()));
 		// currentList = TODAY;
+		System.out.println("DateHandler initialized");
 		fileHandler.writeLog(LocalTime.now() + " : DataHandler initialized");
 
 	}
@@ -59,8 +60,10 @@ public class BasicDataHandler implements DataHandler {
 		fileHandler = new FileHandler();
 		populateLists();
 		this.observableList = observableList;
-		observableList.replaceList(new ArrayList<Task>(mainList.get(TODAY)));
+		observableList.replaceList(getToday());
 		currentList = TODAY;
+		System.out.println("DateHandler initialized");
+	
 		fileHandler.writeLog(LocalTime.now() + " : DataHandler initialized");
 	}
 
