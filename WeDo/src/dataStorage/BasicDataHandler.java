@@ -38,9 +38,17 @@ public class BasicDataHandler implements DataHandler {
 		populateLists();
 		observableList = new ObservableList<Task>(new ArrayList<Task>(
 				mainList.get(TODAY)));
-		currentList = TODAY;
+		view(todayTask());
+		//currentList = TODAY;
 		fileHandler.writeLog(LocalTime.now() + " : DataHandler initialized");
 
+	}
+	
+	
+	private Task todayTask() {
+		Task task = new Task();
+		task.setEndDate(LocalDate.now());
+		return task;
 	}
 
 	public BasicDataHandler(ObservableList<Task> observableList) {
@@ -76,9 +84,9 @@ public class BasicDataHandler implements DataHandler {
 		timedList = ArrayListMultimap.create();
 		floatingList = new ArrayList<Task>();
 //		
-//		deadLineList.putAll(addToMultimap(fileHandler.read(DEADLINE)));
-//		timedList = addToMultimap(fileHandler.read(TIMED));
-//		floatingList = fileHandler.read(FLOATING);
+		deadLineList.putAll(addToMultimap(fileHandler.getList(DEADLINE)));
+		timedList = addToMultimap(fileHandler.getList(TIMED));
+		floatingList = fileHandler.getList(FLOATING);
 		// addToMultimap(TODAY, fileHandler.getList(TODAY));
 		// addToMultimap(TOMORROW, fileHandler.getList(TOMORROW));
 		// addToMultimap(UPCOMING, fileHandler.getList(UPCOMING));
@@ -154,7 +162,11 @@ public class BasicDataHandler implements DataHandler {
 	public String save() {
 
 		fileHandler.clear();
-		fileHandler.writeToFile(new ArrayList<Task>(deadLineList.values()),new ArrayList<Task>(timedList.values()),floatingList);
+//		fileHandler.writeToFile(new ArrayList<Task>(deadLineList.values()),new ArrayList<Task>(timedList.values()),floatingList);
+		ArrayList<Task> tmp = new ArrayList<Task>(deadLineList.values());
+		tmp.addAll(timedList.values());
+		tmp.addAll(floatingList);
+		fileHandler.writeToFile(tmp);
 //		fileHandler.writeToFile(TIMED, new ArrayList<Task>(timedList.values()));
 //		fileHandler.writeToFile(FLOATING,floatingList);
 		
