@@ -50,6 +50,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static JLabel lblWarning;
 	public static JLabel lblHelp;
 	public static JButton btnHelp;
+
 	private InteractiveForm interForm;
 	private LogicManager logicManager;
 	private ObservableList<Task> observableList;
@@ -197,7 +198,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		lblHelp_1.setVerticalAlignment(SwingConstants.TOP);
 		
 		JLabel lblWarning_1 = new JLabel("warning");
-
+		UserLogic.timer();
 		// Set the Help Label
 		lblHelp_1.setText(CommandGuide.buildGeneralGuideString());
 
@@ -216,8 +217,11 @@ public class UserIntSwing extends JPanel implements Observer {
 					
 					if(arg1.getKeyCode() == KeyEvent.VK_ENTER){
 						String getText = textField.getText();
+		
 						//process the warning label
 						lblWarning_1.setText(UserLogic.processWarningLabel(getText));
+						
+						UserLogic.timer();
 					}
 					
 				} catch (Exception e) {
@@ -225,14 +229,6 @@ public class UserIntSwing extends JPanel implements Observer {
 				}
 			}
 		});
-		
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			  @Override
-			  public void run() {
-			    lblWarning_1.setText("");
-			  }
-			}, 2000, 2000);
 
 		// Setup the Help label
 		// CommandGuide.processGuide();

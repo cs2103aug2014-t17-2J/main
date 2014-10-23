@@ -14,6 +14,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import userInterface.UserIntSwing;
 
@@ -103,6 +105,17 @@ public class UserLogic {
 		if(text.isEmpty()){
 			return "The input is blank! Please enter something!";
 		}
+	
 		return "";
+	}
+	
+	public static void timer(){
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			  @Override
+			  public void run() {
+				  processWarningLabel("true");
+			  }
+			}, 2000, 2000);
 	}
 }

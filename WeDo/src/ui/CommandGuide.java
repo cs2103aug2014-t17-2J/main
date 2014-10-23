@@ -85,7 +85,7 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	static String buildAddGuideString() {
+	public static String buildAddGuideString() {
 
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		String date = sdf.format(new Date());
@@ -113,7 +113,7 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	static String buildViewGuideString(){
+	public static String buildViewGuideString(){
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		String date = sdf.format(new Date());
 		StringBuilder str = new StringBuilder();
@@ -131,7 +131,7 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	static String buildEditGuideString(){
+	public static String buildEditGuideString(){
 		StringBuilder str = new StringBuilder();
 
 		str.append("To edit a task, ");
@@ -142,7 +142,7 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	static String buildDeleteGuideString(){
+	public static String buildDeleteGuideString(){
 		StringBuilder str = new StringBuilder();
 
 		str.append("To delete a task, ");
