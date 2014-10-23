@@ -26,8 +26,7 @@ public class SearchCommand extends Command {
         System.out.println("searching");
 
         SearchEngine searchEngine = new SearchEngine((BasicDataHandler) dataHandler);
-        ArrayList<Task> searchList = searchEngine.searchCaseInsensitive(
-                dataHandler.getMainList(), task.getDescription());
+        ArrayList<Task> searchList = searchEngine.searchWagnerList( task.getDescription());
         if (searchList.isEmpty()) {
             throw new InvalidCommandException("Search failed unable to find...");
         } else {

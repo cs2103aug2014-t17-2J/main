@@ -128,6 +128,11 @@ public class InteractiveForm extends JPanel {
 				}
 				highlightLastRow(row);
 			}
+			
+			if(row == 1){
+				c.setBackground(Color.ORANGE);
+			}
+			
 			return c;
 		}
 
