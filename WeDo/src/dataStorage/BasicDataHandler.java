@@ -131,6 +131,14 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 
 	}
+	
+	public ArrayList<Task> getAllTasks(){
+		ArrayList<Task> tmp = new ArrayList<Task>(deadLineList.values());
+		tmp.addAll(timedList.values());
+		tmp.addAll(floatingList);
+		
+		return tmp;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -384,7 +392,7 @@ public class BasicDataHandler implements DataHandler {
 		System.out.println(determineTaskType(task));
 		
 		observableList.remove(task);
-		mainList.remove(determineDate(task), task);
+//		mainList.remove(determineDate(task), task);
 		if(isInList(task,new ArrayList<Task>(deadLineList.values()))) {
 			System.out.println("deadlineee removed!");
 			deadLineList.remove(task.getEndDate(), task);

@@ -4,9 +4,12 @@
 package logic.command.commandList;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
-import logic.InvalidCommandException;
-import logic.SearchEngine;
+import dataStorage.BasicDataHandler;
+import logic.exception.InvalidCommandException;
+import logic.parser.ParserFlags;
+import logic.utility.SearchEngine;
 import logic.utility.Task;
 
 
@@ -22,9 +25,8 @@ public class SearchCommand extends Command {
 
         System.out.println("searching");
 
-        SearchEngine searchEngine = new SearchEngine();
-        ArrayList<Task> searchList = searchEngine.searchCaseInsensitive(
-                dataHandler.getMainList(), task.getDescription());
+        SearchEngine searchEngine = new SearchEngine((BasicDataHandler) dataHandler);
+        ArrayList<Task> searchList = searchEngine.searchWagnerList( task.getDescription());
         if (searchList.isEmpty()) {
             throw new InvalidCommandException("Search failed unable to find...");
         } else {
@@ -42,6 +44,26 @@ public class SearchCommand extends Command {
     @Override
     public void undo() {
         dataHandler.setDisplayedTasks(displayedTask);
+    }
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#validate(java.util.EnumSet)
+     */
+    @Override
+    public boolean validate(EnumSet<ParserFlags> parseFlags) {
+        return isCommandValid(parseFlags);
+    }
+    
+    /**
+     * <p>
+     * Determine whether the command is valid
+     * <p>
+     * 
+     * @param parseFlags the set of ParserFlag to be tested
+     * @return if it contains more than MIN_VALID_FLAGS flags
+     */
+    public static boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
+        final int MIN_VALID_FLAGS = 1;
+        return parseFlags.size() > MIN_VALID_FLAGS;
     }
 
 }

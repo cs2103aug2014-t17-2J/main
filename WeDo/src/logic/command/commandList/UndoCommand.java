@@ -3,7 +3,10 @@
  */
 package logic.command.commandList;
 
-import logic.InvalidCommandException;
+import java.util.EnumSet;
+
+import logic.exception.InvalidCommandException;
+import logic.parser.ParserFlags;
 
 /**
  * @author TienLong This class makes use of the Command interface to
@@ -32,5 +35,14 @@ public class UndoCommand extends Command {
     public void undo() {
         // TODO Auto-generated method stub
 
+    }
+    
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#validate(java.util.EnumSet)
+     */
+    @Override
+    public boolean validate(EnumSet<ParserFlags> parseFlags) {
+        final int MAX_VALID_FLAG = 1;
+        return parseFlags.size() == MAX_VALID_FLAG; 
     }
 }

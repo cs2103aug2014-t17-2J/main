@@ -1,10 +1,10 @@
 /**
  * 
  */
-package logic.taskParser;
+package logic.deprecated;
 
-import logic.taskParser.taskFieldSetter.TaskDescriptionFieldSetter;
-import logic.taskParser.taskFieldSetter.TaskFieldSetter;
+import logic.deprecated.taskFieldSetter.TaskDescriptionFieldSetter;
+import logic.deprecated.taskFieldSetter.TaskFieldSetter;
 import logic.utility.KeyMatcher;
 import logic.utility.StringHandler;
 import logic.utility.Task;

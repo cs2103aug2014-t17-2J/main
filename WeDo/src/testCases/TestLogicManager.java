@@ -7,9 +7,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Scanner;
 
-import logic.InvalidCommandException;
-import logic.InvalidParseException;
 import logic.LogicManager;
+import logic.exception.InvalidCommandException;
+import logic.exception.InvalidParseException;
 import logic.parser.ParseResult;
 import logic.utility.Task;
 

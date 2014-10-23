@@ -20,7 +20,7 @@ import definedEnumeration.Priority;
  * If both first and last two words are priority, the first two words will take precedence.
  * 
  * Listed below are the keywords for priority and the level of priority
- * They can be arranged in any permutation ( eg : priority high, high priorty, high pri, etc)
+ * They can be arranged in any permutation ( eg : priority high, high priority, high pri, etc)
  * Additionally, the key words are case insensitive 
  * +------------+-------------+------------+----------+
  * | Priority   | High        | Medium     | Low      |
@@ -49,6 +49,7 @@ public class PriorityParserTest {
     {
         parseValidPriorityWithTwoWords("pri urgent");
         parseValidPriorityWithMoreThanTwoWords("hey priority ignore");
+        
         parseInvalidPriorityWithTwoWords("sec high");
         parseInvalidPriorityWithLessThanTwoWords("high");
     }

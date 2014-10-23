@@ -5,10 +5,10 @@ package logic.parser;
 
 import java.util.EnumSet;
 
-import logic.InvalidParseException;
 import logic.command.commandList.AddCommand;
 import logic.command.commandList.RedoCommand;
 import logic.command.commandList.UndoCommand;
+import logic.exception.InvalidParseException;
 import logic.utility.Task;
 
 /**
@@ -23,52 +23,29 @@ public class ParserManager {
      * @return if command and task are parsed successfully
      * @throws Invalid
      */
-    public ParseResult interpret(String userInput) throws InvalidParseException{
-        
+    public ParseResult interpret(String userInput) throws InvalidParseException {
+
         ParseResult parseResult = new ParseResult();
         DateParser dateParser = new DateParser();
         PriorityParser priorityParser = new PriorityParser();
         DescriptionParser descriptionParser = new DescriptionParser();
         CommandParser commandParser = new CommandParser();
-        
-        
+
         EnumSet<ParserFlags> parseFlags = tryParse(userInput, dateParser,
                 priorityParser, descriptionParser, commandParser);
 
-        if (ParserFlags.isCommandParsed(parseFlags))
-        {
-            
+        if (!isCommandParsed(parseFlags)) {
+            throw new InvalidParseException("Invalid command format parsed");
+        } else {
             parseResult.setCommand(commandParser.getCommand());
-            
 
-            if(parseResult.getCommand() instanceof AddCommand && ParserFlags.isParseValidForAdd(parseFlags))
-            {
-                parseResult.setTask(buildTask(parseFlags, dateParser, priorityParser,
-                        descriptionParser));
+            if (!parseResult.getCommand().validate(parseFlags)) {
+                throw new InvalidParseException("No command parsed");
+            } else {
+                parseResult.setTask(buildTask(parseFlags, dateParser,
+                        priorityParser, descriptionParser));
                 return parseResult;
             }
-            else
-            {
-                if(parseResult.getCommand() instanceof RedoCommand || parseResult.getCommand() instanceof UndoCommand)
-                {
-                    return parseResult;
-                }
-                else if(ParserFlags.isCommandValid(parseFlags))
-                {
-                    parseResult.setTask(buildTask(parseFlags, dateParser, priorityParser,
-                            descriptionParser));
-                    return parseResult;
-                }
-                else
-                {
-                    throw new InvalidParseException("Invalid command format parsed");
-                }
-            }
-           
-        } 
-        else 
-        {
-            throw new InvalidParseException("No command parsed");
         }
     }
 
@@ -233,5 +210,23 @@ public class ParserManager {
         }
 
         return parseFlags;
+    }
+
+    /**
+     * <p>
+     * Determine whether the valid command is parsed
+     * <p>
+     * 
+     * @param flagSet
+     *            the set of ParserFlag to be tested
+     * @return if it contains of the Command flag
+     */
+    public boolean isCommandParsed(EnumSet<ParserFlags> flagSet) {
+
+        if (flagSet.contains(ParserFlags.COMMAND_FLAG)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

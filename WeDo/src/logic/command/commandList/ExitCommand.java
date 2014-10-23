@@ -3,7 +3,10 @@
  */
 package logic.command.commandList;
 
-import logic.InvalidCommandException;
+import java.util.EnumSet;
+
+import logic.exception.InvalidCommandException;
+import logic.parser.ParserFlags;
 
 /**
  * @author TienLong This class makes use of the Command interface to implement
@@ -24,5 +27,14 @@ public class ExitCommand extends Command {
     @Override
     public void undo() {
 
+    }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#validate(java.util.EnumSet)
+     */
+    @Override
+    public boolean validate(EnumSet<ParserFlags> parseFlags) {
+        final int MIN_VALID_FLAGS = 1;
+        return parseFlags.size() == MIN_VALID_FLAGS;
     }
 }

@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 
 import java.util.EnumSet;
 
+import logic.command.commandList.AddCommand;
+import logic.command.commandList.Command;
 import logic.parser.ParserFlags;
 
 import org.junit.Test;
@@ -15,35 +17,36 @@ import org.junit.Test;
  * @author Kuan Tien Long
  *
  */
-public class ParserFlagTest {
+public class CommandValidateTest {
 
     @Test
     public void test() {
         EnumSet<ParserFlags> myFlags = EnumSet.noneOf(ParserFlags.class);
 
+        Command addCommand = new AddCommand();
         myFlags.add(ParserFlags.COMMAND_FLAG);
         myFlags.add(ParserFlags.DESCRIPTION_FLAG);
 
-        assertTrue(ParserFlags.isParseValidForAdd(myFlags));
+        assertTrue(addCommand.validate(myFlags));
 
         myFlags.remove(ParserFlags.COMMAND_FLAG);
 
-        assertFalse(ParserFlags.isParseValidForAdd(myFlags));
+        assertFalse(addCommand.validate(myFlags));
 
         myFlags = EnumSet.noneOf(ParserFlags.class);
-        assertFalse(ParserFlags.isParseValidForAdd(myFlags));
+        assertFalse(addCommand.validate(myFlags));
 
         myFlags.add(ParserFlags.DATE_FLAG);
-        assertFalse(ParserFlags.isParseValidForAdd(myFlags));
+        assertFalse(addCommand.validate(myFlags));
 
         myFlags.add(ParserFlags.PRIORITY_FLAG);
-        assertFalse(ParserFlags.isParseValidForAdd(myFlags));
+        assertFalse(addCommand.validate(myFlags));
 
         myFlags.add(ParserFlags.DESCRIPTION_FLAG);
-        assertFalse(ParserFlags.isParseValidForAdd(myFlags));
+        assertFalse(addCommand.validate(myFlags));
 
         myFlags.add(ParserFlags.COMMAND_FLAG);
-        assertTrue(ParserFlags.isParseValidForAdd(myFlags));
+        assertTrue(addCommand.validate(myFlags));
 
     }
 

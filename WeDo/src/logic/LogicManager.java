@@ -5,6 +5,8 @@ package logic;
 
 import logic.command.CommandExecutor;
 import logic.command.commandList.Command;
+import logic.exception.InvalidCommandException;
+import logic.exception.InvalidParseException;
 import logic.parser.ParseResult;
 import logic.parser.ParserManager;
 import logic.utility.Task;

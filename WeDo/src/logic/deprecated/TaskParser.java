@@ -1,14 +1,14 @@
 /**
  * 
  */
-package logic.taskParser;
+package logic.deprecated;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import logic.taskParser.taskFieldSetter.TaskFieldSetter;
-import logic.taskParser.taskFieldSetter.TaskPriorityFieldSetter;
+import logic.deprecated.taskFieldSetter.TaskFieldSetter;
+import logic.deprecated.taskFieldSetter.TaskPriorityFieldSetter;
 import logic.utility.Task;
 
 import com.google.common.collect.ArrayListMultimap;

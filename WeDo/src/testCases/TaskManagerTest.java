@@ -8,9 +8,9 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import logic.InvalidParseException;
 import logic.command.commandList.AddCommand;
 import logic.command.commandList.Command;
+import logic.exception.InvalidParseException;
 import logic.parser.ParseResult;
 import logic.parser.ParserManager;
 import logic.utility.Task;
