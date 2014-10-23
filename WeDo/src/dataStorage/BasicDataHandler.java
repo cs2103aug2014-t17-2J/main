@@ -392,7 +392,7 @@ public class BasicDataHandler implements DataHandler {
 		System.out.println(determineTaskType(task));
 		
 		observableList.remove(task);
-		mainList.remove(determineDate(task), task);
+//		mainList.remove(determineDate(task), task);
 		if(isInList(task,new ArrayList<Task>(deadLineList.values()))) {
 			System.out.println("deadlineee removed!");
 			deadLineList.remove(task.getEndDate(), task);
