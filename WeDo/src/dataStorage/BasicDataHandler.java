@@ -131,6 +131,14 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 
 	}
+	
+	public ArrayList<Task> getAllTasks(){
+		ArrayList<Task> tmp = new ArrayList<Task>(deadLineList.values());
+		tmp.addAll(timedList.values());
+		tmp.addAll(floatingList);
+		
+		return tmp;
+	}
 
 	/*
 	 * (non-Javadoc)

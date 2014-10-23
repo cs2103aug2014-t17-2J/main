@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -193,28 +195,44 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		JLabel lblHelp_1 = new JLabel("Label Help");
 		lblHelp_1.setVerticalAlignment(SwingConstants.TOP);
+		
+		JLabel lblWarning_1 = new JLabel("warning");
 
 		// Set the Help Label
-		lblHelp_1
-				.setText("<html>Type any of the following to begin:<br>add | view | edit | delete</html>");
+		lblHelp_1.setText(CommandGuide.buildGeneralGuideString());
 
 		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg1) {
 				try {
-					String command = textField.getText();
-					lblHelp_1.setText(CommandGuide.getGuideMessage(command
+					String text = textField.getText();
+					lblHelp_1.setText(CommandGuide.getGuideMessage(text
 							+ " "));
 					frame.setVisible(true);
 
 					// process the hotkey functions
 					UserLogic.processHotKeys(arg1);
+					
+					if(arg1.getKeyCode() == KeyEvent.VK_ENTER){
+						String getText = textField.getText();
+						//process the warning label
+						lblWarning_1.setText(UserLogic.processWarningLabel(getText));
+					}
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			  @Override
+			  public void run() {
+			    lblWarning_1.setText("");
+			  }
+			}, 2000, 2000);
 
 		// Setup the Help label
 		// CommandGuide.processGuide();
@@ -371,64 +389,37 @@ public class UserIntSwing extends JPanel implements Observer {
 										GroupLayout.PREFERRED_SIZE)
 								.addContainerGap()));
 
-		JLabel lblWarning_1 = new JLabel("warning");
-
 		JLabel lblQuickHelp = new JLabel("Quick Help");
 		lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
 				| Font.ITALIC, 14));
+		
 		GroupLayout gl_panelBottom = new GroupLayout(panelBottom);
-		gl_panelBottom.setHorizontalGroup(gl_panelBottom
-				.createParallelGroup(Alignment.LEADING)
-				.addGroup(
-						gl_panelBottom
-								.createSequentialGroup()
-								.addComponent(textField,
-										GroupLayout.PREFERRED_SIZE, 511,
-										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED,
-										18, Short.MAX_VALUE)
-								.addComponent(btnEnter,
-										GroupLayout.PREFERRED_SIZE, 100,
-										GroupLayout.PREFERRED_SIZE)
-								.addContainerGap())
-				.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 94,
-						GroupLayout.PREFERRED_SIZE)
-				.addGroup(
-						gl_panelBottom.createSequentialGroup()
-								.addComponent(lblQuickHelp)
-								.addContainerGap(572, Short.MAX_VALUE))
-				.addGroup(
-						gl_panelBottom
-								.createSequentialGroup()
-								.addComponent(lblHelp_1,
-										GroupLayout.DEFAULT_SIZE, 629,
-										Short.MAX_VALUE).addContainerGap()));
-		gl_panelBottom
-				.setVerticalGroup(gl_panelBottom
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_panelBottom
-										.createSequentialGroup()
-										.addComponent(lblWarning_1)
-										.addGap(11)
-										.addGroup(
-												gl_panelBottom
-														.createParallelGroup(
-																Alignment.BASELINE)
-														.addComponent(
-																textField,
-																GroupLayout.PREFERRED_SIZE,
-																23,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(btnEnter))
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addComponent(lblQuickHelp)
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addComponent(lblHelp_1,
-												GroupLayout.DEFAULT_SIZE, 76,
-												Short.MAX_VALUE)));
+		gl_panelBottom.setHorizontalGroup(
+			gl_panelBottom.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panelBottom.createSequentialGroup()
+					.addGroup(gl_panelBottom.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblWarning_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_panelBottom.createSequentialGroup()
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 511, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblQuickHelp, Alignment.LEADING)
+						.addComponent(lblHelp_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_panelBottom.setVerticalGroup(
+			gl_panelBottom.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBottom.createSequentialGroup()
+					.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelBottom.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnEnter))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblQuickHelp)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+		);
 		gl_panelBottom.setAutoCreateGaps(true);
 		panelBottom.setLayout(gl_panelBottom);
 

@@ -168,20 +168,22 @@ public class InteractiveTableModel extends AbstractTableModel {
 					&& !task.getStartDate().equals(LocalDate.MAX)) {
 				this.setValueAt(task.getStartDate().format(dateFormatter), row,
 						INDEX_STARTDATE);
-			} 
-			if (!task.getEndDate().equals(null) && !task.getEndDate().equals(LocalDate.MAX)) {
+			}
+			if (!task.getEndDate().equals(null)
+					&& !task.getEndDate().equals(LocalDate.MAX)) {
 				this.setValueAt(task.getEndDate().format(dateFormatter), row,
 						INDEX_ENDDATE);
-			} 
+			}
 			if (!task.getStartTime().equals(null)
 					&& !task.getStartTime().equals(LocalTime.MAX)) {
 				this.setValueAt(task.getStartTime().format(timeFormatter), row,
 						INDEX_STARTTIME);
-			} 
-			if (!task.getEndTime().equals(null) && !task.getEndTime().equals(LocalTime.MAX)) {
+			}
+			if (!task.getEndTime().equals(null)
+					&& !task.getEndTime().equals(LocalTime.MAX)) {
 				this.setValueAt(task.getEndTime().format(timeFormatter), row,
 						INDEX_ENDTIME);
-			} 
+			}
 			if (task.getPriority() != null
 					&& !task.getPriority().toString().isEmpty()) {
 				this.setValueAt(task.getPriority().toString(), row,
