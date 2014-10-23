@@ -3,7 +3,10 @@
  */
 package logic.command.commandList;
 
-import logic.InvalidCommandException;
+import java.util.EnumSet;
+
+import logic.exception.InvalidCommandException;
+import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 
@@ -63,5 +66,26 @@ public class EditCommand extends Command {
     @Override
     public void undo() {
         dataHandler.editTask(task, source);
+    }
+    
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#validate(java.util.EnumSet)
+     */
+    @Override
+    public boolean validate(EnumSet<ParserFlags> parseFlags) {
+        return isCommandValid(parseFlags);
+    }
+    
+    /**
+     * <p>
+     * Determine whether the command is valid
+     * <p>
+     * 
+     * @param parseFlags the set of ParserFlag to be tested
+     * @return if it contains more than MIN_VALID_FLAGS flags
+     */
+    public static boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
+        final int MIN_VALID_FLAGS = 1;
+        return parseFlags.size() > MIN_VALID_FLAGS;
     }
 }

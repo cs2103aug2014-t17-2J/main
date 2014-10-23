@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic;
+package logic.exception;
 
 /**
  * @author Kuan Tien Long

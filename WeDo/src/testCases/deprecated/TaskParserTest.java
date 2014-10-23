@@ -1,14 +1,14 @@
 /**
  * 
  */
-package testCases;
+package testCases.deprecated;
 
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import logic.taskParser.TaskParserBasic;
+import logic.deprecated.TaskParserBasic;
 import logic.utility.Task;
 
 import org.junit.Test;

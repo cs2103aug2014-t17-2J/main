@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.taskParser.taskFieldSetter;
+package logic.deprecated.taskFieldSetter;
 
 import java.time.Instant;
 import java.time.LocalDate;

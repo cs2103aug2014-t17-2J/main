@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic.taskParser.taskFieldSetter;
+package logic.deprecated.taskFieldSetter;
 
 import logic.utility.Task;
 
@@ -9,7 +9,7 @@ import logic.utility.Task;
  * @author Kuan Tien Long
  *
  */
-public class TaskDescriptionFieldSetter implements TaskFieldSetter {
+public class TaskInvalidFieldSetter implements TaskFieldSetter {
 
     /* (non-Javadoc)
      * @see logic.taskParser.taskFieldSetter.TaskFieldSetter#set(logic.Task, java.lang.String)
@@ -17,8 +17,7 @@ public class TaskDescriptionFieldSetter implements TaskFieldSetter {
     @Override
     public String set(Task task, String arguments) {
         // TODO Auto-generated method stub
-        task.setDescription(arguments);
-        return arguments;
+        return null;
     }
 
 }
