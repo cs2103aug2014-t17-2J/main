@@ -116,7 +116,7 @@ public class BasicDataHandlerTest {
 		Task task5 = new Task();
 		task5.setDescription("this is task tmr 2");
 		task5.setEndDate(LocalDate.now().plusDays(1));
-		task5.setPriority(Priority.PRIORITY_LOW);
+		task5.setPriority(Priority    .PRIORITY_LOW);
 		datahandler.addTask(task5);
 		
 		assertEquals(datahandler.getMainList().size(),5);

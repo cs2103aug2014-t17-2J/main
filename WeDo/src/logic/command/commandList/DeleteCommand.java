@@ -3,7 +3,10 @@
  */
 package logic.command.commandList;
 
+import java.util.EnumSet;
+
 import logic.exception.InvalidCommandException;
+import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 
 /**
@@ -47,5 +50,14 @@ public class DeleteCommand extends Command {
     public void undo() {
         dataHandler.addTask(task);
     }
-
+    
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#validate(java.util.EnumSet)
+     */
+    @Override
+    public boolean validate(EnumSet<ParserFlags> parseFlags) {
+        final int MAX_VALID_FLAG = 1;
+        return parseFlags.size() > MAX_VALID_FLAG; 
+    }
+    
 }

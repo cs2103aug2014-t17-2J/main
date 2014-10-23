@@ -1,7 +1,10 @@
 package logic.command.commandList;
 
+import java.util.EnumSet;
+
 import logic.command.UndoHandler;
 import logic.exception.InvalidCommandException;
+import logic.parser.ParserFlags;
 import logic.utility.Task;
 import dataStorage.DataHandler;
 
@@ -35,6 +38,16 @@ public abstract class Command {
     public abstract void execute() throws InvalidCommandException;
 
     public abstract void undo();
+    
+    /**
+     * <p>
+     * Determine whether the parse occurred was valid 
+     * <p>
+     * 
+     * @param parseFlags the set of ParserFlag to be tested
+     * @return if what is parsed is valid for the command
+     */
+    public abstract boolean validate(EnumSet<ParserFlags> parseFlags);
 
 
     /* (non-Javadoc)
