@@ -63,7 +63,7 @@ public class SearchCommand extends Command {
      */
     public static boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
         final int MIN_VALID_FLAGS = 1;
-        return parseFlags.size()>MIN_VALID_FLAGS;
+        return parseFlags.size() > MIN_VALID_FLAGS;
     }
 
 }
