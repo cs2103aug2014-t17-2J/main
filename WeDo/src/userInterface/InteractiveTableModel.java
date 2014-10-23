@@ -50,8 +50,9 @@ public class InteractiveTableModel extends AbstractTableModel {
 		case INDEX_STARTTIME:
 		case INDEX_ENDTIME:
 		case INDEX_PRIORITY:
-		case INDEX_CHECK:
 			return String.class;
+		case INDEX_CHECK:
+			return Boolean.class;
 		default:
 			return Object.class;
 		}
@@ -107,7 +108,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 			tableInfo.setPriority((String) value);
 			break;
 		case INDEX_CHECK:
-			tableInfo.setCheck((String) value);
+			tableInfo.setCheck((Boolean) value);
 			break;
 		default:
 			System.out.println("invalid index");
@@ -137,7 +138,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 				&& tableInfo.getStartTime().trim().equals("")
 				&& tableInfo.getEndTime().trim().equals("")
 				&& tableInfo.getPriority().trim().equals("")
-				&& tableInfo.getCheck().trim().equals("")) {
+				&& tableInfo.getCheck().FALSE) {
 			return true;
 		} else
 			return false;
@@ -190,11 +191,8 @@ public class InteractiveTableModel extends AbstractTableModel {
 						INDEX_PRIORITY);
 			}
 
-			// this.setValueAt(""+(row+6), row, INDEX_CHECK);
 			row++;
-
 		}
-
 	}
 
 	public void clearRows() {
