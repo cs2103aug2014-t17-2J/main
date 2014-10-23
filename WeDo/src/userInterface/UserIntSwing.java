@@ -112,7 +112,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				textField.setText("");
 			}
 		});
-		btnHelp_1.setBackground(new Color(153, 204, 255));
+		btnHelp_1.setBackground(new Color(204, 255, 255));
 		BalloonTip helpBalloonTip = new BalloonTip(btnHelp_1, new JLabel(
 				"Press F1 for Help"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
@@ -137,7 +137,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				textField.setText("add");
 			}
 		});
-		btnAdd.setBackground(new Color(153, 204, 255));
+		btnAdd.setBackground(new Color(204, 255, 255));
 		BalloonTip AddBalloonTip = new BalloonTip(btnAdd, new JLabel(
 				"Press F2 to Add"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
@@ -160,7 +160,7 @@ public class UserIntSwing extends JPanel implements Observer {
 			}
 		});
 		btnView.setToolTipText("Click for Viewing Tasks!");
-		btnView.setBackground(new Color(153, 204, 255));
+		btnView.setBackground(new Color(204, 255, 255));
 
 		JButton btnEdit = new JButton("F4 <Edit>");
 		btnEdit.addActionListener(new ActionListener() {
@@ -168,7 +168,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				textField.setText("edit");
 			}
 		});
-		btnEdit.setBackground(new Color(153, 204, 255));
+		btnEdit.setBackground(new Color(204, 255, 255));
 
 		// UserLogic.processTextField();
 
@@ -178,7 +178,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				textField.setText("delete");
 			}
 		});
-		btnDel.setBackground(new Color(153, 204, 255));
+		btnDel.setBackground(new Color(204, 255, 255));
 
 		JButton btnSearch = new JButton("F6 <Search>");
 		btnSearch.addActionListener(new ActionListener() {
@@ -186,12 +186,13 @@ public class UserIntSwing extends JPanel implements Observer {
 				textField.setText("search");
 			}
 		});
-		btnSearch.setBackground(new Color(153, 204, 255));
+		btnSearch.setBackground(new Color(204, 255, 255));
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 
 		JPanel panelBottom = new JPanel();
+		panelBottom.setBackground(new Color(255, 204, 255));
 
 		JLabel lblHelp_1 = new JLabel("Label Help");
 		lblHelp_1.setVerticalAlignment(SwingConstants.TOP);
@@ -259,7 +260,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.setColumns(10);
 
 		JButton btnEnter = new JButton("ENTER");
-		btnEnter.setBackground(new Color(153, 204, 255));
+		btnEnter.setBackground(new Color(204, 255, 255));
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// lblDisplay.setText(textField.getText());
