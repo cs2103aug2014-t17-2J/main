@@ -81,6 +81,7 @@ public class SearchEngine {
     			tmp.add(t);
     		}
     	}
+    	dataHandler.setDisplayedTasks(tmp);
     	return tmp;
     }
     
