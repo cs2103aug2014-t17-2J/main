@@ -16,8 +16,7 @@ public class SearchEngine {
 	
 	BasicDataHandler dataHandler;
 	
-	public SearchEngine() {
-		dataHandler = new BasicDataHandler();
+	public SearchEngine(BasicDataHandler dataHandler) {
 		
 	}
 	
