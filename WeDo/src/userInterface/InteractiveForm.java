@@ -79,22 +79,22 @@ public class InteractiveForm extends JPanel {
 		add(scroller, BorderLayout.CENTER);
 	}
 
-//	public void colourPriority() {
-//
-//		int row = 0;
-//		String s = table.getModel()
-//				.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY)
-//				.toString();
-//
-//		TableColumn priorityCol = table.getColumnModel().getColumn(
-//				InteractiveTableModel.INDEX_PRIORITY);
-//		if (s.equals("high")) {
-//			System.out.println("high five");
-//			priorityCol.setCellRenderer(null);
-//			tableModel.fireTableRowsUpdated(0, tableModel.getRowCount());
-//		}
-//
-//	}
+	// public void colourPriority() {
+	//
+	// int row = 0;
+	// String s = table.getModel()
+	// .getValueAt(row, InteractiveTableModel.INDEX_PRIORITY)
+	// .toString();
+	//
+	// TableColumn priorityCol = table.getColumnModel().getColumn(
+	// InteractiveTableModel.INDEX_PRIORITY);
+	// if (s.equals("high")) {
+	// System.out.println("high five");
+	// priorityCol.setCellRenderer(null);
+	// tableModel.fireTableRowsUpdated(0, tableModel.getRowCount());
+	// }
+	//
+	// }
 
 	public void highlightLastRow(int row) {
 		int lastrow = tableModel.getRowCount();
@@ -128,23 +128,28 @@ public class InteractiveForm extends JPanel {
 				}
 				highlightLastRow(row);
 			}
-			
-			if(row == 1){
+
+			if (table.getColumnModel()
+					.getColumn(InteractiveTableModel.INDEX_PRIORITY).toString()
+					.equalsIgnoreCase("high")) {
+				
+				table.setRowSelectionInterval(row, row+1);
 				c.setBackground(Color.ORANGE);
 			}
-			
+
 			return c;
 		}
 
-		public Component getTableCellRendererComponent2(JTable table, Object value,
-				boolean isSelected, boolean hasFocus, int row, int column) {
-			
+		public Component getTableCellRendererComponent2(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
+
 			Component comp = super.getTableCellRendererComponent(table, value,
 					isSelected, hasFocus, row, column);
-			
+
 			if (!table.isRowSelected(row)) {
 				comp.setBackground(row % 2 == 0 ? getBackground()
-						: Color.LIGHT_GRAY);				
+						: Color.LIGHT_GRAY);
 			}
 			table.setPreferredScrollableViewportSize(table.getPreferredSize());
 			table.changeSelection(0, 0, false, false);

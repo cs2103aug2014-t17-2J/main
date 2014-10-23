@@ -39,6 +39,7 @@ import net.java.balloontip.styles.EdgedBalloonStyle;
 import ui.CommandGuide;
 import ui.UserLogic;
 import dataStorage.ObservableList;
+import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -90,6 +91,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	private void initialize() {
 		frame = new JFrame("WeDo");
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/Image/WeDo.png")));
 		frame.getContentPane().setEnabled(false);
 		frame.setForeground(Color.WHITE);
 		frame.getContentPane().setBackground(new Color(255, 204, 255));
