@@ -96,7 +96,7 @@ public class UserInterfaceMain {
 	}
 	
 	/**
-	 *This operation process the Warning Label 
+	 *This operation process the Feedback Label 
 	 */
 	public static String processFeedbackLabel(String text){
 		
@@ -106,11 +106,10 @@ public class UserInterfaceMain {
 		
 		text = text.toLowerCase();
 		String[] tokens = text.split(WHITESPACE_PATTERN);
-		System.out.println("This is feedback: " + tokens[0]);
 		Action action = Keywords.resolveActionIdentifier(tokens[0]);
 
 		switch (action) {
-		case ADD: case VIEW: case EDIT: case DELETE:
+		case ADD: case VIEW: case EDIT: case DELETE: case SEARCH:
 			return FeedbackGuide.isValidString();
 		default:
 			return FeedbackGuide.isInvalidString();

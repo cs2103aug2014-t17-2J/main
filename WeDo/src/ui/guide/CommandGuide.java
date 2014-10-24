@@ -20,6 +20,7 @@ public class CommandGuide {
 	private static final String VIEW_GUIDE = buildViewGuideString();
 	private static final String EDIT_GUIDE = buildEditGuideString();
 	private static final String DELETE_GUIDE = buildDeleteGuideString();
+	private static final String SEARCH_GUIDE = buildSearchGuideString();
 	
 	private static final String HTML_OPEN = "<html>";
 	private static final String HTML_CLOSE = "</html>";
@@ -69,6 +70,8 @@ public class CommandGuide {
 			return String.format(EDIT_GUIDE, identifier);
 		case DELETE:
 			return String.format(DELETE_GUIDE, identifier);
+		case SEARCH:
+			return String.format(SEARCH_GUIDE, identifier);
 		default:
 			return GENERAL_GUIDE;
 		}
@@ -83,7 +86,8 @@ public class CommandGuide {
 		str.append(Keywords.getAddTaskIdentifier() + " | ");
 		str.append(Keywords.getViewTaskIdentifier() + " | ");
 		str.append(Keywords.getEditTaskIdentifier() + " | ");
-		str.append(Keywords.getDeleteTaskIdentifier());
+		str.append(Keywords.getDeleteTaskIdentifier() + " | ");
+		str.append(Keywords.getSearchTaskIdentifier());
 
 		return wrapWithHtmlTag(str.toString());
 	}
@@ -151,6 +155,16 @@ public class CommandGuide {
 		str.append("To delete a task, ");
 		str.append("select the task number and type:" + HTML_BREAK);
 		str.append(underline(IDENTIFIER_PLACEHOLDER) + " 1");
+
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String buildSearchGuideString(){
+		StringBuilder str = new StringBuilder();
+
+		str.append("To search for keyword, ");
+		str.append("type the word you want to search:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " meeting");
 
 		return wrapWithHtmlTag(str.toString());
 	}

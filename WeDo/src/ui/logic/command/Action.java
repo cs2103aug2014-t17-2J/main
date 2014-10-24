@@ -11,6 +11,7 @@ public enum Action {
 	VIEW                (false, false),
 	EDIT                (true, true),
 	DELETE              (true, true),
+	SEARCH				(false, false),
 	UNDO                (false, true),
 	INVALID             (false, false);
 	
