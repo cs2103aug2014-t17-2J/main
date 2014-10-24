@@ -17,9 +17,10 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ui.logic.command.Keywords;
 import userInterface.UserIntSwing;
 
-public class UserLogic {
+public class UserInterfaceMain {
 	//private static final String EXIT_PROGRAM = "exit";
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
 	private static final int taskbarHeight = 65;
@@ -111,11 +112,11 @@ public class UserLogic {
 	
 	public static void timer(){
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
+		timer.schedule(new TimerTask() {
 			  @Override
 			  public void run() {
-				  processWarningLabel("true");
+				  UserIntSwing.lblWarning_1.setText("");
 			  }
-			}, 2000, 2000);
+			}, 2000);
 	}
 }

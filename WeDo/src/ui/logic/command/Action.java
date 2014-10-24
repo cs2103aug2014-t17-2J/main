@@ -1,5 +1,5 @@
 // @Andy Hsu Wei Qiang
-package ui;
+package ui.logic.command;
 
 /**
  * The Action enumeration is used to specify the command action that the user

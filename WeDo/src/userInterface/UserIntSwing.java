@@ -36,8 +36,8 @@ import net.java.balloontip.BalloonTip.AttachLocation;
 import net.java.balloontip.BalloonTip.Orientation;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
-import ui.CommandGuide;
-import ui.UserLogic;
+import ui.UserInterfaceMain;
+import ui.guide.CommandGuide;
 import dataStorage.ObservableList;
 
 @SuppressWarnings("serial")
@@ -50,6 +50,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static JLabel lblWarning;
 	public static JLabel lblHelp;
 	public static JButton btnHelp;
+	public static final JLabel lblWarning_1 = new JLabel("warning");
 
 	private InteractiveForm interForm;
 	private LogicManager logicManager;
@@ -98,14 +99,14 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.setBounds(100, 100, 675, 510); // windowSize
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		UserLogic.setupFrameLocation();
+		UserInterfaceMain.setupFrameLocation();
 
 		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
 				Color.BLUE);
 
 		JLabel lblTodayDate = new JLabel("");
 
-		lblTodayDate.setText(UserLogic.setTodayDate());
+		lblTodayDate.setText(UserInterfaceMain.setTodayDate());
 
 		JButton btnHelp_1 = new JButton("F1 <Help>");
 		btnHelp_1.addActionListener(new ActionListener() {
@@ -198,8 +199,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		JLabel lblHelp_1 = new JLabel("Label Help");
 		lblHelp_1.setVerticalAlignment(SwingConstants.TOP);
 		
-		JLabel lblWarning_1 = new JLabel("warning");
-		UserLogic.timer();
 		// Set the Help Label
 		lblHelp_1.setText(CommandGuide.buildGeneralGuideString());
 
@@ -214,15 +213,15 @@ public class UserIntSwing extends JPanel implements Observer {
 					frame.setVisible(true);
 
 					// process the hotkey functions
-					UserLogic.processHotKeys(arg1);
+					UserInterfaceMain.processHotKeys(arg1);
 					
 					if(arg1.getKeyCode() == KeyEvent.VK_ENTER){
 						String getText = textField.getText();
 		
 						//process the warning label
-						lblWarning_1.setText(UserLogic.processWarningLabel(getText));
+						lblWarning_1.setText(UserInterfaceMain.processWarningLabel(getText));
 						
-						UserLogic.timer();
+						UserInterfaceMain.timer();
 					}
 					
 				} catch (Exception e) {
@@ -429,7 +428,7 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		// This operation puts the focus on the textField
 		// for the user to type immediately when the program runs
-		UserLogic.addFrameWindowFocusListener();
+		UserInterfaceMain.addFrameWindowFocusListener();
 	}
 
 	private void addFrameWindowFocusListener() {

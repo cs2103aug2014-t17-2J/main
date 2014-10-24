@@ -4,12 +4,13 @@
  * All method using the commands can be called here
  * 
  */
-package ui;
+package ui.guide;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ui.Keywords;
+import ui.logic.command.Action;
+import ui.logic.command.Keywords;
 
 public class CommandGuide {
 	private static final String GENERAL_GUIDE = buildGeneralGuideString();

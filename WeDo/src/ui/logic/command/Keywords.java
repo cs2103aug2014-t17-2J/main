@@ -1,11 +1,9 @@
 // @Andy Hsu Wei Qiang
-package ui;
+package ui.logic.command;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import ui.Action;
 
 /**
  * The Keywords class contains all command identifier constants that the
