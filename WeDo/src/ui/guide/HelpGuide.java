@@ -4,7 +4,7 @@
  * which is shown on the Help Menu
  * 
  */
-package ui;
+package ui.guide;
 
 public class HelpGuide {
 	private static final String TAG_WRAP_STRING = "%s%s%s";

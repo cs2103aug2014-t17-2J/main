@@ -8,7 +8,7 @@ import javax.swing.JButton;
 
 import org.junit.Test;
 
-import ui.CommandGuide;
+import ui.guide.CommandGuide;
 import userInterface.UserIntSwing;
 
 public class TestingCommandGuide {

@@ -1,11 +1,9 @@
 // @Andy Hsu Wei Qiang
-package ui;
+package ui.logic.command;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import ui.Action;
 
 /**
  * The Keywords class contains all command identifier constants that the
@@ -28,6 +26,10 @@ public final class Keywords {
 	private static final String DELETE_TASK_IDENTIFIER_1 = "delete";
 	private static final String DELETE_TASK_IDENTIFIER_2 = "remove";
 	private static final String DELETE_TASK_IDENTIFIER_3 = "cancel";
+	
+	private static final String SEARCH_TASK_IDENTIFIER_1 = "search";
+	private static final String SEARCH_TASK_IDENTIFIER_2 = "locate";
+	private static final String SEARCH_TASK_IDENTIFIER_3 = "find";
 
 	private static final String DATE_IDENTIFIER = "on";
 	private static final String DUE_DATE_IDENTIFIER = "by";
@@ -55,6 +57,10 @@ public final class Keywords {
 		map.put(DELETE_TASK_IDENTIFIER_1, Action.DELETE);
 		map.put(DELETE_TASK_IDENTIFIER_2, Action.DELETE);
 		map.put(DELETE_TASK_IDENTIFIER_3, Action.DELETE);
+		
+		map.put(SEARCH_TASK_IDENTIFIER_1, Action.SEARCH);
+		map.put(SEARCH_TASK_IDENTIFIER_2, Action.SEARCH);
+		map.put(SEARCH_TASK_IDENTIFIER_3, Action.SEARCH);
 
 		map.put(UNDO_ACTION_IDENTIFIER, Action.UNDO);
 
@@ -94,6 +100,10 @@ public final class Keywords {
 
 	public static String getDeleteTaskIdentifier() {
 		return DELETE_TASK_IDENTIFIER_1;
+	}
+	
+	public static String getSearchTaskIdentifier() {
+		return SEARCH_TASK_IDENTIFIER_1;
 	}
 	
 	public static String getDateIdentifier() {

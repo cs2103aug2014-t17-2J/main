@@ -1,5 +1,5 @@
 // @Andy Hsu Wei Qiang
-package ui;
+package ui.logic.command;
 
 /**
  * The Action enumeration is used to specify the command action that the user
@@ -11,6 +11,7 @@ public enum Action {
 	VIEW                (false, false),
 	EDIT                (true, true),
 	DELETE              (true, true),
+	SEARCH				(false, false),
 	UNDO                (false, true),
 	INVALID             (false, false);
 	
