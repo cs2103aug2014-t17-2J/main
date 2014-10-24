@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ui.guide.FeedbackGuide;
+import ui.logic.command.Action;
 import ui.logic.command.Keywords;
 import userInterface.UserIntSwing;
 
@@ -24,6 +26,7 @@ public class UserInterfaceMain {
 	//private static final String EXIT_PROGRAM = "exit";
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
 	private static final int taskbarHeight = 47;
+	private static final String WHITESPACE_PATTERN = "\\s+";
 	
 	/**
 	 *This operation puts the focus on the textField 
@@ -92,21 +95,39 @@ public class UserInterfaceMain {
 		}
 	}
 	
-	public static String processWarningLabel(String text){
+	/**
+	 *This operation process the Warning Label 
+	 */
+	public static String processFeedbackLabel(String text){
+		
 		if(text.isEmpty()){
-			return "The input is blank! Please enter something!";
+			return FeedbackGuide.isEmptyString();
 		}
-	
-		return "";
+		
+		text = text.toLowerCase();
+		String[] tokens = text.split(WHITESPACE_PATTERN);
+		System.out.println("This is feedback: " + tokens[0]);
+		Action action = Keywords.resolveActionIdentifier(tokens[0]);
+
+		switch (action) {
+		case ADD: case VIEW: case EDIT: case DELETE:
+			return FeedbackGuide.isValidString();
+		default:
+			return FeedbackGuide.isInvalidString();
+		}
 	}
 	
-	public static void timer(){
+	/**
+	 *This operation process the timer to clear the Warning 
+	 *Label. It is set at 1.2 seconds. 
+	 */
+	public static void warningTimerReset(){
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			  @Override
 			  public void run() {
-				  UserIntSwing.lblWarning_1.setText("");
+				  UserIntSwing.lblFeedback.setText("");
 			  }
-			}, 2000);
+			}, 1200);
 	}
 }

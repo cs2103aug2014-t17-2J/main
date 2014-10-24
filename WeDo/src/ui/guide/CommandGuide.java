@@ -6,11 +6,13 @@
  */
 package ui.guide;
 
+import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ui.logic.command.Action;
 import ui.logic.command.Keywords;
+import userInterface.UserIntSwing;
 
 public class CommandGuide {
 	private static final String GENERAL_GUIDE = buildGeneralGuideString();
@@ -160,5 +162,10 @@ public class CommandGuide {
 	private static String underline(String text) {
 		return String.format(TAG_WRAP_STRING, HTML_UNDERLINE_OPEN, text,
 				HTML_UNDERLINE_CLOSE);
+	}
+	
+	public static void fomatCommandGuideLabel(){
+		UserIntSwing.lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
+				| Font.ITALIC, 14));
 	}
 }

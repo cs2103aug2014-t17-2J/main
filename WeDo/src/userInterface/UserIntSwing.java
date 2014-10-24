@@ -38,7 +38,9 @@ import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
+import ui.guide.FeedbackGuide;
 import dataStorage.ObservableList;
+
 import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
@@ -48,10 +50,10 @@ public class UserIntSwing extends JPanel implements Observer {
 
 	public static JFrame frame;
 	public static JTextField textField;
-	public static JLabel lblWarning;
 	public static JLabel lblHelp;
 	public static JButton btnHelp;
-	public static final JLabel lblWarning_1 = new JLabel("warning");
+	public static final JLabel lblFeedback = new JLabel("");
+	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
 
 	private InteractiveForm interForm;
 	private LogicManager logicManager;
@@ -221,9 +223,9 @@ public class UserIntSwing extends JPanel implements Observer {
 						String getText = textField.getText();
 		
 						//process the warning label
-						lblWarning_1.setText(UserInterfaceMain.processWarningLabel(getText));
-						
-						UserInterfaceMain.timer();
+						lblFeedback.setText(UserInterfaceMain.processFeedbackLabel(getText));
+						//process the timer to reset warning label
+						UserInterfaceMain.warningTimerReset();
 					}
 					
 				} catch (Exception e) {
@@ -231,9 +233,12 @@ public class UserIntSwing extends JPanel implements Observer {
 				}
 			}
 		});
-
-		// Setup the Help label
-		// CommandGuide.processGuide();
+		
+		//change font style of warning label
+		FeedbackGuide.formatFeedbackLabel();
+		
+		//change font style of command guide label
+		CommandGuide.fomatCommandGuideLabel();
 
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -386,17 +391,13 @@ public class UserIntSwing extends JPanel implements Observer {
 										GroupLayout.PREFERRED_SIZE, 153,
 										GroupLayout.PREFERRED_SIZE)
 								.addContainerGap()));
-
-		JLabel lblQuickHelp = new JLabel("Quick Help");
-		lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
-				| Font.ITALIC, 14));
 		
 		GroupLayout gl_panelBottom = new GroupLayout(panelBottom);
 		gl_panelBottom.setHorizontalGroup(
 			gl_panelBottom.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelBottom.createSequentialGroup()
 					.addGroup(gl_panelBottom.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblWarning_1, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+						.addComponent(lblFeedback, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
 						.addGroup(gl_panelBottom.createSequentialGroup()
 							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
 							.addGap(18)
@@ -408,7 +409,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		gl_panelBottom.setVerticalGroup(
 			gl_panelBottom.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelBottom.createSequentialGroup()
-					.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblFeedback, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelBottom.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
