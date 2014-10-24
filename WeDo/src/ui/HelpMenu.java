@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Window.Type;
+import java.awt.Toolkit;
 /*
  * This class is the help menu that shows
  * different command guide to the user
@@ -26,8 +28,8 @@ public class HelpMenu {
     JScrollPane scrollPane;
     String newline = "\n";
     
-	private static final int Xcoordinate = 310;
-	private static final int Ycoordinate = 258;
+	private static final int Xcoordinate = 335;
+	private static final int Ycoordinate = 216;
 
 	/**
 	 * Initialize the contents of the frame.
@@ -35,6 +37,7 @@ public class HelpMenu {
     private static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("-Help Menu-");
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Andy\\Desktop\\HelpMenuIcon.png"));
         frame.addKeyListener(new KeyAdapter() {
         	@Override
         	public void keyPressed(KeyEvent arg0) {

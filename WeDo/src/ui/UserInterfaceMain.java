@@ -23,7 +23,7 @@ import userInterface.UserIntSwing;
 public class UserInterfaceMain {
 	//private static final String EXIT_PROGRAM = "exit";
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
-	private static final int taskbarHeight = 65;
+	private static final int taskbarHeight = 47;
 	
 	/**
 	 *This operation puts the focus on the textField 
