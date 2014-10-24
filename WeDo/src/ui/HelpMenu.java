@@ -9,9 +9,13 @@ package ui;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JFrame;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JLabel;
+
+import userInterface.UserIntSwing;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,7 +41,8 @@ public class HelpMenu {
     private static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("-Help Menu-");
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Andy\\Desktop\\HelpMenuIcon.png"));
+        frame.setIconImage(
+        		Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/icon/HelpMenuIcon.png")));
         frame.addKeyListener(new KeyAdapter() {
         	@Override
         	public void keyPressed(KeyEvent arg0) {

@@ -93,7 +93,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	private void initialize() {
 		frame = new JFrame("WeDo");
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/Image/WeDo.png")));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/icon/WeDo.png")));
 		frame.getContentPane().setEnabled(false);
 		frame.setForeground(Color.WHITE);
 		frame.getContentPane().setBackground(new Color(255, 204, 255));

@@ -39,16 +39,6 @@ public class UserInterfaceMain {
 		});
 	}
 	
-	public static void addHelpFrameWindowFocusListener() {
-		HelpMenu.frame.addWindowFocusListener(new WindowFocusListener() {
-			public void windowGainedFocus(WindowEvent arg0) {
-
-				HelpMenu.frame.requestFocusInWindow();
-			}
-			public void windowLostFocus(WindowEvent arg0) {}
-		});
-	}
-	
 	/**
 	 *This operation sets the date for today and display
 	 *on the top of the application
