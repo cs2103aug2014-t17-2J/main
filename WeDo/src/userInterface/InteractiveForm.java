@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -132,31 +134,38 @@ public class InteractiveForm extends JPanel {
 			if (table.getColumnModel()
 					.getColumn(InteractiveTableModel.INDEX_PRIORITY).toString()
 					.equalsIgnoreCase("high")) {
-				
-				table.setRowSelectionInterval(row, row+1);
+
+				table.setRowSelectionInterval(row, row + 1);
 				c.setBackground(Color.ORANGE);
+			}
+
+			int i = 0;
+			if (i < InteractiveForm.this.tableModel.getRowCount()) {
+				if (InteractiveForm.this.tableModel
+						.getColumnName(InteractiveTableModel.INDEX_PRIORITY)
+						.toString().equalsIgnoreCase("High")) {
+					
+					setRowSelectionAllowed(InteractiveForm.this.tableModel
+							.getColumnName(InteractiveTableModel.INDEX_PRIORITY)
+							.toString().equalsIgnoreCase("High"));
+
+					table.setSelectionBackground(Color.BLUE);
+
+				}
+				i++;
 			}
 
 			return c;
 		}
-
-		public Component getTableCellRendererComponent2(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
-
-			Component comp = super.getTableCellRendererComponent(table, value,
-					isSelected, hasFocus, row, column);
-
-			if (!table.isRowSelected(row)) {
-				comp.setBackground(row % 2 == 0 ? getBackground()
-						: Color.LIGHT_GRAY);
-			}
-			table.setPreferredScrollableViewportSize(table.getPreferredSize());
-			table.changeSelection(0, 0, false, false);
-			return comp;
-		}
 	}
-
+	
+	public void setRowSelectionAllowed(boolean rowSelectionAllowed) {
+		int[] selection = table.getSelectedRows();
+		   for (int i = 0; i < selection.length; i++) {
+		     selection[i] = table.convertRowIndexToModel(selection[i]);
+		   }		
+	}
+	
 	public class InteractiveTableModelListener implements TableModelListener {
 		public void tableChanged(TableModelEvent evt) {
 			if (evt.getType() == TableModelEvent.UPDATE) {

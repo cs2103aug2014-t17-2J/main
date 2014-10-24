@@ -199,4 +199,6 @@ public class InteractiveTableModel extends AbstractTableModel {
 		dataVector.clear();
 		this.addEmptyRow();
 	}
+
+	
 }
