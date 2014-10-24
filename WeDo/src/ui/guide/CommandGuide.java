@@ -1,9 +1,3 @@
-/**
- * @author Andy Hsu Wei Qiang 
- * This class create the guide for all commands
- * All method using the commands can be called here
- * 
- */
 package ui.guide;
 
 import java.awt.Font;
@@ -14,6 +8,12 @@ import ui.logic.command.Action;
 import ui.logic.command.Keywords;
 import userInterface.UserIntSwing;
 
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class create the guide String for all commands
+ * All method using the commands will be called here
+ * 
+ */
 public class CommandGuide {
 	private static final String GENERAL_GUIDE = buildGeneralGuideString();
 	private static final String ADD_GUIDE = buildAddGuideString();

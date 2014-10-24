@@ -1,4 +1,3 @@
-// @Andy Hsu Wei Qiang
 package ui.logic.command;
 
 import java.util.Collections;
@@ -6,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The Keywords class contains all command identifier constants that the
- * application uses. Any processing of command identifier should go through this
- * class and make use of its methods.
+ *  @author Andy Hsu Wei Qiang The Keywords class contains all command identifier 
+ *  constants that the application uses. Any processing of command identifier should 
+ *  go through this class and make use of its methods.
  */
 public final class Keywords {
 

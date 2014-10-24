@@ -228,6 +228,7 @@ public class UserIntSwing extends JPanel implements Observer {
 						UserInterfaceMain.warningTimerReset();
 					}
 					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

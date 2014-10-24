@@ -5,6 +5,13 @@ import java.awt.Font;
 
 import userInterface.UserIntSwing;
 
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class create the guide String for feedback
+ * It return the string to the Feedback Label and
+ * give user appropriate feedbacks.
+ * 
+ */
 public class FeedbackGuide {
 	
 	private static final String feedbackEmptyString = "The input is blank! Please enter something!";
