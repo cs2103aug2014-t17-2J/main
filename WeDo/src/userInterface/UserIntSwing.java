@@ -39,6 +39,7 @@ import net.java.balloontip.styles.EdgedBalloonStyle;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
 import dataStorage.ObservableList;
+import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -92,6 +93,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	private void initialize() {
 		frame = new JFrame("WeDo");
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/Image/WeDo.png")));
 		frame.getContentPane().setEnabled(false);
 		frame.setForeground(Color.WHITE);
 		frame.getContentPane().setBackground(new Color(255, 204, 255));
@@ -391,16 +393,16 @@ public class UserIntSwing extends JPanel implements Observer {
 		
 		GroupLayout gl_panelBottom = new GroupLayout(panelBottom);
 		gl_panelBottom.setHorizontalGroup(
-			gl_panelBottom.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panelBottom.createSequentialGroup()
-					.addGroup(gl_panelBottom.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblWarning_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_panelBottom.createSequentialGroup()
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 511, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+			gl_panelBottom.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelBottom.createSequentialGroup()
+					.addGroup(gl_panelBottom.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblWarning_1, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+						.addGroup(gl_panelBottom.createSequentialGroup()
+							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+							.addGap(18)
 							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblQuickHelp, Alignment.LEADING)
-						.addComponent(lblHelp_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE))
+						.addComponent(lblQuickHelp)
+						.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panelBottom.setVerticalGroup(
