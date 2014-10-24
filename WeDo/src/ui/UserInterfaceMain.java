@@ -1,9 +1,3 @@
-/**
- * @author Andy Hsu Wei Qiang 
- * This class handles all the GUI logic
- * which the user execute.
- * 
- */
 package ui;
 
 import java.awt.GraphicsDevice;
@@ -22,6 +16,12 @@ import ui.logic.command.Action;
 import ui.logic.command.Keywords;
 import userInterface.UserIntSwing;
 
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class handles all the GUI logic
+ * which the user execute.
+ * 
+ */
 public class UserInterfaceMain {
 	//private static final String EXIT_PROGRAM = "exit";
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
@@ -118,7 +118,7 @@ public class UserInterfaceMain {
 	
 	/**
 	 *This operation process the timer to clear the Warning 
-	 *Label. It is set at 1.2 seconds. 
+	 *Label. It is set at 1000 milli-seconds. 
 	 */
 	public static void warningTimerReset(){
 		Timer timer = new Timer();
@@ -127,6 +127,6 @@ public class UserInterfaceMain {
 			  public void run() {
 				  UserIntSwing.lblFeedback.setText("");
 			  }
-			}, 1200);
+			}, 1000);
 	}
 }

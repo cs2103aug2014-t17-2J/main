@@ -1,9 +1,3 @@
-/**
- * @author Andy Hsu Wei Qiang 
- * This class process all the Help Menu
- * logic
- * 
- */
 package ui;
 
 import java.awt.Color;
@@ -17,7 +11,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import ui.guide.HelpGuide;
 
-public class UserInterfaceHelpMenu {
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class process all the Help Menu
+ * logic
+ * 
+ */public class UserInterfaceHelpMenu {
     /**
   	 * UIManager.setLookAndFeel() method to set the look and feel
   	 */

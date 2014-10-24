@@ -1,9 +1,3 @@
-/**
- * @author Andy Hsu Wei Qiang 
- * This class creates the Help Menu when 
- * user hotkey <F1> is pressed
- * 
- */
 package ui;
 
 import javax.swing.JTextArea;
@@ -13,18 +7,16 @@ import javax.swing.JFrame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JLabel;
-
 import userInterface.UserIntSwing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Window.Type;
 import java.awt.Toolkit;
-/*
- * This class is the help menu that shows
- * different command guide to the user
+
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class creates the Help Menu when 
+ * user hotkey <F1> is pressed on the main form
+ * 
  */
 public class HelpMenu {
     public static JFrame frame;

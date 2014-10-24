@@ -1,11 +1,11 @@
+package ui.guide;
+
 /**
  * @author Andy Hsu Wei Qiang 
  * This class create the Help guide String
  * which is shown on the Help Menu
  * 
  */
-package ui.guide;
-
 public class HelpGuide {
 	private static final String TAG_WRAP_STRING = "%s%s%s";
 	private static final String HTML_BREAK = "<br>";
