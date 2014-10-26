@@ -33,7 +33,7 @@ public class DescriptionParser
             return false;
         }
         
-        wordUsed = description = source.trim();
+        wordUsed = description = source;
         wordRemaining = "";
 
         

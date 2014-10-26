@@ -34,10 +34,12 @@ public class DateStringMassager {
         source = convertFormalDate(source);
         
         source = replaceNonDateDigitWithDelimiter(source);
-        source = replaceWordWithDelimiter(source);
-        
+
         source = KeyMatcher.replaceMatchedWithKey(
                 createFakeMultiMapForShortForm(), source);
+        
+        source = replaceWordWithDelimiter(source);
+        
         
         System.out.println("massage date is " + source);
         
@@ -184,7 +186,7 @@ public class DateStringMassager {
     }
     
     private static String replaceWordWithDelimiter(String source) {
-        final String numRegex = "([A-z]+(?=\\s))";
+        final String numRegex = "([A-z" + Pattern.quote(WORD_DELIMITER) + "]+(?=\\s))";
         
         final int WORD_GROUP = 1;
 
@@ -201,7 +203,7 @@ public class DateStringMassager {
     }
     public static String removeWordDelimiter(String source)
     {
-        return  StringHandler.removeAll(source, Pattern.quote(WORD_DELIMITER));
+        return  StringHandler.removeAll(source, Pattern.quote(WORD_DELIMITER) + "(?=\\s)");
     }
 
     private static boolean containsDateFormat(String source) {
