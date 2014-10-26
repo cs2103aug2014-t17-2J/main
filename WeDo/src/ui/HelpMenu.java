@@ -24,7 +24,7 @@ public class HelpMenu {
     JScrollPane scrollPane;
     String newline = "\n";
     
-	private static final int Xcoordinate = 335;
+	private static final int Xcoordinate = 255;
 	private static final int Ycoordinate = 216;
 
 	/**
