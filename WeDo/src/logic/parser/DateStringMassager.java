@@ -203,7 +203,7 @@ public class DateStringMassager {
     }
     public static String removeWordDelimiter(String source)
     {
-        return  StringHandler.removeAll(source, Pattern.quote(WORD_DELIMITER) + "(?=\\s)");
+        return  StringHandler.removeAll(source, Pattern.quote(WORD_DELIMITER) + "(?=\\s|$)");
     }
 
     private static boolean containsDateFormat(String source) {
