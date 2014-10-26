@@ -218,7 +218,7 @@ public class FileHandler {
 		if (task.getEndDate().equals(LocalDate.MAX)
 				&& task.getStartDate().equals(LocalDate.MAX)) {
 			return FLOATING;
-		} else if (!task.getEndTime().equals(LocalTime.MAX)
+		} else if (!task.getStartDate().equals(LocalDate.MAX)
 				&& !task.getEndDate().equals(LocalTime.MAX)) {
 			return TIMED;
 		} else {

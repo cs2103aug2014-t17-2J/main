@@ -210,7 +210,7 @@ public class BasicDataHandler implements DataHandler {
 		if (task.getEndDate().equals(LocalDate.MAX)
 				&& task.getStartDate().equals(LocalDate.MAX)) {
 			return FLOATING;
-		} else if (!task.getEndTime().equals(LocalTime.MAX)
+		} else if (!task.getStartDate().equals(LocalDate.MAX)
 				&& !task.getEndDate().equals(LocalTime.MAX)) {
 			return TIMED;
 		} else {
@@ -321,9 +321,29 @@ public class BasicDataHandler implements DataHandler {
 	 * @see dataStorage.BasicDataHandler#getList(java.time.LocalDate,
 	 * java.time.LocalDate)
 	 */
-	public ArrayList<Task> getList(LocalDate starDate, LocalDate endDate) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Task> getList(LocalDate startDate, LocalDate endDate) {
+		ArrayList<Task> tmp = new ArrayList<Task>();
+		ArrayList<Task> tmp2 = new ArrayList<Task>(timedList.values());
+		
+		System.out.println("startdate  1111 isss " + startDate.toString());
+
+		
+		while(startDate.isBefore(endDate) || startDate.equals(endDate)) {
+			tmp.addAll(deadLineList.get(startDate));
+			for(Task t: tmp2) {
+				if(!tmp.contains(t) && (t.getStartDate().equals(startDate) ||
+						t.getEndDate().equals(startDate)  )){
+					tmp.add(t);
+					break;
+				}
+			}
+			startDate = startDate.plusDays(1);
+			System.out.println("startdate isss " + startDate.toString());
+		}
+		
+		
+		
+		return tmp;
 	}
 
 	/*
@@ -436,14 +456,18 @@ public class BasicDataHandler implements DataHandler {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 		String type = determineTaskType(task);
 
-		if (task.getDescription().equals(SOMEDAY)) {
-			observableList.replaceList(floatingList);
 
-		} else if (type.equals(DEADLINE)) {
+		 if (type.equals(DEADLINE)) {
 
 			tmp.addAll(deadLineList.get(task.getEndDate()));
 			tmp.addAll(timedList.get(task.getEndDate()));
 			observableList.replaceList(tmp);
+
+		} else if(type.equals(TIMED)){
+			tmp.addAll(getList(task.getStartDate(),task.getEndDate()));
+			observableList.replaceList(tmp);
+		}else if (task.getDescription().equals(SOMEDAY)) {
+			observableList.replaceList(floatingList);
 
 		} else {
 			tmp.addAll(new ArrayList<Task>(deadLineList.values()));
