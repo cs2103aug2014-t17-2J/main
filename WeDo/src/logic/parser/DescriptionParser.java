@@ -33,20 +33,11 @@ public class DescriptionParser
             return false;
         }
         
-        String possibleCommand = StringHandler.getFirstWord(source);
-        source = StringHandler.removeFirstMatched(source, possibleCommand);
         wordUsed = description = source.trim();
-        wordRemaining = possibleCommand;
+        wordRemaining = "";
 
         
-        if (source.isEmpty()) 
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return true;
         
     }
 
@@ -69,6 +60,13 @@ public class DescriptionParser
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
     
     

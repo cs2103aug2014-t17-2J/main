@@ -22,6 +22,11 @@ public class ParserManager {
         EnumSet<ParserFlags> parseFlags = tryParse(userInput, dateParser,
                 priorityParser, descriptionParser, commandParser);
         
+        if(parseFlags.isEmpty())
+        {
+            descriptionParser.setDescription(userInput);
+        }
+        
         parseResult.setSuccessful(false);
         parseResult.setCommand(commandParser.getCommand());
         parseResult.setTask(buildTask(parseFlags, dateParser,
@@ -216,7 +221,13 @@ public class ParserManager {
             parseFlags.add(ParserFlags.PRIORITY_FLAG);
             userInput = priorityParser.getWordRemaining();
         }
-
+        
+        System.out.println("to command parser is " + userInput);
+        if (commandParser.tryParse(userInput)) {
+            parseFlags.add(ParserFlags.COMMAND_FLAG);
+            userInput = commandParser.getWordRemaining();
+        }
+        
         System.out.println("to description parser is " + userInput);
 
         if (descriptionParser.tryParse(userInput)) {
@@ -224,10 +235,7 @@ public class ParserManager {
             userInput = descriptionParser.getWordRemaining();
         }
 
-        System.out.println("to command parser is " + userInput);
-        if (commandParser.tryParse(userInput)) {
-            parseFlags.add(ParserFlags.COMMAND_FLAG);
-        }
+
 
         return parseFlags;
     }

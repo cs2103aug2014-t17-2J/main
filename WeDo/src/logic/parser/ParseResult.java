@@ -113,7 +113,7 @@ public class ParseResult
      */
     @Override
     public String toString() {
-        return "ParseResult [task=" + task + ", command=" + command + "]";
+        return "ParseResult [command =" + command +", task=" + task + "]";
     }
     
    
