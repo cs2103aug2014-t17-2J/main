@@ -1,9 +1,12 @@
 package userInterface;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -33,12 +36,16 @@ import net.java.balloontip.BalloonTip.AttachLocation;
 import net.java.balloontip.BalloonTip.Orientation;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
+import ui.MinimiseToTray;
 import ui.UserInterfaceMain;
+import ui.testingMinimise;
 import ui.guide.CommandGuide;
 import ui.guide.FeedbackGuide;
 import dataStorage.ObservableList;
 
 import java.awt.Toolkit;
+import java.awt.event.WindowStateListener;
+import java.awt.event.WindowEvent;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -86,12 +93,47 @@ public class UserIntSwing extends JPanel implements Observer {
 		initialize(); // reduce the initialize count
 		interForm.updateTable(taskList);
 	}
-
+	 TrayIcon trayIcon;
+	   SystemTray tray;
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings("static-access")
 	private void initialize() {
 		frame = new JFrame("WeDo");
+		frame.addWindowStateListener(new WindowStateListener() {
+			public void windowStateChanged(WindowEvent arg) {
+				if(arg.getNewState()==frame.ICONIFIED){
+                    try {
+                        tray.add(trayIcon);
+                        setVisible(false);
+                        System.out.println("added to SystemTray");
+                    } catch (AWTException ex) {
+                        System.out.println("unable to add to tray");
+                    }
+                }
+        if(arg.getNewState()==7){
+                    try{
+            tray.add(trayIcon);
+            setVisible(false);
+            System.out.println("added to SystemTray");
+            }catch(AWTException ex){
+            System.out.println("unable to add to system tray");
+        }
+            }
+        if(arg.getNewState()==frame.MAXIMIZED_BOTH){
+            tray.remove(trayIcon);
+            setVisible(true);
+            System.out.println("Tray icon removed");
+        }
+        if(arg.getNewState()==frame.NORMAL){
+            tray.remove(trayIcon);
+            setVisible(true);
+            System.out.println("Tray icon removed");
+       	}
+			}
+		});
+			
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/icon/WeDo.png")));
 		frame.getContentPane().setEnabled(false);
 		frame.setForeground(Color.WHITE);
@@ -105,6 +147,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		 * the screen when the programs starts
 		 */
 		UserInterfaceMain.setupFrameLocation();
+		frame.pack();
 
 		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
 				Color.BLUE);
