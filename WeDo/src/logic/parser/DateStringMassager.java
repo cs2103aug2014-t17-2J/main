@@ -128,7 +128,7 @@ public class DateStringMassager {
             String digit = matcher.group(DIGIT_GROUP);
             String word = matcher.group(WORD_GROUP);
 
-            if (containsDateFormat(matcher.group(WORD_GROUP))) {
+            if (containsDateFormat(matcher.group(WORD_GROUP).trim())) {
                 digit = removeDigitDelimiters(digit);
             }
             matcher.appendReplacement(result, word + digit);
@@ -146,7 +146,7 @@ public class DateStringMassager {
 
     
     private static String removeDelimiterForDateDigitByNextWord(String source) {
-        final String numRegex = "(?<=\\s)(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
+        final String numRegex = "(?<=\\s|^)(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
         final int DIGIT_GROUP = 1;
         final int WORD_GROUP = 2;
         Pattern pattern = Pattern.compile(numRegex);
@@ -157,7 +157,7 @@ public class DateStringMassager {
             String digit = matcher.group(DIGIT_GROUP);
             String word = matcher.group(WORD_GROUP);
 
-            if (containsDateFormat(matcher.group(WORD_GROUP))) {
+            if (containsDateFormat(matcher.group(WORD_GROUP).trim())) {
                 digit = removeDigitDelimiters(digit);
             }
             matcher.appendReplacement(result, digit + word);
