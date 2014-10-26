@@ -12,9 +12,9 @@ import logic.utility.Task;
  */
 public class ParserManager {
 
-    public ParseResult dynamicParsing(String userInput) 
+    public DynamicParseResult dynamicParsing(String userInput) 
     {
-        ParseResult parseResult = new ParseResult();
+        DynamicParseResult parseResult = new DynamicParseResult();
         DateParser dateParser = new DateParser();
         PriorityParser priorityParser = new PriorityParser();
         DescriptionParser descriptionParser = new DescriptionParser();
@@ -27,10 +27,14 @@ public class ParserManager {
             descriptionParser.setDescription(userInput);
         }
         
-        parseResult.setSuccessful(false);
         parseResult.setCommand(commandParser.getCommand());
         parseResult.setTask(buildTask(parseFlags, dateParser,
                 priorityParser, descriptionParser));
+        parseResult.setParseFlags(parseFlags);
+        parseResult.setDateWordUsed(dateParser.getWordUsed());
+        parseResult.setPriorityWordUsed(priorityParser.getWordUsed());
+        parseResult.setCommandWordUsed(commandParser.getWordUsed());
+        parseResult.setDescriptionWordUsed(descriptionParser.getWordUsed());
         
         System.out.println(parseResult);
         return parseResult;

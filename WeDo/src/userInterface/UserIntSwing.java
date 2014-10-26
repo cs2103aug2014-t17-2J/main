@@ -26,6 +26,7 @@ import javax.swing.SwingConstants;
 
 import logic.LogicManager;
 import logic.exception.InvalidCommandException;
+import logic.parser.DynamicParseResult;
 import logic.parser.ParseResult;
 import logic.utility.Task;
 import net.java.balloontip.BalloonTip;
@@ -240,8 +241,6 @@ public class UserIntSwing extends JPanel implements Observer {
 					e.printStackTrace();
 				}
 			}
-			
-
 			
 
 		});
