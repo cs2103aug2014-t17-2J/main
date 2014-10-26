@@ -236,10 +236,7 @@ public class TaskManagerTest {
     private void assertValidParse(String input, ParseResult expectedResult) {
         ParserManager parserManager = new ParserManager();
 
-        try {
-            assertEquals(expectedResult, parserManager.interpret(input));
-        } catch (InvalidParseException e) {
-            fail("Unexpected exception");
-        }
+        assertEquals(expectedResult, parserManager.interpret(input));
+
     }
 }

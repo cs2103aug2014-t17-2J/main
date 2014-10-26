@@ -15,6 +15,8 @@ public class ParseResult
 {
     private Task task;
     private Command command;
+    private boolean isSuccessful;
+    private String failedMessage;
     
     /**
      * 
@@ -82,4 +84,37 @@ public class ParseResult
             return false;
         return true;
     }
+    /**
+     * @return the isSuccessful
+     */
+    public boolean isSuccessful() {
+        return isSuccessful;
+    }
+    /**
+     * @param isSuccessful the isSuccessful to set
+     */
+    public void setSuccessful(boolean isSuccessful) {
+        this.isSuccessful = isSuccessful;
+    }
+    /**
+     * @return the failedMessage
+     */
+    public String getFailedMessage() {
+        return failedMessage;
+    }
+    /**
+     * @param failedMessage the failedMessage to set
+     */
+    public void setFailedMessage(String failedMessage) {
+        this.failedMessage = failedMessage;
+    }
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "ParseResult [task=" + task + ", command=" + command + "]";
+    }
+    
+   
 }

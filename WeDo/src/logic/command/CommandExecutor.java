@@ -1,5 +1,6 @@
 package logic.command;
 
+import junit.framework.Assert;
 import logic.command.commandList.Command;
 import logic.exception.InvalidCommandException;
 import logic.utility.Task;
@@ -23,7 +24,7 @@ public class CommandExecutor {
      */
     public CommandExecutor(DataHandler dataHandler) {
         this.dataHandler = dataHandler;
-        undoHandler = new UndoHandler();
+        undoHandler = UndoHandler.getInstance();
     }
 
 
@@ -35,8 +36,8 @@ public class CommandExecutor {
      */
     public void execute(Command command, Task task) throws InvalidCommandException {
 
-        assert(command != null);
-        assert(task != null);
+        Assert.assertNotNull(command);
+        Assert.assertNotNull(task);
         
         command.setDataHandler(dataHandler);
         command.setTask(task);

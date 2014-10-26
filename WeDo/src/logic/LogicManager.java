@@ -33,12 +33,18 @@ public class LogicManager
         this.dataHandler = dataHandler;
         this.commandExecutor = new CommandExecutor(this.dataHandler);
     } 
+    
+    public ParseResult dynamicParse(String userInput)
+    {
+        ParserManager parserManager = new ParserManager();
+        return parserManager.dynamicParsing(userInput);
+    }
 
     /**
      * @param userInput the input that the user entered which will be decipher into task and command
      * @throws InvalidCommandException      
      */
-    public ParseResult processCommand(String userInput) throws InvalidParseException {
+    public ParseResult processCommand(String userInput) {
 
         ParserManager parserManager = new ParserManager();
         return parserManager.interpret(userInput);
