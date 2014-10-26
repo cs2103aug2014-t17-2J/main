@@ -1,12 +1,9 @@
 package userInterface;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -58,9 +55,13 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static JButton btnHelp;
 	public static final JLabel lblFeedback = new JLabel("");
 	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
+	public static final JLabel lblCommandProcess = new JLabel("add");
+	public static final JLabel lblDateProcess = new JLabel("26/10/2014 to 27/10/2014");
+	public static final JLabel lblPriorityProcess = new JLabel("High");
+	public static final JLabel lblDescriptionProcess = new JLabel("Meet Dr. Damith");
 
 	private InteractiveForm interForm;
-	private LogicManager logicManager;
+	public static LogicManager logicManager;
 	private ObservableList<Task> observableList;
 
 	/**
@@ -93,47 +94,17 @@ public class UserIntSwing extends JPanel implements Observer {
 		initialize(); // reduce the initialize count
 		interForm.updateTable(taskList);
 	}
-	 TrayIcon trayIcon;
-	   SystemTray tray;
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings("static-access")
 	private void initialize() {
 		frame = new JFrame("WeDo");
 		frame.addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(WindowEvent arg) {
-				if(arg.getNewState()==frame.ICONIFIED){
-                    try {
-                        tray.add(trayIcon);
-                        setVisible(false);
-                        System.out.println("added to SystemTray");
-                    } catch (AWTException ex) {
-                        System.out.println("unable to add to tray");
-                    }
-                }
-        if(arg.getNewState()==7){
-                    try{
-            tray.add(trayIcon);
-            setVisible(false);
-            System.out.println("added to SystemTray");
-            }catch(AWTException ex){
-            System.out.println("unable to add to system tray");
-        }
-            }
-        if(arg.getNewState()==frame.MAXIMIZED_BOTH){
-            tray.remove(trayIcon);
-            setVisible(true);
-            System.out.println("Tray icon removed");
-        }
-        if(arg.getNewState()==frame.NORMAL){
-            tray.remove(trayIcon);
-            setVisible(true);
-            System.out.println("Tray icon removed");
-       	}
+				MinimiseToTray.Minimise(arg);
 			}
 		});
-			
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/icon/WeDo.png")));
 		frame.getContentPane().setEnabled(false);
 		frame.setForeground(Color.WHITE);
@@ -300,6 +271,10 @@ public class UserIntSwing extends JPanel implements Observer {
 					e.printStackTrace();
 				}
 			}
+			@Override
+			public void keyReleased(KeyEvent arg1) {
+				UserInterfaceMain.processUserParse(arg1);
+			}
 		});
 		
 		/**
@@ -369,30 +344,18 @@ public class UserIntSwing extends JPanel implements Observer {
 		
 		JLabel lblCommand = new JLabel("Command:");
 		lblCommand.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		JLabel labelProcessCommand = new JLabel("");
-		
-		JLabel lblProcessCommand = new JLabel("");
-		
-		JLabel lblCommandProcess = new JLabel("add");
 		lblCommandProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		
 		JLabel lblDate = new JLabel("Date:");
 		lblDate.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		JLabel lblDateProcess = new JLabel("26/10/2014 to 27/10/2014");
 		lblDateProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		
 		JLabel lblPriority = new JLabel("Priority:");
 		lblPriority.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		JLabel lblPriorityProcess = new JLabel("High");
 		lblPriorityProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		
 		JLabel lblDescription = new JLabel("Description:");
 		lblDescription.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		JLabel lblDescriptionProcess = new JLabel("Meet Dr. Damith");
 		lblDescriptionProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
@@ -425,23 +388,19 @@ public class UserIntSwing extends JPanel implements Observer {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblCommand)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(labelProcessCommand, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblProcessCommand, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblCommandProcess, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(lblDate)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblDateProcess, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblPriority)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblPriorityProcess, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblDescription)
-									.addGap(6)
-									.addComponent(lblDescriptionProcess, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(lblCommandProcess, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblDate)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblDateProcess, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblPriority)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblPriorityProcess, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblDescription)
+							.addGap(6)
+							.addComponent(lblDescriptionProcess, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap(99, Short.MAX_VALUE))))
 		);
 		groupLayout.setVerticalGroup(
@@ -461,8 +420,6 @@ public class UserIntSwing extends JPanel implements Observer {
 					.addGap(9)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCommand)
-						.addComponent(labelProcessCommand)
-						.addComponent(lblProcessCommand)
 						.addComponent(lblCommandProcess)
 						.addComponent(lblDate)
 						.addComponent(lblDateProcess)
