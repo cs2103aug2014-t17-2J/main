@@ -19,10 +19,13 @@ public class ParserManager {
     /**
      * @param userInput
      *            the string to be interpreted
-     * @return ParseResult which contains task, command and isSuccessful (to determine whether parse succeed)
+     * @return ParseResult which contains task, command, isSuccessful (to determine whether parse succeed) and failedMessage.
      */
     public ParseResult interpret(String userInput) {
 
+        final String COMMAND_PARSE_FAILED = "No such command";
+        final String INSUFFICIENT_ATTRIBUTE = "Insufficient attribute(s) for the command";
+        
         ParseResult parseResult = new ParseResult();
         DateParser dateParser = new DateParser();
         PriorityParser priorityParser = new PriorityParser();
@@ -34,10 +37,12 @@ public class ParserManager {
 
         if (!isCommandParsed(parseFlags)) {
             parseResult.setSuccessful(false);
+            parseResult.setFailedMessage(COMMAND_PARSE_FAILED);
             return parseResult;
         } else {
             if (!commandParser.getCommand().validate(parseFlags)) {
                 parseResult.setSuccessful(false);
+                parseResult.setFailedMessage(INSUFFICIENT_ATTRIBUTE);
                 return parseResult;
             } else {
                 parseResult.setSuccessful(true);

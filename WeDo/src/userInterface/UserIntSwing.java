@@ -262,9 +262,6 @@ public class UserIntSwing extends JPanel implements Observer {
 				    {
 				        //print sth
 				    }
-				} catch (InvalidParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				} catch (InvalidCommandException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -291,10 +288,7 @@ public class UserIntSwing extends JPanel implements Observer {
                     else
                     {
                         //print sth
-                    }
-				} catch (InvalidParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+                    } 
 				} catch (InvalidCommandException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

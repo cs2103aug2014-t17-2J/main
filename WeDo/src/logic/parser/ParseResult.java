@@ -16,6 +16,7 @@ public class ParseResult
     private Task task;
     private Command command;
     private boolean isSuccessful;
+    private String failedMessage;
     
     /**
      * 
@@ -95,4 +96,18 @@ public class ParseResult
     public void setSuccessful(boolean isSuccessful) {
         this.isSuccessful = isSuccessful;
     }
+    /**
+     * @return the failedMessage
+     */
+    public String getFailedMessage() {
+        return failedMessage;
+    }
+    /**
+     * @param failedMessage the failedMessage to set
+     */
+    public void setFailedMessage(String failedMessage) {
+        this.failedMessage = failedMessage;
+    }
+    
+   
 }
