@@ -13,8 +13,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -28,7 +26,6 @@ import javax.swing.SwingConstants;
 
 import logic.LogicManager;
 import logic.exception.InvalidCommandException;
-import logic.exception.InvalidParseException;
 import logic.parser.ParseResult;
 import logic.utility.Task;
 import net.java.balloontip.BalloonTip;
@@ -239,6 +236,8 @@ public class UserIntSwing extends JPanel implements Observer {
 					e.printStackTrace();
 				}
 			}
+			
+	    
 		});
 		
 		//change font style of warning label
