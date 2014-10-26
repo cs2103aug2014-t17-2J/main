@@ -5,6 +5,7 @@ package logic.utility;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import definedEnumeration.Priority;
 
@@ -181,8 +182,62 @@ public class Task
 
 
 
-
-
+    public String getDateTimeString()
+    {
+        final String EMPTY_STRING = "";
+        final String TIME_CONNECTOR = " on ";
+        final String DATE_CONNECTOR = " to ";
+        
+        String dateString = EMPTY_STRING;
+        
+        DateTimeFormatter dateFormatter = DateTimeFormatter
+                .ofPattern("dd/MM/YYYY");
+        DateTimeFormatter timeFormatter = DateTimeFormatter
+                .ofPattern("hh:mm a");
+        
+        if(startDate == DATE_NOT_SET)
+        {
+            if(endDate == DATE_NOT_SET)
+            {
+                return dateString;
+            }
+            else
+            {
+                dateString += endDate.format(dateFormatter);
+                if(endTime != TIME_NOT_SET)
+                {
+                    dateString +=  TIME_CONNECTOR + endTime.format(timeFormatter);
+                }
+                return dateString;
+            }
+        }
+        else
+        {
+            dateString += startDate.format(dateFormatter);
+        }
+        
+        if(startTime != TIME_NOT_SET)
+        {
+            dateString +=  TIME_CONNECTOR + startTime.format(timeFormatter);
+        }
+        
+        if(endDate == DATE_NOT_SET)
+        {
+            return dateString;
+        }
+        else
+        {
+            dateString += DATE_CONNECTOR + endDate.format(dateFormatter);
+        }
+        
+        if(endTime != TIME_NOT_SET)
+        {
+            dateString +=  TIME_CONNECTOR + endTime.format(timeFormatter);
+        }
+        
+        return dateString;
+        
+    }
 
 
 

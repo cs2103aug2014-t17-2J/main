@@ -22,10 +22,6 @@ public class ParserManager {
         EnumSet<ParserFlags> parseFlags = tryParse(userInput, dateParser,
                 priorityParser, descriptionParser, commandParser);
         
-        if(parseFlags.isEmpty())
-        {
-            descriptionParser.setDescription(userInput);
-        }
         
         parseResult.setCommand(commandParser.getCommand());
         parseResult.setTask(buildTask(parseFlags, dateParser,
@@ -39,6 +35,8 @@ public class ParserManager {
         System.out.println(parseResult);
         return parseResult;
     }
+
+
 
     /**
      * @param userInput
