@@ -15,6 +15,7 @@ public class ParseResult
 {
     private Task task;
     private Command command;
+    private boolean isSuccessful;
     
     /**
      * 
@@ -81,5 +82,17 @@ public class ParseResult
         } else if (!task.equals(other.task))
             return false;
         return true;
+    }
+    /**
+     * @return the isSuccessful
+     */
+    public boolean isSuccessful() {
+        return isSuccessful;
+    }
+    /**
+     * @param isSuccessful the isSuccessful to set
+     */
+    public void setSuccessful(boolean isSuccessful) {
+        this.isSuccessful = isSuccessful;
     }
 }

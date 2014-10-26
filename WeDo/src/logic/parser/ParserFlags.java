@@ -3,7 +3,6 @@
  */
 package logic.parser;
 
-import java.util.EnumSet;
 
 /**
  * @author Kuan Tien Long

@@ -18,9 +18,7 @@ public class RedoCommand extends Command {
     public void execute() throws InvalidCommandException {
         System.out.println("redo");
         
-        final boolean FAILED = false;
-
-        if(undoHandler.redo() == FAILED)
+        if(undoHandler.redo() == false)
         {
             throw new InvalidCommandException("Nothing to redo");
         }

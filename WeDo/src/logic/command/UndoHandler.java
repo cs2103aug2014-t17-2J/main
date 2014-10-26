@@ -16,15 +16,23 @@ public class UndoHandler {
     private enum State {
         STATE_UNDO, STATE_ADD_UNDO, STATE_ADD_REDO, STATE_UNDEFINED
     }
+    
+    private static UndoHandler undoHandler = new UndoHandler();
+    private static Stack<Command> undoStack = new Stack<Command>();
+    private static Stack<Command> redoStack = new Stack<Command>();
+    private static State currentState = State.STATE_UNDEFINED;
 
-    private Stack<Command> undoStack;
-    private Stack<Command> redoStack;
-    private State currentState = State.STATE_UNDEFINED;
-
-    public UndoHandler() {
-        undoStack = new Stack<Command>();
-        redoStack = new Stack<Command>();
+    
+    public static UndoHandler getInstance()
+    {
+        return undoHandler;
     }
+
+    private UndoHandler()
+    {
+        
+    }
+
 
     private boolean canUndo() {
         return undoStack.size() > 0;
