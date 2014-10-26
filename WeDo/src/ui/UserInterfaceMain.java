@@ -1,9 +1,3 @@
-/**
- * @author Andy Hsu Wei Qiang 
- * This class handles all the GUI logic
- * which the user execute.
- * 
- */
 package ui;
 
 import java.awt.GraphicsDevice;
@@ -14,13 +8,25 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import ui.guide.FeedbackGuide;
+import ui.logic.command.Action;
+import ui.logic.command.Keywords;
 import userInterface.UserIntSwing;
 
-public class UserLogic {
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class handles all the GUI logic
+ * which the user execute.
+ * 
+ */
+public class UserInterfaceMain {
 	//private static final String EXIT_PROGRAM = "exit";
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
-	private static final int taskbarHeight = 65;
+	private static final int taskbarHeight = 47;
+	private static final String WHITESPACE_PATTERN = "\\s+";
 	
 	/**
 	 *This operation puts the focus on the textField 
@@ -31,16 +37,6 @@ public class UserLogic {
 			public void windowGainedFocus(WindowEvent arg0) {
 
 				UserIntSwing.textField.requestFocusInWindow();
-			}
-			public void windowLostFocus(WindowEvent arg0) {}
-		});
-	}
-	
-	public static void addHelpFrameWindowFocusListener() {
-		HelpMenu.frame.addWindowFocusListener(new WindowFocusListener() {
-			public void windowGainedFocus(WindowEvent arg0) {
-
-				HelpMenu.frame.requestFocusInWindow();
 			}
 			public void windowLostFocus(WindowEvent arg0) {}
 		});
@@ -99,10 +95,38 @@ public class UserLogic {
 		}
 	}
 	
-	public static String processWarningLabel(String text){
+	/**
+	 *This operation process the Feedback Label 
+	 */
+	public static String processFeedbackLabel(String text){
+		
 		if(text.isEmpty()){
-			return "The input is blank! Please enter something!";
+			return FeedbackGuide.isEmptyString();
 		}
-		return "";
+		
+		text = text.toLowerCase();
+		String[] tokens = text.split(WHITESPACE_PATTERN);
+		Action action = Keywords.resolveActionIdentifier(tokens[0]);
+
+		switch (action) {
+		case ADD: case VIEW: case EDIT: case DELETE: case SEARCH:
+			return FeedbackGuide.isValidString();
+		default:
+			return FeedbackGuide.isInvalidString();
+		}
+	}
+	
+	/**
+	 *This operation process the timer to clear the Warning 
+	 *Label. It is set at 1000 milli-seconds. 
+	 */
+	public static void warningTimerReset(){
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			  @Override
+			  public void run() {
+				  UserIntSwing.lblFeedback.setText("");
+			  }
+			}, 1000);
 	}
 }

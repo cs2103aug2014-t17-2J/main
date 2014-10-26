@@ -36,9 +36,12 @@ import net.java.balloontip.BalloonTip.AttachLocation;
 import net.java.balloontip.BalloonTip.Orientation;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
-import ui.CommandGuide;
-import ui.UserLogic;
+import ui.UserInterfaceMain;
+import ui.guide.CommandGuide;
+import ui.guide.FeedbackGuide;
 import dataStorage.ObservableList;
+
+import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -47,9 +50,11 @@ public class UserIntSwing extends JPanel implements Observer {
 
 	public static JFrame frame;
 	public static JTextField textField;
-	public static JLabel lblWarning;
 	public static JLabel lblHelp;
 	public static JButton btnHelp;
+	public static final JLabel lblFeedback = new JLabel("");
+	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
+
 	private InteractiveForm interForm;
 	private LogicManager logicManager;
 	private ObservableList<Task> observableList;
@@ -90,6 +95,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	private void initialize() {
 		frame = new JFrame("WeDo");
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/icon/WeDo.png")));
 		frame.getContentPane().setEnabled(false);
 		frame.setForeground(Color.WHITE);
 		frame.getContentPane().setBackground(new Color(255, 204, 255));
@@ -97,22 +103,23 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.setBounds(100, 100, 675, 510); // windowSize
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		UserLogic.setupFrameLocation();
+		UserInterfaceMain.setupFrameLocation();
 
 		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
 				Color.BLUE);
 
 		JLabel lblTodayDate = new JLabel("");
 
-		lblTodayDate.setText(UserLogic.setTodayDate());
+		lblTodayDate.setText(UserInterfaceMain.setTodayDate());
 
 		JButton btnHelp_1 = new JButton("F1 <Help>");
+		btnHelp_1.setForeground(new Color(0, 0, 0));
 		btnHelp_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("");
 			}
 		});
-		btnHelp_1.setBackground(new Color(204, 255, 255));
+		btnHelp_1.setBackground(new Color(255, 153, 255));
 		BalloonTip helpBalloonTip = new BalloonTip(btnHelp_1, new JLabel(
 				"Press F1 for Help"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
@@ -131,13 +138,14 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 
 		JButton btnAdd = new JButton("F2 <Add>");
+		btnAdd.setForeground(new Color(0, 0, 0));
 		btnAdd.setToolTipText("");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textField.setText("add");
 			}
 		});
-		btnAdd.setBackground(new Color(204, 255, 255));
+		btnAdd.setBackground(new Color(255, 153, 255));
 		BalloonTip AddBalloonTip = new BalloonTip(btnAdd, new JLabel(
 				"Press F2 to Add"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
@@ -154,39 +162,43 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 
 		JButton btnView = new JButton("F3 <View>");
+		btnView.setForeground(new Color(0, 0, 0));
 		btnView.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("view");
 			}
 		});
 		btnView.setToolTipText("Click for Viewing Tasks!");
-		btnView.setBackground(new Color(204, 255, 255));
+		btnView.setBackground(new Color(255, 153, 255));
 
 		JButton btnEdit = new JButton("F4 <Edit>");
+		btnEdit.setForeground(new Color(0, 0, 0));
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("edit");
 			}
 		});
-		btnEdit.setBackground(new Color(204, 255, 255));
+		btnEdit.setBackground(new Color(255, 153, 255));
 
 		// UserLogic.processTextField();
 
 		JButton btnDel = new JButton("F5 <Delete>");
+		btnDel.setForeground(new Color(0, 0, 0));
 		btnDel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("delete");
 			}
 		});
-		btnDel.setBackground(new Color(204, 255, 255));
+		btnDel.setBackground(new Color(255, 153, 255));
 
 		JButton btnSearch = new JButton("F6 <Search>");
+		btnSearch.setForeground(new Color(0, 0, 0));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("search");
 			}
 		});
-		btnSearch.setBackground(new Color(204, 255, 255));
+		btnSearch.setBackground(new Color(255, 153, 255));
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -197,8 +209,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		JLabel lblHelp_1 = new JLabel("Label Help");
 		lblHelp_1.setVerticalAlignment(SwingConstants.TOP);
 		
-		JLabel lblWarning_1 = new JLabel("warning");
-
 		// Set the Help Label
 		lblHelp_1.setText(CommandGuide.buildGeneralGuideString());
 
@@ -213,13 +223,17 @@ public class UserIntSwing extends JPanel implements Observer {
 					frame.setVisible(true);
 
 					// process the hotkey functions
-					UserLogic.processHotKeys(arg1);
+					UserInterfaceMain.processHotKeys(arg1);
 					
 					if(arg1.getKeyCode() == KeyEvent.VK_ENTER){
 						String getText = textField.getText();
+		
 						//process the warning label
-						lblWarning_1.setText(UserLogic.processWarningLabel(getText));
+						lblFeedback.setText(UserInterfaceMain.processFeedbackLabel(getText));
+						//process the timer to reset warning label
+						UserInterfaceMain.warningTimerReset();
 					}
+					
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -227,16 +241,11 @@ public class UserIntSwing extends JPanel implements Observer {
 			}
 		});
 		
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			  @Override
-			  public void run() {
-			    lblWarning_1.setText("");
-			  }
-			}, 2000, 2000);
-
-		// Setup the Help label
-		// CommandGuide.processGuide();
+		//change font style of warning label
+		FeedbackGuide.formatFeedbackLabel();
+		
+		//change font style of command guide label
+		CommandGuide.fomatCommandGuideLabel();
 
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -389,29 +398,25 @@ public class UserIntSwing extends JPanel implements Observer {
 										GroupLayout.PREFERRED_SIZE, 153,
 										GroupLayout.PREFERRED_SIZE)
 								.addContainerGap()));
-
-		JLabel lblQuickHelp = new JLabel("Quick Help");
-		lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
-				| Font.ITALIC, 14));
 		
 		GroupLayout gl_panelBottom = new GroupLayout(panelBottom);
 		gl_panelBottom.setHorizontalGroup(
-			gl_panelBottom.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panelBottom.createSequentialGroup()
-					.addGroup(gl_panelBottom.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblWarning_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_panelBottom.createSequentialGroup()
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 511, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+			gl_panelBottom.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelBottom.createSequentialGroup()
+					.addGroup(gl_panelBottom.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblFeedback, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+						.addGroup(gl_panelBottom.createSequentialGroup()
+							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+							.addGap(18)
 							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblQuickHelp, Alignment.LEADING)
-						.addComponent(lblHelp_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE))
+						.addComponent(lblQuickHelp)
+						.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panelBottom.setVerticalGroup(
 			gl_panelBottom.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelBottom.createSequentialGroup()
-					.addComponent(lblWarning_1, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblFeedback, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelBottom.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
@@ -433,7 +438,7 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		// This operation puts the focus on the textField
 		// for the user to type immediately when the program runs
-		UserLogic.addFrameWindowFocusListener();
+		UserInterfaceMain.addFrameWindowFocusListener();
 	}
 
 	private void addFrameWindowFocusListener() {

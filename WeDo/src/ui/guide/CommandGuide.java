@@ -1,22 +1,26 @@
-/**
- * @author Andy Hsu Wei Qiang 
- * This class create the guide for all commands
- * All method using the commands can be called here
- * 
- */
-package ui;
+package ui.guide;
 
+import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ui.Keywords;
+import ui.logic.command.Action;
+import ui.logic.command.Keywords;
+import userInterface.UserIntSwing;
 
+/**
+ * @author Andy Hsu Wei Qiang 
+ * This class create the guide String for all commands
+ * All method using the commands will be called here
+ * 
+ */
 public class CommandGuide {
 	private static final String GENERAL_GUIDE = buildGeneralGuideString();
 	private static final String ADD_GUIDE = buildAddGuideString();
 	private static final String VIEW_GUIDE = buildViewGuideString();
 	private static final String EDIT_GUIDE = buildEditGuideString();
 	private static final String DELETE_GUIDE = buildDeleteGuideString();
+	private static final String SEARCH_GUIDE = buildSearchGuideString();
 	
 	private static final String HTML_OPEN = "<html>";
 	private static final String HTML_CLOSE = "</html>";
@@ -66,6 +70,8 @@ public class CommandGuide {
 			return String.format(EDIT_GUIDE, identifier);
 		case DELETE:
 			return String.format(DELETE_GUIDE, identifier);
+		case SEARCH:
+			return String.format(SEARCH_GUIDE, identifier);
 		default:
 			return GENERAL_GUIDE;
 		}
@@ -80,12 +86,13 @@ public class CommandGuide {
 		str.append(Keywords.getAddTaskIdentifier() + " | ");
 		str.append(Keywords.getViewTaskIdentifier() + " | ");
 		str.append(Keywords.getEditTaskIdentifier() + " | ");
-		str.append(Keywords.getDeleteTaskIdentifier());
+		str.append(Keywords.getDeleteTaskIdentifier() + " | ");
+		str.append(Keywords.getSearchTaskIdentifier());
 
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	static String buildAddGuideString() {
+	public static String buildAddGuideString() {
 
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		String date = sdf.format(new Date());
@@ -113,7 +120,7 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	static String buildViewGuideString(){
+	public static String buildViewGuideString(){
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		String date = sdf.format(new Date());
 		StringBuilder str = new StringBuilder();
@@ -131,7 +138,7 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	static String buildEditGuideString(){
+	public static String buildEditGuideString(){
 		StringBuilder str = new StringBuilder();
 
 		str.append("To edit a task, ");
@@ -142,12 +149,22 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	static String buildDeleteGuideString(){
+	public static String buildDeleteGuideString(){
 		StringBuilder str = new StringBuilder();
 
 		str.append("To delete a task, ");
 		str.append("select the task number and type:" + HTML_BREAK);
 		str.append(underline(IDENTIFIER_PLACEHOLDER) + " 1");
+
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String buildSearchGuideString(){
+		StringBuilder str = new StringBuilder();
+
+		str.append("To search for keyword, ");
+		str.append("type the word you want to search:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " meeting");
 
 		return wrapWithHtmlTag(str.toString());
 	}
@@ -159,5 +176,10 @@ public class CommandGuide {
 	private static String underline(String text) {
 		return String.format(TAG_WRAP_STRING, HTML_UNDERLINE_OPEN, text,
 				HTML_UNDERLINE_CLOSE);
+	}
+	
+	public static void fomatCommandGuideLabel(){
+		UserIntSwing.lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
+				| Font.ITALIC, 14));
 	}
 }

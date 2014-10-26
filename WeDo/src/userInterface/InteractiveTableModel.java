@@ -1,9 +1,12 @@
 package userInterface;
 
+import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
@@ -50,8 +53,9 @@ public class InteractiveTableModel extends AbstractTableModel {
 		case INDEX_STARTTIME:
 		case INDEX_ENDTIME:
 		case INDEX_PRIORITY:
-		case INDEX_CHECK:
 			return String.class;
+		case INDEX_CHECK:
+			return Boolean.class;
 		default:
 			return Object.class;
 		}
@@ -107,7 +111,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 			tableInfo.setPriority((String) value);
 			break;
 		case INDEX_CHECK:
-			tableInfo.setCheck((String) value);
+			tableInfo.setCheck((Boolean) value);
 			break;
 		default:
 			System.out.println("invalid index");
@@ -137,7 +141,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 				&& tableInfo.getStartTime().trim().equals("")
 				&& tableInfo.getEndTime().trim().equals("")
 				&& tableInfo.getPriority().trim().equals("")
-				&& tableInfo.getCheck().trim().equals("")) {
+				&& tableInfo.getCheck().FALSE) {
 			return true;
 		} else
 			return false;
@@ -146,6 +150,17 @@ public class InteractiveTableModel extends AbstractTableModel {
 	public void addEmptyRow() {
 		dataVector.add(new TableInformation());
 		fireTableRowsInserted(dataVector.size() - 1, dataVector.size() - 1);
+	}
+
+	List<Color> rowColours = Arrays.asList(Color.RED, Color.GREEN, Color.CYAN);
+
+	public void setRowColour(int row, Color c) {
+		rowColours.set(row, c);
+		//fireTableRowsUpdated(row, row);
+	}
+
+	public Color getRowColour(int row) {
+		return rowColours.get(row);
 	}
 
 	public void updateTable(ArrayList<Task> taskList) {
@@ -189,12 +204,12 @@ public class InteractiveTableModel extends AbstractTableModel {
 				this.setValueAt(task.getPriority().toString(), row,
 						INDEX_PRIORITY);
 			}
+			if (task.getCompleted()) {
+				this.setValueAt(task.getCompleted(), row, INDEX_CHECK);
+			}
 
-			// this.setValueAt(""+(row+6), row, INDEX_CHECK);
 			row++;
-
 		}
-
 	}
 
 	public void clearRows() {

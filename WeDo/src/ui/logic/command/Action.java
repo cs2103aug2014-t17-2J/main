@@ -1,9 +1,10 @@
-// @Andy Hsu Wei Qiang
-package ui;
+package ui.logic.command;
 
 /**
- * The Action enumeration is used to specify the command action that the user
- * entered.
+ * @author Andy Hsu Wei Qiang 
+ * This class create the Action emueration which specify
+ * the command action the user entered. 
+ * 
  */
 public enum Action {
 	
@@ -11,6 +12,7 @@ public enum Action {
 	VIEW                (false, false),
 	EDIT                (true, true),
 	DELETE              (true, true),
+	SEARCH				(false, false),
 	UNDO                (false, true),
 	INVALID             (false, false);
 	

@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -13,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -79,22 +83,22 @@ public class InteractiveForm extends JPanel {
 		add(scroller, BorderLayout.CENTER);
 	}
 
-//	public void colourPriority() {
-//
-//		int row = 0;
-//		String s = table.getModel()
-//				.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY)
-//				.toString();
-//
-//		TableColumn priorityCol = table.getColumnModel().getColumn(
-//				InteractiveTableModel.INDEX_PRIORITY);
-//		if (s.equals("high")) {
-//			System.out.println("high five");
-//			priorityCol.setCellRenderer(null);
-//			tableModel.fireTableRowsUpdated(0, tableModel.getRowCount());
-//		}
-//
-//	}
+	// public void colourPriority() {
+	//
+	// int row = 0;
+	// String s = table.getModel()
+	// .getValueAt(row, InteractiveTableModel.INDEX_PRIORITY)
+	// .toString();
+	//
+	// TableColumn priorityCol = table.getColumnModel().getColumn(
+	// InteractiveTableModel.INDEX_PRIORITY);
+	// if (s.equals("high")) {
+	// System.out.println("high five");
+	// priorityCol.setCellRenderer(null);
+	// tableModel.fireTableRowsUpdated(0, tableModel.getRowCount());
+	// }
+	//
+	// }
 
 	public void highlightLastRow(int row) {
 		int lastrow = tableModel.getRowCount();
@@ -118,9 +122,28 @@ public class InteractiveForm extends JPanel {
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
 
+			this.setOpaque(true);
 			Component c = super.getTableCellRendererComponent(table, value,
 					isSelected, hasFocus, row, column);
 
+			// this is to highlight the priority
+			if (column == interactiveColumn
+					&& InteractiveForm.this.tableModel.getValueAt(row,
+							tableModel.INDEX_PRIORITY).equals("High")) {
+				if (!table.isRowSelected(row)) {
+					c.setBackground(Color.ORANGE);
+				}
+				// tableModel.setRowColour(row, Color.BLACK);
+				// c.setBackground(tableModel.getRowColour(row));
+			} else {
+				if (!table.isRowSelected(row)) {
+					c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY
+							: Color.WHITE);
+				}
+				table.setPreferredScrollableViewportSize(table.getPreferredSize());
+
+			}
+			// this is to highlight the last row
 			if (column == interactiveColumn && hasFocus) {
 				if ((InteractiveForm.this.tableModel.getRowCount() - 1) == row
 						&& !InteractiveForm.this.tableModel.hasEmptyRow()) {
@@ -128,27 +151,15 @@ public class InteractiveForm extends JPanel {
 				}
 				highlightLastRow(row);
 			}
-			
-			if(row == 1){
-				c.setBackground(Color.ORANGE);
-			}
-			
+
 			return c;
 		}
+	}
 
-		public Component getTableCellRendererComponent2(JTable table, Object value,
-				boolean isSelected, boolean hasFocus, int row, int column) {
-			
-			Component comp = super.getTableCellRendererComponent(table, value,
-					isSelected, hasFocus, row, column);
-			
-			if (!table.isRowSelected(row)) {
-				comp.setBackground(row % 2 == 0 ? getBackground()
-						: Color.LIGHT_GRAY);				
-			}
-			table.setPreferredScrollableViewportSize(table.getPreferredSize());
-			table.changeSelection(0, 0, false, false);
-			return comp;
+	public void setRowSelectionAllowed(boolean rowSelectionAllowed) {
+		int[] selection = table.getSelectedRows();
+		for (int i = 0; i < selection.length; i++) {
+			selection[i] = table.convertRowIndexToModel(selection[i]);
 		}
 	}
 
