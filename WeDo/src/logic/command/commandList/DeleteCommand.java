@@ -60,4 +60,12 @@ public class DeleteCommand extends Command {
         return parseFlags.size() > MAX_VALID_FLAG; 
     }
     
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#toString()
+     */
+    @Override
+    public String toString() {
+            return "Delete";
+    }
+    
 }

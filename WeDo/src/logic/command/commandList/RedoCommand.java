@@ -43,4 +43,12 @@ public class RedoCommand extends Command {
         final int MAX_VALID_FLAG = 1;
         return parseFlags.size() == MAX_VALID_FLAG; 
     }
+    
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#toString()
+     */
+    @Override
+    public String toString() {
+            return "Redo";
+    }
 }

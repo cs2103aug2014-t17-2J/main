@@ -31,7 +31,9 @@ import com.google.common.collect.Multimap;
 public class CommandParser {
     
     private Command command;
-    
+    private String wordUsed;
+    private String wordRemaining;
+  
     
 
     /**
@@ -40,14 +42,31 @@ public class CommandParser {
      * @return if source contains valid command 
      */
     public boolean tryParse(String source) {
-        String possibleCommand = StringHandler.getFirstWord(source);
+        if (source == null) {
+            return false;
+        }
+
+        source = source.trim();
+
+        if (source.isEmpty()) 
+        {
+            return false;
+        }
+        
+        String possibleCommand = StringHandler.getFirstWord(source);               
+
+        
         command = KeyMatcher.matchKey(createFakeMultiMap(), possibleCommand);
         if(command != null)
         {
+            wordUsed = possibleCommand;
+            setWordRemaining(StringHandler.removeFirstMatched(source,wordUsed));
             return true;
         }
         else
         {
+            wordUsed = "";
+            setWordRemaining(source);
             return false;
         }
     }
@@ -124,6 +143,34 @@ public class CommandParser {
         for (Command key : map.keySet()) {
             availableActions.putAll(key, map.get(key));
         }
+    }
+
+    /**
+     * @return the wordRemaining
+     */
+    public String getWordRemaining() {
+        return wordRemaining;
+    }
+
+    /**
+     * @param wordRemaining the wordRemaining to set
+     */
+    public void setWordRemaining(String wordRemaining) {
+        this.wordRemaining = wordRemaining;
+    }
+
+    /**
+     * @return the wordUsed
+     */
+    public String getWordUsed() {
+        return wordUsed;
+    }
+
+    /**
+     * @param wordUsed the wordUsed to set
+     */
+    public void setWordUsed(String wordUsed) {
+        this.wordUsed = wordUsed;
     }
 
 }

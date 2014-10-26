@@ -71,6 +71,14 @@ public class AddCommand extends Command {
         } else {
             return false;
         }
+    }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#toString()
+     */
+    @Override
+    public String toString() {
+            return "Add";
     }    
     
 }
