@@ -49,7 +49,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	ArrayList<Task> taskList;
 
 	public static JFrame frame;
-	public static JTextField textField;
+	public static JTextField textField = new JTextField();
 	public static JLabel lblHelp;
 	public static JButton btnHelp;
 	public static final JLabel lblFeedback = new JLabel("");
@@ -176,8 +176,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 		btnEdit.setBackground(new Color(204, 255, 255));
 
-		// UserLogic.processTextField();
-
 		JButton btnDel = new JButton("F5 <Delete>");
 		btnDel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -200,32 +198,48 @@ public class UserIntSwing extends JPanel implements Observer {
 		JPanel panelBottom = new JPanel();
 		panelBottom.setBackground(new Color(255, 204, 255));
 
-		JLabel lblHelp_1 = new JLabel("Label Help");
-		lblHelp_1.setVerticalAlignment(SwingConstants.TOP);
+		JLabel lblHelp = new JLabel("Label Help");
+		lblHelp.setVerticalAlignment(SwingConstants.TOP);
 		
-		// Set the Help Label
-		lblHelp_1.setText(CommandGuide.buildGeneralGuideString());
+		/**
+		 *@author Andy - Set the Command Guide to call the General Guide
+		 */
+		lblHelp.setText(CommandGuide.buildGeneralGuideString());
 
-		textField = new JTextField();
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg1) {
 				try {
+					/**
+					 *@author Andy - Call the CommandGuide function to set
+					 *correct command guide message
+					 */
 					String text = textField.getText();
-					lblHelp_1.setText(CommandGuide.getGuideMessage(text
+					lblHelp.setText(CommandGuide.getGuideMessage(text
 							+ " "));
 					frame.setVisible(true);
 
-					// process the hotkey functions
+					/**
+					 *@author Andy - Call the processHotKeys function
+					 *from UserInterfaceMain to process all the Hot Keys
+					 *Functions
+					 */
 					UserInterfaceMain.processHotKeys(arg1);
 					
 					if(arg1.getKeyCode() == KeyEvent.VK_ENTER){
 						String getText = textField.getText();
 		
-						//process the warning label
+						/**
+						 *@author Andy - Call the processFeedbackLabel function from
+						 *UserInterfaceMain to process the Feedback to the user
+						 */
+						
 						lblFeedback.setText(UserInterfaceMain.processFeedbackLabel(getText));
-						//process the timer to reset warning label
-						UserInterfaceMain.warningTimerReset();
+						/**
+						 *@author Andy - Call feedbackTimerReset to clear the Feedback label
+						 *every 1 second after enter key is pressed
+						 */
+						UserInterfaceMain.feedbackTimerReset();
 					}
 					
 					
@@ -235,10 +249,14 @@ public class UserIntSwing extends JPanel implements Observer {
 			}
 		});
 		
-		//change font style of warning label
+		/**
+		 *@author Andy - Format the Feedback Label
+		 */
 		FeedbackGuide.formatFeedbackLabel();
 		
-		//change font style of command guide label
+		/**
+		 *@author Andy - Format the Command Guide Label
+		 */
 		CommandGuide.fomatCommandGuideLabel();
 
 		textField.addActionListener(new ActionListener() {
@@ -257,7 +275,8 @@ public class UserIntSwing extends JPanel implements Observer {
                     e1.printStackTrace();
                 }
 				textField.setText("");
-
+				//reset the Command Guide
+				lblHelp.setText(CommandGuide.buildGeneralGuideString());
 			}
 		});
 		textField.setColumns(10);
@@ -404,7 +423,7 @@ public class UserIntSwing extends JPanel implements Observer {
 							.addGap(18)
 							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
 						.addComponent(lblQuickHelp)
-						.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE))
+						.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panelBottom.setVerticalGroup(
@@ -418,7 +437,7 @@ public class UserIntSwing extends JPanel implements Observer {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblQuickHelp)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblHelp_1, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+					.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
 		);
 		gl_panelBottom.setAutoCreateGaps(true);
 		panelBottom.setLayout(gl_panelBottom);
@@ -430,8 +449,10 @@ public class UserIntSwing extends JPanel implements Observer {
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(interForm);
 
-		// This operation puts the focus on the textField
-		// for the user to type immediately when the program runs
+		/**
+		 *@author Andy - This operation puts the focus on the textField
+		 * for the user to type immediately when the program runs
+		 */
 		UserInterfaceMain.addFrameWindowFocusListener();
 	}
 
