@@ -64,7 +64,8 @@ public class AddCommand extends Command {
         
         final EnumSet<ParserFlags> VALID_PARSE = EnumSet.of(
                 ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
-
+   
+        
         if (parseFlags.containsAll(VALID_PARSE)) {
             return true;
         } else {

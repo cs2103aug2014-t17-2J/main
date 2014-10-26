@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -120,9 +122,28 @@ public class InteractiveForm extends JPanel {
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
 
+			this.setOpaque(true);
 			Component c = super.getTableCellRendererComponent(table, value,
 					isSelected, hasFocus, row, column);
 
+			// this is to highlight the priority
+			if (column == interactiveColumn
+					&& InteractiveForm.this.tableModel.getValueAt(row,
+							tableModel.INDEX_PRIORITY).equals("High")) {
+				if (!table.isRowSelected(row)) {
+					c.setBackground(Color.ORANGE);
+				}
+				// tableModel.setRowColour(row, Color.BLACK);
+				// c.setBackground(tableModel.getRowColour(row));
+			} else {
+				if (!table.isRowSelected(row)) {
+					c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY
+							: Color.WHITE);
+				}
+				table.setPreferredScrollableViewportSize(table.getPreferredSize());
+
+			}
+			// this is to highlight the last row
 			if (column == interactiveColumn && hasFocus) {
 				if ((InteractiveForm.this.tableModel.getRowCount() - 1) == row
 						&& !InteractiveForm.this.tableModel.hasEmptyRow()) {
@@ -131,41 +152,17 @@ public class InteractiveForm extends JPanel {
 				highlightLastRow(row);
 			}
 
-			if (table.getColumnModel()
-					.getColumn(InteractiveTableModel.INDEX_PRIORITY).toString()
-					.equalsIgnoreCase("high")) {
-
-				table.setRowSelectionInterval(row, row + 1);
-				c.setBackground(Color.ORANGE);
-			}
-
-			int i = 0;
-			if (i < InteractiveForm.this.tableModel.getRowCount()) {
-				if (InteractiveForm.this.tableModel
-						.getColumnName(InteractiveTableModel.INDEX_PRIORITY)
-						.toString().equalsIgnoreCase("High")) {
-					
-					setRowSelectionAllowed(InteractiveForm.this.tableModel
-							.getColumnName(InteractiveTableModel.INDEX_PRIORITY)
-							.toString().equalsIgnoreCase("High"));
-
-					table.setSelectionBackground(Color.BLUE);
-
-				}
-				i++;
-			}
-
 			return c;
 		}
 	}
-	
+
 	public void setRowSelectionAllowed(boolean rowSelectionAllowed) {
 		int[] selection = table.getSelectedRows();
-		   for (int i = 0; i < selection.length; i++) {
-		     selection[i] = table.convertRowIndexToModel(selection[i]);
-		   }		
+		for (int i = 0; i < selection.length; i++) {
+			selection[i] = table.convertRowIndexToModel(selection[i]);
+		}
 	}
-	
+
 	public class InteractiveTableModelListener implements TableModelListener {
 		public void tableChanged(TableModelEvent evt) {
 			if (evt.getType() == TableModelEvent.UPDATE) {

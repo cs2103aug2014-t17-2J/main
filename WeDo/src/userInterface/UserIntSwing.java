@@ -113,12 +113,13 @@ public class UserIntSwing extends JPanel implements Observer {
 		lblTodayDate.setText(UserInterfaceMain.setTodayDate());
 
 		JButton btnHelp_1 = new JButton("F1 <Help>");
+		btnHelp_1.setForeground(new Color(0, 0, 0));
 		btnHelp_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("");
 			}
 		});
-		btnHelp_1.setBackground(new Color(204, 255, 255));
+		btnHelp_1.setBackground(new Color(255, 153, 255));
 		BalloonTip helpBalloonTip = new BalloonTip(btnHelp_1, new JLabel(
 				"Press F1 for Help"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
@@ -137,13 +138,14 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 
 		JButton btnAdd = new JButton("F2 <Add>");
+		btnAdd.setForeground(new Color(0, 0, 0));
 		btnAdd.setToolTipText("");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textField.setText("add");
 			}
 		});
-		btnAdd.setBackground(new Color(204, 255, 255));
+		btnAdd.setBackground(new Color(255, 153, 255));
 		BalloonTip AddBalloonTip = new BalloonTip(btnAdd, new JLabel(
 				"Press F2 to Add"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
@@ -160,37 +162,41 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 
 		JButton btnView = new JButton("F3 <View>");
+		btnView.setForeground(new Color(0, 0, 0));
 		btnView.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("view");
 			}
 		});
 		btnView.setToolTipText("Click for Viewing Tasks!");
-		btnView.setBackground(new Color(204, 255, 255));
+		btnView.setBackground(new Color(255, 153, 255));
 
 		JButton btnEdit = new JButton("F4 <Edit>");
+		btnEdit.setForeground(new Color(0, 0, 0));
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("edit");
 			}
 		});
-		btnEdit.setBackground(new Color(204, 255, 255));
+		btnEdit.setBackground(new Color(255, 153, 255));
 
 		JButton btnDel = new JButton("F5 <Delete>");
+		btnDel.setForeground(new Color(0, 0, 0));
 		btnDel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("delete");
 			}
 		});
-		btnDel.setBackground(new Color(204, 255, 255));
+		btnDel.setBackground(new Color(255, 153, 255));
 
 		JButton btnSearch = new JButton("F6 <Search>");
+		btnSearch.setForeground(new Color(0, 0, 0));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField.setText("search");
 			}
 		});
-		btnSearch.setBackground(new Color(204, 255, 255));
+		btnSearch.setBackground(new Color(255, 153, 255));
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);

@@ -17,6 +17,11 @@ import logic.utility.Task;
  */
 public class ParserManager {
 
+    public ParseResult dynamicParsing(String userInput)
+    {
+        
+       return null; 
+    }
     /**
      * @param userInput
      *            the string to be interpreted
