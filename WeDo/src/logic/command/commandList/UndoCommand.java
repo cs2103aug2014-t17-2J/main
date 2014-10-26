@@ -17,11 +17,7 @@ public class UndoCommand extends Command {
     public void execute() throws InvalidCommandException {
         System.out.println("undo");
 
-        if(undoHandler.undo() == false)
-
-        {
-            throw new InvalidCommandException("Nothing to undo");
-        }
+        undoHandler.undo();
         
     }
 
