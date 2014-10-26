@@ -126,23 +126,37 @@ public class InteractiveForm extends JPanel {
 			Component c = super.getTableCellRendererComponent(table, value,
 					isSelected, hasFocus, row, column);
 
-			// this is to highlight the priority
-			if (column == interactiveColumn
-					&& InteractiveForm.this.tableModel.getValueAt(row,
-							tableModel.INDEX_PRIORITY).equals("High")) {
+			if (!table.isRowSelected(row)) {
+				c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+			}
+			
+			// highlight the completed task
+			if ((boolean) InteractiveForm.this.tableModel.getValueAt(row,
+					tableModel.INDEX_CHECK)) {
+				if (!table.isRowSelected(row)) {
+					c.setBackground(Color.GREEN);
+				}
+			}
+			// this is to highlight the prioritycolumn == interactiveColumn
+			// &&
+			Color originalColour = c.getBackground();
+
+			if (InteractiveForm.this.tableModel.getValueAt(row,
+					tableModel.INDEX_PRIORITY).equals("High")) {
 				if (!table.isRowSelected(row)) {
 					c.setBackground(Color.ORANGE);
 				}
-				// tableModel.setRowColour(row, Color.BLACK);
-				// c.setBackground(tableModel.getRowColour(row));
-			} else {
-				if (!table.isRowSelected(row)) {
-					c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY
-							: Color.WHITE);
-				}
-				table.setPreferredScrollableViewportSize(table.getPreferredSize());
-
 			}
+			else if(InteractiveForm.this.tableModel.getValueAt(row,
+					tableModel.INDEX_PRIORITY).equals("Low")) {
+				if (!table.isRowSelected(row)) {
+					c.setBackground(Color.CYAN);
+				}
+			}
+			else{
+				c.setBackground(originalColour);
+			}
+
 			// this is to highlight the last row
 			if (column == interactiveColumn && hasFocus) {
 				if ((InteractiveForm.this.tableModel.getRowCount() - 1) == row
