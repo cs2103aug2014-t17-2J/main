@@ -1,12 +1,9 @@
 package userInterface;
 
-import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
@@ -150,17 +147,6 @@ public class InteractiveTableModel extends AbstractTableModel {
 	public void addEmptyRow() {
 		dataVector.add(new TableInformation());
 		fireTableRowsInserted(dataVector.size() - 1, dataVector.size() - 1);
-	}
-
-	List<Color> rowColours = Arrays.asList(Color.RED, Color.GREEN, Color.CYAN);
-
-	public void setRowColour(int row, Color c) {
-		rowColours.set(row, c);
-		//fireTableRowsUpdated(row, row);
-	}
-
-	public Color getRowColour(int row) {
-		return rowColours.get(row);
 	}
 
 	public void updateTable(ArrayList<Task> taskList) {
