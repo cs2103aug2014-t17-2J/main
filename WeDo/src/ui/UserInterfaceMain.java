@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
@@ -7,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -120,7 +122,7 @@ public class UserInterfaceMain {
 	 *This operation process the timer to clear the Warning 
 	 *Label. It is set at 1000 milli-seconds. 
 	 */
-	public static void warningTimerReset(){
+	public static void feedbackTimerReset(){
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			  @Override
