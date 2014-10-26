@@ -8,6 +8,10 @@ import logic.parser.ParserFlags;
 import logic.utility.Task;
 import dataStorage.DataHandler;
 
+/**
+ * @author Kuan Tien Long
+ *
+ */
 public abstract class Command {
 
     protected Task task;
@@ -79,5 +83,7 @@ public abstract class Command {
             return false;
         return true;
     }
+
+    public abstract String toString();
 
 }

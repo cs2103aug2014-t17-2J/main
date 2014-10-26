@@ -34,10 +34,12 @@ public class DateStringMassager {
         source = convertFormalDate(source);
         
         source = replaceNonDateDigitWithDelimiter(source);
-        source = replaceWordWithDelimiter(source);
-        
+
         source = KeyMatcher.replaceMatchedWithKey(
                 createFakeMultiMapForShortForm(), source);
+        
+        source = replaceWordWithDelimiter(source);
+        
         
         System.out.println("massage date is " + source);
         
@@ -128,7 +130,7 @@ public class DateStringMassager {
             String digit = matcher.group(DIGIT_GROUP);
             String word = matcher.group(WORD_GROUP);
 
-            if (containsDateFormat(matcher.group(WORD_GROUP))) {
+            if (containsDateFormat(matcher.group(WORD_GROUP).trim())) {
                 digit = removeDigitDelimiters(digit);
             }
             matcher.appendReplacement(result, word + digit);
@@ -146,7 +148,7 @@ public class DateStringMassager {
 
     
     private static String removeDelimiterForDateDigitByNextWord(String source) {
-        final String numRegex = "(?<=\\s)(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
+        final String numRegex = "(?<=\\s|^)(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
         final int DIGIT_GROUP = 1;
         final int WORD_GROUP = 2;
         Pattern pattern = Pattern.compile(numRegex);
@@ -157,7 +159,7 @@ public class DateStringMassager {
             String digit = matcher.group(DIGIT_GROUP);
             String word = matcher.group(WORD_GROUP);
 
-            if (containsDateFormat(matcher.group(WORD_GROUP))) {
+            if (containsDateFormat(matcher.group(WORD_GROUP).trim())) {
                 digit = removeDigitDelimiters(digit);
             }
             matcher.appendReplacement(result, digit + word);
@@ -184,7 +186,7 @@ public class DateStringMassager {
     }
     
     private static String replaceWordWithDelimiter(String source) {
-        final String numRegex = "([A-z]+(?=\\s))";
+        final String numRegex = "([A-z" + Pattern.quote(WORD_DELIMITER) + "]+(?=\\s))";
         
         final int WORD_GROUP = 1;
 
@@ -201,7 +203,7 @@ public class DateStringMassager {
     }
     public static String removeWordDelimiter(String source)
     {
-        return  StringHandler.removeAll(source, Pattern.quote(WORD_DELIMITER));
+        return  StringHandler.removeAll(source, Pattern.quote(WORD_DELIMITER) + "(?=\\s)");
     }
 
     private static boolean containsDateFormat(String source) {

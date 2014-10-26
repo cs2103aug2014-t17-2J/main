@@ -5,13 +5,11 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Observer;
 
-import logic.command.UndoHandler;
 import logic.utility.Task;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class BasicDataHandler implements DataHandler {
 
@@ -25,7 +23,6 @@ public class BasicDataHandler implements DataHandler {
 
 	private String currentList;
 
-	UndoHandler undoHandler = new UndoHandler();
 	FileHandler fileHandler;
 
 	ObservableList<Task> observableList;

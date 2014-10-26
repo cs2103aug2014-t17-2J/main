@@ -7,6 +7,7 @@ import logic.command.CommandExecutor;
 import logic.command.commandList.Command;
 import logic.exception.InvalidCommandException;
 import logic.exception.InvalidParseException;
+import logic.parser.DynamicParseResult;
 import logic.parser.ParseResult;
 import logic.parser.ParserManager;
 import logic.utility.Task;
@@ -33,12 +34,18 @@ public class LogicManager
         this.dataHandler = dataHandler;
         this.commandExecutor = new CommandExecutor(this.dataHandler);
     } 
+    
+    public DynamicParseResult dynamicParse(String userInput)
+    {
+        ParserManager parserManager = new ParserManager();
+        return parserManager.dynamicParsing(userInput);
+    }
 
     /**
      * @param userInput the input that the user entered which will be decipher into task and command
      * @throws InvalidCommandException      
      */
-    public ParseResult processCommand(String userInput) throws InvalidParseException {
+    public ParseResult processCommand(String userInput) {
 
         ParserManager parserManager = new ParserManager();
         return parserManager.interpret(userInput);

@@ -4,11 +4,6 @@
 package logic.parser;
 
 import java.util.EnumSet;
-
-import logic.command.commandList.AddCommand;
-import logic.command.commandList.RedoCommand;
-import logic.command.commandList.UndoCommand;
-import logic.exception.InvalidParseException;
 import logic.utility.Task;
 
 /**
@@ -17,14 +12,42 @@ import logic.utility.Task;
  */
 public class ParserManager {
 
+    public DynamicParseResult dynamicParsing(String userInput) 
+    {
+        DynamicParseResult parseResult = new DynamicParseResult();
+        DateParser dateParser = new DateParser();
+        PriorityParser priorityParser = new PriorityParser();
+        DescriptionParser descriptionParser = new DescriptionParser();
+        CommandParser commandParser = new CommandParser();
+        EnumSet<ParserFlags> parseFlags = tryParse(userInput, dateParser,
+                priorityParser, descriptionParser, commandParser);
+        
+        
+        parseResult.setCommand(commandParser.getCommand());
+        parseResult.setTask(buildTask(parseFlags, dateParser,
+                priorityParser, descriptionParser));
+        parseResult.setParseFlags(parseFlags);
+        parseResult.setDateWordUsed(dateParser.getWordUsed());
+        parseResult.setPriorityWordUsed(priorityParser.getWordUsed());
+        parseResult.setCommandWordUsed(commandParser.getWordUsed());
+        parseResult.setDescriptionWordUsed(descriptionParser.getWordUsed());
+        
+        System.out.println(parseResult);
+        return parseResult;
+    }
+
+
+
     /**
      * @param userInput
      *            the string to be interpreted
-     * @return if command and task are parsed successfully
-     * @throws Invalid
+     * @return ParseResult which contains task, command, isSuccessful (to determine whether parse succeed) and failedMessage.
      */
-    public ParseResult interpret(String userInput) throws InvalidParseException {
+    public ParseResult interpret(String userInput) {
 
+        final String COMMAND_PARSE_FAILED = "No such command";
+        final String INSUFFICIENT_ATTRIBUTE = "Insufficient attribute(s) for the command";
+        
         ParseResult parseResult = new ParseResult();
         DateParser dateParser = new DateParser();
         PriorityParser priorityParser = new PriorityParser();
@@ -35,13 +58,17 @@ public class ParserManager {
                 priorityParser, descriptionParser, commandParser);
 
         if (!isCommandParsed(parseFlags)) {
-            throw new InvalidParseException("Invalid command format parsed");
+            parseResult.setSuccessful(false);
+            parseResult.setFailedMessage(COMMAND_PARSE_FAILED);
+            return parseResult;
         } else {
-            parseResult.setCommand(commandParser.getCommand());
-
-            if (!parseResult.getCommand().validate(parseFlags)) {
-                throw new InvalidParseException("No command parsed");
+            if (!commandParser.getCommand().validate(parseFlags)) {
+                parseResult.setSuccessful(false);
+                parseResult.setFailedMessage(INSUFFICIENT_ATTRIBUTE);
+                return parseResult;
             } else {
+                parseResult.setSuccessful(true);
+                parseResult.setCommand(commandParser.getCommand());
                 parseResult.setTask(buildTask(parseFlags, dateParser,
                         priorityParser, descriptionParser));
                 return parseResult;
@@ -196,7 +223,13 @@ public class ParserManager {
             parseFlags.add(ParserFlags.PRIORITY_FLAG);
             userInput = priorityParser.getWordRemaining();
         }
-
+        
+        System.out.println("to command parser is " + userInput);
+        if (commandParser.tryParse(userInput)) {
+            parseFlags.add(ParserFlags.COMMAND_FLAG);
+            userInput = commandParser.getWordRemaining();
+        }
+        
         System.out.println("to description parser is " + userInput);
 
         if (descriptionParser.tryParse(userInput)) {
@@ -204,10 +237,7 @@ public class ParserManager {
             userInput = descriptionParser.getWordRemaining();
         }
 
-        System.out.println("to command parser is " + userInput);
-        if (commandParser.tryParse(userInput)) {
-            parseFlags.add(ParserFlags.COMMAND_FLAG);
-        }
+
 
         return parseFlags;
     }

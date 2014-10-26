@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
@@ -7,10 +8,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import logic.parser.DynamicParseResult;
+import logic.parser.ParserFlags;
+import logic.utility.Task;
 import ui.guide.FeedbackGuide;
 import ui.logic.command.Action;
 import ui.logic.command.Keywords;
@@ -120,7 +125,7 @@ public class UserInterfaceMain {
 	 *This operation process the timer to clear the Warning 
 	 *Label. It is set at 1000 milli-seconds. 
 	 */
-	public static void warningTimerReset(){
+	public static void feedbackTimerReset(){
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			  @Override
@@ -129,4 +134,36 @@ public class UserInterfaceMain {
 			  }
 			}, 1000);
 	}
+	
+	public static void processUserParse(KeyEvent arg1)
+    {
+         DynamicParseResult parseResult = UserIntSwing.logicManager.dynamicParse(UserIntSwing.
+        		 textField.getText());
+        
+         Task task = parseResult.getTask();
+         
+         // clear all label 1st..
+         UserIntSwing.lblCommandProcess.setText(null);
+         UserIntSwing.lblDateProcess.setText(null);
+         UserIntSwing.lblDescriptionProcess.setText(null);
+         UserIntSwing.lblPriorityProcess.setText(null);
+         
+        for(ParserFlags parseFlag : parseResult.getParseFlags())
+        {
+            switch (parseFlag)
+            {
+            case COMMAND_FLAG:  UserIntSwing.lblCommandProcess.setText(parseResult.getCommandWordUsed());
+                break;
+            case DATE_FLAG:  UserIntSwing.lblDateProcess.setText(task.getDateTimeString());
+                
+                break;
+            case DESCRIPTION_FLAG:  UserIntSwing.lblDescriptionProcess.setText(task.getDescription());
+                break;
+            case PRIORITY_FLAG:  UserIntSwing.lblPriorityProcess.setText(task.getPriority().toString());
+                break;
+            default:
+                break;
+            }
+        }
+    }
 }

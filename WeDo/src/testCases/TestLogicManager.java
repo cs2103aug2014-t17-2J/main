@@ -37,13 +37,9 @@ public class TestLogicManager {
 
         BasicDataHandler dataHandler = new BasicDataHandler();
         LogicManager logicManager = new LogicManager(dataHandler);
-        try {
+   
             ParseResult parseResult = logicManager.processCommand("add hello");
             logicManager.executeCommand(parseResult);
-        } catch (InvalidParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         
         assertEquals(expectedMap, dataHandler.getMainList());
          

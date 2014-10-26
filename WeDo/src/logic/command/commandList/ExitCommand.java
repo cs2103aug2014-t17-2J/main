@@ -37,4 +37,12 @@ public class ExitCommand extends Command {
         final int MIN_VALID_FLAGS = 1;
         return parseFlags.size() == MIN_VALID_FLAGS;
     }
+    
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#toString()
+     */
+    @Override
+    public String toString() {
+            return "Exit";
+    }
 }

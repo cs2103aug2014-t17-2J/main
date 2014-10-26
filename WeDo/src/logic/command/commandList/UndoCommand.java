@@ -16,9 +16,8 @@ public class UndoCommand extends Command {
 
     public void execute() throws InvalidCommandException {
         System.out.println("undo");
-        final boolean FAILED = false;
 
-        if(undoHandler.undo() == FAILED)
+        if(undoHandler.undo() == false)
 
         {
             throw new InvalidCommandException("Nothing to undo");
@@ -44,5 +43,13 @@ public class UndoCommand extends Command {
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
         final int MAX_VALID_FLAG = 1;
         return parseFlags.size() == MAX_VALID_FLAG; 
+    }
+    
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#toString()
+     */
+    @Override
+    public String toString() {
+            return "Undo";
     }
 }

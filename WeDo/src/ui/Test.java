@@ -22,9 +22,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-/**
- * @author David
- */
 public class Test {
 
     public Test() {

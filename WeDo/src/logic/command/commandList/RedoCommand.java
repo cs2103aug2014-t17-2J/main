@@ -18,9 +18,7 @@ public class RedoCommand extends Command {
     public void execute() throws InvalidCommandException {
         System.out.println("redo");
         
-        final boolean FAILED = false;
-
-        if(undoHandler.redo() == FAILED)
+        if(undoHandler.redo() == false)
         {
             throw new InvalidCommandException("Nothing to redo");
         }
@@ -44,5 +42,13 @@ public class RedoCommand extends Command {
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
         final int MAX_VALID_FLAG = 1;
         return parseFlags.size() == MAX_VALID_FLAG; 
+    }
+    
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#toString()
+     */
+    @Override
+    public String toString() {
+            return "Redo";
     }
 }
