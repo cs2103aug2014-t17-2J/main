@@ -25,33 +25,34 @@ public class MinimiseToTray {
 	private static TrayIcon trayIcon;
 	private static SystemTray tray;
 	
-	private static final String FRAME_NAME = "Wedo";
-	private static final String SYSTEMTRAY_OPEN = "Open";
-	private static final String SYSTEMTRAY_EXIT = "Exit";
+	private static final String MAIN_FRAME_NAME = "Wedo";
+	private static final String SYSTEMTRAY_MENU_OPEN = "Open";
+	private static final String SYSTEMTRAY_MENU_EXIT = "Exit";
 	
 	public static void Minimise(WindowEvent arg){
 		
-		Image image = Toolkit.getDefaultToolkit().getImage("/ui/icon/WeDo.png");
+		Image image = Toolkit.getDefaultToolkit().getImage(
+				UserIntSwing.class.getResource("/ui/icon/WeDo.png"));
 		PopupMenu popup = new PopupMenu();
-		trayIcon = new TrayIcon(image, FRAME_NAME, popup);
+		trayIcon = new TrayIcon(image, MAIN_FRAME_NAME, popup);
 		trayIcon.setImageAutoSize(true);
 		
 		if(SystemTray.isSupported()){
 			System.out.println("SystemTray supported");
 			tray = SystemTray.getSystemTray();
 			
-			MenuItem popupItem = new MenuItem(SYSTEMTRAY_OPEN);
+			MenuItem popupItem = new MenuItem(SYSTEMTRAY_MENU_OPEN);
 			popup.add(popupItem);
 			popupItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					exitSystemTray();
+					openMainFrame();
 				}
 			});
-			MenuItem popupItemExit = new MenuItem(SYSTEMTRAY_EXIT);
+			MenuItem popupItemExit = new MenuItem(SYSTEMTRAY_MENU_EXIT);
 			popup.add(popupItemExit);
 			popupItemExit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					openSystemTray();
+					exitMainFrame();
 				}
 			});
 		}
@@ -71,7 +72,11 @@ public class MinimiseToTray {
 		}
 	}
 	
-	private static void exitSystemTray(){
+	/**
+	 * This operation opens the main frame when
+	 * the "Open" menu on the SystemTray is pressed
+	 */
+	private static void openMainFrame(){
 		UserIntSwing.frame.setVisible(true);
 		UserIntSwing.frame.setExtendedState(JFrame.NORMAL);
 		tray.remove(trayIcon);
@@ -79,7 +84,11 @@ public class MinimiseToTray {
 		System.out.println("Tray icon removed");
 	}
 	
-	private static void openSystemTray(){
+	/**
+	 * This operation closes the main frame when
+	 * the "Exit" menu on the SystemTray is pressed
+	 */
+	private static void exitMainFrame(){
 		System.out.println("Exiting......");
 		System.exit(0);
 	}

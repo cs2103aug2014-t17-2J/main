@@ -1,14 +1,9 @@
 package userInterface;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -47,8 +42,6 @@ import dataStorage.ObservableList;
 import java.awt.Toolkit;
 import java.awt.event.WindowStateListener;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
