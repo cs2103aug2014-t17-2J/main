@@ -194,7 +194,7 @@ public class DateStringMassager {
 
     private static String replaceAllDigitsWithDelimiter(String source) {
         
-        final String numRegex = "((?<!/\\d{0,4}|:\\d{0,2})-*\\d+(?=$|\\s|a|p|z|,|\\Q.\\E))"; // ignore digit that start with / or :
+        final String numRegex = "((?<!/\\d{0,4}|:\\d{0,2})-*\\d+(?=$|\\s|a|p|z|,|-|\\Q.\\E))"; // ignore digit that start with / or :
 
         //final String numRegex = "((?<!/\\d{0,4}|:\\d{0,2})-*\\d+(?=$|\\s))"; // ignore digit that start with / or :        
         //final String numRegex = "((?<=^|\\s)-*\\d+(?=$|\\s))"; // 1st working regex
