@@ -3,6 +3,7 @@
  */
 package logic.command.commandList;
 
+import java.lang.reflect.Field;
 import java.util.EnumSet;
 
 import logic.exception.InvalidCommandException;
@@ -48,9 +49,96 @@ public class EditCommand extends Command {
         if (!dataHandler.indexValid(index)) {
             throw new InvalidCommandException("Edit failed, invalid index");
         }
+        
+          // not implemented yet (edit based on user specification)
+          //  task = editSpecifiedField(source, task); 
+            
             dataHandler.editTask(source, task);
             undoHandler.addUndo(this);
         
+    }
+    
+    /**
+     * Edit the source task based on specified field that the user enter
+     * @param source the task that the user wanted to edit
+     * @param toEditTask the task that the user enter
+     * @return editedTask based on what user had specified
+     */
+    private Task editSpecifiedField(Task source, Task toEditTask)
+    {
+        Task editedTask = new Task();
+        
+        setDescriptionBasedOnSpecified(source, toEditTask, editedTask);
+        
+        setPriorityBasedOnSpecified(source, toEditTask, editedTask);
+
+        setDateTimeBasedOnSpecified(source, toEditTask, editedTask);
+        
+        
+        return editedTask;
+    }
+
+    private void setDateTimeBasedOnSpecified(Task source, Task toEditTask,
+            Task editedTask) {
+        if(toEditTask.getEndDate() == null || toEditTask.getEndDate() == Task.DATE_NOT_SET)
+        {
+            editedTask.setEndDate(source.getEndDate());
+        }
+        else
+        {
+            editedTask.setEndDate(toEditTask.getEndDate());
+        }
+        
+        if(toEditTask.getStartDate() == null || toEditTask.getStartDate() == Task.DATE_NOT_SET)
+        {
+            editedTask.setStartDate(source.getStartDate());
+        }
+        else
+        {
+            editedTask.setStartDate(toEditTask.getStartDate());
+        }
+        
+        if(toEditTask.getStartTime() == null || toEditTask.getStartTime() == Task.TIME_NOT_SET)
+        {
+            editedTask.setStartTime(source.getStartTime());
+        }
+        else
+        {
+            editedTask.setStartTime(toEditTask.getStartTime());
+        }
+        
+        if(toEditTask.getEndTime() == null || toEditTask.getEndTime() == Task.TIME_NOT_SET)
+        {
+            editedTask.setEndTime(source.getEndTime());
+        }
+        else
+        {
+            editedTask.setEndTime(toEditTask.getEndTime());
+        }
+    }
+
+    private void setPriorityBasedOnSpecified(Task source, Task toEditTask,
+            Task editedTask) {
+        if(toEditTask.getPriority() == null || toEditTask.getPriority() == Task.PRIORITY_NOT_SET)
+        {
+            editedTask.setPriority(source.getPriority());
+        }
+        else
+        {
+            editedTask.setPriority(toEditTask.getPriority());
+        }
+    }
+
+    private void setDescriptionBasedOnSpecified(Task source, Task toEditTask,
+            Task editedTask) {
+        if(toEditTask.getDescription() == null || toEditTask.getDescription().isEmpty())
+        {
+            editedTask.setDescription(source.getDescription());
+        }
+        else
+        {
+            editedTask.setDescription(toEditTask.getDescription());
+        }
     }
 
     private int getIndex(String indexString) {
