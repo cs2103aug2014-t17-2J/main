@@ -1,19 +1,30 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
+
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class TestYo {
 
 	private JFrame frame;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -45,40 +56,67 @@ public class TestYo {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
-		
+		frame.getContentPane().setLayout(null);
+
 		JButton btnNewButton = new JButton("New button");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 0;
-		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
-		
+		btnNewButton.setBounds(10, 11, 89, 23);
+		frame.getContentPane().add(btnNewButton);
+
 		JButton btnEdit = new JButton("Edit");
-		GridBagConstraints gbc_btnEdit = new GridBagConstraints();
-		gbc_btnEdit.insets = new Insets(0, 0, 5, 5);
-		gbc_btnEdit.gridx = 1;
-		gbc_btnEdit.gridy = 0;
-		frame.getContentPane().add(btnEdit, gbc_btnEdit);
-		
+		btnEdit.setBounds(263, 11, 51, 23);
+		frame.getContentPane().add(btnEdit);
+
 		JButton btnAdd = new JButton("Add");
-		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
-		gbc_btnAdd.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAdd.gridx = 0;
-		gbc_btnAdd.gridy = 1;
-		frame.getContentPane().add(btnAdd, gbc_btnAdd);
-		
+		btnAdd.setBounds(109, 11, 51, 23);
+		frame.getContentPane().add(btnAdd);
+
 		JButton btnNewButton_1 = new JButton("New button");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_1.gridx = 0;
-		gbc_btnNewButton_1.gridy = 2;
-		frame.getContentPane().add(btnNewButton_1, gbc_btnNewButton_1);
+		btnNewButton_1.setBounds(164, 11, 89, 23);
+		frame.getContentPane().add(btnNewButton_1);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 78, 414, 172);
+		frame.getContentPane().add(panel);
+
+		table = new JTable();
+		table.setFillsViewportHeight(true);
+		table.setColumnSelectionAllowed(true);
+		table.setCellSelectionEnabled(true);
+		table.setModel(new DefaultTableModel(new Object[][] {
+				{ "First", "Second", "Third", "Fourth" },
+				{ null, null, null, null }, { null, null, null, null },
+				{ null, null, null, null }, { null, null, null, null },
+				{ null, null, null, null }, { null, null, null, null }, },
+				new String[] { "First", "New column", "New column",
+						"New column" }));
+		//table.setBackground(Color.CYAN);
+		int row = table.getRowCount();
+		table.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		panel.add(table);
 	}
 
+	class InteractiveRenderer extends DefaultTableCellRenderer {
+
+		protected int interactiveColumn;
+
+		public InteractiveRenderer(int interactiveColumn) {
+			this.interactiveColumn = interactiveColumn;
+		}
+
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
+
+			Component c = super.getTableCellRendererComponent(table, value,
+					isSelected, hasFocus, row, column);
+
+			// set alternating row colour
+			if (!table.isRowSelected(row)) {
+				c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+			}
+
+			return c;
+		}
+	}
 }
