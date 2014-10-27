@@ -18,10 +18,8 @@ public class RedoCommand extends Command {
     public void execute() throws InvalidCommandException {
         System.out.println("redo");
         
-        if(undoHandler.redo() == false)
-        {
-            throw new InvalidCommandException("Nothing to redo");
-        }
+        undoHandler.redo();
+  
     }
 
     /*

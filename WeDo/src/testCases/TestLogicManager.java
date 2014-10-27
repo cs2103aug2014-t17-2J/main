@@ -5,21 +5,22 @@ package testCases;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import logic.LogicManager;
 import logic.exception.InvalidCommandException;
-import logic.exception.InvalidParseException;
 import logic.parser.ParseResult;
 import logic.utility.Task;
 
 import org.junit.Test;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 
 import dataStorage.BasicDataHandler;
-import dataStorage.DataHandler;
+import dataStorage.ObservableList;
 import definedEnumeration.Priority;
 
 /**
@@ -28,32 +29,91 @@ import definedEnumeration.Priority;
  */
 public class TestLogicManager {
 
+
+    ObservableList<Task> observableList = new ObservableList<Task>(null);
+    BasicDataHandler dataHandler = new BasicDataHandler(observableList);
+    LogicManager logicManager = new LogicManager(dataHandler);
+    ObservableList<Task> expectedList = new ObservableList<Task>(new ArrayList<Task>());
+    
     @Test
     public void test() throws InvalidCommandException 
     {
-        Multimap<String, Task> expectedMap = ArrayListMultimap.create();
-        Task expectedTask = new Task("hello", Task.PRIORITY_NOT_SET);
-        expectedMap.put("someday", expectedTask);
+        expectedList = cloneList(dataHandler.getObservableList());
+        
+        processValidAdd10Task();
+        processValidAddCommand("add hello today", new Task("hello", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidAddCommand("add yoyo today priority high", new Task("yoyo", Priority.PRIORITY_HIGH, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidRemoveCommandForIndividualTask("remove 4", 4);
+        processValidRemoveCommandForMultipleTask("remove 2-5", 2,3,4,5);
+        processValidAdd10Task();
+        processValidRemoveCommandForMultipleTask("remove 1-3 and 8,9 hmm 4 too plus 6", 1,2,3,8,9,4,6);
+        
+    }
 
-        BasicDataHandler dataHandler = new BasicDataHandler();
-        LogicManager logicManager = new LogicManager(dataHandler);
-   
-            ParseResult parseResult = logicManager.processCommand("add hello");
-            logicManager.executeCommand(parseResult);
+
+
+    private void processValidAdd10Task() throws InvalidCommandException {
+        processValidAddCommand("add more task today", new Task("more task", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidAddCommand("add task2 today", new Task("task2", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidAddCommand("add task3 today", new Task("task3", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidAddCommand("add task4 today", new Task("task4", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidAddCommand("add task5 today", new Task("task5", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidAddCommand("add task6 today", new Task("task6", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidAddCommand("add task7 today", new Task("task7", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidAddCommand("add task8 today", new Task("task8", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidAddCommand("add task9 today", new Task("task9", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+        processValidAddCommand("add task10 today", new Task("task10", Task.PRIORITY_NOT_SET, LocalDate.now(), Task.TIME_NOT_SET));
+    }
+    
+
+    
+    private void processValidRemoveCommandForMultipleTask(String command, Integer ... indexArray)
+            throws InvalidCommandException {
+        final int ARRAY_OFFSET = 1;
+        List<Integer> indexList = Arrays.asList(indexArray);
+        Collections.sort(indexList);
+        Collections.reverse(indexList);
         
-        assertEquals(expectedMap, dataHandler.getMainList());
-         
-//        commandHandler.executeCommand("date 18/09 2pm to 22/9 2am -add buy for me something priority med");
-//        commandHandler.executeCommand("clear 18/09 to 19/09");
-//        commandHandler.executeCommand("clear 1");
-//        commandHandler.executeCommand("date 18/09 2pm to 22/9 2am -remove buy for me something priority med");
-//        commandHandler.executeCommand("-delete 2");
-//        commandHandler.executeCommand("delete 10232393434");
-//        commandHandler.executeCommand("delete all");
-//        commandHandler.executeCommand("exit");
-//
-//        commandHandler.executeCommand("add read this report from page 39 to page 49 on 23 aug 2012");
+        for(int index : indexList)
+        {
+          index = index - ARRAY_OFFSET;
+          expectedList.remove(index);
+        }
+        ParseResult parseResult = logicManager.processCommand(command);
+        logicManager.executeCommand(parseResult); 
+        assertEquals(expectedList, dataHandler.getObservableList());
+    }
+    
+    private void processValidRemoveCommandForIndividualTask(String command, int index)
+            throws InvalidCommandException {
+        final int ARRAY_OFFSET = 1;
+        index = index - ARRAY_OFFSET;
+        expectedList.remove(index);
+        ParseResult parseResult = logicManager.processCommand(command);
+        logicManager.executeCommand(parseResult); 
+        assertEquals(expectedList, dataHandler.getObservableList());
+    }
+    
+    
+    private void processValidAddCommand(String command, Task expectedTask)
+            throws InvalidCommandException {
         
+        expectedList.add(expectedTask);
+        ParseResult parseResult = logicManager.processCommand(command);
+        logicManager.executeCommand(parseResult); 
+        assertEquals(expectedList, dataHandler.getObservableList());
+    }
+    
+    private static ObservableList<Task> cloneList(ObservableList<Task> displayList) 
+    {
+        ObservableList<Task> clonedList = new ObservableList<Task>(new ArrayList<Task>());
+        
+        for (Task task : displayList.getList()) 
+        {
+            clonedList.add(new Task(task));
+        }
+        
+        return clonedList;
     }
 
 }

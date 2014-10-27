@@ -31,12 +31,22 @@ public class Task
     private LocalDate endDate;
     private LocalTime endTime;
     private boolean isCompleted;
+   
+    
+    /**
+     * Copy Constructor
+     * @param task to be copied
+     */
+    public Task(Task task)
+    {
+        this(task.description, task.priority, task.startDate, task.startTime, task.endDate, task.endTime, task.isCompleted);
+    }
     
     // blank task constructor
     public Task()
     {
         uniqueID++;
-        
+   
         this.priority = PRIORITY_NOT_SET;
         this.startDate = this.endDate = DATE_NOT_SET;
         this.startTime = this.endTime = TIME_NOT_SET;

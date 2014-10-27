@@ -14,7 +14,6 @@ import dataStorage.DataHandler;
 public class CommandExecutor {
 
     private DataHandler dataHandler;
-    private UndoHandler undoHandler;
 
     /**
      * Constructor for CommandHandler
@@ -24,7 +23,6 @@ public class CommandExecutor {
      */
     public CommandExecutor(DataHandler dataHandler) {
         this.dataHandler = dataHandler;
-        undoHandler = UndoHandler.getInstance();
     }
 
 
@@ -41,7 +39,6 @@ public class CommandExecutor {
         
         command.setDataHandler(dataHandler);
         command.setTask(task);
-        command.setUndoHandler(undoHandler);
         System.out.println(task);
 
         command.execute();
