@@ -16,9 +16,6 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 public class BasicDataHandler implements DataHandler {
 
-	private final String TODAY = "today";
-	private final String TOMORROW = "tomorrow";
-	private final String UPCOMING = "upcoming";
 	private final String SOMEDAY = "someday";
 	private final String DEADLINE = "deadLine";
 	private final String TIMED = "timed";
@@ -31,8 +28,7 @@ public class BasicDataHandler implements DataHandler {
 
 	ObservableList<Task> observableList;
 	Multimap<String, Task> mainList;
-	Multimap<LocalDate, Task> deadLineList, timedList,mainList2;
-	ArrayList<Task> floatingList;
+	Multimap<LocalDate, Task> mainList2;
 	Task currentRange;
 	
 
@@ -112,22 +108,11 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	public boolean populateLists() {
 
-		mainList = ArrayListMultimap.create();
 		mainList2 = ArrayListMultimap.create();
-		deadLineList = ArrayListMultimap.create();
-		timedList = ArrayListMultimap.create();
 		currentRange = new Task();
-		floatingList = new ArrayList<Task>();
 		mainList2 = fileHandler.getAllTasks();
-		deadLineList.putAll(addToMultimap(fileHandler.getList(DEADLINE)));
-		timedList = addToMultimap(fileHandler.getList(TIMED));
-		floatingList = fileHandler.getList(FLOATING);
 		
 
-		// addToMultimap(TODAY, fileHandler.getList(TODAY));
-		// addToMultimap(TOMORROW, fileHandler.getList(TOMORROW));
-		// addToMultimap(UPCOMING, fileHandler.getList(UPCOMING));
-		// addToMultimap(SOMEDAY, fileHandler.getList(SOMEDAY));
 
 		return false;
 	}
@@ -163,9 +148,7 @@ public class BasicDataHandler implements DataHandler {
 	}
 	
 	public ArrayList<Task> getAllTasks(){
-		ArrayList<Task> tmp = new ArrayList<Task>(deadLineList.values());
-		tmp.addAll(timedList.values());
-		tmp.addAll(floatingList);
+		ArrayList<Task> tmp = new ArrayList<Task>(mainList2.values());
 		
 		return tmp;
 	}
@@ -188,24 +171,12 @@ public class BasicDataHandler implements DataHandler {
 				observableList.add(task);
 			}
 		}
-		else if(taskType.equals(currentList)) {
+		else if(taskType.equals(currentList) && 
+				observableList.get(0).getEndDate().equals(task.getEndDate())) {
+			
 			observableList.add(task);
 		}
 
-//		if (taskType.equals(DEADLINE)) {
-//			deadLineList.put(task.getEndDate(), task);
-//
-//		} else if (taskType.equals(TIMED)) {
-//			timedList.put(task.getEndDate(), task);
-//		} else {
-//			floatingList.add(task);
-//		}
-
-//		if (onDisplay(task) == true) {
-//			observableList.add(task);
-//		}
-		// observableList.add(task);
-		mainList.put(determineDate(task), task);
 		save();
 		System.out.println(task.getID() + " is added");
 
@@ -218,19 +189,7 @@ public class BasicDataHandler implements DataHandler {
 	public String save() {
 
 		fileHandler.clear();
-		// fileHandler.writeToFile(new
-		// ArrayList<Task>(deadLineList.values()),new
-		// ArrayList<Task>(timedList.values()),floatingList);
-		ArrayList<Task> tmp = new ArrayList<Task>(deadLineList.values());
-		tmp.addAll(timedList.values());
-		tmp.addAll(floatingList);
 		fileHandler.writeToFile(new ArrayList<Task>(mainList2.values()));
-		// fileHandler.writeToFile(TIMED, new
-		// ArrayList<Task>(timedList.values()));
-		// fileHandler.writeToFile(FLOATING,floatingList);
-
-		// fileHandler.writeToFile("deadLine",
-		// new ArrayList<Task>(mainList.values()));
 		fileHandler.writeLog(LocalTime.now() + " : Saved!");
 		return null;
 	}
@@ -242,14 +201,6 @@ public class BasicDataHandler implements DataHandler {
 	 * @param task
 	 * @return whether the task should be on display
 	 */
-	public boolean onDisplay(Task task) {
-
-		if (determineDate(task).equalsIgnoreCase(currentList)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 	private String determineTaskType(Task task) {
 		if (task.getEndDate().equals(LocalDate.MAX)
@@ -263,44 +214,7 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
-	private int daysFromToday(LocalDate date) {
-		LocalDate today = LocalDate.now();
-		int numDays;
 
-		if (date == LocalDate.MAX) {
-			return -1; // someday
-		} else {
-			for (numDays = 0; !today.equals(date); numDays++) {
-				today = today.plusDays(1);
-			}
-
-			return numDays;
-		}
-
-	}
-
-	/**
-	 * This function determines the date of the task to know which key of the
-	 * map it should be added.
-	 * 
-	 * @param task
-	 * @return
-	 */
-	public String determineDate(Task task) {
-
-		switch (daysFromToday(task.getEndDate())) {
-
-		case -1:
-			return SOMEDAY;
-		case 0:
-			return TODAY;
-		case 1:
-			return TOMORROW;
-		default:
-			return UPCOMING;
-		}
-
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -351,13 +265,6 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
-	/**
-     * 
-     */
-	private void clearDisplayedList() {
-		observableList.clearList();
-
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -367,31 +274,12 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	public ArrayList<Task> getList(LocalDate startDate, LocalDate endDate) {
 		ArrayList<Task> tmp = new ArrayList<Task>();
-		ArrayList<Task> tmp2 = new ArrayList<Task>(timedList.values());
-		
-
-		
-//		while(startDate.isBefore(endDate) || startDate.equals(endDate)) {
-//			tmp.addAll(deadLineList.get(startDate));
-//			for(Task t: tmp2) {
-//				if(!tmp.contains(t) && (t.getStartDate().equals(startDate) ||
-//						t.getEndDate().equals(startDate)  )){
-//					tmp.add(t);
-//					break;
-//				}
-//			}
-//			startDate = startDate.plusDays(1);
-//			System.out.println("startdate isss " + startDate.toString());
-//		}
 		
 		for(Task t:new ArrayList<Task>(mainList2.values())) {
-			System.out.println(t.getStartDate().toString());
-			System.out.println(t.getEndDate().toString());
 			if(withinRange(startDate,endDate,t)) {
 				tmp.add(t);
 			}
 		}
-		
 		
 		return tmp;
 	}
@@ -408,7 +296,7 @@ public class BasicDataHandler implements DataHandler {
 					+ observableList.get(index));
 
 			System.out.println("deleted " + observableList.get(index));
-			mainList.remove(determineDate(getTask(index)), getTask(index));
+			mainList2.remove(getTask(index).getEndDate(), getTask(index));
 			
 			observableList.remove(index);
 			save();
@@ -433,9 +321,6 @@ public class BasicDataHandler implements DataHandler {
 		return true;
 	}
 	
-	private boolean isInList(Task task,ArrayList<Task> tasks) {
-		return tasks.contains(task);
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -459,19 +344,7 @@ public class BasicDataHandler implements DataHandler {
 		System.out.println(determineTaskType(task));
 		
 		observableList.remove(task);
-		mainList2.remove(determineDate(task), task);
-		if(isInList(task,new ArrayList<Task>(deadLineList.values()))) {
-			System.out.println("deadlineee removed!");
-			deadLineList.remove(task.getEndDate(), task);
-		}
-		else if(isInList(task,new ArrayList<Task>(timedList.values()))) {
-			timedList.remove(task.getEndDate(), task);
-			System.out.println("timedddd removed!");
-		}
-		else {
-			floatingList.remove(task);
-			System.out.println("floatingggg removed!");
-		}
+		mainList2.remove(task.getEndDate(), task);
 		save();
 		return true;
 	}
@@ -487,10 +360,6 @@ public class BasicDataHandler implements DataHandler {
 		return mainList;
 	}
 
-	public ArrayList<Task> getTasksRange(LocalDate start, LocalDate end) {
-
-		return null;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -510,8 +379,6 @@ public class BasicDataHandler implements DataHandler {
 
 		 if (type.equals(DEADLINE)) {
 
-//			tmp.addAll(deadLineList.get(task.getEndDate()));
-//			tmp.addAll(timedList.get(task.getEndDate()));
 			tmp.addAll(mainList2.get(task.getEndDate()));
 			observableList.replaceList(tmp);
 
@@ -527,8 +394,6 @@ public class BasicDataHandler implements DataHandler {
 
 		} else {
 			currentList = ALL;
-//			tmp.addAll(new ArrayList<Task>(deadLineList.values()));
-//			tmp.addAll(new ArrayList<Task>(timedList.values()));
 			tmp.addAll(mainList2.values());
 			tmp = sort(tmp);
 			observableList.replaceList(tmp);
