@@ -27,7 +27,7 @@ public class BasicDataHandler implements DataHandler {
 
 	ObservableList<Task> observableList;
 	Multimap<String, Task> mainList;
-	Multimap<LocalDate, Task> deadLineList, timedList;
+	Multimap<LocalDate, Task> deadLineList, timedList,mainList2;
 	ArrayList<Task> floatingList;
 
 	public BasicDataHandler() {
@@ -84,6 +84,7 @@ public class BasicDataHandler implements DataHandler {
 	public boolean populateLists() {
 
 		mainList = ArrayListMultimap.create();
+		mainList2 = ArrayListMultimap.create();
 		deadLineList = ArrayListMultimap.create();
 		timedList = ArrayListMultimap.create();
 		floatingList = new ArrayList<Task>();

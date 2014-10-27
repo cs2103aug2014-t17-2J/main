@@ -15,6 +15,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 import definedEnumeration.Priority;
 
 @SuppressWarnings("unchecked")
@@ -181,6 +184,38 @@ public class FileHandler {
 		tmp.put(STATUS, task.getCompleted());
 
 		return tmp;
+	}
+	
+	
+	public Multimap<LocalDate,Task> getAllTasks(){
+		
+		Multimap<LocalDate,Task> tmp;
+		tmp = ArrayListMultimap.create();
+		
+		JSONParser parser = new JSONParser();
+
+		try {
+
+			Object obj = parser.parse(new FileReader(fileName));
+
+			JSONObject jsonObject = (JSONObject) obj;
+			JSONArray taskLists = (JSONArray) jsonObject.get("tasks");
+
+			for (Object tObj : taskLists) {
+				JSONObject j = (JSONObject) tObj;
+				Task t = jsonToTask(j);
+				tmp.put(t.getEndDate(), t);
+				
+			}
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return tmp;
+		
+		
 	}
 
 	public ArrayList<Task> getList(String type) {
