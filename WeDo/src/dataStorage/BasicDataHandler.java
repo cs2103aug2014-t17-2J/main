@@ -66,8 +66,6 @@ public class BasicDataHandler implements DataHandler {
 	
 	public ArrayList<Task> sort(ArrayList<Task> tasks){
 		
-		for(Task t:tasks){
-		}
 		
 		Collections.sort(tasks, new Comparator<Task>() {
 		    @Override
@@ -76,8 +74,6 @@ public class BasicDataHandler implements DataHandler {
 		    }
 		});
 		
-		for(Task t:tasks){
-		}
 		
 		return tasks;
 	}
@@ -503,34 +499,28 @@ public class BasicDataHandler implements DataHandler {
 
 		 if (type.equals(DEADLINE)) {
 
-			tmp.addAll(deadLineList.get(task.getEndDate()));
-			tmp.addAll(timedList.get(task.getEndDate()));
+//			tmp.addAll(deadLineList.get(task.getEndDate()));
+//			tmp.addAll(timedList.get(task.getEndDate()));
+			tmp.addAll(mainList2.get(task.getEndDate()));
 			observableList.replaceList(tmp);
 
 		} else if(type.equals(TIMED)){
+			
 			tmp.addAll(getList(task.getStartDate(),task.getEndDate()));
-
 			observableList.replaceList(tmp);
+			
 		}else if (task.getDescription().equals(SOMEDAY)) {
-			observableList.replaceList(floatingList);
+			tmp.addAll(mainList2.get(LocalDate.MAX));
+			observableList.replaceList(tmp);
 
 		} else {
-			tmp.addAll(new ArrayList<Task>(deadLineList.values()));
-			tmp.addAll(new ArrayList<Task>(timedList.values()));
+//			tmp.addAll(new ArrayList<Task>(deadLineList.values()));
+//			tmp.addAll(new ArrayList<Task>(timedList.values()));
+			tmp.addAll(mainList.values());
 			tmp = sort(tmp);
 			observableList.replaceList(tmp);
 		}
 
-		// TODO Auto-generated method stub
-		// if (task.getEndDate() != LocalDate.MAX) {
-		// observableList.replaceList(new ArrayList<Task>(mainList
-		// .get(determineDate(task))));
-		// currentList = this.determineDate(task);
-		// } else {
-		// observableList.replaceList(new ArrayList<Task>(mainList.get(task
-		// .getDescription())));
-		// currentList = task.getDescription();
-		// }
 
 	}
 
