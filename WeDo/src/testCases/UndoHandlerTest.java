@@ -70,8 +70,113 @@ public class UndoHandlerTest {
         addUndoInvalidWithNull(undoHandler);
         addUndoInvalidWithRedoCommand(undoHandler);
         addUndoInvalidWithUndoCommand(undoHandler);
-        
+        undoValidWithExitCommand(undoHandler, expectedStack);
+        undoValidWithSearchCommand(undoHandler, expectedStack);
+        undoValidWithEditCommand(undoHandler, expectedStack);
+        undoValidWithClearCommand(undoHandler, expectedStack);
+        undoValidWithViewCommand(undoHandler, expectedStack);
+        undoValidWithDeleteCommand(undoHandler, expectedStack);
+        undoValidWithAddCommand(undoHandler, expectedStack);
       
+    }
+
+    private void undoValidWithAddCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) 
+    {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+        
+        try {
+            assertEquals(expectedStack.pop(), (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof AddCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+    
+    
+    private void undoValidWithSearchCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) 
+    {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+        
+        try {
+            assertEquals(expectedStack.pop(), (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof SearchCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithEditCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) 
+    {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+        
+        try {
+            assertEquals(expectedStack.pop(), (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof EditCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithClearCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) 
+    {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+        
+        try {
+            assertEquals(expectedStack.pop(), (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof ClearCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithViewCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) 
+    {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+        
+        try {
+            assertEquals(expectedStack.pop(), (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof ViewCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithDeleteCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) 
+    {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+        
+        try {
+            assertEquals(expectedStack.pop(), (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof DeleteCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithExitCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) 
+    {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+        
+        try {
+            assertEquals(expectedStack.pop(), (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof ExitCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
     }
 
     private void addUndoInvalidWithRedoCommand(UndoHandler undoHandler)
