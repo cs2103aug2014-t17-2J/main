@@ -10,6 +10,7 @@ import java.time.LocalTime;
 
 import logic.command.commandList.AddCommand;
 import logic.command.commandList.Command;
+import logic.command.commandList.DeleteCommand;
 import logic.exception.InvalidParseException;
 import logic.parser.ParseResult;
 import logic.parser.ParserManager;
@@ -23,19 +24,26 @@ import definedEnumeration.Priority;
  * @author Kuan Tien Long
  *
  */
-public class TaskManagerTest {
+public class ParserManagerTest {
 
     @Test
     public void test() {
-        // Scanner sc = new Scanner(System.in);
-        // ParserManager ulti = new ParserManager();
-        // while(true)
-        // {
-        // String input = sc.nextLine();
-        // ulti.interpret(input);
-        //
-        // }
+  
+        parseAddCommand();
+        parseDeleteCommand();
 
+    }
+
+    private void parseDeleteCommand() {
+        parseValidDeleteWithIntegerRange();
+        parseValidDeleteWithMultipleInteger();
+        parseValidDeleteWithInteger();
+        parseValidDeleteWithNegativeIntegerRange();
+        parseValidDeleteWithMultipleNegativeInteger();
+        parseValidDeleteWithNegativeInteger();
+    }
+
+    private void parseAddCommand() {
         parseValidAddWithNoDate();
         parseValidAddWith1DateAndPriority();
         parseValidAddWith2DateAndPriority();
@@ -50,9 +58,63 @@ public class TaskManagerTest {
         parseValidAddBakeCookieBug();
         parseValidAddWithNumberEndingDescription();
         parseValidAddWithNumberFollowedByDate();
-
     }
 
+
+    private void parseValidDeleteWithNegativeInteger() {
+        Task expectedTask = new Task("-10", Task.PRIORITY_NOT_SET);
+        Command expectedCommand = new DeleteCommand();
+        ParseResult expectedResult = new ParseResult(expectedCommand,
+                expectedTask);
+
+        assertValidParse("delete -10", expectedResult);
+    }
+
+    private void parseValidDeleteWithMultipleNegativeInteger() {
+        Task expectedTask = new Task("-2,-3,-10", Task.PRIORITY_NOT_SET);
+        Command expectedCommand = new DeleteCommand();
+        ParseResult expectedResult = new ParseResult(expectedCommand,
+                expectedTask);
+
+        assertValidParse("delete -2,-3,-10", expectedResult);
+    }
+
+    private void parseValidDeleteWithNegativeIntegerRange() {
+        Task expectedTask = new Task("-2 to 10", Task.PRIORITY_NOT_SET);
+        Command expectedCommand = new DeleteCommand();
+        ParseResult expectedResult = new ParseResult(expectedCommand,
+                expectedTask);
+
+        assertValidParse("delete -2 to 10", expectedResult);
+    }
+
+    private void parseValidDeleteWithIntegerRange() {
+        Task expectedTask = new Task("2 to 10", Task.PRIORITY_NOT_SET);
+        Command expectedCommand = new DeleteCommand();
+        ParseResult expectedResult = new ParseResult(expectedCommand,
+                expectedTask);
+
+        assertValidParse("delete 2 to 10", expectedResult);
+    }
+    
+    private void parseValidDeleteWithMultipleInteger() {
+        Task expectedTask = new Task("2,3,4,5 and 1,9", Task.PRIORITY_NOT_SET);
+        Command expectedCommand = new DeleteCommand();
+        ParseResult expectedResult = new ParseResult(expectedCommand,
+                expectedTask);
+
+        assertValidParse("delete 2,3,4,5 and 1,9", expectedResult);
+    }
+    
+    private void parseValidDeleteWithInteger() {
+        Task expectedTask = new Task("10", Task.PRIORITY_NOT_SET);
+        Command expectedCommand = new DeleteCommand();
+        ParseResult expectedResult = new ParseResult(expectedCommand,
+                expectedTask);
+
+        assertValidParse("delete 10", expectedResult);
+    }
+    
     private void parseValidAddWithNumberFollowedByDate() {
         Task expectedTask = new Task("meeting", Task.PRIORITY_NOT_SET,
                 LocalDate.now(), LocalTime.of(3, 0));

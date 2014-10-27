@@ -4,7 +4,6 @@
 package logic.command.commandList;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -53,15 +52,26 @@ public class DeleteCommand extends Command {
 
     }
 
+    /**
+     * Delete all the task at deleteTaskList
+     * @param deleteTaskList the list of task to delete
+     */
     private void removeTasks(ArrayList<Task> deleteTaskList) {
         for (Task deleteThisTask : deleteTaskList) {
             dataHandler.removeTask(deleteThisTask);
         }
     }
 
+    /**
+     * Get all task to be deleted
+     * @param ARRAY_OFFSET the offset for array
+     * @param digitList which contains of all the index to delete
+     * @return the list of task to delete
+     */
     private ArrayList<Task> getTasksToDelete(final int ARRAY_OFFSET,
             TreeSet<Integer> digitList) {
 
+        
         ArrayList<Task> deleteTaskList = new ArrayList<Task>();
 
         for (int index : digitList) {
@@ -127,7 +137,8 @@ public class DeleteCommand extends Command {
     
     
     /**
-     * @param deleteTaskList
+     * Add the previously removed task back
+     * @param deleteTaskList the list of task that was deleted
      */
     private void addRemovedTasks(ArrayList<Task> deleteTaskList) {
         for (Task taskToReAdd : deleteTaskList) {
