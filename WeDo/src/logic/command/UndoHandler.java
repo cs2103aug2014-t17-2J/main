@@ -49,17 +49,28 @@ public class UndoHandler {
      * Add command that can be undo to the undo stack
      * @param command the command that could be undo
      * @return  Stack<Command> which contains the available commands to undo
-     * @throws InvalidCommandException
+     * @throws InvalidCommandException if command is null, RedoCommand, UndoCommand
      */
-    public Stack<Command> addUndo(Command command){
+    public Stack<Command> addUndo(Command command) throws InvalidCommandException{
         
         final String INVALID_NULL_COMMAND = "command must not be null for addUndo";
         final String INVALID_REDO_COMMAND = "command must not be RedoCommand for addUndo";
         final String INVALID_UNDO_COMMAND = "command must not be UndoCommand for addUndo";
         
-        assert (command != null) : INVALID_NULL_COMMAND;
-        assert (!(command instanceof RedoCommand)) : INVALID_REDO_COMMAND;
-        assert (!(command instanceof UndoCommand)) : INVALID_UNDO_COMMAND;
+        if(command == null)
+        {
+            throw new InvalidCommandException(INVALID_NULL_COMMAND);
+        }
+        
+        if(command instanceof RedoCommand)
+        {
+            throw new InvalidCommandException(INVALID_REDO_COMMAND);
+        }
+
+        if(command instanceof UndoCommand)
+        {
+            throw new InvalidCommandException(INVALID_UNDO_COMMAND);
+        }
         
         
         if (!redoStack.isEmpty() && currentState == State.STATE_UNDO) {

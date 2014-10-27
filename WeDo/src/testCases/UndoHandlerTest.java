@@ -18,6 +18,7 @@ import logic.command.commandList.RedoCommand;
 import logic.command.commandList.SearchCommand;
 import logic.command.commandList.UndoCommand;
 import logic.command.commandList.ViewCommand;
+import logic.exception.InvalidCommandException;
 
 import org.junit.Test;
 
@@ -69,6 +70,8 @@ public class UndoHandlerTest {
         addUndoInvalidWithNull(undoHandler);
         addUndoInvalidWithRedoCommand(undoHandler);
         addUndoInvalidWithUndoCommand(undoHandler);
+        
+      
     }
 
     private void addUndoInvalidWithRedoCommand(UndoHandler undoHandler)
@@ -125,21 +128,30 @@ public class UndoHandlerTest {
 
     private void addUndoValidWithCommand(Command command,
             UndoHandler undoHandler, Stack<Command> expectedStack) {
+        
+        final String FAIL_MSG = "Exception should not happen";
         expectedStack.add(command);
-        assertEquals(expectedStack, undoHandler.addUndo(command));
+        try {
+            assertEquals(expectedStack, undoHandler.addUndo(command));
+        } catch (InvalidCommandException exception) 
+        {
+            fail(FAIL_MSG);
+        }
     }
 
     
     public void addUndoInvalidWithCommand(Command command, final String EXPECTED_ERROR_MSG, UndoHandler undoHandler)
     {
+        final String FAIL_MSG = "Exception should happen";
+
         try
         {
             undoHandler.addUndo(command);
+            fail(FAIL_MSG);
         }
-        catch(AssertionError error)
+        catch(InvalidCommandException exception)
         {
-             error.printStackTrace();
-             assertEquals(EXPECTED_ERROR_MSG, error.getMessage());
+             assertEquals(EXPECTED_ERROR_MSG, exception.getMessage());
         }
     }
     
