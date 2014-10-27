@@ -15,8 +15,9 @@ import userInterface.UserIntSwing;
 public class FeedbackGuide {
 	
 	private static final String feedbackEmptyString = "The input is blank! Please enter something!";
-	private static final String feedbackInvalidString = "Invald Command!";
+	private static final String feedbackInvalidString = "Invalid Command!";
 	private static final String feedbackValidString = "Command Accepted!";
+	private static final String feedbackEmptyHistory = "There is nothing typed previously!";
 	
 	public static String isEmptyString(){
 		return feedbackEmptyString;
@@ -28,6 +29,10 @@ public class FeedbackGuide {
 	
 	public static String isValidString(){
 		return feedbackValidString;
+	}
+	
+	public static String isEmptyHistoryString(){
+		return feedbackEmptyHistory;
 	}
 	
 	public static void formatFeedbackLabel(){
