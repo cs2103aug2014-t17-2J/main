@@ -1,9 +1,14 @@
 package userInterface;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -42,6 +47,8 @@ import dataStorage.ObservableList;
 import java.awt.Toolkit;
 import java.awt.event.WindowStateListener;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -103,11 +110,17 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	private void initialize() {
 		frame = new JFrame("WeDo");
+		
+		/**
+		 * @author Andy Hsu Wei Qiang
+		 * Minimise to tray operation
+		 */
 		frame.addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(WindowEvent arg) {
 				MinimiseToTray.Minimise(arg);
 			}
 		});
+		
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/icon/WeDo.png")));
 		frame.getContentPane().setEnabled(false);
 		frame.setForeground(Color.WHITE);
@@ -146,13 +159,11 @@ public class UserIntSwing extends JPanel implements Observer {
 		btnHelp_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				System.out.println("mouse entered!");
 				helpBalloonTip.setVisible(true);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg1) {
-				System.out.println("mouse exited!");
 				helpBalloonTip.setVisible(false);
 			}
 		});
@@ -228,7 +239,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		lblHelp.setVerticalAlignment(SwingConstants.TOP);
 		
 		/**
-		 *@author Andy - To set the Command Guide label to show
+		 *@author Andy - To set the default Command Guide label to show
 		 *the general guide when the program starts
 		 */
 		lblHelp.setText(CommandGuide.buildGeneralGuideString());
@@ -349,7 +360,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		 *@author Andy - Format the labels
 		 */
 		UserInterfaceMain.formatLabels();
-		lblDescriptionProcess.setBackground(new Color(255, 204, 255));
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(

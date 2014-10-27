@@ -25,7 +25,6 @@ import userInterface.UserIntSwing;
  * @author Andy Hsu Wei Qiang 
  * This class handles all the GUI logic
  * which the user execute.
- * 
  */
 public class UserInterfaceMain {
 	//private static final String EXIT_PROGRAM = "exit";
@@ -63,6 +62,7 @@ public class UserInterfaceMain {
 	 *for the user to type immediately when the program runs 
 	 */
 	public static void addFrameWindowFocusListener() {
+		
 		UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
 
@@ -77,6 +77,7 @@ public class UserInterfaceMain {
 	 *on the top of the application
 	 */
 	public static String setTodayDate(){
+		
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		String date = sdf.format(new Date());
 		String dateDisplay = "You are viewing: " + date;
@@ -89,6 +90,7 @@ public class UserInterfaceMain {
 	 *bottom right hand corner of screen
 	 */
 	public static void setupFrameLocation() {
+		
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
 		Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
@@ -101,6 +103,7 @@ public class UserInterfaceMain {
 	 *This operation process the hotkeys shortcut function. 
 	 */
 	public static void processHotKeys(KeyEvent arg1){
+		
 		String getCommand;
 		if(arg1.getKeyCode() == KeyEvent.VK_F1){
 			HelpMenu.main(null);
@@ -152,6 +155,7 @@ public class UserInterfaceMain {
 	 *Label. It is set at 1000 milli-seconds. 
 	 */
 	public static void feedbackTimerReset(){
+		
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 			  @Override
@@ -165,8 +169,8 @@ public class UserInterfaceMain {
 	 *This operation process the labels that the user input from
 	 *the textfield and show what will be parsed
 	 */
-	public static void processUserParse(KeyEvent arg1)
-    {
+	public static void processUserParse(KeyEvent arg1){
+		
          DynamicParseResult parseResult = UserIntSwing.logicManager.dynamicParse(UserIntSwing.
         		 textField.getText());
         
@@ -201,7 +205,12 @@ public class UserInterfaceMain {
         }
     }
 	
+	/**
+	 *This operation process the priority label
+	 *Red: High; Blue: Medium; Green: Low
+	 */
 	private static void processLblPriorityProcess(){
+		
 		if(UserIntSwing.lblPriorityProcess.getText().matches("High")){
 			UserIntSwing.lblPriorityProcess.setForeground(Color.red);
 		}
