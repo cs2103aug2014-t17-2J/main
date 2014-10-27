@@ -23,6 +23,7 @@ public class BasicDataHandler implements DataHandler {
 	private final String DEADLINE = "deadLine";
 	private final String TIMED = "timed";
 	private final String FLOATING = "floating";
+	private final String ALL = "all";
 
 	private String currentList;
 
@@ -32,22 +33,24 @@ public class BasicDataHandler implements DataHandler {
 	Multimap<String, Task> mainList;
 	Multimap<LocalDate, Task> deadLineList, timedList,mainList2;
 	ArrayList<Task> floatingList;
+	Task currentRange;
+	
 
 	public BasicDataHandler() {
 		fileHandler = new FileHandler();
 		populateLists();
-		observableList = new ObservableList<Task>(new ArrayList<Task>(getToday()));
-		// currentList = TODAY;
+		observableList = new ObservableList<Task>(new ArrayList<Task>());
+		showToday();
 		System.out.println("DateHandler initialized");
 		fileHandler.writeLog(LocalTime.now() + " : DataHandler initialized");
 
 	}
 
-	public ArrayList<Task> getToday() {
+	public void showToday() {
 		ArrayList<Task> today = new ArrayList<Task>(mainList2.get(LocalDate.now()));
-//		today.addAll(timedList.get(LocalDate.now()));
+		observableList.replaceList(today);
+		currentList = DEADLINE;
 		
-		return today;
 	}
 	
 	
@@ -78,18 +81,12 @@ public class BasicDataHandler implements DataHandler {
 		return tasks;
 	}
 
-	private Task todayTask() {
-		Task task = new Task();
-		task.setEndDate(LocalDate.now());
-		return task;
-	}
 
 	public BasicDataHandler(ObservableList<Task> observableList) {
 		fileHandler = new FileHandler();
 		populateLists();
 		this.observableList = observableList;
-		observableList.replaceList(getToday());
-		currentList = TODAY;
+		showToday();
 		System.out.println("DateHandler initialized");
 	
 		fileHandler.writeLog(LocalTime.now() + " : DataHandler initialized");
@@ -100,7 +97,8 @@ public class BasicDataHandler implements DataHandler {
 		fileHandler.writeLog(LocalTime.now() + " : ObservableList retrieved!");
 		return observableList;
 	}
-
+	
+	
 	public void addObserver(Observer observer) {
 		observableList.addObserver(observer);
 		fileHandler.writeLog(LocalTime.now() + " : Added observer "
@@ -118,8 +116,8 @@ public class BasicDataHandler implements DataHandler {
 		mainList2 = ArrayListMultimap.create();
 		deadLineList = ArrayListMultimap.create();
 		timedList = ArrayListMultimap.create();
+		currentRange = new Task();
 		floatingList = new ArrayList<Task>();
-		//
 		mainList2 = fileHandler.getAllTasks();
 		deadLineList.putAll(addToMultimap(fileHandler.getList(DEADLINE)));
 		timedList = addToMultimap(fileHandler.getList(TIMED));
@@ -182,18 +180,30 @@ public class BasicDataHandler implements DataHandler {
 
 		String taskType = determineTaskType(task);
 
-		if (taskType.equals(DEADLINE)) {
-			deadLineList.put(task.getEndDate(), task);
-
-		} else if (taskType.equals(TIMED)) {
-			timedList.put(task.getEndDate(), task);
-		} else {
-			floatingList.add(task);
+		
+		mainList2.put(task.getEndDate(), task);
+		
+		if(currentList.equals(TIMED)) {
+			if(withinRange(currentRange.getStartDate(),currentRange.getEndDate(),task)) {
+				observableList.add(task);
+			}
 		}
-
-		if (onDisplay(task) == true) {
+		else if(taskType.equals(currentList)) {
 			observableList.add(task);
 		}
+
+//		if (taskType.equals(DEADLINE)) {
+//			deadLineList.put(task.getEndDate(), task);
+//
+//		} else if (taskType.equals(TIMED)) {
+//			timedList.put(task.getEndDate(), task);
+//		} else {
+//			floatingList.add(task);
+//		}
+
+//		if (onDisplay(task) == true) {
+//			observableList.add(task);
+//		}
 		// observableList.add(task);
 		mainList.put(determineDate(task), task);
 		save();
@@ -214,7 +224,7 @@ public class BasicDataHandler implements DataHandler {
 		ArrayList<Task> tmp = new ArrayList<Task>(deadLineList.values());
 		tmp.addAll(timedList.values());
 		tmp.addAll(floatingList);
-		fileHandler.writeToFile(tmp);
+		fileHandler.writeToFile(new ArrayList<Task>(mainList2.values()));
 		// fileHandler.writeToFile(TIMED, new
 		// ArrayList<Task>(timedList.values()));
 		// fileHandler.writeToFile(FLOATING,floatingList);
@@ -495,6 +505,7 @@ public class BasicDataHandler implements DataHandler {
 		System.out.println(task.getDescription());
 		ArrayList<Task> tmp = new ArrayList<Task>();
 		String type = determineTaskType(task);
+		currentList = type;
 
 
 		 if (type.equals(DEADLINE)) {
@@ -505,7 +516,8 @@ public class BasicDataHandler implements DataHandler {
 			observableList.replaceList(tmp);
 
 		} else if(type.equals(TIMED)){
-			
+			currentRange.setStartDate(task.getStartDate());
+			currentRange.setEndDate(task.getEndDate());
 			tmp.addAll(getList(task.getStartDate(),task.getEndDate()));
 			observableList.replaceList(tmp);
 			
@@ -514,9 +526,10 @@ public class BasicDataHandler implements DataHandler {
 			observableList.replaceList(tmp);
 
 		} else {
+			currentList = ALL;
 //			tmp.addAll(new ArrayList<Task>(deadLineList.values()));
 //			tmp.addAll(new ArrayList<Task>(timedList.values()));
-			tmp.addAll(mainList.values());
+			tmp.addAll(mainList2.values());
 			tmp = sort(tmp);
 			observableList.replaceList(tmp);
 		}
