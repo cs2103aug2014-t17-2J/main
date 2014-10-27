@@ -53,9 +53,13 @@ public class UndoHandler {
      */
     public Stack<Command> addUndo(Command command){
         
-        assert (command != null);
-        assert (!(command instanceof RedoCommand));
-        assert (!(command instanceof UndoCommand));
+        final String INVALID_NULL_COMMAND = "command must not be null for addUndo";
+        final String INVALID_REDO_COMMAND = "command must not be RedoCommand for addUndo";
+        final String INVALID_UNDO_COMMAND = "command must not be UndoCommand for addUndo";
+        
+        assert (command != null) : INVALID_NULL_COMMAND;
+        assert (!(command instanceof RedoCommand)) : INVALID_REDO_COMMAND;
+        assert (!(command instanceof UndoCommand)) : INVALID_UNDO_COMMAND;
         
         
         if (!redoStack.isEmpty() && currentState == State.STATE_UNDO) {

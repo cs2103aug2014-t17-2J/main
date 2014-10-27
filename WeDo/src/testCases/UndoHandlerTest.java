@@ -14,7 +14,9 @@ import logic.command.commandList.Command;
 import logic.command.commandList.DeleteCommand;
 import logic.command.commandList.EditCommand;
 import logic.command.commandList.ExitCommand;
+import logic.command.commandList.RedoCommand;
 import logic.command.commandList.SearchCommand;
+import logic.command.commandList.UndoCommand;
 import logic.command.commandList.ViewCommand;
 
 import org.junit.Test;
@@ -64,9 +66,30 @@ public class UndoHandlerTest {
         addUndoValidWithEditCommand(undoHandler, expectedStack);
         addUndoValidWithSearchCommand(undoHandler, expectedStack);
         addUndoValidWithExitCommand(undoHandler, expectedStack);
-
+        addUndoInvalidWithNull(undoHandler);
+        addUndoInvalidWithRedoCommand(undoHandler);
+        addUndoInvalidWithUndoCommand(undoHandler);
     }
 
+    private void addUndoInvalidWithRedoCommand(UndoHandler undoHandler)
+    {
+
+        final String EXPECTED_ERROR_MSG = "command must not be RedoCommand for addUndo";
+         addUndoInvalidWithCommand(new RedoCommand(), EXPECTED_ERROR_MSG, undoHandler);
+    }
+
+    private void addUndoInvalidWithUndoCommand(UndoHandler undoHandler)
+    {
+        final String EXPECTED_ERROR_MSG = "command must not be UndoCommand for addUndo";
+         addUndoInvalidWithCommand(new UndoCommand(), EXPECTED_ERROR_MSG, undoHandler);
+    }
+
+    private void addUndoInvalidWithNull(UndoHandler undoHandler)
+    {
+         final String EXPECTED_ERROR_MSG = "command must not be null for addUndo";
+         addUndoInvalidWithCommand(null, EXPECTED_ERROR_MSG, undoHandler);
+    }
+            
     private void addUndoValidWithDeleteCommand(UndoHandler undoHandler,
             Stack<Command> expectedStack) {
         addUndoValidWithCommand(new DeleteCommand(), undoHandler, expectedStack);
@@ -105,5 +128,20 @@ public class UndoHandlerTest {
         expectedStack.add(command);
         assertEquals(expectedStack, undoHandler.addUndo(command));
     }
+
+    
+    public void addUndoInvalidWithCommand(Command command, final String EXPECTED_ERROR_MSG, UndoHandler undoHandler)
+    {
+        try
+        {
+            undoHandler.addUndo(command);
+        }
+        catch(AssertionError error)
+        {
+             error.printStackTrace();
+             assertEquals(EXPECTED_ERROR_MSG, error.getMessage());
+        }
+    }
+    
 
 }

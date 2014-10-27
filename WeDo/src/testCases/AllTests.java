@@ -13,7 +13,17 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ObservableListTest.class, StringHandlerTest.class,
-    TaskManagerTest.class, CommandValidateTest.class, BasicDataHandlerTest.class, DateParserTest.class, PriorityParserTest.class})
+        TaskManagerTest.class, CommandValidateTest.class,
+        BasicDataHandlerTest.class, DateParserTest.class,
+        PriorityParserTest.class, UndoHandlerTest.class })
+
 public class AllTests {
+    static {
+        ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true);
+    }
+
+    public static void main(String args[]) {
+        org.junit.runner.JUnitCore.main("AllTests");
+    }
 
 }
