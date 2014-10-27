@@ -27,28 +27,30 @@ public class MinimiseToTray {
 	public static void Minimise(WindowEvent arg){
 		if(SystemTray.isSupported()){
 			System.out.println("system tray supported");
-			tray=SystemTray.getSystemTray();
+			tray = SystemTray.getSystemTray();
 
-			Image image=Toolkit.getDefaultToolkit().getImage("/ui/icon/WeDo.png");
-			ActionListener exitListener=new ActionListener() {
+			Image image = Toolkit.getDefaultToolkit().getImage("/ui/icon/WeDo.png");
+			ActionListener exitListener = new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					System.out.println("Exiting....");
 					System.exit(0);
 				}
 			};
-			PopupMenu popup=new PopupMenu();
-			MenuItem defaultItem=new MenuItem("Open");
-			defaultItem.addActionListener(exitListener);
-			popup.add(defaultItem);
-			defaultItem=new MenuItem("Close");
-			defaultItem.addActionListener(new ActionListener() {
+			PopupMenu popup = new PopupMenu();
+			MenuItem openPopup = new MenuItem("Open");
+			popup.add(openPopup);
+			MenuItem exitPopup = new MenuItem("Exit");
+			popup.add(exitPopup);
+			openPopup.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					UserIntSwing.frame.setVisible(true);
 					UserIntSwing.frame.setExtendedState(JFrame.NORMAL);
 				}
 			});
-			popup.add(defaultItem);
-			trayIcon=new TrayIcon(image, "WeDo", popup);
+			exitPopup.addActionListener(exitListener);
+			popup.add(exitPopup);
+			
+			trayIcon = new TrayIcon(image, "WeDo", popup);
 			trayIcon.setImageAutoSize(true);
 		}
 		else{
