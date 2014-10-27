@@ -93,6 +93,9 @@ public class DateStringMassager {
     private static String replaceNonDateDigitWithDelimiter(String source) {
         source = replaceAllDigitsWithDelimiter(source);
         source = replaceWordDigitAtEndWithDelimiter(source);
+        
+        source = removeDelimiterForDateDigitByWord(source);
+        
         source = removeDelimiterForDateDigitByNextWord(source);
         source = removeDelimiterForDateDigitByPreviousWord(source);
         return source;
@@ -146,6 +149,27 @@ public class DateStringMassager {
     }
 
 
+    private static String removeDelimiterForDateDigitByWord(String source) {
+        final String numRegex = "(\\{\\[\\d+\\]\\})(\\w+)(?=$|\\s)";
+        final int DIGIT_GROUP = 1;
+        final int WORD_GROUP = 2;
+        Pattern pattern = Pattern.compile(numRegex);
+        Matcher matcher = pattern.matcher(source);
+        StringBuffer result = new StringBuffer();
+
+        while (matcher.find()) {
+            String digit = matcher.group(DIGIT_GROUP);
+            String word = matcher.group(WORD_GROUP);
+
+            if (containsDateFormat(matcher.group(WORD_GROUP).trim())) {
+                digit = removeDigitDelimiters(digit);
+            }
+            matcher.appendReplacement(result, digit + word);
+        }
+
+        return matcher.appendTail(result).toString();
+    }
+    
     
     private static String removeDelimiterForDateDigitByNextWord(String source) {
         final String numRegex = "(?<=\\s|^)(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
@@ -169,7 +193,13 @@ public class DateStringMassager {
     }
 
     private static String replaceAllDigitsWithDelimiter(String source) {
-        final String numRegex = "((?<=^|\\s)\\d+(?=$|\\s))";
+        
+        final String numRegex = "((?<!/\\d{0,4}|:\\d{0,2})-*\\d+(?=$|\\s|a|p|z|,|-|\\Q.\\E))"; // ignore digit that start with / or :
+
+        //final String numRegex = "((?<!/\\d{0,4}|:\\d{0,2})-*\\d+(?=$|\\s))"; // ignore digit that start with / or :        
+        //final String numRegex = "((?<=^|\\s)-*\\d+(?=$|\\s))"; // 1st working regex
+        
+
         final int digitGroup = 1;
 
         Pattern pattern = Pattern.compile(numRegex);
@@ -234,7 +264,7 @@ public class DateStringMassager {
         final int yearGroup = 3;
         final int monthGroup = 2;
         final int dayGroup = 1;
-        final String ddmmyyyyRegex = "(?<!\\d)([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])[/-](\\d+)";
+        final String ddmmyyyyRegex = "(?<!\\d)([012]?[0-9]|3[01])[/](0?[1-9]|1[012])[/](\\d+)";
         
         Pattern pattern = Pattern.compile(ddmmyyyyRegex);
         Matcher matcher = pattern.matcher(source);
@@ -257,7 +287,7 @@ public class DateStringMassager {
     }
 
     /**
-     * This function convert date in DD/MM/YY or DD-MM-YY format to DD/MM/20YY
+     * This function convert date in DD/MM/YY format to DD/MM/20YY
      * format
      * 
      * @param source
@@ -273,7 +303,7 @@ public class DateStringMassager {
         final int yearGroup = 4;
         final int endGroup = 5;
 
-        final String ddmmyyRegex = "([^\\w]|^)+([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])[/-](\\d\\d)([^\\w]|$)+";
+        final String ddmmyyRegex = "([^\\w]|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])[/](\\d\\d)([^\\w]|$)+";
        
         Pattern pattern = Pattern.compile(ddmmyyRegex);
         Matcher matcher = pattern.matcher(source);
@@ -293,7 +323,7 @@ public class DateStringMassager {
     }
 
     /**
-     * This function convert date in DD/MM or DD-MM format to DD/MM/YYYY format
+     * This function convert date in DD/MM format to DD/MM/YYYY format
      * 
      * @param source
      *            which consist of DD/MM format
@@ -307,7 +337,7 @@ public class DateStringMassager {
         final int endGroup = 4;
 
 //        final String ddmmyyRegex = "([^\\w]|^)+([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])([^\\w]|$)";
-        final String ddmmyyRegex = "(\\s+|^)+([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])(\\s+|$)";
+        final String ddmmyyRegex = "(\\s+|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])(\\s+|$)";
         Pattern pattern = Pattern.compile(ddmmyyRegex);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();

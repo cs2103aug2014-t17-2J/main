@@ -16,7 +16,7 @@ public abstract class Command {
 
     protected Task task;
     protected DataHandler dataHandler;
-    protected UndoHandler undoHandler;
+    protected UndoHandler undoHandler = UndoHandler.getInstance();
 
 
 
@@ -28,10 +28,6 @@ public abstract class Command {
         this.dataHandler = dataHandler;
     }
     
-    public void setUndoHandler(UndoHandler undoHandler) {
-        this.undoHandler = undoHandler;
-    }
-
     /**
      * This method execute the commands such as add, display, clear etc.
      * 
