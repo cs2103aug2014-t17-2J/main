@@ -3,12 +3,15 @@ package dataStorage;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Observer;
 
 import logic.utility.Task;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 
 public class BasicDataHandler implements DataHandler {
@@ -41,10 +44,42 @@ public class BasicDataHandler implements DataHandler {
 	}
 
 	public ArrayList<Task> getToday() {
-		ArrayList<Task> today = new ArrayList<Task>(deadLineList.get(LocalDate.now()));
-		today.addAll(timedList.get(LocalDate.now()));
+		ArrayList<Task> today = new ArrayList<Task>(mainList2.get(LocalDate.now()));
+//		today.addAll(timedList.get(LocalDate.now()));
 		
 		return today;
+	}
+	
+	
+	public boolean withinRange(LocalDate startDate,LocalDate endDate,Task task) {
+		
+		while(startDate.isBefore(endDate) || startDate.equals(endDate)) {
+			if(task.getStartDate().equals(startDate) || task.getEndDate().equals(endDate) 
+					|| task.getStartDate().equals(endDate) || task.getEndDate().equals(startDate)) {
+				return true;
+			}
+			startDate = startDate.plusDays(1);
+			
+		}
+		return false;
+	}
+	
+	public ArrayList<Task> sort(ArrayList<Task> tasks){
+		
+		for(Task t:tasks){
+		}
+		
+		Collections.sort(tasks, new Comparator<Task>() {
+		    @Override
+		    public int compare(Task t1,Task t2 ) {
+		        return t1.getEndDate().compareTo(t2.getEndDate());
+		    }
+		});
+		
+		for(Task t:tasks){
+		}
+		
+		return tasks;
 	}
 
 	private Task todayTask() {
@@ -89,9 +124,12 @@ public class BasicDataHandler implements DataHandler {
 		timedList = ArrayListMultimap.create();
 		floatingList = new ArrayList<Task>();
 		//
+		mainList2 = fileHandler.getAllTasks();
 		deadLineList.putAll(addToMultimap(fileHandler.getList(DEADLINE)));
 		timedList = addToMultimap(fileHandler.getList(TIMED));
 		floatingList = fileHandler.getList(FLOATING);
+		
+
 		// addToMultimap(TODAY, fileHandler.getList(TODAY));
 		// addToMultimap(TOMORROW, fileHandler.getList(TOMORROW));
 		// addToMultimap(UPCOMING, fileHandler.getList(UPCOMING));
@@ -230,7 +268,6 @@ public class BasicDataHandler implements DataHandler {
 				today = today.plusDays(1);
 			}
 
-			System.out.println("dayss " + numDays);
 			return numDays;
 		}
 
@@ -326,22 +363,28 @@ public class BasicDataHandler implements DataHandler {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 		ArrayList<Task> tmp2 = new ArrayList<Task>(timedList.values());
 		
-		System.out.println("startdate  1111 isss " + startDate.toString());
 
 		
-		while(startDate.isBefore(endDate) || startDate.equals(endDate)) {
-			tmp.addAll(deadLineList.get(startDate));
-			for(Task t: tmp2) {
-				if(!tmp.contains(t) && (t.getStartDate().equals(startDate) ||
-						t.getEndDate().equals(startDate)  )){
-					tmp.add(t);
-					break;
-				}
-			}
-			startDate = startDate.plusDays(1);
-			System.out.println("startdate isss " + startDate.toString());
-		}
+//		while(startDate.isBefore(endDate) || startDate.equals(endDate)) {
+//			tmp.addAll(deadLineList.get(startDate));
+//			for(Task t: tmp2) {
+//				if(!tmp.contains(t) && (t.getStartDate().equals(startDate) ||
+//						t.getEndDate().equals(startDate)  )){
+//					tmp.add(t);
+//					break;
+//				}
+//			}
+//			startDate = startDate.plusDays(1);
+//			System.out.println("startdate isss " + startDate.toString());
+//		}
 		
+		for(Task t:new ArrayList<Task>(mainList2.values())) {
+			System.out.println(t.getStartDate().toString());
+			System.out.println(t.getEndDate().toString());
+			if(withinRange(startDate,endDate,t)) {
+				tmp.add(t);
+			}
+		}
 		
 		
 		return tmp;
@@ -466,6 +509,7 @@ public class BasicDataHandler implements DataHandler {
 
 		} else if(type.equals(TIMED)){
 			tmp.addAll(getList(task.getStartDate(),task.getEndDate()));
+
 			observableList.replaceList(tmp);
 		}else if (task.getDescription().equals(SOMEDAY)) {
 			observableList.replaceList(floatingList);
@@ -473,6 +517,7 @@ public class BasicDataHandler implements DataHandler {
 		} else {
 			tmp.addAll(new ArrayList<Task>(deadLineList.values()));
 			tmp.addAll(new ArrayList<Task>(timedList.values()));
+			tmp = sort(tmp);
 			observableList.replaceList(tmp);
 		}
 
