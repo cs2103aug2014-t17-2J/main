@@ -183,4 +183,34 @@ public class ObservableList<T> extends Observable {
     public void addObserverList(Observer observer) {
         this.addObserver(observer);
     }
+
+
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ObservableList<?> other = (ObservableList<?>) obj;
+        if (observedList == null) {
+            if (other.observedList != null)
+                return false;
+        } else if (!observedList.equals(other.observedList))
+            return false;
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "ObservableList [observedList=" + observedList + "]";
+    }
 }

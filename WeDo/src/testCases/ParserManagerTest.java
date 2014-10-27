@@ -11,7 +11,6 @@ import java.time.LocalTime;
 import logic.command.commandList.AddCommand;
 import logic.command.commandList.Command;
 import logic.command.commandList.DeleteCommand;
-import logic.exception.InvalidParseException;
 import logic.parser.ParseResult;
 import logic.parser.ParserManager;
 import logic.utility.Task;
