@@ -182,7 +182,7 @@ public class StringHandler {
      */
     public static String getFirstTwoWords(String source)
     {
-        final String theRegex = "^(\\w+\\s+\\w+)";
+        final String theRegex = "^[^A-z]*(\\w+\\s+\\w+)";
         return getMatchedRegex(source, theRegex);
         
     }
