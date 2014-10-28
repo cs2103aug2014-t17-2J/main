@@ -17,7 +17,8 @@ public class FeedbackGuide {
 	private static final String feedbackEmptyString = "The input is blank! Please enter something!";
 	private static final String feedbackInvalidString = "Invalid Command!";
 	private static final String feedbackValidString = "Command Accepted!";
-	private static final String feedbackEmptyHistory = "There is nothing typed previously!";
+	private static final String feedbackEmptyHistory = "Nothing typed previously!";
+	private static final String feedbackEmptyInput = "No more input!";
 	
 	public static String isEmptyString(){
 		return feedbackEmptyString;
@@ -33,6 +34,10 @@ public class FeedbackGuide {
 	
 	public static String isEmptyHistoryString(){
 		return feedbackEmptyHistory;
+	}
+	
+	public static String isEmptyInput(){
+		return feedbackEmptyInput;
 	}
 	
 	public static void formatFeedbackLabel(){
