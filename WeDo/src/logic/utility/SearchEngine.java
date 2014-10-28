@@ -7,16 +7,16 @@ import java.util.ArrayList;
 
 import com.google.common.collect.Multimap;
 
-import dataStorage.DataHandler;
-import dataStorage.DataHandler;
+import dataStorage.BasicDataHandler;
+import dataStorage.BasicDataHandler;
 
 /**
  */
 public class SearchEngine {
 
-	DataHandler dataHandler;
+	BasicDataHandler dataHandler;
 
-	public SearchEngine(DataHandler dataHandler) {
+	public SearchEngine(BasicDataHandler dataHandler) {
 		this.dataHandler = dataHandler;
 	}
 

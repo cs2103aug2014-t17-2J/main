@@ -5,7 +5,7 @@ package logic.parser;
 
 import java.util.EnumSet;
 
-import dataStorage.DataHandler;
+import dataStorage.BasicDataHandler;
 import logic.command.commandList.EditCommand;
 import logic.utility.StringHandler;
 import logic.utility.Task;

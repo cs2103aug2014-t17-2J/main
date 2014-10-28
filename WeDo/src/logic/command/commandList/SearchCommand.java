@@ -6,7 +6,7 @@ package logic.command.commandList;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-import dataStorage.DataHandler;
+import dataStorage.BasicDataHandler;
 import logic.exception.InvalidCommandException;
 import logic.parser.ParserFlags;
 import logic.utility.SearchEngine;
@@ -25,7 +25,7 @@ public class SearchCommand extends Command {
 
         System.out.println("searching");
 
-        SearchEngine searchEngine = new SearchEngine((DataHandler) dataHandler);
+        SearchEngine searchEngine = new SearchEngine((BasicDataHandler) dataHandler);
         ArrayList<Task> searchList = searchEngine.searchWagnerList( task.getDescription());
         if (searchList.isEmpty()) {
             throw new InvalidCommandException("Search failed unable to find...");

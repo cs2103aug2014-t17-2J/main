@@ -228,6 +228,8 @@ public class UserInterfaceMain {
 
     private static void showEditedTask(LogicManager logicManager,
             DynamicParseResult parseResult, Task task) {
+        
+        final String INVALID_INDEX = "The index you are editing is INVALID";
         if (containsValidEditCommand(parseResult)) 
         {
             String indexString = StringHandler.getIntegerFromFirstSlot(task
@@ -243,6 +245,10 @@ public class UserInterfaceMain {
                         task.getDescription(), indexString));
                 
                 showEditedTaskField(taskToBeEdited);
+            }
+            else
+            {
+                task.setDescription(INVALID_INDEX);
             }
         }
     }

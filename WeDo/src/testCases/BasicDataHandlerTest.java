@@ -9,20 +9,19 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import dataStorage.DataHandler;
-import dataStorage.DataHandler;
+import dataStorage.BasicDataHandler;
 import definedEnumeration.Priority;
 
 public class BasicDataHandlerTest {
 	
-	DataHandler datahandler;
+	BasicDataHandler datahandler;
 
 	ArrayList<Task> tmp;
 	Priority priority;
 
 	@Before
 	public void setUp() throws Exception {
-		 datahandler = DataHandler.getInstance();
+		 datahandler = new BasicDataHandler();
 		 
 	}
 	/*
