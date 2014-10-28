@@ -133,7 +133,7 @@ public class UserInterfaceMain {
 	 */
 	public static String processFeedbackLabel(String text){
 		
-		text = text.trim().replaceAll("\\s+", "");
+		//text = text.trim().replaceAll("\\s+", "");
 		if(text.isEmpty() || text.matches(" ")){
 			return FeedbackGuide.isEmptyString();
 		}

@@ -36,7 +36,7 @@ public class MinimiseToTray {
 		PopupMenu popup = new PopupMenu();
 		trayIcon = new TrayIcon(image, MAIN_FRAME_NAME, popup);
 		trayIcon.setImageAutoSize(true);
-		
+
 		if(SystemTray.isSupported()){
 			System.out.println("SystemTray supported");
 			tray = SystemTray.getSystemTray();
@@ -60,7 +60,7 @@ public class MinimiseToTray {
 			System.out.println("system tray not supported");
 		}
 		
-		// Pass the 'iconified' parameter to minimise a frame
+		// Pass the 'iconified' parameter to minimise the frame
 		if(arg.getNewState() == Frame.ICONIFIED){
 			try{
 				tray.add(trayIcon);

@@ -34,6 +34,7 @@ import net.java.balloontip.BalloonTip.Orientation;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 import ui.MinimiseToTray;
+import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
 import ui.guide.FeedbackGuide;
@@ -105,8 +106,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame = new JFrame("WeDo");
 		
 		/**
-		 * @author Andy Hsu Wei Qiang
-		 * Minimise to tray operation
+		 * @author Andy - Minimise to SystemTray operation
 		 */
 		frame.addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(WindowEvent arg) {
@@ -250,6 +250,8 @@ public class UserIntSwing extends JPanel implements Observer {
 					lblHelp.setText(CommandGuide.getGuideMessage(text
 							+ " "));
 					frame.setVisible(true);
+					
+					TextfieldHistory.showTextfieldHistory(arg1);
 
 					/**
 					 *@author Andy - This process the all the HotKeys 
@@ -271,8 +273,9 @@ public class UserIntSwing extends JPanel implements Observer {
 						 *set at 1000 milli-seconds.
 						 */
 						UserInterfaceMain.feedbackTimerReset();
+						
+						TextfieldHistory.getTextfieldString(getText);
 					}
-					
 					
 				} catch (Exception e) {
 					e.printStackTrace();
