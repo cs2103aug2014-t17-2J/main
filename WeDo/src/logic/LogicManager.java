@@ -48,13 +48,28 @@ public class LogicManager
     public ParseResult processCommand(String userInput) {
 
         ParserManager parserManager = new ParserManager();
-        return parserManager.interpret(userInput);
-        
-       
+        return parserManager.interpret(userInput);       
     }
     
     public void executeCommand(ParseResult parseResult) throws InvalidCommandException
     {
         commandExecutor.execute(parseResult.getCommand(), parseResult.getTask());
+    }
+    
+    
+    /**
+     * @param index the index to get the task
+     * @return the task at the index or null if it is not valid
+     */
+    public Task getTaskToBeEdited(int index)
+    {
+        if(dataHandler.indexValid(index))
+        {
+            return dataHandler.getTask(index);
+        }
+        else
+        {
+            return null;
+        }
     }
 }

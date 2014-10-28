@@ -19,7 +19,7 @@ import logic.utility.Task;
 import org.junit.Test;
 
 
-import dataStorage.BasicDataHandler;
+import dataStorage.DataHandler;
 import dataStorage.ObservableList;
 import definedEnumeration.Priority;
 
@@ -30,8 +30,7 @@ import definedEnumeration.Priority;
 public class TestLogicManager {
 
 
-    ObservableList<Task> observableList = new ObservableList<Task>(null);
-    BasicDataHandler dataHandler = new BasicDataHandler(observableList);
+    DataHandler dataHandler = DataHandler.getInstance();
     LogicManager logicManager = new LogicManager(dataHandler);
     ObservableList<Task> expectedList = new ObservableList<Task>(new ArrayList<Task>());
     

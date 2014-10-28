@@ -14,8 +14,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ ObservableListTest.class, StringHandlerTest.class,
         ParserManagerTest.class, CommandValidateTest.class,
-        BasicDataHandlerTest.class, DateParserTest.class,
+        DateParserTest.class,
         PriorityParserTest.class, UndoHandlerTest.class, TestLogicManager.class })
+//BasicDataHandlerTest.class,
 
 public class AllTests {
     static {

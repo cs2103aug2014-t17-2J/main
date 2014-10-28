@@ -50,13 +50,13 @@ public class EditCommand extends Command {
             throw new InvalidCommandException("Edit failed, invalid index");
         }
         
-          // not implemented yet (edit based on user sp
             task = editSpecifiedField(source, task); 
             
             dataHandler.editTask(source, task);
             undoHandler.addUndo(this);
         
     }
+    
     
     /**
      * Edit the source task based on specified field that the user enter
@@ -166,15 +166,24 @@ public class EditCommand extends Command {
     
     /**
      * <p>
-     * Determine whether the command is valid
+     * Determine whether the parse occurred was valid by matching it with
+     * VALID_PARSE which contains compulsory parse result(s) for add command required
      * <p>
      * 
      * @param parseFlags the set of ParserFlag to be tested
-     * @return if it contains more than MIN_VALID_FLAGS flags
+     * @return if it contains all of the VALID_PARSE flag
      */
-    public static boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
-        final int MIN_VALID_FLAGS = 1;
-        return parseFlags.size() > MIN_VALID_FLAGS;
+    public  boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
+        
+        final EnumSet<ParserFlags> VALID_PARSE = EnumSet.of(
+                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
+   
+        
+        if (parseFlags.containsAll(VALID_PARSE)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     /* (non-Javadoc)

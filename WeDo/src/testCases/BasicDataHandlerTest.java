@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import dataStorage.BasicDataHandler;
+import dataStorage.DataHandler;
 import dataStorage.DataHandler;
 import definedEnumeration.Priority;
 
@@ -22,7 +22,7 @@ public class BasicDataHandlerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		 datahandler = new BasicDataHandler();
+		 datahandler = DataHandler.getInstance();
 		 
 	}
 	/*

@@ -65,7 +65,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static final JLabel lblDescriptionProcess = new JLabel("");
 
 	private InteractiveForm interForm;
-	public static LogicManager logicManager;
+	private LogicManager logicManager;
 	private ObservableList<Task> observableList;
 
 	/**
@@ -283,7 +283,7 @@ public class UserIntSwing extends JPanel implements Observer {
 			}
 			@Override
 			public void keyReleased(KeyEvent arg1) {
-				UserInterfaceMain.processUserParse(arg1);
+				UserInterfaceMain.processUserParse(arg1,logicManager);
 			}
 		});
 		

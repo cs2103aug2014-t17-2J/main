@@ -5,6 +5,7 @@ package logic.parser;
 
 import java.util.EnumSet;
 
+import dataStorage.DataHandler;
 import logic.command.commandList.EditCommand;
 import logic.utility.StringHandler;
 import logic.utility.Task;
@@ -24,15 +25,8 @@ public class ParserManager {
         CommandParser commandParser = new CommandParser();
         EnumSet<ParserFlags> parseFlags = tryParse(userInput, dateParser,
                 priorityParser, descriptionParser, commandParser);
-//        
-//        if(parseFlags.contains(ParserFlags.COMMAND_FLAG) && parseFlags.contains(ParserFlags.DESCRIPTION_FLAG))
-//        {
-//            if(commandParser.getCommand() instanceof EditCommand)
-//            {
-//                StringHandler.parseStringToInteger(descriptionParser.getDescription());
-//                
-//            }
-//        }
+        
+
         
         parseResult.setCommand(commandParser.getCommand());
         parseResult.setTask(buildTask(parseFlags, dateParser,
