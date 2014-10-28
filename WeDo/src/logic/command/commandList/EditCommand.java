@@ -50,8 +50,8 @@ public class EditCommand extends Command {
             throw new InvalidCommandException("Edit failed, invalid index");
         }
         
-          // not implemented yet (edit based on user specification)
-          //  task = editSpecifiedField(source, task); 
+          // not implemented yet (edit based on user sp
+            task = editSpecifiedField(source, task); 
             
             dataHandler.editTask(source, task);
             undoHandler.addUndo(this);
