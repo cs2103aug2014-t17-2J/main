@@ -26,10 +26,12 @@ public class TextfieldHistory{
 	 */
 	public static void getTextfieldString(String getText){
 		
-		while(!undoStack.isEmpty()) {
-			userInputStack.push(undoStack.pop());
+		if(!getText.isEmpty()){
+			while(!undoStack.isEmpty()) {
+				userInputStack.push(undoStack.pop());
+			}
+			userInputStack.push(getText);
 		}
-		userInputStack.push(getText);
 	}
 	
 	/**
