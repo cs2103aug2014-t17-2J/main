@@ -30,8 +30,7 @@ import definedEnumeration.Priority;
 public class TestLogicManager {
 
 
-    ObservableList<Task> observableList = new ObservableList<Task>(null);
-    BasicDataHandler dataHandler = new BasicDataHandler(observableList);
+    BasicDataHandler dataHandler = new BasicDataHandler();
     LogicManager logicManager = new LogicManager(dataHandler);
     ObservableList<Task> expectedList = new ObservableList<Task>(new ArrayList<Task>());
     

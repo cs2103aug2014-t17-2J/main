@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import logic.command.commandList.Command;
 import logic.utility.KeyMatcher;
 import logic.utility.StringHandler;
 
@@ -35,8 +36,11 @@ public class PriorityParser {
      * @return if source contains valid priority
      */
     public boolean tryParse(String source) {
-        String firstTwoWords = StringHandler.getFirstTwoWords(source);
-        String lastTwoWords = StringHandler.getLastTwoWords(source);
+        
+        String sourceWithoutCommand = removeCommandWordFirst(source);
+        
+        String firstTwoWords = StringHandler.getFirstTwoWords(sourceWithoutCommand);
+        String lastTwoWords = StringHandler.getLastTwoWords(sourceWithoutCommand);
 
         if (tryParsePriority(firstTwoWords)) // failed first two word
         {
@@ -66,6 +70,17 @@ public class PriorityParser {
         }
 
         return false;
+    }
+
+    private String removeCommandWordFirst(String source) {
+        String possibleCommand = StringHandler.getFirstWord(source);               
+        Command command = KeyMatcher.matchKey(CommandParser.createFakeMultiMapForCommand(), possibleCommand);
+        if(command != null)
+        {
+            source = StringHandler.removeFirstMatched(source,
+                    possibleCommand);
+        }
+        return source;
     }
 
     /**

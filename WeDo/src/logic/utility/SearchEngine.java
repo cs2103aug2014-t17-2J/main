@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import com.google.common.collect.Multimap;
 
 import dataStorage.BasicDataHandler;
-import dataStorage.DataHandler;
+import dataStorage.BasicDataHandler;
 
 /**
  */

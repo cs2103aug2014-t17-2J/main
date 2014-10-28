@@ -182,7 +182,7 @@ public class StringHandler {
      */
     public static String getFirstTwoWords(String source)
     {
-        final String theRegex = "^(\\w+\\s+\\w+)";
+        final String theRegex = "^[^A-z]*(\\w+\\s+\\w+)";
         return getMatchedRegex(source, theRegex);
         
     }
@@ -326,6 +326,6 @@ public class StringHandler {
      * @return whether it is a valid string
      */
     private static boolean isValidString(String addedInput) {
-        return addedInput.length() > 0;
+        return addedInput != null && addedInput.length() > 0;
     }
 }

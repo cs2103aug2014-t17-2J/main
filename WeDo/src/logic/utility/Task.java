@@ -205,16 +205,16 @@ public class Task
         DateTimeFormatter timeFormatter = DateTimeFormatter
                 .ofPattern("hh:mm a");
         
-        if(startDate == DATE_NOT_SET)
+        if(startDate.equals(DATE_NOT_SET))
         {
-            if(endDate == DATE_NOT_SET)
+            if(endDate.equals(DATE_NOT_SET))
             {
                 return dateString;
             }
             else
             {
                 dateString += endDate.format(dateFormatter);
-                if(endTime != TIME_NOT_SET)
+                if(!endTime.equals(TIME_NOT_SET))
                 {
                     dateString +=  TIME_CONNECTOR + endTime.format(timeFormatter);
                 }
@@ -226,12 +226,12 @@ public class Task
             dateString += startDate.format(dateFormatter);
         }
         
-        if(startTime != TIME_NOT_SET)
+        if(!startTime.equals(TIME_NOT_SET))
         {
             dateString +=  TIME_CONNECTOR + startTime.format(timeFormatter);
         }
         
-        if(endDate == DATE_NOT_SET)
+        if(endDate.equals(DATE_NOT_SET))
         {
             return dateString;
         }
@@ -240,7 +240,7 @@ public class Task
             dateString += DATE_CONNECTOR + endDate.format(dateFormatter);
         }
         
-        if(endTime != TIME_NOT_SET)
+        if(!endTime.equals(TIME_NOT_SET))
         {
             dateString +=  TIME_CONNECTOR + endTime.format(timeFormatter);
         }

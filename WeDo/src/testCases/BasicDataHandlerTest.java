@@ -10,12 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dataStorage.BasicDataHandler;
-import dataStorage.DataHandler;
 import definedEnumeration.Priority;
 
 public class BasicDataHandlerTest {
 	
-	DataHandler datahandler;
+	BasicDataHandler datahandler;
 
 	ArrayList<Task> tmp;
 	Priority priority;

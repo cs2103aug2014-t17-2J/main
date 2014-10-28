@@ -1,7 +1,5 @@
-/**
- * 
- */
 package dataStorage;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,10 +9,6 @@ import com.google.common.collect.Multimap;
 
 import logic.utility.Task;
 
-/**
- * @author Kuan Tien Long
- *
- */
 public interface DataHandler {
 
     public abstract Multimap <String,Task> getMainList();

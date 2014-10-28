@@ -96,6 +96,12 @@ public class InteractiveForm extends JPanel {
 		}
 		table.setColumnSelectionInterval(0, 0);
 	}
+	
+	public void highLightRow(int row)
+	{
+	    table.setRowSelectionInterval(row, row);
+	    table.setColumnSelectionInterval(0, 0);
+	}
 
 	class InteractiveRenderer extends DefaultTableCellRenderer {
 
