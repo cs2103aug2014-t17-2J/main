@@ -182,25 +182,34 @@ public class UserInterfaceMain {
      * and show what will be parsed
      * 
      * @param logicManager
+     * @return DynamicParseResult the result that was parsed on run time
      */
-    public static void processUserParse(KeyEvent arg1, LogicManager logicManager) {
+    public static DynamicParseResult processUserParse(KeyEvent arg1, LogicManager logicManager) {
 
         DynamicParseResult parseResult = logicManager
                 .dynamicParse(UserIntSwing.textField.getText());
 
-        Task task = parseResult.getTask();
+        return parseResult;
 
-        // clear all label 1st..
+    }
+
+    /**
+     * Clear all the labels related to dynamic parsing
+     */
+    public static void clearDynamicParseLabels() {
         UserIntSwing.lblCommandProcess.setText(null);
         UserIntSwing.lblDateProcess.setText(null);
         UserIntSwing.lblDescriptionProcess.setText(null);
         UserIntSwing.lblPriorityProcess.setText(null);
-        
-        
+    }
 
-        showEditedTask(logicManager, parseResult, task);
-
-
+    /**
+     * Show the parse result to the user
+     * @param parseResult the result that was parse
+     * @param task the task that was parse
+     */
+    public static void showParseResult(DynamicParseResult parseResult,
+            Task task) {
         for (ParserFlags parseFlag : parseResult.getParseFlags()) {
             switch (parseFlag) {
             case COMMAND_FLAG:
@@ -226,34 +235,24 @@ public class UserInterfaceMain {
         }
     }
 
-    private static void showEditedTask(LogicManager logicManager,
-            DynamicParseResult parseResult, Task task) {
-        
-        final String INVALID_INDEX = "The index you are editing is INVALID";
-        if (containsValidEditCommand(parseResult)) 
-        {
-            String indexString = StringHandler.getIntegerFromFirstSlot(task
-                    .getDescription());
-            
-            int index = getIndex(indexString);
-            
-            Task taskToBeEdited = logicManager.getTaskToBeEdited(index);
-            
-            if(taskToBeEdited != null)
-            {
-                task.setDescription(StringHandler.removeFirstMatched(
-                        task.getDescription(), indexString));
-                
-                showEditedTaskField(taskToBeEdited);
-            }
-            else
-            {
-                task.setDescription(INVALID_INDEX);
-            }
-        }
+
+    /**
+     * get the string which contains the index at the first word
+     * @param task the new task that will edit the old task
+     * @return the string which contains the index
+     */
+    public static String getIndexString(Task task) {
+        String indexString = StringHandler.getIntegerFromFirstSlot(task
+                .getDescription());
+        return indexString;
     }
 
-    private static boolean containsValidEditCommand(
+    /**
+     * Help determines if the parse result contains valid edit command
+     * @param parseResult the parse result
+     * @return if it contains valid edit command
+     */
+    public static boolean containsValidEditCommand(
             DynamicParseResult parseResult) {
         return parseResult.getParseFlags().contains(ParserFlags.COMMAND_FLAG)
                 && parseResult.getParseFlags().contains(
@@ -261,7 +260,11 @@ public class UserInterfaceMain {
                 && parseResult.getCommand() instanceof EditCommand;
     }
 
-    private static void showEditedTaskField(Task taskToBeEdited) {
+    /**
+     * Show the task that is to be edited on the GUI
+     * @param taskToBeEdited the task to be edited
+     */
+    public static void showTaskToBeEdited(Task taskToBeEdited) {
         UserIntSwing.lblDateProcess.setText(taskToBeEdited.getDateTimeString());
         UserIntSwing.lblDescriptionProcess.setText(taskToBeEdited
                 .getDescription());
@@ -269,7 +272,12 @@ public class UserInterfaceMain {
                 .toString());
     }
     
-    private static int getIndex(String indexString) {
+    /**
+     * convert string to integer
+     * @param indexString the string which contains the index to extract
+     * @return the index in integer form
+     */
+    public static int getTaskToBeEditedIndex(String indexString) {
         final int ARRAY_OFFSET = -1;
         return StringHandler.parseStringToInteger(indexString) + ARRAY_OFFSET;
     }

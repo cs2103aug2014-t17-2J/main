@@ -26,7 +26,9 @@ import javax.swing.SwingConstants;
 
 import logic.LogicManager;
 import logic.exception.InvalidCommandException;
+import logic.parser.DynamicParseResult;
 import logic.parser.ParseResult;
+import logic.utility.StringHandler;
 import logic.utility.Task;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.AttachLocation;
@@ -283,8 +285,37 @@ public class UserIntSwing extends JPanel implements Observer {
 			}
 			@Override
 			public void keyReleased(KeyEvent arg1) {
-				UserInterfaceMain.processUserParse(arg1,logicManager);
+				DynamicParseResult parseResult = UserInterfaceMain.processUserParse(arg1,logicManager);
+				Task task = parseResult.getTask();
+				UserInterfaceMain.clearDynamicParseLabels();
+		        handleDynamicEdit(parseResult, task);
+		        UserInterfaceMain.showParseResult(parseResult, task);
+
 			}
+            private void handleDynamicEdit(DynamicParseResult parseResult,
+                    Task task) {
+                if (UserInterfaceMain.containsValidEditCommand(parseResult)) 
+		        {
+		            String indexString = UserInterfaceMain.getIndexString(task);
+		            int index = UserInterfaceMain.getTaskToBeEditedIndex(indexString);
+		            Task taskToBeEdited = logicManager.getTaskToBeEdited(index);
+		            if(taskToBeEdited != null)
+		            {
+		                task.setDescription(StringHandler.removeFirstMatched(
+		                        task.getDescription(), indexString));
+		                UserInterfaceMain.showTaskToBeEdited(taskToBeEdited);
+		                interForm.highLightRow(index);
+		            }
+		            else
+		            {
+		                showInvalidIndexMessage(task);
+		            }
+		        }
+            }
+            private void showInvalidIndexMessage(Task task) {
+                final String INVALID_INDEX = "The index you are editing is INVALID";
+                task.setDescription(INVALID_INDEX);
+            }
 		});
 		
 		/**
