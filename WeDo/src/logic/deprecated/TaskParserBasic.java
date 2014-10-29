@@ -94,7 +94,7 @@ public class TaskParserBasic implements TaskParser {
      */
     private TaskFieldSetter determineAttribute(String operation)
     {
-        return KeyMatcher.matchKey(createFakeMultiMapForPriority(), operation);   
+        return KeyMatcher.getMatchedKey(createFakeMultiMapForPriority(), operation);   
 
     }
     

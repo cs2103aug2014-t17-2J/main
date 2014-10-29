@@ -60,7 +60,7 @@ public class CommandParser {
         String possibleCommand = StringHandler.getFirstWord(source);               
 
         
-        command = KeyMatcher.matchKey(createFakeMultiMapForCommand(), possibleCommand);
+        command = KeyMatcher.getMatchedKey(createFakeMultiMapForCommand(), possibleCommand);
         if(command != null)
         {
             wordUsed = possibleCommand;
