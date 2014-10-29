@@ -50,6 +50,31 @@ public class BasicDataHandler implements DataHandler{
 		currentList = DEADLINE;	
 	}
 	
+	public ArrayList<Task> getCompleted() {
+		ArrayList<Task> tmp = new ArrayList<Task>();
+		
+		for(Task t:mainList2.values()) {
+			if(t.getCompleted() == true) {
+				tmp.add(t);
+			}
+		}
+		
+		return tmp;
+	}
+	
+	
+	public ArrayList<Task> getUncompleted() {
+		ArrayList<Task> tmp = new ArrayList<Task>();
+		
+		for(Task t:mainList2.values()) {
+			if(t.getCompleted() == false) {
+				tmp.add(t);
+			}
+		}
+		
+		return tmp;
+	}
+	
 	
 	public boolean withinRange(LocalDate startDate,LocalDate endDate,Task task) {
 		
@@ -234,10 +259,9 @@ public class BasicDataHandler implements DataHandler{
 	public ArrayList<Task> getList(LocalDate startDate, LocalDate endDate) {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 		
-		for(Task t:new ArrayList<Task>(mainList2.values())) {
-			if(withinRange(startDate,endDate,t)) {
-				tmp.add(t);
-			}
+		while(startDate.isBefore(endDate) || startDate.equals(endDate)) {
+			tmp.addAll(mainList2.get(startDate));
+			startDate = startDate.plusDays(1);
 		}
 		
 		return tmp;
@@ -247,6 +271,7 @@ public class BasicDataHandler implements DataHandler{
 		if (indexValid(index)) {
 
 			fileHandler.writeLog(LocalTime.now() + " : deleted "
+					
 					+ observableList.get(index));
 
 			System.out.println("deleted " + observableList.get(index));
@@ -315,7 +340,16 @@ public class BasicDataHandler implements DataHandler{
 			tmp.addAll(mainList2.get(LocalDate.MAX));
 			observableList.replaceList(tmp);
 
-		} else {
+		} else if(task.getDescription().equals("completed")){
+			tmp.addAll(getCompleted());
+			observableList.replaceList(tmp);
+		} else if(task.getDescription().equals("incompleted") ||
+					task.getDescription().equals("uncompleted")){
+			tmp.addAll(getUncompleted());
+			observableList.replaceList(tmp);
+		}
+		
+		else if(task.getDescription().equalsIgnoreCase(ALL)){
 			currentList = ALL;
 			tmp.addAll(mainList2.values());
 			tmp = sort(tmp);
