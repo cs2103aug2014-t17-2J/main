@@ -349,7 +349,7 @@ public class BasicDataHandler implements DataHandler{
 			observableList.replaceList(tmp);
 		}
 		
-		else {
+		else if(task.getDescription().equalsIgnoreCase(ALL)){
 			currentList = ALL;
 			tmp.addAll(mainList2.values());
 			tmp = sort(tmp);

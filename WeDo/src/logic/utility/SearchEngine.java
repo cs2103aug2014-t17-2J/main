@@ -15,9 +15,11 @@ import dataStorage.BasicDataHandler;
 public class SearchEngine {
 
 	BasicDataHandler dataHandler;
+	private String wagnerWord;
 
 	public SearchEngine(BasicDataHandler dataHandler) {
 		this.dataHandler = dataHandler;
+		wagnerWord = "";
 	}
 
 	/**
@@ -76,14 +78,24 @@ public class SearchEngine {
 		for (Task t : dataHandler.getAllTasks()) {
 			String[] str2 = t.getDescription().split(" ");
 			for (String s: str2) {
+				
 				distance = getDist(str1, s);
-				if (distance < s.length()/2) {
+
+				
+				if(!wagnerWord.isEmpty() && s.contains(wagnerWord) || wagnerWord.contains(s)) {
+					tmp.add(t);
+					break;
+				} else if (distance < s.length()/2) {
 					tmp.add(t);
 					break;
 				}
 			}
 		}
+		
+		wagnerWord = "";
+		
 		dataHandler.setDisplayedTasks(tmp);
+		
 		return tmp;
 	}
 
@@ -104,6 +116,10 @@ public class SearchEngine {
 						arr[i - 1][j - 1] + m);
 			}
 		}
+		if(arr[len1][len2] < str1.length()/2) {
+			wagnerWord = str2;
+		}
+		
 		return arr[len1][len2];
 	}
 
