@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class StringHandler {
 
     /**
+     * Get the first word (pure alphabet word) from the String
      * @param source
      *            the string where the first word is to be extracted
      * @return the extracted first word or null if there is no first word
@@ -26,14 +27,71 @@ public class StringHandler {
             return null;
         }
 
-        if (source.contains(" ")) {
-            String firstWord = source.substring(0, source.indexOf(" "));
-            return firstWord;
+        if (source.contains(" ")) 
+        {
+
+            final int FIRST_WORD_GROUP = 1;
+            String firstWordRegex = "^[^A-z]*([A-z]+)";
+            Pattern pattern = Pattern.compile(firstWordRegex);
+            Matcher matcher = pattern.matcher(source);
+            if(matcher.find())
+            {
+                return matcher.group(FIRST_WORD_GROUP);
+            }
+            else
+            {
+                return null;
+            }
         } else {
             return source;
         }
-
     }
+    
+    
+
+    /**
+     * Get the last word (pure alphabet word) from a String
+     * @param source
+     *            the string where the last word is to be extracted
+     * @return the extracted last word or null if there is no last word
+     */
+    public static String getLastWord(String source) {
+        if (source == null) {
+            return null;
+        }
+
+        source = source.trim();
+
+        if (source.isEmpty()) {
+            return null;
+        }
+
+
+        
+        
+        if (source.contains(" ")) 
+        {
+            final int LAST_WORD_GROUP = 1;
+            String lastWordRegex = "\\s([A-z]+)[^A-z]*$";
+            Pattern pattern = Pattern.compile(lastWordRegex);
+            Matcher matcher = pattern.matcher(source);
+            if(matcher.find())
+            {
+                return matcher.group(LAST_WORD_GROUP);
+            }
+            else
+            {
+                return null;
+            }
+            
+        } else {
+            return source;
+        }
+    }
+
+    
+  
+    
 
     /**
      * @param source
@@ -177,26 +235,95 @@ public class StringHandler {
     }
     
     /**
-     * @param source
-     * @return first two words if valid, null if invalid
+     * Get the digit after first pure alphabet word from the source
+     * @param source the source which contains the digit
+     * @return digit after first word, null if invalid
      */
-    public static String getFirstTwoWords(String source)
+    public static String getDigitAfterFirstWord(String source)
     {
-        final String theRegex = "^[^A-z]*(\\w+\\s+\\w+)";
+        final String theRegex = "^[^A-z]*[A-z]+\\s+(\\d+)";
         return getMatchedRegex(source, theRegex);
         
     }
     
     /**
-     * @param source
-     * @return last two words if valid, null if invalid
+     * Get the digit after last pure alphabet word from the source
+     * @param source the source which contains the digit
+     * @return digit after last word, null if invalid
      */
-    public static String getLastTwoWords(String source)
+    public static String getDigitAfterLastWord(String source)
     {
-        final String theRegex = "(\\w+\\s+\\w+)$";
+        final String theRegex = "\\s[A-z]+\\s+(\\d+)[^A-z]*$";
         return getMatchedRegex(source, theRegex);   
     }
+    
+    /**
+     * Remove the digit after first pure alphabet word from the source
+     * @param source the source which contains the digit
+     * @return source with removed digit if found, source if not found
+     */
+    public static String removeDigitAfterFirstWord(String source)
+    {
+        final String theRegex = "^[^A-z]*[A-z]+\\s+(\\d+)";
+        return removeMatchedRegex(source, theRegex);
+        
+    }
+    
+    /**
+     * Remove the digit after last pure alphabet word from the source
+     * @param source the source which contains the digit
+     * @return source with removed digit if found, source if not found
+     */
+    public static String removeDigitAfterLastWord(String source)
+    {
+        final String theRegex = "\\s[A-z]+\\s+(\\d+)[^A-z]*$";
+        return removeMatchedRegex(source, theRegex);   
+    }
 
+    /**
+     * remove matched regex pattern 
+     * @param source
+     * @param regexPattern
+     * @return
+     */
+    private static String removeMatchedRegex(String source, String regexPattern) {
+        
+        final int MATCHED = 1;
+        if (source == null) {
+            return source;
+        }
+
+        source = source.trim();
+
+        if (source.isEmpty()) {
+            return source;
+        }
+        
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(source);
+        StringBuffer result = new StringBuffer();
+        
+        if(matcher.find())
+        {
+            matcher.appendReplacement(result,"");
+            System.out.println(matcher.group(MATCHED));
+        }
+        
+
+        matcher.appendTail(result).toString();
+        System.out.println(result);
+        
+        return result.toString();
+      
+    }
+    
+    
+    /**
+     * return matched regex pattern or null is there is isn't
+     * @param source
+     * @param regexPattern
+     * @return
+     */
     private static String getMatchedRegex(String source, String regexPattern) {
         
         final int MATCHED = 1;

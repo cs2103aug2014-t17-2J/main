@@ -64,7 +64,7 @@ public class TaskParserPlus implements TaskParser {
     }
 
     private TaskFieldSetter determineAttribute(String operation) {
-        return KeyMatcher.matchKey(createFakeMultiMapForPriority(), operation);
+        return KeyMatcher.getMatchedKey(createFakeMultiMapForPriority(), operation);
 
     }
 
@@ -174,8 +174,8 @@ public class TaskParserPlus implements TaskParser {
      *         empty string ""
      */
     private String parsePriority(String userInput, Task task) {
-        String firstTwoWords = StringHandler.getFirstTwoWords(userInput);
-        String lastTwoWords = StringHandler.getLastTwoWords(userInput);
+        String firstTwoWords = StringHandler.getDigitAfterFirstWord(userInput);
+        String lastTwoWords = StringHandler.getDigitAfterLastWord(userInput);
 
         if (tryParsePriority(firstTwoWords, task)) {
             return firstTwoWords;

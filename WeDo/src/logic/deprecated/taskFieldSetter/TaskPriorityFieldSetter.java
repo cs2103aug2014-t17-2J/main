@@ -30,7 +30,7 @@ public class TaskPriorityFieldSetter implements TaskFieldSetter {
     @Override
     public String set(Task task, String arguments) {
         Priority priority = KeyMatcher
-                .matchKey(createFakeMultiMap(), arguments);
+                .getMatchedKey(createFakeMultiMap(), arguments);
         task.setPriority(priority);
         return arguments;
     }
