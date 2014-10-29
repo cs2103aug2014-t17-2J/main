@@ -259,10 +259,9 @@ public class BasicDataHandler implements DataHandler{
 	public ArrayList<Task> getList(LocalDate startDate, LocalDate endDate) {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 		
-		for(Task t:new ArrayList<Task>(mainList2.values())) {
-			if(withinRange(startDate,endDate,t)) {
-				tmp.add(t);
-			}
+		while(startDate.isBefore(endDate) || startDate.equals(endDate)) {
+			tmp.addAll(mainList2.get(startDate));
+			startDate = startDate.plusDays(1);
 		}
 		
 		return tmp;
@@ -272,6 +271,7 @@ public class BasicDataHandler implements DataHandler{
 		if (indexValid(index)) {
 
 			fileHandler.writeLog(LocalTime.now() + " : deleted "
+					
 					+ observableList.get(index));
 
 			System.out.println("deleted " + observableList.get(index));

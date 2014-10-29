@@ -194,11 +194,18 @@ public class FileHandler {
 		return tmp;
 	}
 	
+	public void resetID() {
+		Task task = new Task();
+		task.setID(0);
+	}
+	
 	
 	public Multimap<LocalDate,Task> getAllTasks(){
 		
 		Multimap<LocalDate,Task> tmp;
 		tmp = ArrayListMultimap.create();
+		
+		resetID();
 		
 		JSONParser parser = new JSONParser();
 
