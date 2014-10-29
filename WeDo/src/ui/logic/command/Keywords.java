@@ -35,6 +35,7 @@ public final class Keywords {
 	private static final String TIME_IDENTIFIER = "at";
 
 	private static final String UNDO_ACTION_IDENTIFIER = "undo";
+	private static final String REDO_ACTION_IDENTIFIER = "redo";
 
 	private static final Map<String, Action> actionMap = createMap();
 
@@ -62,6 +63,7 @@ public final class Keywords {
 		map.put(SEARCH_TASK_IDENTIFIER_3, Action.SEARCH);
 
 		map.put(UNDO_ACTION_IDENTIFIER, Action.UNDO);
+		map.put(REDO_ACTION_IDENTIFIER, Action.REDO);
 
 		return Collections.unmodifiableMap(map);
 	}
@@ -115,5 +117,13 @@ public final class Keywords {
 
 	public static String getTimeIdentifier() {
 		return TIME_IDENTIFIER;
+	}
+	
+	public static String getUndoActionIdentifier() {
+		return UNDO_ACTION_IDENTIFIER;
+	}
+	
+	public static String getRedoActionIdentifier() {
+		return REDO_ACTION_IDENTIFIER;
 	}
 }

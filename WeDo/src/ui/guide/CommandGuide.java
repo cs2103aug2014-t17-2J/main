@@ -87,7 +87,9 @@ public class CommandGuide {
 		str.append(Keywords.getViewTaskIdentifier() + " | ");
 		str.append(Keywords.getEditTaskIdentifier() + " | ");
 		str.append(Keywords.getDeleteTaskIdentifier() + " | ");
-		str.append(Keywords.getSearchTaskIdentifier());
+		str.append(Keywords.getSearchTaskIdentifier() + " | ");
+		str.append(Keywords.getUndoActionIdentifier() + " | ");
+		str.append(Keywords.getRedoActionIdentifier());
 
 		return wrapWithHtmlTag(str.toString());
 	}

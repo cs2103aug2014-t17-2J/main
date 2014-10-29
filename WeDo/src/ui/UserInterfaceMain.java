@@ -19,7 +19,6 @@ import logic.LogicManager;
 import logic.command.commandList.EditCommand;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
-import logic.parser.ParseResult;
 import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
@@ -53,7 +52,7 @@ public class UserInterfaceMain {
     /**
      * This operation initialize all the Processes 
      */
-    public static void initProcess(){
+    public static void initProcess() {
     	
     	UserIntSwing.frame.pack();
     	setupFrameLocation();
@@ -119,7 +118,7 @@ public class UserInterfaceMain {
      * This operation process the SystemTray when minimise
      * operation is executed
      */
-    private static void addSystemTrayWindowStateListener(){
+    private static void addSystemTrayWindowStateListener() {
     	UserIntSwing.frame.addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(WindowEvent arg) {
 				MinimiseToTray.Minimise(arg);
@@ -135,7 +134,7 @@ public class UserInterfaceMain {
 	 *4. Enter KeyListener - Process all the feedback labels when the user type 
 	 *an incorrect input
 	 */
-    private static void addTextfieldKeyListener(){
+    private static void addTextfieldKeyListener() {
     	
 		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -196,7 +195,7 @@ public class UserInterfaceMain {
 	 * @throws InvalidCommandException 
 	 */
     private static void processTextfield(KeyEvent arg1, String userInput)
-    		throws InvalidCommandException{
+    		throws InvalidCommandException {
 
 		UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
 		UserIntSwing.frame.setVisible(true);
@@ -251,7 +250,7 @@ public class UserInterfaceMain {
      * @param key KeyEvent keylistener from the textfield
      * @throws InvalidCommandException 
      */
-    private static void processHotKeys(KeyEvent key) throws InvalidCommandException  {
+    private static void processHotKeys(KeyEvent key) throws InvalidCommandException {
 
         if (key.getKeyCode() == KEY_HELP) {
             HelpMenu.main(null);
@@ -297,6 +296,8 @@ public class UserInterfaceMain {
         case EDIT:
         case DELETE:
         case SEARCH:
+        case UNDO:
+        case REDO:
         	feedbackTimerReset();
             return FeedbackGuide.isValidString();
         default:
