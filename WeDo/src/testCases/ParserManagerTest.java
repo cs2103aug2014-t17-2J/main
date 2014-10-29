@@ -170,7 +170,7 @@ public class ParserManagerTest {
                 expectedTask);
 
         assertValidParse(
-                "date 18/09 2pm to 22/9 2am -add buy for me something priority med",
+                "date 18/09 2pm to 22/9 2am add buy for me something priority med",
                 expectedResult);
 
     }
@@ -185,7 +185,7 @@ public class ParserManagerTest {
                 expectedTask);
 
         assertValidParse(
-                "18/09/14 14:00 to 22/9/14 2:00 med priority -add buy for me something",
+                "18/09/14 14:00 to 22/9/14 2:00 med priority add buy for me something",
                 expectedResult);
     }
 
@@ -199,7 +199,7 @@ public class ParserManagerTest {
                 expectedTask);
 
         assertValidParse(
-                "med priority date 18/09/14 2pm to 22/9/14 2am -add buy for me something",
+                "med priority date 18/09/14 2pm to 22/9/14 2am add buy for me something",
                 expectedResult);
     }
 
@@ -213,7 +213,7 @@ public class ParserManagerTest {
                 expectedTask);
 
         assertValidParse(
-                "-add buy for me something med priority date 18/09/14 2pm to 22/9/14 2am ",
+                "add buy for me something med priority date 18/09/14 2pm to 22/9/14 2am ",
                 expectedResult);
 
     }
@@ -228,7 +228,7 @@ public class ParserManagerTest {
                 expectedTask);
 
         assertValidParse(
-                "-add buy for me something priority med date 18 sept 2pm to 22 sept 2am ",
+                "add buy for me something priority med date 18 sept 2pm to 22 sept 2am ",
                 expectedResult);
     }
 
@@ -242,7 +242,7 @@ public class ParserManagerTest {
                 expectedTask);
 
         assertValidParse(
-                "-add buy for me something date 18 sept 2pm to 22 sept 2am med priority",
+                "add buy for me something date 18 sept 2pm to 22 sept 2am med priority",
                 expectedResult);
 
     }
@@ -268,7 +268,7 @@ public class ParserManagerTest {
                 expectedTask);
 
         assertValidParse(
-                "-add buy for me something date 12 sept to 18 sept priority low",
+                "add buy for me something date 12 sept to 18 sept priority low",
                 expectedResult);
     }
 
@@ -283,7 +283,7 @@ public class ParserManagerTest {
         ParseResult expectedResult = new ParseResult(expectedCommand,
                 expectedTask);
 
-        assertValidParse("-add momo by 12 sept priority high", expectedResult);
+        assertValidParse("add momo by 12 sept priority high", expectedResult);
     }
 
     private void parseValidAddWithNoDate() {
@@ -291,7 +291,7 @@ public class ParserManagerTest {
         Command expectedCommand = new AddCommand();
         ParseResult expectedResult = new ParseResult(expectedCommand,
                 expectedTask);
-        assertValidParse("-add floating task", expectedResult);
+        assertValidParse("add floating task", expectedResult);
     }
 
     private void assertValidParse(String input, ParseResult expectedResult) {
