@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -13,14 +12,10 @@ import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowStateListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.KeyStroke;
-
 import logic.LogicManager;
-import logic.command.UndoHandler;
 import logic.command.commandList.EditCommand;
 import logic.parser.DynamicParseResult;
 import logic.parser.ParseResult;
@@ -51,8 +46,6 @@ public class UserInterfaceMain {
     private static final int KEY_EDIT = KeyEvent.VK_F4;
     private static final int KEY_DELETE = KeyEvent.VK_F5;
     private static final int KEY_SEARCH = KeyEvent.VK_F6;  
-    
-    private static String getCommand;
     
     /**
      * This operation initialize all the Processes 
