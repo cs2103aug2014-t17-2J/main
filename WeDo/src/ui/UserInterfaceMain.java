@@ -17,6 +17,7 @@ import java.util.TimerTask;
 
 import logic.LogicManager;
 import logic.command.commandList.EditCommand;
+import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
 import logic.parser.ParseResult;
 import logic.parser.ParserFlags;
@@ -24,8 +25,8 @@ import logic.utility.StringHandler;
 import logic.utility.Task;
 import ui.guide.CommandGuide;
 import ui.guide.FeedbackGuide;
-import ui.guide.Hotkey;
 import ui.logic.command.Action;
+import ui.logic.command.Hotkey;
 import ui.logic.command.Keywords;
 import userInterface.UserIntSwing;
 
@@ -46,6 +47,8 @@ public class UserInterfaceMain {
     private static final int KEY_EDIT = KeyEvent.VK_F4;
     private static final int KEY_DELETE = KeyEvent.VK_F5;
     private static final int KEY_SEARCH = KeyEvent.VK_F6;  
+    private static final int KEY_UNDO = KeyEvent.VK_F12;  
+    private static final int KEY_REDO = KeyEvent.VK_F11;  
     
     /**
      * This operation initialize all the Processes 
@@ -112,6 +115,10 @@ public class UserInterfaceMain {
         });
     }
     
+    /**
+     * This operation process the SystemTray when minimise
+     * operation is executed
+     */
     private static void addSystemTrayWindowStateListener(){
     	UserIntSwing.frame.addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(WindowEvent arg) {
@@ -129,37 +136,16 @@ public class UserInterfaceMain {
 	 *an incorrect input
 	 */
     private static void addTextfieldKeyListener(){
-    	 
+    	
 		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg1) {
+				String userInput = UserIntSwing.textField.getText();
 				try {
-					String userInput = UserIntSwing.textField.getText();
-
-					UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput
-							+ " "));
-					UserIntSwing.frame.setVisible(true);
-					
-					TextfieldHistory.showTextfieldHistoryUpkey(arg1);
-
-					UserInterfaceMain.processHotKeys(arg1);
+					processTextfield(arg1, userInput);
 					
 					if(arg1.getKeyCode() == KEY_ENTER){
-						String getText = UserIntSwing.textField.getText();
-		
-						UserIntSwing.lblFeedback.setText(
-								UserInterfaceMain.processFeedbackLabel(getText));
-						TextfieldHistory.getTextfieldString(getText);
-					}
-					
-					if(arg1.getKeyCode() == KeyEvent.VK_F12){
-						ParseResult parseResult = UserIntSwing.logicManager.processCommand("undo");
-						UserIntSwing.logicManager.executeCommand(parseResult);
-					}
-					
-					if(arg1.getKeyCode() == KeyEvent.VK_F11){
-						ParseResult parseResult = UserIntSwing.logicManager.processCommand("redo");
-						UserIntSwing.logicManager.executeCommand(parseResult);
+						processEnterkey(arg1);
 					}
 					
 				} catch (Exception e) {
@@ -202,6 +188,35 @@ public class UserInterfaceMain {
             }
 		});
     }
+    
+	/**
+	 *Textfield processes
+	 *@param arg1 KeyEvent from the textfield
+	 *@param userInput Input that the user entered from the textfield
+	 * @throws InvalidCommandException 
+	 */
+    private static void processTextfield(KeyEvent arg1, String userInput)
+    		throws InvalidCommandException{
+
+		UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
+		UserIntSwing.frame.setVisible(true);
+		
+		TextfieldHistory.showTextfieldHistory(arg1);
+
+		UserInterfaceMain.processHotKeys(arg1);
+    }
+    
+	/**
+	 *Enter Key Listener process
+	 *@param arg1 KeyEvent Enter from the textfield
+	 */
+    private static void processEnterkey(KeyEvent arg1) {
+    	String getText = UserIntSwing.textField.getText();
+		
+		UserIntSwing.lblFeedback.setText(
+				UserInterfaceMain.processFeedbackLabel(getText));
+		TextfieldHistory.getTextfieldString(getText);
+    }
 
     /**
      * This operation sets the date for today and display on the top of the
@@ -232,41 +247,48 @@ public class UserInterfaceMain {
     }
 
     /**
-     * This operation process the hotkeys shortcut function.
+     * This operation process the hotkeys shortcut function
+     * @param key KeyEvent keylistener from the textfield
+     * @throws InvalidCommandException 
      */
-    private static void processHotKeys(KeyEvent key) {
+    private static void processHotKeys(KeyEvent key) throws InvalidCommandException  {
 
         if (key.getKeyCode() == KEY_HELP) {
             HelpMenu.main(null);
         }
         if (UserIntSwing.textField.getText().isEmpty()) {
             if (key.getKeyCode() == KEY_ADD) {
-            	Hotkey.Add();
+            	Hotkey.add();
             } else if (key.getKeyCode() == KEY_VIEW) {
-            	Hotkey.View();
+            	Hotkey.view();
             } else if (key.getKeyCode() == KEY_EDIT) {
-            	Hotkey.Edit();
+            	Hotkey.edit();
             } else if (key.getKeyCode() == KEY_DELETE) {
-            	Hotkey.Delete();
-            } else if (key.getKeyCode() == KEY_SEARCH){
-            	Hotkey.Search();
+            	Hotkey.delete();
+            } else if (key.getKeyCode() == KEY_SEARCH) {
+            	Hotkey.search();
+            } else if (key.getKeyCode() == KEY_UNDO) {
+            	Hotkey.undo();
+            } else if (key.getKeyCode() == KEY_REDO) {
+            	Hotkey.redo();
             }
         }
     }
 
     /**
      * This operation process the Feedback Label
+     * @param getText gets the text from what the user input
      */
-    private static String processFeedbackLabel(String text) {
+    private static String processFeedbackLabel(String getText) {
 
         // text = text.trim().replaceAll("\\s+", "");
-        if (text.isEmpty() || text.matches(" ")) {
+        if (getText.isEmpty() || getText.matches(" ")) {
         	feedbackTimerReset();
             return FeedbackGuide.isEmptyString();
         }
 
-        text = text.toLowerCase();
-        String[] tokens = text.split(WHITESPACE_PATTERN);
+        getText = getText.toLowerCase();
+        String[] tokens = getText.split(WHITESPACE_PATTERN);
         Action action = Keywords.resolveActionIdentifier(tokens[0]);
 
         switch (action) {
