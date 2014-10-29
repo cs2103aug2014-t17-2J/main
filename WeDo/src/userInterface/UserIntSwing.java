@@ -219,7 +219,6 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		lblHelp.setVerticalAlignment(SwingConstants.TOP);
 		
-		
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 

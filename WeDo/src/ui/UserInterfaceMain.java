@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Event;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -12,17 +13,23 @@ import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowStateListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.KeyStroke;
+
 import logic.LogicManager;
+import logic.command.UndoHandler;
 import logic.command.commandList.EditCommand;
 import logic.parser.DynamicParseResult;
+import logic.parser.ParseResult;
 import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 import ui.guide.CommandGuide;
 import ui.guide.FeedbackGuide;
+import ui.guide.Hotkey;
 import ui.logic.command.Action;
 import ui.logic.command.Keywords;
 import userInterface.UserIntSwing;
@@ -34,8 +41,18 @@ import userInterface.UserIntSwing;
 public class UserInterfaceMain {
     // private static final String EXIT_PROGRAM = "exit";
     private static final String DATE_FORMAT = "dd/MM/yyyy";
-    private static final int taskbarHeight = 47;
     private static final String WHITESPACE_PATTERN = "\\s+";
+    private static final int taskbarHeight = 47;
+    
+    private static final int KEY_ENTER = KeyEvent.VK_ENTER;
+    private static final int KEY_HELP = KeyEvent.VK_F1;
+    private static final int KEY_ADD = KeyEvent.VK_F2;  
+    private static final int KEY_VIEW = KeyEvent.VK_F3;  
+    private static final int KEY_EDIT = KeyEvent.VK_F4;
+    private static final int KEY_DELETE = KeyEvent.VK_F5;
+    private static final int KEY_SEARCH = KeyEvent.VK_F6;  
+    
+    private static String getCommand;
     
     /**
      * This operation initialize all the Processes 
@@ -52,7 +69,7 @@ public class UserInterfaceMain {
 		addTextfieldKeyListener();
     }
 
-    public static void formatLabels() {
+    private static void formatLabels() {
 
         UserIntSwing.lblCommand.setFont(new Font("Tahoma", Font.BOLD, 12));
         UserIntSwing.lblCommandProcess.setFont(new Font("Tahoma", Font.ITALIC,
@@ -109,6 +126,7 @@ public class UserInterfaceMain {
 			}
 		});
     }
+    
 	/**
 	 *Textfield KeyListener
 	 *1. Set the Command guide Label to the indiviual command guide that the user input
@@ -118,13 +136,14 @@ public class UserInterfaceMain {
 	 *an incorrect input
 	 */
     private static void addTextfieldKeyListener(){
+    	 
 		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg1) {
 				try {
-					String text = UserIntSwing.textField.getText();
+					String userInput = UserIntSwing.textField.getText();
 
-					UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(text
+					UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput
 							+ " "));
 					UserIntSwing.frame.setVisible(true);
 					
@@ -132,11 +151,22 @@ public class UserInterfaceMain {
 
 					UserInterfaceMain.processHotKeys(arg1);
 					
-					if(arg1.getKeyCode() == KeyEvent.VK_ENTER){
+					if(arg1.getKeyCode() == KEY_ENTER){
 						String getText = UserIntSwing.textField.getText();
 		
-						UserIntSwing.lblFeedback.setText(UserInterfaceMain.processFeedbackLabel(getText));
+						UserIntSwing.lblFeedback.setText(
+								UserInterfaceMain.processFeedbackLabel(getText));
 						TextfieldHistory.getTextfieldString(getText);
+					}
+					
+					if(arg1.getKeyCode() == KeyEvent.VK_F12){
+						ParseResult parseResult = UserIntSwing.logicManager.processCommand("undo");
+						UserIntSwing.logicManager.executeCommand(parseResult);
+					}
+					
+					if(arg1.getKeyCode() == KeyEvent.VK_F11){
+						ParseResult parseResult = UserIntSwing.logicManager.processCommand("redo");
+						UserIntSwing.logicManager.executeCommand(parseResult);
 					}
 					
 				} catch (Exception e) {
@@ -145,25 +175,26 @@ public class UserInterfaceMain {
 			}
 			@Override
 			public void keyReleased(KeyEvent arg1) {
-				DynamicParseResult parseResult = UserInterfaceMain.processUserParse(arg1,UserIntSwing.logicManager);
+				DynamicParseResult parseResult = 
+						UserInterfaceMain.processUserParse(arg1, UserIntSwing.logicManager);
 				Task task = parseResult.getTask();
-				UserInterfaceMain.clearDynamicParseLabels();
+				clearDynamicParseLabels();
 		        handleDynamicEdit(parseResult, task);
-		        UserInterfaceMain.showParseResult(parseResult, task);
+		        showParseResult(parseResult, task);
 
 			}
             private void handleDynamicEdit(DynamicParseResult parseResult,
                     Task task) {
-                if (UserInterfaceMain.containsValidEditCommand(parseResult)) 
+                if (containsValidEditCommand(parseResult)) 
 		        {
-		            String indexString = UserInterfaceMain.getIndexString(task);
-		            int index = UserInterfaceMain.getTaskToBeEditedIndex(indexString);
+		            String indexString = getIndexString(task);
+		            int index = getTaskToBeEditedIndex(indexString);
 		            Task taskToBeEdited = UserIntSwing.logicManager.getTaskToBeEdited(index);
 		            if(taskToBeEdited != null)
 		            {
 		                task.setDescription(StringHandler.removeFirstMatched(
 		                        task.getDescription(), indexString));
-		                UserInterfaceMain.showTaskToBeEdited(taskToBeEdited);
+		                showTaskToBeEdited(taskToBeEdited);
 		                UserIntSwing.interForm.highLightRow(index);
 		            }
 		            else
@@ -183,7 +214,7 @@ public class UserInterfaceMain {
      * This operation sets the date for today and display on the top of the
      * application
      */
-    public static String setTodayDate() {
+    private static String setTodayDate() {
 
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         String date = sdf.format(new Date());
@@ -195,7 +226,7 @@ public class UserInterfaceMain {
     /**
      * This operation sets the program at the bottom right hand corner of screen
      */
-    public static void setupFrameLocation() {
+    private static void setupFrameLocation() {
 
         GraphicsEnvironment ge = GraphicsEnvironment
                 .getLocalGraphicsEnvironment();
@@ -210,25 +241,22 @@ public class UserInterfaceMain {
     /**
      * This operation process the hotkeys shortcut function.
      */
-    public static void processHotKeys(KeyEvent arg1) {
+    private static void processHotKeys(KeyEvent key) {
 
-        String getCommand;
-        if (arg1.getKeyCode() == KeyEvent.VK_F1) {
+        if (key.getKeyCode() == KEY_HELP) {
             HelpMenu.main(null);
         }
-        if (UserIntSwing.textField.getText().length() == 0) {
-            if (arg1.getKeyCode() == KeyEvent.VK_F2) {
-                getCommand = Keywords.getAddTaskIdentifier();
-                UserIntSwing.textField.setText(getCommand);
-            } else if (arg1.getKeyCode() == KeyEvent.VK_F3) {
-                getCommand = Keywords.getViewTaskIdentifier();
-                UserIntSwing.textField.setText(getCommand);
-            } else if (arg1.getKeyCode() == KeyEvent.VK_F4) {
-                getCommand = Keywords.getEditTaskIdentifier();
-                UserIntSwing.textField.setText(getCommand);
-            } else if (arg1.getKeyCode() == KeyEvent.VK_F5) {
-                getCommand = Keywords.getDeleteTaskIdentifier();
-                UserIntSwing.textField.setText(getCommand);
+        if (UserIntSwing.textField.getText().isEmpty()) {
+            if (key.getKeyCode() == KEY_ADD) {
+            	Hotkey.Add();
+            } else if (key.getKeyCode() == KEY_VIEW) {
+            	Hotkey.View();
+            } else if (key.getKeyCode() == KEY_EDIT) {
+            	Hotkey.Edit();
+            } else if (key.getKeyCode() == KEY_DELETE) {
+            	Hotkey.Delete();
+            } else if (key.getKeyCode() == KEY_SEARCH){
+            	Hotkey.Search();
             }
         }
     }
@@ -236,7 +264,7 @@ public class UserInterfaceMain {
     /**
      * This operation process the Feedback Label
      */
-    public static String processFeedbackLabel(String text) {
+    private static String processFeedbackLabel(String text) {
 
         // text = text.trim().replaceAll("\\s+", "");
         if (text.isEmpty() || text.matches(" ")) {
