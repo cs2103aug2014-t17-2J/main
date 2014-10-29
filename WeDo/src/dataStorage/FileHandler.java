@@ -110,9 +110,17 @@ public class FileHandler {
 		try {
 			FileWriter fstream = new FileWriter(fileName, true);
 			BufferedWriter bw = new BufferedWriter(fstream);
-
-			bw.write(jTasks.toString());
-			bw.newLine();
+			
+			String[] sTasks = jTasks.toString().split(",");
+			
+			for(String s: sTasks) {
+				bw.write(s);
+				if(s.charAt(s.length()-1) == '}') {
+					bw.newLine();
+				}
+				bw.newLine();
+			}
+			
 			bw.close();
 
 		} catch (IOException e) {
