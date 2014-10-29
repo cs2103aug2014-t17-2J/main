@@ -340,7 +340,16 @@ public class BasicDataHandler implements DataHandler{
 			tmp.addAll(mainList2.get(LocalDate.MAX));
 			observableList.replaceList(tmp);
 
-		} else {
+		} else if(task.getDescription().equals("completed")){
+			tmp.addAll(getCompleted());
+			observableList.replaceList(tmp);
+		} else if(task.getDescription().equals("incompleted") ||
+					task.getDescription().equals("uncompleted")){
+			tmp.addAll(getUncompleted());
+			observableList.replaceList(tmp);
+		}
+		
+		else {
 			currentList = ALL;
 			tmp.addAll(mainList2.values());
 			tmp = sort(tmp);
