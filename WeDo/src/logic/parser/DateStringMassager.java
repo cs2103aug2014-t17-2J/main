@@ -33,6 +33,8 @@ public class DateStringMassager {
         source = convertImplicitFormalDate(source);
         source = convertFormalDate(source);
         
+        
+        
         source = replaceNonDateDigitWithDelimiter(source);
 
         source = KeyMatcher.replaceMatchedWithKey(
@@ -244,7 +246,7 @@ public class DateStringMassager {
         String[] longMonths = dateFormat.getMonths();
         String[] timeUnit = { "hour", "hr", "minute", "min", "second", "sec",
                 "am", "pm"};
-        String[] commonDateShortForm = { "sept", "day", "week", "month", "today", "tomorrow"};
+        String[] commonDateShortForm = { "sept", "day", "days", "week", "weeks", "month", "months",  "year", "years", "today", "tomorrow"};
         
         if (StringHandler.containsWord(source, shortWeekdays, longWeekdays,
                 shortMonths, longMonths, timeUnit, commonDateShortForm)) {
