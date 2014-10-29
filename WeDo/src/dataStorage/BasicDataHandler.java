@@ -180,8 +180,8 @@ public class BasicDataHandler implements DataHandler{
 				observableList.add(task);
 			}
 		}
-		else if(taskType.equals(currentList) && 
-				observableList.get(0).getEndDate().equals(task.getEndDate())) {
+		else if(currentList.equals(ALL) || (taskType.equals(currentList) && 
+				observableList.get(0).getEndDate().equals(task.getEndDate()))) {
 			
 			observableList.add(task);
 		}
