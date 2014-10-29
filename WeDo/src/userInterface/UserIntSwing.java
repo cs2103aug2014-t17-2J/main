@@ -253,7 +253,7 @@ public class UserIntSwing extends JPanel implements Observer {
 							+ " "));
 					frame.setVisible(true);
 					
-					TextfieldHistory.showTextfieldHistory(arg1);
+					TextfieldHistory.showTextfieldHistoryUpkey(arg1);
 
 					/**
 					 *@author Andy - This process the all the HotKeys 

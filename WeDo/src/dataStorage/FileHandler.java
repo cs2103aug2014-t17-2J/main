@@ -110,9 +110,17 @@ public class FileHandler {
 		try {
 			FileWriter fstream = new FileWriter(fileName, true);
 			BufferedWriter bw = new BufferedWriter(fstream);
-
-			bw.write(jTasks.toString());
-			bw.newLine();
+			
+			String[] sTasks = jTasks.toString().split(",");
+			
+			for(String s: sTasks) {
+				bw.write(s);
+				if(s.charAt(s.length()-1) == '}') {
+					bw.newLine();
+				}
+				bw.newLine();
+			}
+			
 			bw.close();
 
 		} catch (IOException e) {
@@ -186,11 +194,18 @@ public class FileHandler {
 		return tmp;
 	}
 	
+	public void resetID() {
+		Task task = new Task();
+		task.setID(0);
+	}
+	
 	
 	public Multimap<LocalDate,Task> getAllTasks(){
 		
 		Multimap<LocalDate,Task> tmp;
 		tmp = ArrayListMultimap.create();
+		
+		resetID();
 		
 		JSONParser parser = new JSONParser();
 
