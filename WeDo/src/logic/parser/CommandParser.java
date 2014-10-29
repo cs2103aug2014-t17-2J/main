@@ -43,8 +43,6 @@ public class CommandParser {
      */
     public boolean tryParse(String source) {
         if (source == null) {
-            wordUsed = "";
-            setWordRemaining(source);
             return false;
         }
 
@@ -52,27 +50,33 @@ public class CommandParser {
 
         if (source.isEmpty()) 
         {
-            wordUsed = "";
-            setWordRemaining(source);
             return false;    
         }
         
-        String possibleCommand = StringHandler.getFirstWord(source);               
-
+        String firstWord = StringHandler.getFirstWord(source);               
+        String lastWord = StringHandler.getLastWord(source);
         
-        command = KeyMatcher.getMatchedKey(createFakeMultiMapForCommand(), possibleCommand);
+        command = getCommand(firstWord);
         if(command != null)
         {
-            wordUsed = possibleCommand;
+            wordUsed = firstWord;
             setWordRemaining(StringHandler.removeFirstMatched(source,wordUsed));
             return true;
         }
-        else
-        {
-            wordUsed = "";
-            setWordRemaining(source);
-            return false;
-        }
+ 
+       command = getCommand(lastWord);
+       if(command != null)
+       {
+           wordUsed = lastWord;
+           setWordRemaining(StringHandler.removeFirstMatched(source,wordUsed));
+           return true;
+       }
+       
+        return false;
+    }
+
+    private Command getCommand(String firstWord) {
+        return KeyMatcher.getMatchedKey(createFakeMultiMapForCommand(), firstWord);
     }
     
     public Command getCommand()

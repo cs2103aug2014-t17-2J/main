@@ -55,8 +55,6 @@ public class PriorityParser {
         }
         else
         {
-            wordUsed = "";
-            wordRemaining = source;
             return false;
         }
     }
