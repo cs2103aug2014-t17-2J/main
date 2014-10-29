@@ -5,12 +5,13 @@ import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowStateListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,6 +21,7 @@ import logic.parser.DynamicParseResult;
 import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
+import ui.guide.CommandGuide;
 import ui.guide.FeedbackGuide;
 import ui.logic.command.Action;
 import ui.logic.command.Keywords;
@@ -34,6 +36,21 @@ public class UserInterfaceMain {
     private static final String DATE_FORMAT = "dd/MM/yyyy";
     private static final int taskbarHeight = 47;
     private static final String WHITESPACE_PATTERN = "\\s+";
+    
+    /**
+     * This operation initialize all the Processes 
+     */
+    public static void initProcess(){
+    	
+    	UserIntSwing.frame.pack();
+    	setupFrameLocation();
+    	addFrameWindowFocusListener();
+    	addSystemTrayWindowStateListener();
+		formatLabels();
+		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
+		UserIntSwing.lblTodayDate.setText(UserInterfaceMain.setTodayDate());
+		addTextfieldKeyListener();
+    }
 
     public static void formatLabels() {
 
@@ -63,23 +80,103 @@ public class UserInterfaceMain {
         UserIntSwing.lblDescriptionProcess.setBackground(new Color(255, 204,
                 255));
         UserIntSwing.lblDescriptionProcess.setOpaque(true);
+        
+		FeedbackGuide.formatFeedbackLabel();
+		CommandGuide.fomatCommandGuideLabel();
     }
 
     /**
      * This operation puts the focus on the textField for the user to type
      * immediately when the program runs
      */
-    public static void addFrameWindowFocusListener() {
+    private static void addFrameWindowFocusListener() {
 
         UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
             public void windowGainedFocus(WindowEvent arg0) {
 
                 UserIntSwing.textField.requestFocusInWindow();
             }
-
+            
             public void windowLostFocus(WindowEvent arg0) {
             }
         });
+    }
+    
+    private static void addSystemTrayWindowStateListener(){
+    	UserIntSwing.frame.addWindowStateListener(new WindowStateListener() {
+			public void windowStateChanged(WindowEvent arg) {
+				MinimiseToTray.Minimise(arg);
+			}
+		});
+    }
+	/**
+	 *Textfield KeyListener
+	 *1. Set the Command guide Label to the indiviual command guide that the user input
+	 *2. Process all the HotKeys Functions
+	 *3. Process the User Typed History
+	 *4. Enter KeyListener - Process all the feedback labels when the user type 
+	 *an incorrect input
+	 */
+    private static void addTextfieldKeyListener(){
+		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg1) {
+				try {
+					String text = UserIntSwing.textField.getText();
+
+					UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(text
+							+ " "));
+					UserIntSwing.frame.setVisible(true);
+					
+					TextfieldHistory.showTextfieldHistoryUpkey(arg1);
+
+					UserInterfaceMain.processHotKeys(arg1);
+					
+					if(arg1.getKeyCode() == KeyEvent.VK_ENTER){
+						String getText = UserIntSwing.textField.getText();
+		
+						UserIntSwing.lblFeedback.setText(UserInterfaceMain.processFeedbackLabel(getText));
+						TextfieldHistory.getTextfieldString(getText);
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent arg1) {
+				DynamicParseResult parseResult = UserInterfaceMain.processUserParse(arg1,UserIntSwing.logicManager);
+				Task task = parseResult.getTask();
+				UserInterfaceMain.clearDynamicParseLabels();
+		        handleDynamicEdit(parseResult, task);
+		        UserInterfaceMain.showParseResult(parseResult, task);
+
+			}
+            private void handleDynamicEdit(DynamicParseResult parseResult,
+                    Task task) {
+                if (UserInterfaceMain.containsValidEditCommand(parseResult)) 
+		        {
+		            String indexString = UserInterfaceMain.getIndexString(task);
+		            int index = UserInterfaceMain.getTaskToBeEditedIndex(indexString);
+		            Task taskToBeEdited = UserIntSwing.logicManager.getTaskToBeEdited(index);
+		            if(taskToBeEdited != null)
+		            {
+		                task.setDescription(StringHandler.removeFirstMatched(
+		                        task.getDescription(), indexString));
+		                UserInterfaceMain.showTaskToBeEdited(taskToBeEdited);
+		                UserIntSwing.interForm.highLightRow(index);
+		            }
+		            else
+		            {
+		                showInvalidIndexMessage(task);
+		            }
+		        }
+            }
+            private void showInvalidIndexMessage(Task task) {
+                final String INVALID_INDEX = "The index you are editing is INVALID";
+                task.setDescription(INVALID_INDEX);
+            }
+		});
     }
 
     /**
@@ -143,6 +240,7 @@ public class UserInterfaceMain {
 
         // text = text.trim().replaceAll("\\s+", "");
         if (text.isEmpty() || text.matches(" ")) {
+        	feedbackTimerReset();
             return FeedbackGuide.isEmptyString();
         }
 
@@ -156,8 +254,10 @@ public class UserInterfaceMain {
         case EDIT:
         case DELETE:
         case SEARCH:
+        	feedbackTimerReset();
             return FeedbackGuide.isValidString();
         default:
+        	feedbackTimerReset();
             return FeedbackGuide.isInvalidString();
         }
     }
@@ -227,14 +327,13 @@ public class UserInterfaceMain {
             case PRIORITY_FLAG:
                 UserIntSwing.lblPriorityProcess.setText(task.getPriority()
                         .toString());
-                processLblPriorityProcess();
+                processLblPriority();
                 break;
             default:
                 break;
             }
         }
     }
-
 
     /**
      * get the string which contains the index at the first word
@@ -282,13 +381,11 @@ public class UserInterfaceMain {
         return StringHandler.parseStringToInteger(indexString) + ARRAY_OFFSET;
     }
 
-    
-
     /**
      * This operation process the priority label Red: High; Blue: Medium; Green:
      * Low
      */
-    private static void processLblPriorityProcess() {
+    private static void processLblPriority() {
 
         if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {
             UserIntSwing.lblPriorityProcess.setForeground(Color.red);
