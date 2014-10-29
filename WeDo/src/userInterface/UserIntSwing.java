@@ -51,10 +51,11 @@ public class UserIntSwing extends JPanel implements Observer {
 
 	ArrayList<Task> taskList;
 
-	public static JFrame frame;
-	public static JTextField textField;
-	public static JLabel lblHelp;
-	public static JButton btnHelp;
+	public static JFrame frame = new JFrame("WeDo");;
+	public static JTextField textField = new JTextField();
+	public static JLabel lblHelp = new JLabel("Label Help");
+	public static JButton btnHelp = new JButton();
+	public static final JLabel lblTodayDate = new JLabel("");
 	public static final JLabel lblFeedback = new JLabel("");
 	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
 	public static final JLabel lblCommand = new JLabel("Command:");
@@ -66,8 +67,8 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static final JLabel lblDescription = new JLabel("Description:");
 	public static final JLabel lblDescriptionProcess = new JLabel("");
 
-	private InteractiveForm interForm;
-	private LogicManager logicManager;
+	public static InteractiveForm interForm;
+	public static LogicManager logicManager;
 	private ObservableList<Task> observableList;
 
 	/**
@@ -105,16 +106,15 @@ public class UserIntSwing extends JPanel implements Observer {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame("WeDo");
 		
 		/**
 		 * @author Andy - Minimise to SystemTray operation
 		 */
-		frame.addWindowStateListener(new WindowStateListener() {
-			public void windowStateChanged(WindowEvent arg) {
-				MinimiseToTray.Minimise(arg);
-			}
-		});
+//		frame.addWindowStateListener(new WindowStateListener() {
+//			public void windowStateChanged(WindowEvent arg) {
+//				MinimiseToTray.Minimise(arg);
+//			}
+//		});
 		
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/icon/WeDo.png")));
 		frame.getContentPane().setEnabled(false);
@@ -123,22 +123,9 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.setBounds(100, 100, 767, 510); // windowSize
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		/**
-		 *@author Andy - Set the frame location to the right corner of
-		 * the screen when the programs starts
-		 */
-		UserInterfaceMain.setupFrameLocation();
-		frame.pack();
 
 		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
 				Color.BLUE);
-		
-		/**
-		 *@author Andy - Set the label to show today's date
-		 */
-		JLabel lblTodayDate = new JLabel("");
-		lblTodayDate.setText(UserInterfaceMain.setTodayDate());
 
 		JButton btnHelp_1 = new JButton("F1 <Help>");
 		btnHelp_1.setForeground(new Color(0, 0, 0));
@@ -230,106 +217,9 @@ public class UserIntSwing extends JPanel implements Observer {
 		JPanel panelBottom = new JPanel();
 		panelBottom.setBackground(new Color(255, 204, 255));
 
-		JLabel lblHelp = new JLabel("Label Help");
 		lblHelp.setVerticalAlignment(SwingConstants.TOP);
 		
-		/**
-		 *@author Andy - To set the default Command Guide label to show
-		 *the general guide when the program starts
-		 */
-		lblHelp.setText(CommandGuide.buildGeneralGuideString());
-
-		textField = new JTextField();
-		textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg1) {
-				try {
-					String text = textField.getText();
-					/**
-					 *@author Andy - Set the Command guide to the
-					 *indiviual command guide that the user input
-					 */
-					lblHelp.setText(CommandGuide.getGuideMessage(text
-							+ " "));
-					frame.setVisible(true);
-					
-					TextfieldHistory.showTextfieldHistoryUpkey(arg1);
-
-					/**
-					 *@author Andy - This process the all the HotKeys 
-					 *function when the user press the hotkeys on the
-					 *keyboard
-					 */
-					UserInterfaceMain.processHotKeys(arg1);
-					
-					if(arg1.getKeyCode() == KeyEvent.VK_ENTER){
-						String getText = textField.getText();
 		
-						/**
-						 *@author Andy - This process all the feedback label
-						 *when the user type an incorrect input
-						 */
-						lblFeedback.setText(UserInterfaceMain.processFeedbackLabel(getText));
-						/**
-						 *@author Andy - This clear the feedback label. It is
-						 *set at 1000 milli-seconds.
-						 */
-						UserInterfaceMain.feedbackTimerReset();
-						
-						TextfieldHistory.getTextfieldString(getText);
-					}
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			@Override
-			public void keyReleased(KeyEvent arg1) {
-				DynamicParseResult parseResult = UserInterfaceMain.processUserParse(arg1,logicManager);
-				Task task = parseResult.getTask();
-				UserInterfaceMain.clearDynamicParseLabels();
-		        handleDynamicEdit(parseResult, task);
-		        UserInterfaceMain.showParseResult(parseResult, task);
-
-			}
-            private void handleDynamicEdit(DynamicParseResult parseResult,
-                    Task task) {
-                if (UserInterfaceMain.containsValidEditCommand(parseResult)) 
-		        {
-		            String indexString = UserInterfaceMain.getIndexString(task);
-		            int index = UserInterfaceMain.getTaskToBeEditedIndex(indexString);
-		            Task taskToBeEdited = logicManager.getTaskToBeEdited(index);
-		            if(taskToBeEdited != null)
-		            {
-		                task.setDescription(StringHandler.removeFirstMatched(
-		                        task.getDescription(), indexString));
-		                UserInterfaceMain.showTaskToBeEdited(taskToBeEdited);
-		                interForm.highLightRow(index);
-		            }
-		            else
-		            {
-		                showInvalidIndexMessage(task);
-		            }
-		        }
-            }
-            private void showInvalidIndexMessage(Task task) {
-                final String INVALID_INDEX = "The index you are editing is INVALID";
-                task.setDescription(INVALID_INDEX);
-            }
-		});
-		
-		/**
-		 *@author Andy - This sets the style format of the
-		 *feedback guide
-		 */
-		FeedbackGuide.formatFeedbackLabel();
-		
-		/**
-		 *@author Andy - This sets the style format of the 
-		 *command guide label
-		 */
-		CommandGuide.fomatCommandGuideLabel();
-
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -350,7 +240,7 @@ public class UserIntSwing extends JPanel implements Observer {
                     e1.printStackTrace();
                 }
 				textField.setText("");
-				//Andy - reset command guide to general guide
+				//reset command guide to general guide
 				lblHelp.setText(CommandGuide.buildGeneralGuideString());
 			}
 		});
@@ -383,11 +273,6 @@ public class UserIntSwing extends JPanel implements Observer {
 			}
 		});
 		
-		/**
-		 *@author Andy - Format the labels
-		 */
-		UserInterfaceMain.formatLabels();
-
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -467,16 +352,15 @@ public class UserIntSwing extends JPanel implements Observer {
 			gl_panelBottom.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelBottom.createSequentialGroup()
 					.addGroup(gl_panelBottom.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblFeedback, GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+						.addComponent(lblFeedback, GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
 						.addGroup(gl_panelBottom.createSequentialGroup()
-							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelBottom.createSequentialGroup()
-							.addGroup(gl_panelBottom.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblQuickHelp)
-								.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))
-							.addGap(348)))
+							.addComponent(lblQuickHelp)
+							.addPreferredGap(ComponentPlacement.RELATED, 671, Short.MAX_VALUE))
+						.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panelBottom.setVerticalGroup(
@@ -501,12 +385,8 @@ public class UserIntSwing extends JPanel implements Observer {
 		interForm.execute(frame); // to display the table
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(interForm);
-
-		/**
-		 *@author Andy - This operation puts the focus on the textField
-		 *for the user to type immediately when the program runs
-		 */
-		UserInterfaceMain.addFrameWindowFocusListener();
+		
+		UserInterfaceMain.initProcess();
 	}
 
 	private void addFrameWindowFocusListener() {
