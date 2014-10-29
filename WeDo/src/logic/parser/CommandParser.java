@@ -43,6 +43,8 @@ public class CommandParser {
      */
     public boolean tryParse(String source) {
         if (source == null) {
+            wordUsed = "";
+            setWordRemaining(source);
             return false;
         }
 
@@ -50,7 +52,9 @@ public class CommandParser {
 
         if (source.isEmpty()) 
         {
-            return false;
+            wordUsed = "";
+            setWordRemaining(source);
+            return false;    
         }
         
         String possibleCommand = StringHandler.getFirstWord(source);               

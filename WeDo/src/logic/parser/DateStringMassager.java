@@ -36,7 +36,12 @@ public class DateStringMassager {
         
         
         source = replaceNonDateDigitWithDelimiter(source);
-
+        
+        // danger ( High risk )
+        source = replacePossibleDateDescriptionWithDelimiter(source);
+        // end danger
+        
+        
         source = KeyMatcher.replaceMatchedWithKey(
                 createFakeMultiMapForShortForm(), source);
         
@@ -51,9 +56,9 @@ public class DateStringMassager {
     /**
      * @param source the String that will be searched
      * @param dateWordUsed the words used for parsing the date
-     * @return the dateConnector word ("by","at","from" etc) or "" if there is no dateConnector word
+     * @return the frontDateConnector word ("by","at","from" etc) or "" if there is no dateConnector word
      */
-    public static String getDateConnector(String source, String dateWordUsed)
+    public static String getFrontDateConnector(String source, String dateWordUsed)
     {
                 
         final int WORD_GROUP = 1;
@@ -134,7 +139,7 @@ public class DateStringMassager {
         while (matcher.find()) {
             String digit = matcher.group(DIGIT_GROUP);
             String word = matcher.group(WORD_GROUP);
-
+            
             if (containsDateFormat(matcher.group(WORD_GROUP).trim())) {
                 digit = removeDigitDelimiters(digit);
             }
@@ -193,6 +198,116 @@ public class DateStringMassager {
 
         return matcher.appendTail(result).toString();
     }
+    
+    
+    private static String replacePossibleDateDescriptionWithDelimiter(String source) {
+        
+        final String[] POSSIBLE_DATE_DESCRIPTION = {"day", "days", "week", "weeks", "month", "months",  "year", "years"};
+        String restrictedWordRegex = addRestrictedWordToRegex(POSSIBLE_DATE_DESCRIPTION);
+        
+       
+//        String regex = "(?<=[A-z]\\s)("+ restrictedWordRegex +")(?=$|\\s[A-z])";
+        String regex = "("+ restrictedWordRegex +")($|\\s+\\w+)($|\\s+\\w+){0,1}";
+
+        
+    
+        final int POSSIBLE_DATE_GROUP = 1;
+        final int NEXT_WORD_GROUP = 2;
+        final int NEXT_NEXT_WORD_GROUP = 3;
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(source);
+        StringBuffer result = new StringBuffer();
+
+        while (matcher.find()) 
+        {
+            if (isDateDescription(matcher.group(POSSIBLE_DATE_GROUP), matcher.group(NEXT_WORD_GROUP), matcher.group(NEXT_NEXT_WORD_GROUP)))
+            {       
+                matcher.appendReplacement(result,
+                    START_DIGIT_DELIMITER + matcher.group(POSSIBLE_DATE_GROUP) + END_DIGIT_DELIMITER + matcher.group(NEXT_WORD_GROUP) + matcher.group(NEXT_NEXT_WORD_GROUP));
+            }
+            else
+            {
+                matcher.appendReplacement(result, matcher.group(POSSIBLE_DATE_GROUP) + matcher.group(NEXT_WORD_GROUP) + matcher.group(NEXT_NEXT_WORD_GROUP));
+            }
+            
+//            matcher.appendReplacement(result, matcher.group(NEXT_WORD_GROUP) + matcher.group(NEXT_NEXT_WORD_GROUP));
+        }
+
+        return matcher.appendTail(result).toString();
+
+    }
+    
+ // What is a date?
+    // Next word is end of string
+    // Next word is a date already
+    // Unsure
+    // Next word is a date connector
+        // Check next next word is date
+    private static boolean isDateDescription(String possibleDateDescription, String nextWord, String nextNextWord)
+    {
+
+        if(isEndOfString(nextWord))
+        {
+            return false;
+        }
+        else if (isDate(nextWord) || isPriority(nextWord+nextNextWord))
+        {       
+                return false;            
+        }
+        else if(isIntermediateDateConnector(nextWord) && (!isEndOfString(nextNextWord)) && isDate(nextNextWord))
+        {
+                return false;   
+        }
+        else
+        {
+            return true;   
+        }
+    }
+
+    /**
+ * @param string
+ * @return
+ */
+private static boolean isPriority(String source) {
+    PriorityParser priorityParser = new PriorityParser();
+    return priorityParser.tryParse(source);
+}
+
+    /**
+ * @param nextWord
+ * @return
+ */
+private static boolean isIntermediateDateConnector(String nextWord) {
+    final String[] POSSIBLE_INTERMEDIATE_CONNECTOR = {"after" , "before", "to" };
+    return StringHandler.containsWord(nextWord.trim(), POSSIBLE_INTERMEDIATE_CONNECTOR);
+}
+
+    private static boolean isDate(String nextWord) {
+        DateParser dateParser = new DateParser();
+        return dateParser.tryParse(nextWord);
+    }
+
+private static boolean isEndOfString(String nextWord) {
+    return nextWord == null || nextWord.trim().isEmpty();
+}
+
+    private static String addRestrictedWordToRegex(
+            final String[] RESTRICTED_DATE) {
+        
+        String restrictedWordRegex = "";
+        for (String word : RESTRICTED_DATE)
+        {
+            restrictedWordRegex += (word + "|");
+        }
+
+        assert(restrictedWordRegex != null);
+        assert(restrictedWordRegex.length()>0);
+        restrictedWordRegex = restrictedWordRegex.substring(0, restrictedWordRegex.length()-1);
+        return restrictedWordRegex;
+    }
+    
+    
 
     private static String replaceAllDigitsWithDelimiter(String source) {
         
@@ -244,7 +359,7 @@ public class DateStringMassager {
         String[] longWeekdays = dateFormat.getWeekdays();
         String[] shortMonths = dateFormat.getShortMonths();
         String[] longMonths = dateFormat.getMonths();
-        String[] timeUnit = { "hour", "hr", "minute", "min", "second", "sec",
+        String[] timeUnit = { "hour", "hours", "hr", "hrs", "minute", "min", "second", "sec",
                 "am", "pm"};
         String[] commonDateShortForm = { "sept", "day", "days", "week", "weeks", "month", "months",  "year", "years", "today", "tomorrow"};
         

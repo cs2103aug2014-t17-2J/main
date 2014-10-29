@@ -3,6 +3,7 @@
  */
 package logic.parser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -97,6 +98,7 @@ public class PriorityParser {
      * @return whether priority key word is found
      */
     private boolean tryParsePriority(String source) {
+        
         String parsedWord = KeyMatcher.matchKey(createPriorityFakeMultiMap(),
                 source);
         if (parsedWord == null) {
@@ -141,6 +143,13 @@ public class PriorityParser {
      * available action word to match
      */
     private Multimap<Priority, String> createPriorityLevelFakeMultiMap() {
+        
+        
+        String priority[] = {"priority", "pri"};
+        String keyWord[] = {"high", "urgent", "top", "crucial",
+                "important"};
+        getPermuntation(priority, keyWord);
+        
         Multimap<Priority, String> availableActions = ArrayListMultimap
                 .create();
 
@@ -169,6 +178,30 @@ public class PriorityParser {
         for (Priority key : map.keySet()) {
             availableActions.putAll(key, map.get(key));
         }
+    }
+    
+    private ArrayList<String> getPermuntation(String priorityWords[], String keyWords[])
+    {
+        ArrayList<String> list = new ArrayList<String>();
+        
+        for(String priorityWord : priorityWords)
+        {
+            for(String keyWord :keyWords)
+            {
+                list.add(priorityWord + " " + keyWord);
+            }
+        }
+        
+        for (String keyWord :keyWords)
+        {
+            for(String priorityWord : priorityWords)
+            {
+                list.add(keyWord + " " + priorityWord); 
+            }
+        }
+        
+        return list;        
+        
     }
 
 }

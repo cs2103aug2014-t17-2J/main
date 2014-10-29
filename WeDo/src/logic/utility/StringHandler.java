@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class StringHandler {
 
     /**
+     * Get the first word from the String
      * @param source
      *            the string where the first word is to be extracted
      * @return the extracted first word or null if there is no first word
@@ -32,8 +33,36 @@ public class StringHandler {
         } else {
             return source;
         }
-
     }
+    
+    
+
+    /**
+     * Get the last word from a String
+     * @param source
+     *            the string where the last word is to be extracted
+     * @return the extracted last word or null if there is no last word
+     */
+    public static String getLastWord(String source) {
+        if (source == null) {
+            return null;
+        }
+
+        source = source.trim();
+
+        if (source.isEmpty()) {
+            return null;
+        }
+
+        if (source.contains(" ")) {
+            String lastWord = source.substring(source.lastIndexOf(" ")+1);
+            return lastWord;
+        } else {
+            return source;
+        }
+    }
+
+    
 
     /**
      * @param source

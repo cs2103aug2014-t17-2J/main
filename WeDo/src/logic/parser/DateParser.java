@@ -76,7 +76,7 @@ public class DateParser {
             source = DateStringMassager.removeDigitDelimiters(source);
             source = DateStringMassager.removeWordDelimiter(source);
             
-            String dateConnector = DateStringMassager.getDateConnector(source, dateWordUsed);
+            String dateConnector = DateStringMassager.getFrontDateConnector(source, dateWordUsed);
             wordUsed =  dateConnector + dateWordUsed;
             
             System.out.println("Total wordUsed = " + wordUsed);
