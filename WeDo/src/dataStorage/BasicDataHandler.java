@@ -50,6 +50,31 @@ public class BasicDataHandler implements DataHandler{
 		currentList = DEADLINE;	
 	}
 	
+	public ArrayList<Task> getCompleted() {
+		ArrayList<Task> tmp = new ArrayList<Task>();
+		
+		for(Task t:mainList2.values()) {
+			if(t.getCompleted() == true) {
+				tmp.add(t);
+			}
+		}
+		
+		return tmp;
+	}
+	
+	
+	public ArrayList<Task> getUncompleted() {
+		ArrayList<Task> tmp = new ArrayList<Task>();
+		
+		for(Task t:mainList2.values()) {
+			if(t.getCompleted() == false) {
+				tmp.add(t);
+			}
+		}
+		
+		return tmp;
+	}
+	
 	
 	public boolean withinRange(LocalDate startDate,LocalDate endDate,Task task) {
 		
