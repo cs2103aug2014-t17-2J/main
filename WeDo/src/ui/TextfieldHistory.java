@@ -20,8 +20,8 @@ public class TextfieldHistory{
 	
 	/**
 	 * This operation checks if "undoStack" is empty. If it is not empty, pushes
-	 * all the item to "userInputStack"
-	 * After which, it gets the text from what the user type
+	 * all the items to "userInputStack"
+	 * Tt gets the text from what the user type
 	 * and store it in "userInputStack" 
 	 */
 	public static void getTextfieldString(String getText){
