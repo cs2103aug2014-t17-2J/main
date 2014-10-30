@@ -25,8 +25,9 @@ import logic.utility.Task;
 import ui.guide.CommandGuide;
 import ui.guide.FeedbackGuide;
 import ui.logic.command.Action;
-import ui.logic.command.Hotkey;
+import ui.logic.command.ProcessHotkey;
 import ui.logic.command.Keywords;
+import ui.logic.command.VK;
 import userInterface.UserIntSwing;
 
 /**
@@ -34,20 +35,9 @@ import userInterface.UserIntSwing;
  *         user execute.
  */
 public class UserInterfaceMain {
-    // private static final String EXIT_PROGRAM = "exit";
     private static final String DATE_FORMAT = "dd/MM/yyyy";
     private static final String WHITESPACE_PATTERN = "\\s+";
-    private static final int taskbarHeight = 47;
-    
-    private static final int KEY_ENTER = KeyEvent.VK_ENTER;
-    private static final int KEY_HELP = KeyEvent.VK_F1;
-    private static final int KEY_ADD = KeyEvent.VK_F2;  
-    private static final int KEY_VIEW = KeyEvent.VK_F3;  
-    private static final int KEY_EDIT = KeyEvent.VK_F4;
-    private static final int KEY_DELETE = KeyEvent.VK_F5;
-    private static final int KEY_SEARCH = KeyEvent.VK_F6;  
-    private static final int KEY_UNDO = KeyEvent.VK_F12;  
-    private static final int KEY_REDO = KeyEvent.VK_F11;  
+    private static final int taskbarHeight = 40;
     
     /**
      * This operation initialize all the Processes 
@@ -143,7 +133,7 @@ public class UserInterfaceMain {
 				try {
 					processTextfield(arg1, userInput);
 					
-					if(arg1.getKeyCode() == KEY_ENTER){
+					if(arg1.getKeyCode() == VK.enter()){
 						processEnterkey(arg1);
 					}
 					
@@ -240,8 +230,8 @@ public class UserInterfaceMain {
         GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
         Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
         int Xcoordinate = (int) rect.getMaxX() - UserIntSwing.frame.getWidth();
-        int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight()
-                - taskbarHeight;
+        int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() 
+        		- taskbarHeight;
         UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
     }
 
@@ -252,24 +242,24 @@ public class UserInterfaceMain {
      */
     private static void processHotKeys(KeyEvent key) throws InvalidCommandException {
 
-        if (key.getKeyCode() == KEY_HELP) {
+        if (key.getKeyCode() == VK.help()) {
             HelpMenu.main(null);
         }
         if (UserIntSwing.textField.getText().isEmpty()) {
-            if (key.getKeyCode() == KEY_ADD) {
-            	Hotkey.add();
-            } else if (key.getKeyCode() == KEY_VIEW) {
-            	Hotkey.view();
-            } else if (key.getKeyCode() == KEY_EDIT) {
-            	Hotkey.edit();
-            } else if (key.getKeyCode() == KEY_DELETE) {
-            	Hotkey.delete();
-            } else if (key.getKeyCode() == KEY_SEARCH) {
-            	Hotkey.search();
-            } else if (key.getKeyCode() == KEY_UNDO) {
-            	Hotkey.undo();
-            } else if (key.getKeyCode() == KEY_REDO) {
-            	Hotkey.redo();
+            if (key.getKeyCode() == VK.add()) {
+            	ProcessHotkey.add();
+            } else if (key.getKeyCode() == VK.view()) {
+            	ProcessHotkey.view();
+            } else if (key.getKeyCode() == VK.edit()) {
+            	ProcessHotkey.edit();
+            } else if (key.getKeyCode() == VK.delete()) {
+            	ProcessHotkey.delete();
+            } else if (key.getKeyCode() == VK.search()) {
+            	ProcessHotkey.search();
+            } else if (key.getKeyCode() == VK.undo()) {
+            	ProcessHotkey.undo();
+            } else if (key.getKeyCode() == VK.redo()) {
+            	ProcessHotkey.redo();
             }
         }
     }

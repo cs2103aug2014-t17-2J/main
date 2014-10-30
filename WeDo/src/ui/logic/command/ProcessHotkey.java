@@ -8,7 +8,7 @@ import userInterface.UserIntSwing;
  * @author Andy Hsu Wei Qiang 
  * 
  */
-public class Hotkey {
+public class ProcessHotkey {
 	
 	private static final String getAddCommand = Keywords.getAddTaskIdentifier();
 	private static final String getViewCommand = Keywords.getViewTaskIdentifier();
