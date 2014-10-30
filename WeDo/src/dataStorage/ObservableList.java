@@ -37,6 +37,26 @@ public class ObservableList<T> extends Observable {
         return observedList.isEmpty();
     }
 
+
+    
+    /**
+     * This function add the argument to the specified index of the 
+     * list and update the observer(s)
+     * with the argument
+     * 
+     * @param argument
+     *            to be added to the list
+     * @return boolean if the operation is successful
+     */
+    public boolean add(int index,T argument) {
+        if (isNull()) {
+            return false;
+        }
+        observedList.add(index,argument);
+        setChanged();
+        notifyObservers(argument);
+        return true;
+    }
     /**
      * This function add the argument to the list and update the observer(s)
      * with the argument
@@ -55,6 +75,7 @@ public class ObservableList<T> extends Observable {
         return true;
     }
 
+    
     /**
      * This function delete the specified index of the list and update the
      * observer(s) about with the deleted argument
