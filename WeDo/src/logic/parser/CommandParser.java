@@ -17,7 +17,7 @@ import logic.command.commandList.RedoCommand;
 import logic.command.commandList.SearchCommand;
 import logic.command.commandList.UndoCommand;
 import logic.command.commandList.ViewCommand;
-import logic.utility.KeyMatcher;
+import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -146,7 +146,7 @@ public class CommandParser {
     }
 
     private Command getCommand(String firstWord) {
-        return KeyMatcher.getMatchedKey(createFakeMultiMapForCommand(), firstWord);
+       return MultiMapMatcher.getMatchedKey(createFakeMultiMapForCommand(), firstWord);
     }
     
     public Command getCommand()
@@ -175,7 +175,7 @@ public class CommandParser {
 
         final Map<Command, Collection<String>> addActions = ImmutableMap
                 .<Command, Collection<String>> of(addCommand,
-                        Arrays.asList("add", "a", "add", "create", "cre8"));
+                        Arrays.asList("add", "new", "create", "cre8"));
         final Map<Command, Collection<String>> clearActions = ImmutableMap
                 .<Command, Collection<String>> of(clearCommand, Arrays.asList(
                         "clear", "cl", "c", "delete all", "d all",
@@ -195,7 +195,7 @@ public class CommandParser {
                         "edit", "edit", "e", "modify", "m", "modify"));
         final Map<Command, Collection<String>> viewActions = ImmutableMap
                 .<Command, Collection<String>> of(viewCommand, Arrays.asList(
-                        "view", "view", "v", "read", "read", "r"));
+                        "view", "viewed", "viewing", "read", "reading", "see", "saw", "get"));
         final Map<Command, Collection<String>> undoActions = ImmutableMap
                 .<Command, Collection<String>> of(undoCommand,
                         Arrays.asList("undo", "undo"));

@@ -195,7 +195,7 @@ public class Task
     public String getDateTimeString()
     {
         final String EMPTY_STRING = "";
-        final String TIME_CONNECTOR = " on ";
+        final String TIME_CONNECTOR = " at ";
         final String DATE_CONNECTOR = " to ";
         
         String dateString = EMPTY_STRING;

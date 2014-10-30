@@ -15,7 +15,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
 
-import logic.utility.KeyMatcher;
+import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 
 /**
@@ -42,7 +42,7 @@ public class DateStringMassager {
         // end danger
         
         
-        source = KeyMatcher.replaceMatchedWithKey(
+        source = MultiMapMatcher.replaceMatchedWithKey(
                 createFakeMultiMapForShortForm(), source);
         
         source = replaceWordWithDelimiter(source);
@@ -313,6 +313,7 @@ private static boolean isEndOfString(String nextWord) {
         
         final String numRegex = "((?<!/\\d{0,4}|:\\d{0,2})-*\\d+(?=$|\\s|a|p|z|,|-|\\Q.\\E))"; // ignore digit that start with / or :
 
+        
         //final String numRegex = "((?<!/\\d{0,4}|:\\d{0,2})-*\\d+(?=$|\\s))"; // ignore digit that start with / or :        
         //final String numRegex = "((?<=^|\\s)-*\\d+(?=$|\\s))"; // 1st working regex
         
@@ -362,6 +363,7 @@ private static boolean isEndOfString(String nextWord) {
         String[] timeUnit = { "hour", "hours", "hr", "hrs", "minute", "min", "second", "sec",
                 "am", "pm"};
         String[] commonDateShortForm = { "sept", "day", "days", "week", "weeks", "month", "months",  "year", "years", "today", "tomorrow"};
+        // today, tomorrow
         
         if (StringHandler.containsWord(source, shortWeekdays, longWeekdays,
                 shortMonths, longMonths, timeUnit, commonDateShortForm)) {

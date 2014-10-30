@@ -3,6 +3,7 @@ package userInterface;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -97,10 +98,21 @@ public class InteractiveForm extends JPanel {
 		table.setColumnSelectionInterval(0, 0);
 	}
 	
+	public void selectRow(int row)
+	{
+	    highLightRow(row);
+	    scrollToRow(row);
+	}
+	
 	public void highLightRow(int row)
 	{
-	    table.setRowSelectionInterval(row, row);
-	    table.setColumnSelectionInterval(0, 0);
+	      table.setRowSelectionInterval(row, row);
+	      table.setColumnSelectionInterval(0, 0);
+	}
+	
+	public void scrollToRow(int row)
+	{
+	    table.scrollRectToVisible(new Rectangle(table.getCellRect(row, 0, true)));
 	}
 
 	class InteractiveRenderer extends DefaultTableCellRenderer {

@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import logic.command.commandList.Command;
-import logic.utility.KeyMatcher;
+import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -39,10 +39,10 @@ public class PriorityParser {
     public boolean tryParse(String source) {
         
         
-        priority = KeyMatcher.getMatchedKey(createPriorityLevelFakeMultiMap(),
+        priority = MultiMapMatcher.getMatchedKey(createPriorityLevelFakeMultiMap(),
                 source);
         if (isPriorityParsed()) {
-            wordUsed = KeyMatcher.getMatchedWord(createPriorityLevelFakeMultiMap(),
+            wordUsed = MultiMapMatcher.getMatchedWord(createPriorityLevelFakeMultiMap(),
                     source);
             
             assert(wordUsed!= null);
