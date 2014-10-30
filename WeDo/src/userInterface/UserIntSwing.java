@@ -25,6 +25,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 import logic.LogicManager;
+import logic.command.commandList.ViewCommand;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
 import logic.parser.ParseResult;
