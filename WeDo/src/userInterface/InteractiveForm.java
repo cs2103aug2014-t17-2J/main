@@ -67,6 +67,7 @@ public class InteractiveForm extends JPanel {
 		}
 
 		scroller = new javax.swing.JScrollPane(table);
+		
 		table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,
 				300));
 
@@ -83,16 +84,17 @@ public class InteractiveForm extends JPanel {
 		taskID.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_TASK));
 
-		hidden.setMinWidth(2);
-		hidden.setPreferredWidth(2);
-		hidden.setMaxWidth(2);
+		hidden.setMinWidth(1);
+		hidden.setPreferredWidth(1);
+		hidden.setMaxWidth(1);
 		
 		hidden.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_HIDDEN));
 
+		
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
-
+//		setHighLightSelectionColor(Color.MAGENTA);
 	}
 
 	public void highlightLastRow(int row) {
@@ -122,20 +124,10 @@ public class InteractiveForm extends JPanel {
 	    table.scrollRectToVisible(new Rectangle(table.getCellRect(row, 0, true)));
 	}
 	
-	/**
-	 * @param row
-	 * @param columns accept any number of columns
-	 */
-	public void setTableBackground(Color color, int row, int ... columns)
+	
+	public void setHighLightSelectionColor(Color color)
 	{
-	    
-	    table.setRowSelectionInterval(row, row);
-        
-	    for(int col : columns)
-	    {
-	        table.setColumnSelectionInterval(col, col);
-	        table.setSelectionBackground(color);
-	    }
+	    table.setSelectionBackground(color);   
 	}
 	
 	public class TableDefaultRenderer extends DefaultWeDoTableRenderer  
