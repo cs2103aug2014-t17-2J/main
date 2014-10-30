@@ -108,7 +108,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 			tableInfo.setPriority((String) value);
 			break;
 		case INDEX_CHECK:
-			tableInfo.setCheck(new CheckBoxRenderer());
+			//tableInfo.setCheck(new CheckBoxRenderer());
 			break;
 		default:
 			System.out.println("invalid index");
@@ -196,9 +196,6 @@ public class InteractiveTableModel extends AbstractTableModel {
 			if (task.getCompleted() == true) {
 				this.setValueAt(true, row, INDEX_CHECK);
 			}
-			
-			
-
 			row++;
 		}
 	}

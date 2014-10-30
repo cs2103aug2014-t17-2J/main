@@ -58,37 +58,75 @@ public class UserInterfaceMain {
     private static void formatLabels() {
 
         UserIntSwing.lblCommand.setFont(new Font("Tahoma", Font.BOLD, 12));
-        UserIntSwing.lblCommandProcess.setFont(new Font("Tahoma", Font.ITALIC,
-                11));
+        UserIntSwing.lblCommandProcess.setFont(new Font("Tahoma", Font.ITALIC,11));
         UserIntSwing.lblCommandProcess.setForeground(new Color(255, 0, 0));
         UserIntSwing.lblCommandProcess.setBackground(new Color(255, 204, 255));
         UserIntSwing.lblCommandProcess.setOpaque(true);
 
         UserIntSwing.lblDate.setFont(new Font("Tahoma", Font.BOLD, 12));
-        UserIntSwing.lblDateProcess
-                .setFont(new Font("Tahoma", Font.ITALIC, 11));
+        UserIntSwing.lblDateProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
         UserIntSwing.lblDateProcess.setForeground(new Color(0, 128, 0));
         UserIntSwing.lblDateProcess.setBackground(new Color(255, 204, 255));
         UserIntSwing.lblDateProcess.setOpaque(true);
 
         UserIntSwing.lblPriority.setFont(new Font("Tahoma", Font.BOLD, 12));
-        UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.ITALIC,
-                11));
+        UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
         UserIntSwing.lblPriorityProcess.setBackground(new Color(255, 204, 255));
         UserIntSwing.lblPriorityProcess.setOpaque(true);
 
         UserIntSwing.lblDescription.setFont(new Font("Tahoma", Font.BOLD, 12));
-        UserIntSwing.lblDescriptionProcess.setFont(new Font("Tahoma",
-                Font.ITALIC, 11));
-        UserIntSwing.lblDescriptionProcess.setBackground(new Color(255, 204,
-                255));
+        UserIntSwing.lblDescriptionProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
+        UserIntSwing.lblDescriptionProcess.setBackground(new Color(255, 204, 255));
         UserIntSwing.lblDescriptionProcess.setOpaque(true);
         
 		FeedbackGuide.formatFeedbackLabel();
 		CommandGuide.fomatCommandGuideLabel();
     }
+    
+    /**This operation display the date range of the table
+     * @return dateDisplay the date in String
+     */
+    private static String setTodayDate() {
+
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        String date = sdf.format(new Date());
+	    //ParseResult parseResult = logicManager.processCommand(parseResult);
+        //parseResult.getTask().getStartDate();
+        String dateDisplay = "You are viewing: " + date;
+
+        return dateDisplay;
+    }
 
     /**
+     * This operation sets the program at the bottom right hand corner of screen
+     */
+    private static void setupFrameLocation() {
+
+        GraphicsEnvironment ge = GraphicsEnvironment
+                .getLocalGraphicsEnvironment();
+        GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
+        Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
+        int Xcoordinate = (int) rect.getMaxX() - UserIntSwing.frame.getWidth();
+        int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() 
+        		- taskbarHeight;
+        UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
+    }
+    
+    /**
+     * Window State Listener
+     * This operation process the SystemTray when minimise
+     * operation is executed
+     */
+    private static void addSystemTrayWindowStateListener() {
+    	UserIntSwing.frame.addWindowStateListener(new WindowStateListener() {
+			public void windowStateChanged(WindowEvent arg) {
+				MinimiseToTray.Minimise(arg);
+			}
+		});
+    }
+
+    /**
+     * Window Focus Listener
      * This operation puts the focus on the textField for the user to type
      * immediately when the program runs
      */
@@ -103,18 +141,6 @@ public class UserInterfaceMain {
             public void windowLostFocus(WindowEvent arg0) {
             }
         });
-    }
-    
-    /**
-     * This operation process the SystemTray when minimise
-     * operation is executed
-     */
-    private static void addSystemTrayWindowStateListener() {
-    	UserIntSwing.frame.addWindowStateListener(new WindowStateListener() {
-			public void windowStateChanged(WindowEvent arg) {
-				MinimiseToTray.Minimise(arg);
-			}
-		});
     }
     
 	/**
@@ -209,36 +235,6 @@ public class UserInterfaceMain {
     }
 
     /**
-     * This operation sets the date for today and display on the top of the
-     * application
-     */
-    private static String setTodayDate() {
-
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        String date = sdf.format(new Date());
-	    //ParseResult parseResult = logicManager.processCommand(parseResult);
-        //parseResult.getTask().getStartDate();
-        String dateDisplay = "You are viewing: " + date;
-
-        return dateDisplay;
-    }
-
-    /**
-     * This operation sets the program at the bottom right hand corner of screen
-     */
-    private static void setupFrameLocation() {
-
-        GraphicsEnvironment ge = GraphicsEnvironment
-                .getLocalGraphicsEnvironment();
-        GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
-        Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-        int Xcoordinate = (int) rect.getMaxX() - UserIntSwing.frame.getWidth();
-        int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() 
-        		- taskbarHeight;
-        UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
-    }
-
-    /**
      * This operation process the hotkeys shortcut function
      * @param key KeyEvent keylistener from the textfield
      * @throws InvalidCommandException 
@@ -270,6 +266,7 @@ public class UserInterfaceMain {
     /**
      * This operation process the Feedback Label
      * @param getText gets the text from what the user input
+     * @return getText the text that the user input in String
      */
     private static String processFeedbackLabel(String getText) {
 
@@ -425,11 +422,11 @@ public class UserInterfaceMain {
     private static void processLblPriority() {
 
         if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {
-            UserIntSwing.lblPriorityProcess.setForeground(Color.red);
+            UserIntSwing.lblPriorityProcess.setBackground(Color.red);
         } else if (UserIntSwing.lblPriorityProcess.getText().matches("Low")) {
-            UserIntSwing.lblPriorityProcess.setForeground(Color.orange);
+            UserIntSwing.lblPriorityProcess.setBackground(Color.green);
         } else {
-            UserIntSwing.lblPriorityProcess.setForeground(Color.green);
+            UserIntSwing.lblPriorityProcess.setBackground(Color.yellow);
         }
     }
 }

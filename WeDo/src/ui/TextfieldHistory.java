@@ -36,7 +36,7 @@ public class TextfieldHistory{
 	
 	/**
 	 * This operation has keylistener of up and down arrow keys
-	 * Up arrow keylistener - Pushes the text from the user to "undoStack" -Up arrow key
+	 * Up arrow keylistener - Pushes the text from the user to "undoStack"
 	 * Down arrow keylistener - Pushes the text previously stored to "userInputStack"  
 	 */
 	public static void showTextfieldHistory(KeyEvent arg1){

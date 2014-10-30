@@ -213,54 +213,54 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		lblHelp.setVerticalAlignment(SwingConstants.TOP);
 
-		textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				// String textInput = "";
-				// textInput += textField.getText();
-				try {
-					ParseResult parseResult = logicManager
-							.processCommand(textField.getText());
-					if (parseResult.isSuccessful()) {
-						logicManager.executeCommand(parseResult);
-					} else {
-						// print sth
-					}
-				} catch (InvalidCommandException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				textField.setText("");
-				// reset command guide to general guide
-				lblHelp.setText(CommandGuide.buildGeneralGuideString());
-			}
-		});
-		textField.setColumns(10);
-
-		JButton btnEnter = new JButton("ENTER");
-		btnEnter.setBackground(new Color(204, 255, 255));
-		btnEnter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				// lblDisplay.setText(textField.getText());
-				// textArea.setText(textField.getText());
-				// textField.setText("");
-				try {
-					ParseResult parseResult = logicManager
-							.processCommand(textField.getText());
-					if (parseResult.isSuccessful()) {
-						logicManager.executeCommand(parseResult);
-					} else {
-						// print sth
-					}
-				} catch (InvalidCommandException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				textField.setText("");
-				// Andy - reset command guide to general guide
-				lblHelp.setText(CommandGuide.buildGeneralGuideString());
-			}
-		});
+//		textField.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//
+//				// String textInput = "";
+//				// textInput += textField.getText();
+//				try {
+//					ParseResult parseResult = logicManager
+//							.processCommand(textField.getText());
+//					if (parseResult.isSuccessful()) {
+//						logicManager.executeCommand(parseResult);
+//					} else {
+//						// print sth
+//					}
+//				} catch (InvalidCommandException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//				textField.setText("");
+//				// reset command guide to general guide
+//				lblHelp.setText(CommandGuide.buildGeneralGuideString());
+//			}
+//		});
+//		textField.setColumns(10);
+//
+//		JButton btnEnter = new JButton("ENTER");
+//		btnEnter.setBackground(new Color(204, 255, 255));
+//		btnEnter.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				// lblDisplay.setText(textField.getText());
+//				// textArea.setText(textField.getText());
+//				// textField.setText("");
+//				try {
+//					ParseResult parseResult = logicManager
+//							.processCommand(textField.getText());
+//					if (parseResult.isSuccessful()) {
+//						logicManager.executeCommand(parseResult);
+//					} else {
+//						// print sth
+//					}
+//				} catch (InvalidCommandException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				textField.setText("");
+//				// Andy - reset command guide to general guide
+//				lblHelp.setText(CommandGuide.buildGeneralGuideString());
+//			}
+//		});
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout
@@ -391,6 +391,8 @@ public class UserIntSwing extends JPanel implements Observer {
 																				218,
 																				GroupLayout.PREFERRED_SIZE)
 																		.addContainerGap()))));
+		lblPriorityProcess.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPriorityProcess.setToolTipText("");
 		groupLayout
 				.setVerticalGroup(groupLayout
 						.createParallelGroup(Alignment.TRAILING)

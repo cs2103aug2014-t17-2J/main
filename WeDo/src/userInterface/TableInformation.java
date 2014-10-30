@@ -77,7 +77,7 @@ public class TableInformation {
 		return false;
 	}
 	
-	public void setCheck(CheckBoxRenderer checkBoxRenderer){
-		this.check = false;
-	}
+//	public void setCheck(CheckBoxRenderer checkBoxRenderer){
+//		this.check = false;
+//	}
 }
