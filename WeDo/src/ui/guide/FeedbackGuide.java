@@ -19,6 +19,8 @@ public class FeedbackGuide {
 	private static final String feedbackValidString = "Command Accepted!";
 	private static final String feedbackEmptyHistory = "Nothing typed previously!";
 	private static final String feedbackEmptyInput = "No more input!";
+	private static final String feedbackEmptyUndo = "No more input for Undo!";
+	private static final String feedbackEmptyRedo = "No more input for Redo!";
 	
 	public static String isEmptyString(){
 		return feedbackEmptyString;
@@ -38,6 +40,14 @@ public class FeedbackGuide {
 	
 	public static String isEmptyInput(){
 		return feedbackEmptyInput;
+	}
+	
+	public static String isEmptyUndoInput(){
+		return feedbackEmptyUndo;
+	}
+	
+	public static String isEmptyRedoInput(){
+		return feedbackEmptyRedo;
 	}
 	
 	public static void formatFeedbackLabel(){

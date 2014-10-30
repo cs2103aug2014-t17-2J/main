@@ -36,11 +36,11 @@ public class VK {
     	return KeyEvent.VK_F6;
     }
   
-    public static int undo() {
+    public static int redo() {
     	return KeyEvent.VK_F11;
     }
     
-    public static int redo() {
+    public static int undo() {
     	return KeyEvent.VK_F12;
     }
 }

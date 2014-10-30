@@ -1,14 +1,17 @@
 package ui.logic.command;
 
+import logic.command.UndoHandler;
 import logic.exception.InvalidCommandException;
 import logic.parser.ParseResult;
+import ui.UserInterfaceMain;
+import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang 
+ * @author Andy Hsu Wei Qiang - Handles all the Hotkey Functions
  * 
  */
-public class ProcessHotkey {
+public class HotkeyHandler {
 	
 	private static final String getAddCommand = Keywords.getAddTaskIdentifier();
 	private static final String getViewCommand = Keywords.getViewTaskIdentifier();
@@ -39,10 +42,22 @@ public class ProcessHotkey {
     }
     
     public static void undo() throws InvalidCommandException {
-    	UserIntSwing.logicManager.executeCommand(getUndoCommand);
+    	if(UndoHandler.canUndo()){
+    		UserIntSwing.logicManager.executeCommand(getUndoCommand);
+    	} else {
+    		UserIntSwing.lblFeedback.setText(
+    				FeedbackGuide.isEmptyUndoInput());
+    		UserInterfaceMain.feedbackTimerReset();
+    	}
     }
     
     public static void redo() throws InvalidCommandException {
-    	UserIntSwing.logicManager.executeCommand(getRedoCommand);
+    	if(UndoHandler.canRedo()){
+    		UserIntSwing.logicManager.executeCommand(getRedoCommand);
+    	} else {
+    		UserIntSwing.lblFeedback.setText(
+    				FeedbackGuide.isEmptyRedoInput());
+    		UserInterfaceMain.feedbackTimerReset();
+    	}
     }
 }

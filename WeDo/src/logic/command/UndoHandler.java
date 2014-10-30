@@ -5,6 +5,7 @@ package logic.command;
 
 import java.util.Stack;
 
+import ui.guide.FeedbackGuide;
 import logic.command.commandList.Command;
 import logic.command.commandList.RedoCommand;
 import logic.command.commandList.UndoCommand;
@@ -36,11 +37,11 @@ public class UndoHandler {
     }
 
 
-    private boolean canUndo() {
+    public static boolean canUndo() {
         return undoStack.size() > 0;
     }
 
-    private boolean canRedo() {
+    public static boolean canRedo() {
         return redoStack.size() > 0;
     }
 

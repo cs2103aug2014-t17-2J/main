@@ -25,7 +25,7 @@ import logic.utility.Task;
 import ui.guide.CommandGuide;
 import ui.guide.FeedbackGuide;
 import ui.logic.command.Action;
-import ui.logic.command.ProcessHotkey;
+import ui.logic.command.HotkeyHandler;
 import ui.logic.command.Keywords;
 import ui.logic.command.VK;
 import userInterface.UserIntSwing;
@@ -247,19 +247,19 @@ public class UserInterfaceMain {
         }
         if (UserIntSwing.textField.getText().isEmpty()) {
             if (key.getKeyCode() == VK.add()) {
-            	ProcessHotkey.add();
+            	HotkeyHandler.add();
             } else if (key.getKeyCode() == VK.view()) {
-            	ProcessHotkey.view();
+            	HotkeyHandler.view();
             } else if (key.getKeyCode() == VK.edit()) {
-            	ProcessHotkey.edit();
+            	HotkeyHandler.edit();
             } else if (key.getKeyCode() == VK.delete()) {
-            	ProcessHotkey.delete();
+            	HotkeyHandler.delete();
             } else if (key.getKeyCode() == VK.search()) {
-            	ProcessHotkey.search();
+            	HotkeyHandler.search();
             } else if (key.getKeyCode() == VK.undo()) {
-            	ProcessHotkey.undo();
+            	HotkeyHandler.undo();
             } else if (key.getKeyCode() == VK.redo()) {
-            	ProcessHotkey.redo();
+            	HotkeyHandler.redo();
             }
         }
     }
