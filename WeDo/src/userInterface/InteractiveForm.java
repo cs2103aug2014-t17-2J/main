@@ -26,7 +26,7 @@ public class InteractiveForm extends JPanel {
 
 	public static final String[] columnNames = { "ID", "description",
 			"start date", "end date", "start time", "end time", "priority",
-			"check", "" };
+			"done", "" };
 
 	protected JTable table;
 	protected JScrollPane scroller;
@@ -48,6 +48,12 @@ public class InteractiveForm extends JPanel {
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
 				.setCellRenderer(new LineWrapCellRenderer());		
 		
+	      TableColumn done = table.getColumnModel().getColumn(
+	                InteractiveTableModel.INDEX_CHECK);
+	        
+
+	        //done.setCellRenderer(new CheckBoxRenderer());
+
 	}
 
 //	
@@ -61,6 +67,8 @@ public class InteractiveForm extends JPanel {
 		table.setModel(tableModel);
 		table.setOpaque(true);
 		table.setVisible(true);
+	    table.setRowSelectionAllowed(true);
+
 		table.setSurrendersFocusOnKeystroke(true);
 		if (!tableModel.hasEmptyRow()) {
 			tableModel.addEmptyRow();
