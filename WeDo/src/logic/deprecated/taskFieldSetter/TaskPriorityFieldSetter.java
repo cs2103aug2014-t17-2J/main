@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import logic.utility.KeyMatcher;
+import logic.utility.MultiMapMatcher;
 import logic.utility.Task;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -29,7 +29,7 @@ public class TaskPriorityFieldSetter implements TaskFieldSetter {
      */
     @Override
     public String set(Task task, String arguments) {
-        Priority priority = KeyMatcher
+        Priority priority = MultiMapMatcher
                 .getMatchedKey(createFakeMultiMap(), arguments);
         task.setPriority(priority);
         return arguments;

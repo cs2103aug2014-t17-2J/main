@@ -108,7 +108,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 			tableInfo.setPriority((String) value);
 			break;
 		case INDEX_CHECK:
-			tableInfo.setCheck((Boolean) value);
+			tableInfo.setCheck(new CheckBoxRenderer());
 			break;
 		default:
 			System.out.println("invalid index");
@@ -158,6 +158,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 				.ofPattern("hh:mm a");
 
 		clearRows();
+		
 		for (Task task : taskList) {
 			if (!this.hasEmptyRow()) {
 				this.addEmptyRow();
@@ -189,10 +190,14 @@ public class InteractiveTableModel extends AbstractTableModel {
 					&& !task.getPriority().toString().isEmpty()) {
 				this.setValueAt(task.getPriority().toString(), row,
 						INDEX_PRIORITY);
+				
+				
 			}
-			if (task.getCompleted()) {
-				this.setValueAt(task.getCompleted(), row, INDEX_CHECK);
+			if (task.getCompleted() == true) {
+				this.setValueAt(true, row, INDEX_CHECK);
 			}
+			
+			
 
 			row++;
 		}

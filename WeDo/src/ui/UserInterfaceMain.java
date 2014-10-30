@@ -164,7 +164,7 @@ public class UserInterfaceMain {
 		                task.setDescription(StringHandler.removeFirstMatched(
 		                        task.getDescription(), indexString));
 		                showTaskToBeEdited(taskToBeEdited);
-		                UserIntSwing.interForm.highLightRow(index);
+		                UserIntSwing.interForm.selectRow(index);
 		            }
 		            else
 		            {

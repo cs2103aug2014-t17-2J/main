@@ -23,6 +23,9 @@ public class LineWrapCellRenderer extends JTextArea implements
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
+        this.setOpaque(true);
+        DefaultWeDoTableColor.setDefaultBackGroundColour(this, row);
+
 		setText((String) value);
 
 		setSize(table.getColumnModel().getColumn(column).getWidth(),
@@ -35,3 +38,5 @@ public class LineWrapCellRenderer extends JTextArea implements
 		return this;
 	}
 }
+
+

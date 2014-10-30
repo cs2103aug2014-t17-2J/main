@@ -27,7 +27,7 @@ public class StringHandler {
             return null;
         }
 
-        if (source.contains(" ")) 
+        if (containsSpace(source)) 
         {
 
             final int FIRST_WORD_GROUP = 1;
@@ -45,6 +45,17 @@ public class StringHandler {
         } else {
             return source;
         }
+    }
+
+
+
+    /**
+     * Check string if it contains space
+     * @param source the string to check
+     * @return if it contains space
+     */
+    private static boolean containsSpace(String source) {
+        return source.contains(" ");
     }
     
     
@@ -69,7 +80,7 @@ public class StringHandler {
 
         
         
-        if (source.contains(" ")) 
+        if (containsSpace(source)) 
         {
             final int LAST_WORD_GROUP = 1;
             String lastWordRegex = "\\s([A-z]+)[^A-z]*$";
@@ -366,7 +377,7 @@ public class StringHandler {
             return null;
         }
 
-        if (source.contains(" ")) {
+        if (containsSpace(source)) {
             return source.replaceFirst("^.+?(?=\\s)", "");
         }
         else
