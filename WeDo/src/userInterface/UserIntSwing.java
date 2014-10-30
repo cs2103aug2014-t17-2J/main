@@ -107,15 +107,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	private void initialize() {
 		
-		/**
-		 * @author Andy - Minimise to SystemTray operation
-		 */
-//		frame.addWindowStateListener(new WindowStateListener() {
-//			public void windowStateChanged(WindowEvent arg) {
-//				MinimiseToTray.Minimise(arg);
-//			}
-//		});
-		
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/icon/WeDo.png")));
 		frame.getContentPane().setEnabled(false);
 		frame.setForeground(Color.WHITE);
