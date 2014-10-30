@@ -56,6 +56,7 @@ public class TextfieldHistory{
 			}
 			else{
 				showEmptyInputString();
+				UserIntSwing.textField.setText(null);
 			}
 		}
 	}

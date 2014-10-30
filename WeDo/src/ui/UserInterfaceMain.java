@@ -270,7 +270,7 @@ public class UserInterfaceMain {
      */
     private static String processFeedbackLabel(String getText) {
 
-        // text = text.trim().replaceAll("\\s+", "");
+        getText = getText.trim().replaceAll("\\s+", " ");
         if (getText.isEmpty() || getText.matches(" ")) {
         	feedbackTimerReset();
             return FeedbackGuide.isEmptyString();
@@ -416,7 +416,7 @@ public class UserInterfaceMain {
     }
 
     /**
-     * This operation process the priority label Red: High; Blue: Medium; Green:
+     * This operation process the priority label Red: High; orange: Medium; Green:
      * Low
      */
     private static void processLblPriority() {
@@ -424,9 +424,9 @@ public class UserInterfaceMain {
         if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {
             UserIntSwing.lblPriorityProcess.setForeground(Color.red);
         } else if (UserIntSwing.lblPriorityProcess.getText().matches("Low")) {
-            UserIntSwing.lblPriorityProcess.setForeground(Color.green);
+            UserIntSwing.lblPriorityProcess.setForeground(Color.orange);
         } else {
-            UserIntSwing.lblPriorityProcess.setForeground(Color.blue);
+            UserIntSwing.lblPriorityProcess.setForeground(Color.green);
         }
     }
 }
