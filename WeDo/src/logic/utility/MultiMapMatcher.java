@@ -9,7 +9,7 @@ import com.google.common.collect.Multimap;
  * @author Kuan Tien Long
  *
  */
-public class KeyMatcher 
+public class MultiMapMatcher 
 {
 
     /**
@@ -34,6 +34,36 @@ public class KeyMatcher
             for (String value : multimap.get(key))
             {
                 if(input.contains(" " + value.toLowerCase() + " "))
+                {
+                    return key;
+                }
+            }
+        }
+        return null;
+    }
+    
+    
+    /**
+     * This function search for values inside the multi-map that is contains within the input
+     * Return key which contains the value, return null if no matches
+     * @param multimap
+     * @param input
+     * @return
+     */
+    public static<K> K getContainsKey(Multimap<K, String> multimap, String input)
+    {
+        if(input == null || input.isEmpty())
+        {
+            return null;
+        }
+        
+        input = input.toLowerCase();
+        
+        for (K key : multimap.keys()) 
+        {
+            for (String value : multimap.get(key))
+            {
+                if(input.contains(value.toLowerCase()))
                 {
                     return key;
                 }
