@@ -156,35 +156,39 @@ public class EditCommand extends Command {
         dataHandler.editTask(task, source);
     }
     
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#validate(java.util.EnumSet)
      */
     @Override
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
-        return isCommandValid(parseFlags);
+        final int MAX_VALID_FLAG = 1;
+        return parseFlags.size() > MAX_VALID_FLAG;
     }
-    
-    /**
-     * <p>
-     * Determine whether the parse occurred was valid by matching it with
-     * VALID_PARSE which contains compulsory parse result(s) for add command required
-     * <p>
-     * 
-     * @param parseFlags the set of ParserFlag to be tested
-     * @return if it contains all of the VALID_PARSE flag
-     */
-    public  boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
-        
-        final EnumSet<ParserFlags> VALID_PARSE = EnumSet.of(
-                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
-   
-        
-        if (parseFlags.containsAll(VALID_PARSE)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+//
+//    
+//    /**
+//     * <p>
+//     * Determine whether the parse occurred was valid by matching it with
+//     * VALID_PARSE which contains compulsory parse result(s) for add command required
+//     * <p>
+//     * 
+//     * @param parseFlags the set of ParserFlag to be tested
+//     * @return if it contains all of the VALID_PARSE flag
+//     */
+//    public  boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
+//        
+//        final EnumSet<ParserFlags> VALID_PARSE = EnumSet.of(
+//                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
+//   
+//        
+//        if (parseFlags.containsAll(VALID_PARSE)) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
     
     /* (non-Javadoc)
      * @see logic.command.commandList.Command#toString()

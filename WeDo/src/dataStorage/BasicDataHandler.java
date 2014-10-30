@@ -329,7 +329,7 @@ public class BasicDataHandler implements DataHandler{
 
 			tmp.addAll(mainList2.get(task.getEndDate()));
 			observableList.replaceList(tmp);
-
+			
 		} else if(type.equals(TIMED)){
 			currentRange.setStartDate(task.getStartDate());
 			currentRange.setEndDate(task.getEndDate());
@@ -355,6 +355,7 @@ public class BasicDataHandler implements DataHandler{
 			tmp = sort(tmp);
 			observableList.replaceList(tmp);
 		}
+
 
 
 	}

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import logic.deprecated.taskFieldSetter.TaskDateFieldSetter;
 import logic.deprecated.taskFieldSetter.TaskDescriptionFieldSetter;
 import logic.deprecated.taskFieldSetter.TaskFieldSetter;
-import logic.utility.KeyMatcher;
+import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 
@@ -37,7 +37,7 @@ public class TaskParserPlus implements TaskParser {
         userInput = findDateFormat(userInput); // replace non date with
                                                // delimiter
 
-       userInput = KeyMatcher.replaceMatchedWithKey(createFakeMultiMapForShortForm(), userInput);
+       userInput = MultiMapMatcher.replaceMatchedWithKey(createFakeMultiMapForShortForm(), userInput);
         
         
         System.out.println("to date parser " + userInput);
@@ -64,7 +64,7 @@ public class TaskParserPlus implements TaskParser {
     }
 
     private TaskFieldSetter determineAttribute(String operation) {
-        return KeyMatcher.matchKey(createFakeMultiMapForPriority(), operation);
+        return MultiMapMatcher.getMatchedKey(createFakeMultiMapForPriority(), operation);
 
     }
 
@@ -174,8 +174,8 @@ public class TaskParserPlus implements TaskParser {
      *         empty string ""
      */
     private String parsePriority(String userInput, Task task) {
-        String firstTwoWords = StringHandler.getFirstTwoWords(userInput);
-        String lastTwoWords = StringHandler.getLastTwoWords(userInput);
+        String firstTwoWords = StringHandler.getDigitAfterFirstWord(userInput);
+        String lastTwoWords = StringHandler.getDigitAfterLastWord(userInput);
 
         if (tryParsePriority(firstTwoWords, task)) {
             return firstTwoWords;

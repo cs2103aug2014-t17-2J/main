@@ -17,6 +17,7 @@ import java.util.TimerTask;
 
 import logic.LogicManager;
 import logic.command.commandList.EditCommand;
+import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
 import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
@@ -24,7 +25,9 @@ import logic.utility.Task;
 import ui.guide.CommandGuide;
 import ui.guide.FeedbackGuide;
 import ui.logic.command.Action;
+import ui.logic.command.HotkeyHandler;
 import ui.logic.command.Keywords;
+import ui.logic.command.VK;
 import userInterface.UserIntSwing;
 
 /**
@@ -32,15 +35,14 @@ import userInterface.UserIntSwing;
  *         user execute.
  */
 public class UserInterfaceMain {
-    // private static final String EXIT_PROGRAM = "exit";
     private static final String DATE_FORMAT = "dd/MM/yyyy";
-    private static final int taskbarHeight = 47;
     private static final String WHITESPACE_PATTERN = "\\s+";
+    private static final int taskbarHeight = 40;
     
     /**
      * This operation initialize all the Processes 
      */
-    public static void initProcess(){
+    public static void initProcess() {
     	
     	UserIntSwing.frame.pack();
     	setupFrameLocation();
@@ -52,7 +54,7 @@ public class UserInterfaceMain {
 		addTextfieldKeyListener();
     }
 
-    public static void formatLabels() {
+    private static void formatLabels() {
 
         UserIntSwing.lblCommand.setFont(new Font("Tahoma", Font.BOLD, 12));
         UserIntSwing.lblCommandProcess.setFont(new Font("Tahoma", Font.ITALIC,
@@ -102,13 +104,18 @@ public class UserInterfaceMain {
         });
     }
     
-    private static void addSystemTrayWindowStateListener(){
+    /**
+     * This operation process the SystemTray when minimise
+     * operation is executed
+     */
+    private static void addSystemTrayWindowStateListener() {
     	UserIntSwing.frame.addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(WindowEvent arg) {
 				MinimiseToTray.Minimise(arg);
 			}
 		});
     }
+    
 	/**
 	 *Textfield KeyListener
 	 *1. Set the Command guide Label to the indiviual command guide that the user input
@@ -117,26 +124,17 @@ public class UserInterfaceMain {
 	 *4. Enter KeyListener - Process all the feedback labels when the user type 
 	 *an incorrect input
 	 */
-    private static void addTextfieldKeyListener(){
+    private static void addTextfieldKeyListener() {
+    	
 		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg1) {
+				String userInput = UserIntSwing.textField.getText();
 				try {
-					String text = UserIntSwing.textField.getText();
-
-					UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(text
-							+ " "));
-					UserIntSwing.frame.setVisible(true);
+					processTextfield(arg1, userInput);
 					
-					TextfieldHistory.showTextfieldHistoryUpkey(arg1);
-
-					UserInterfaceMain.processHotKeys(arg1);
-					
-					if(arg1.getKeyCode() == KeyEvent.VK_ENTER){
-						String getText = UserIntSwing.textField.getText();
-		
-						UserIntSwing.lblFeedback.setText(UserInterfaceMain.processFeedbackLabel(getText));
-						TextfieldHistory.getTextfieldString(getText);
+					if(arg1.getKeyCode() == VK.enter()){
+						processEnterkey(arg1);
 					}
 					
 				} catch (Exception e) {
@@ -145,26 +143,27 @@ public class UserInterfaceMain {
 			}
 			@Override
 			public void keyReleased(KeyEvent arg1) {
-				DynamicParseResult parseResult = UserInterfaceMain.processUserParse(arg1,UserIntSwing.logicManager);
+				DynamicParseResult parseResult = 
+						UserInterfaceMain.processUserParse(arg1, UserIntSwing.logicManager);
 				Task task = parseResult.getTask();
-				UserInterfaceMain.clearDynamicParseLabels();
+				clearDynamicParseLabels();
 		        handleDynamicEdit(parseResult, task);
-		        UserInterfaceMain.showParseResult(parseResult, task);
+		        showParseResult(parseResult, task);
 
 			}
             private void handleDynamicEdit(DynamicParseResult parseResult,
                     Task task) {
-                if (UserInterfaceMain.containsValidEditCommand(parseResult)) 
+                if (containsValidEditCommand(parseResult)) 
 		        {
-		            String indexString = UserInterfaceMain.getIndexString(task);
-		            int index = UserInterfaceMain.getTaskToBeEditedIndex(indexString);
+		            String indexString = getIndexString(task);
+		            int index = getTaskToBeEditedIndex(indexString);
 		            Task taskToBeEdited = UserIntSwing.logicManager.getTaskToBeEdited(index);
 		            if(taskToBeEdited != null)
 		            {
 		                task.setDescription(StringHandler.removeFirstMatched(
 		                        task.getDescription(), indexString));
-		                UserInterfaceMain.showTaskToBeEdited(taskToBeEdited);
-		                UserIntSwing.interForm.highLightRow(index);
+		                showTaskToBeEdited(taskToBeEdited);
+		                UserIntSwing.interForm.selectRow(index);
 		            }
 		            else
 		            {
@@ -178,12 +177,41 @@ public class UserInterfaceMain {
             }
 		});
     }
+    
+	/**
+	 *Textfield processes
+	 *@param arg1 KeyEvent from the textfield
+	 *@param userInput Input that the user entered from the textfield
+	 * @throws InvalidCommandException 
+	 */
+    private static void processTextfield(KeyEvent arg1, String userInput)
+    		throws InvalidCommandException {
+
+		UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
+		UserIntSwing.frame.setVisible(true);
+		
+		TextfieldHistory.showTextfieldHistory(arg1);
+
+		UserInterfaceMain.processHotKeys(arg1);
+    }
+    
+	/**
+	 *Enter Key Listener process
+	 *@param arg1 KeyEvent Enter from the textfield
+	 */
+    private static void processEnterkey(KeyEvent arg1) {
+    	String getText = UserIntSwing.textField.getText();
+		
+		UserIntSwing.lblFeedback.setText(
+				UserInterfaceMain.processFeedbackLabel(getText));
+		TextfieldHistory.getTextfieldString(getText);
+    }
 
     /**
      * This operation sets the date for today and display on the top of the
      * application
      */
-    public static String setTodayDate() {
+    private static String setTodayDate() {
 
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         String date = sdf.format(new Date());
@@ -195,57 +223,61 @@ public class UserInterfaceMain {
     /**
      * This operation sets the program at the bottom right hand corner of screen
      */
-    public static void setupFrameLocation() {
+    private static void setupFrameLocation() {
 
         GraphicsEnvironment ge = GraphicsEnvironment
                 .getLocalGraphicsEnvironment();
         GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
         Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
         int Xcoordinate = (int) rect.getMaxX() - UserIntSwing.frame.getWidth();
-        int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight()
-                - taskbarHeight;
+        int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() 
+        		- taskbarHeight;
         UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
     }
 
     /**
-     * This operation process the hotkeys shortcut function.
+     * This operation process the hotkeys shortcut function
+     * @param key KeyEvent keylistener from the textfield
+     * @throws InvalidCommandException 
      */
-    public static void processHotKeys(KeyEvent arg1) {
+    private static void processHotKeys(KeyEvent key) throws InvalidCommandException {
 
-        String getCommand;
-        if (arg1.getKeyCode() == KeyEvent.VK_F1) {
+        if (key.getKeyCode() == VK.help()) {
             HelpMenu.main(null);
         }
-        if (UserIntSwing.textField.getText().length() == 0) {
-            if (arg1.getKeyCode() == KeyEvent.VK_F2) {
-                getCommand = Keywords.getAddTaskIdentifier();
-                UserIntSwing.textField.setText(getCommand);
-            } else if (arg1.getKeyCode() == KeyEvent.VK_F3) {
-                getCommand = Keywords.getViewTaskIdentifier();
-                UserIntSwing.textField.setText(getCommand);
-            } else if (arg1.getKeyCode() == KeyEvent.VK_F4) {
-                getCommand = Keywords.getEditTaskIdentifier();
-                UserIntSwing.textField.setText(getCommand);
-            } else if (arg1.getKeyCode() == KeyEvent.VK_F5) {
-                getCommand = Keywords.getDeleteTaskIdentifier();
-                UserIntSwing.textField.setText(getCommand);
+        if (UserIntSwing.textField.getText().isEmpty()) {
+            if (key.getKeyCode() == VK.add()) {
+            	HotkeyHandler.add();
+            } else if (key.getKeyCode() == VK.view()) {
+            	HotkeyHandler.view();
+            } else if (key.getKeyCode() == VK.edit()) {
+            	HotkeyHandler.edit();
+            } else if (key.getKeyCode() == VK.delete()) {
+            	HotkeyHandler.delete();
+            } else if (key.getKeyCode() == VK.search()) {
+            	HotkeyHandler.search();
+            } else if (key.getKeyCode() == VK.undo()) {
+            	HotkeyHandler.undo();
+            } else if (key.getKeyCode() == VK.redo()) {
+            	HotkeyHandler.redo();
             }
         }
     }
 
     /**
      * This operation process the Feedback Label
+     * @param getText gets the text from what the user input
      */
-    public static String processFeedbackLabel(String text) {
+    private static String processFeedbackLabel(String getText) {
 
-        // text = text.trim().replaceAll("\\s+", "");
-        if (text.isEmpty() || text.matches(" ")) {
+        getText = getText.trim().replaceAll("\\s+", " ");
+        if (getText.isEmpty() || getText.matches(" ")) {
         	feedbackTimerReset();
             return FeedbackGuide.isEmptyString();
         }
 
-        text = text.toLowerCase();
-        String[] tokens = text.split(WHITESPACE_PATTERN);
+        getText = getText.toLowerCase();
+        String[] tokens = getText.split(WHITESPACE_PATTERN);
         Action action = Keywords.resolveActionIdentifier(tokens[0]);
 
         switch (action) {
@@ -254,6 +286,8 @@ public class UserInterfaceMain {
         case EDIT:
         case DELETE:
         case SEARCH:
+        case UNDO:
+        case REDO:
         	feedbackTimerReset();
             return FeedbackGuide.isValidString();
         default:
@@ -382,7 +416,7 @@ public class UserInterfaceMain {
     }
 
     /**
-     * This operation process the priority label Red: High; Blue: Medium; Green:
+     * This operation process the priority label Red: High; orange: Medium; Green:
      * Low
      */
     private static void processLblPriority() {
@@ -390,9 +424,9 @@ public class UserInterfaceMain {
         if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {
             UserIntSwing.lblPriorityProcess.setForeground(Color.red);
         } else if (UserIntSwing.lblPriorityProcess.getText().matches("Low")) {
-            UserIntSwing.lblPriorityProcess.setForeground(Color.green);
+            UserIntSwing.lblPriorityProcess.setForeground(Color.orange);
         } else {
-            UserIntSwing.lblPriorityProcess.setForeground(Color.blue);
+            UserIntSwing.lblPriorityProcess.setForeground(Color.green);
         }
     }
 }

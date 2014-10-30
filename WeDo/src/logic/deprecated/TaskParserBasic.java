@@ -5,7 +5,7 @@ package logic.deprecated;
 
 import logic.deprecated.taskFieldSetter.TaskDescriptionFieldSetter;
 import logic.deprecated.taskFieldSetter.TaskFieldSetter;
-import logic.utility.KeyMatcher;
+import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 
@@ -94,7 +94,7 @@ public class TaskParserBasic implements TaskParser {
      */
     private TaskFieldSetter determineAttribute(String operation)
     {
-        return KeyMatcher.matchKey(createFakeMultiMapForPriority(), operation);   
+        return MultiMapMatcher.getMatchedKey(createFakeMultiMapForPriority(), operation);   
 
     }
     

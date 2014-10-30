@@ -17,7 +17,7 @@ import logic.command.commandList.RedoCommand;
 import logic.command.commandList.SearchCommand;
 import logic.command.commandList.UndoCommand;
 import logic.command.commandList.ViewCommand;
-import logic.utility.KeyMatcher;
+import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -50,25 +50,103 @@ public class CommandParser {
 
         if (source.isEmpty()) 
         {
-            return false;
+            return false;    
         }
         
-        String possibleCommand = StringHandler.getFirstWord(source);               
-
+        String firstWord = StringHandler.getFirstWord(source);               
+        String lastWord = StringHandler.getLastWord(source);
         
-        command = KeyMatcher.matchKey(createFakeMultiMapForCommand(), possibleCommand);
+        command = getCommand(firstWord);
         if(command != null)
         {
-            wordUsed = possibleCommand;
+            wordUsed = firstWord;
+            source = handleEditCommandforFirstWord(source);
             setWordRemaining(StringHandler.removeFirstMatched(source,wordUsed));
             return true;
         }
+ 
+       command = getCommand(lastWord);
+       if(command != null)
+       {
+           wordUsed = lastWord;
+           source = handleEditCommandForLastWord(source);
+           setWordRemaining(StringHandler.removeFirstMatched(source,wordUsed));
+           return true;
+       }
+       
+        return false;
+    }
+    
+    /**
+     * Remove the index for edit and append it to the front if valid
+     * return source if invalid
+     * @param source
+     * @return
+     */
+    private String handleEditCommandforFirstWord(String source)
+    {
+        String index = StringHandler.getDigitAfterFirstWord(source);    
+        if(handleFlexibleEditCommand(source,index))
+        {
+            source = StringHandler.removeDigitAfterFirstWord(source);
+            return  index + " " + source ;
+
+        }
         else
         {
-            wordUsed = "";
-            setWordRemaining(source);
+            return source;
+        }
+
+    }
+    
+    /**
+     * Remove the index for edit and append it to the front if valid
+     * return source if invalid
+     * @param source
+     * @return
+     */
+    private String handleEditCommandForLastWord(String source)
+    {
+        String index = StringHandler.getDigitAfterLastWord(source);  
+        if(handleFlexibleEditCommand(source,index))
+        {
+            source = StringHandler.removeDigitAfterLastWord(source);
+            return  index + " " + source ;
+        }
+        else
+        {
+            return source;
+        }
+
+    }
+
+
+    /**
+     * determine is action needed to be done
+     * @param source
+     * @param index
+     * @return true if there's a valid index and command is EditCommand
+     */
+    private boolean handleFlexibleEditCommand(String source, String index) {
+        if(command instanceof EditCommand)
+        {
+            if(index != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
             return false;
         }
+    }
+
+    private Command getCommand(String firstWord) {
+       return MultiMapMatcher.getMatchedKey(createFakeMultiMapForCommand(), firstWord);
     }
     
     public Command getCommand()
@@ -97,33 +175,33 @@ public class CommandParser {
 
         final Map<Command, Collection<String>> addActions = ImmutableMap
                 .<Command, Collection<String>> of(addCommand,
-                        Arrays.asList("-add", "-a", "add", "-create", "-cre8"));
+                        Arrays.asList("add", "new", "create", "cre8"));
         final Map<Command, Collection<String>> clearActions = ImmutableMap
                 .<Command, Collection<String>> of(clearCommand, Arrays.asList(
-                        "-clear", "-cl", "-c", "-delete all", "-d all",
-                        "-clear screen", "clear"));
+                        "clear", "cl", "c", "delete all", "d all",
+                        "clear screen", "clear"));
         final Map<Command, Collection<String>> deleteActions = ImmutableMap
                 .<Command, Collection<String>> of(deleteCommand, Arrays.asList(
-                        "-delete", "-d", "delete", "remove", "-remove"));
+                        "delete", "d", "delete", "remove", "remove"));
         final Map<Command, Collection<String>> exitActions = ImmutableMap
                 .<Command, Collection<String>> of(exitCommand, Arrays.asList(
-                        "-exit", "-e", "exit", "-quit", "-q", "quit", "alt qq",
-                        "leave", "-leave", "-bye"));
+                        "exit", "e", "exit", "quit", "q", "quit", "alt qq",
+                        "leave", "leave", "bye"));
         final Map<Command, Collection<String>> searchActions = ImmutableMap
                 .<Command, Collection<String>> of(searchCommand, Arrays.asList(
-                        "-search", "search", "-s", "-find", "-f", "find"));
+                        "search", "search", "s", "find", "f", "find"));
         final Map<Command, Collection<String>> editActions = ImmutableMap
                 .<Command, Collection<String>> of(editCommand, Arrays.asList(
-                        "-edit", "edit", "-e", "-modify", "-m", "modify"));
+                        "edit", "edit", "e", "modify", "m", "modify"));
         final Map<Command, Collection<String>> viewActions = ImmutableMap
                 .<Command, Collection<String>> of(viewCommand, Arrays.asList(
-                        "-view", "view", "-v", "-read", "read", "-r"));
+                        "view", "viewed", "viewing", "read", "reading", "see", "saw", "get"));
         final Map<Command, Collection<String>> undoActions = ImmutableMap
                 .<Command, Collection<String>> of(undoCommand,
-                        Arrays.asList("-undo", "undo"));
+                        Arrays.asList("undo", "undo"));
         final Map<Command, Collection<String>> redoActions = ImmutableMap
                 .<Command, Collection<String>> of(redoCommand,
-                        Arrays.asList("-redo", "redo"));
+                        Arrays.asList("redo", "redo"));
 
         addMapToMultiMap(addActions, availableActions);
         addMapToMultiMap(clearActions, availableActions);

@@ -3,6 +3,7 @@ package userInterface;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class InteractiveForm extends JPanel {
 
 	public static final String[] columnNames = { "ID", "description",
 			"start date", "end date", "start time", "end time", "priority",
-			"check", "" };
+			"done", "" };
 
 	protected JTable table;
 	protected JScrollPane scroller;
@@ -43,8 +44,6 @@ public class InteractiveForm extends JPanel {
 		table.getColumnModel()
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
 				.setCellRenderer(new LineWrapCellRenderer());
-
-		// colourPriority();
 	}
 
 	public void initComponent() {
@@ -57,7 +56,9 @@ public class InteractiveForm extends JPanel {
 		table.setModel(tableModel);
 		table.setOpaque(true);
 		table.setVisible(true);
+		table.setRowSelectionAllowed(true);
 		table.setSurrendersFocusOnKeystroke(true);
+
 		if (!tableModel.hasEmptyRow()) {
 			tableModel.addEmptyRow();
 		}
@@ -70,6 +71,12 @@ public class InteractiveForm extends JPanel {
 				InteractiveTableModel.INDEX_HIDDEN);
 		TableColumn taskID = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_TASK);
+		
+		TableColumn done = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_CHECK);
+		
+
+		//done.setCellRenderer(new CheckBoxRenderer());
 
 		taskID.setMinWidth(5);
 		taskID.setPreferredWidth(10);
@@ -96,11 +103,23 @@ public class InteractiveForm extends JPanel {
 		}
 		table.setColumnSelectionInterval(0, 0);
 	}
+
+	
+	public void selectRow(int row)
+	{
+	    highLightRow(row);
+	    scrollToRow(row);
+	}
 	
 	public void highLightRow(int row)
 	{
-	    table.setRowSelectionInterval(row, row);
-	    table.setColumnSelectionInterval(0, 0);
+	      table.setRowSelectionInterval(row, row);
+	      table.setColumnSelectionInterval(0, 0);
+	}
+	
+	public void scrollToRow(int row)
+	{
+	    table.scrollRectToVisible(new Rectangle(table.getCellRect(row, 0, true)));
 	}
 
 	class InteractiveRenderer extends DefaultTableCellRenderer {
@@ -130,7 +149,7 @@ public class InteractiveForm extends JPanel {
 
 			// highlight completed tasks
 			if ((boolean) InteractiveForm.this.tableModel.getValueAt(row,
-					tableModel.INDEX_CHECK)) {
+					InteractiveTableModel.INDEX_CHECK)) {
 				if (!table.isRowSelected(row)) {
 					c.setBackground(Color.GREEN);
 				}
@@ -138,16 +157,19 @@ public class InteractiveForm extends JPanel {
 
 			// this is to highlight priority level
 			if (InteractiveForm.this.tableModel.getValueAt(row,
-					tableModel.INDEX_PRIORITY).equals("High")) {
+					InteractiveTableModel.INDEX_PRIORITY).equals("High")) {
 				if (!table.isRowSelected(row)) {
+					this.setOpaque(true);
 					c.setBackground(Color.ORANGE);
 				}
 			} else if (InteractiveForm.this.tableModel.getValueAt(row,
-					tableModel.INDEX_PRIORITY).equals("Low")) {
+					InteractiveTableModel.INDEX_PRIORITY).equals("Low")) {
 				if (!table.isRowSelected(row)) {
+					this.setOpaque(true);
 					c.setBackground(Color.CYAN);
 				}
 			} else {
+				this.setOpaque(true);
 				c.setBackground(originalColour);
 			}
 
@@ -159,17 +181,9 @@ public class InteractiveForm extends JPanel {
 				}
 				highlightLastRow(row);
 			}
-
 			return c;
 		}
 	}
-
-	// public void setRowSelectionAllowed(boolean rowSelectionAllowed) {
-	// int[] selection = table.getSelectedRows();
-	// for (int i = 0; i < selection.length; i++) {
-	// selection[i] = table.convertRowIndexToModel(selection[i]);
-	// }
-	// }
 
 	public class InteractiveTableModelListener implements TableModelListener {
 		public void tableChanged(TableModelEvent evt) {

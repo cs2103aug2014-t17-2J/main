@@ -21,6 +21,8 @@ public class CommandGuide {
 	private static final String EDIT_GUIDE = buildEditGuideString();
 	private static final String DELETE_GUIDE = buildDeleteGuideString();
 	private static final String SEARCH_GUIDE = buildSearchGuideString();
+	private static final String UNDO_GUIDE = buildUndoGuideString();
+	private static final String REDO_GUIDE = buildRedoGuideString();
 	
 	private static final String HTML_OPEN = "<html>";
 	private static final String HTML_CLOSE = "</html>";
@@ -72,6 +74,10 @@ public class CommandGuide {
 			return String.format(DELETE_GUIDE, identifier);
 		case SEARCH:
 			return String.format(SEARCH_GUIDE, identifier);
+		case UNDO:
+			return String.format(UNDO_GUIDE, identifier);
+		case REDO:
+			return String.format(REDO_GUIDE, identifier);
 		default:
 			return GENERAL_GUIDE;
 		}
@@ -87,7 +93,9 @@ public class CommandGuide {
 		str.append(Keywords.getViewTaskIdentifier() + " | ");
 		str.append(Keywords.getEditTaskIdentifier() + " | ");
 		str.append(Keywords.getDeleteTaskIdentifier() + " | ");
-		str.append(Keywords.getSearchTaskIdentifier());
+		str.append(Keywords.getSearchTaskIdentifier() + " | ");
+		str.append(Keywords.getUndoActionIdentifier() + " | ");
+		str.append(Keywords.getRedoActionIdentifier());
 
 		return wrapWithHtmlTag(str.toString());
 	}
@@ -166,6 +174,28 @@ public class CommandGuide {
 		str.append("type the word you want to search:" + HTML_BREAK);
 		str.append(underline(IDENTIFIER_PLACEHOLDER) + " meeting");
 
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String buildUndoGuideString() {
+
+		StringBuilder str = new StringBuilder();
+
+		str.append("To Undo an action, simply type undo");
+		str.append(HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + Enter");
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String buildRedoGuideString() {
+
+		StringBuilder str = new StringBuilder();
+
+		str.append("To Redo an action, simply type redo");
+		str.append(HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + Enter");
+		
 		return wrapWithHtmlTag(str.toString());
 	}
 

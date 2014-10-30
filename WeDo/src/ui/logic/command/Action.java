@@ -14,6 +14,7 @@ public enum Action {
 	DELETE              (true, true),
 	SEARCH				(false, false),
 	UNDO                (false, true),
+	REDO				(false, true),
 	INVALID             (false, false);
 	
 	private final boolean isReversible;

@@ -39,7 +39,7 @@ public class TextfieldHistory{
 	 * Up arrow keylistener - Pushes the text from the user to "undoStack" -Up arrow key
 	 * Down arrow keylistener - Pushes the text previously stored to "userInputStack"  
 	 */
-	public static void showTextfieldHistoryUpkey(KeyEvent arg1){
+	public static void showTextfieldHistory(KeyEvent arg1){
 		
 		if(arg1.getKeyCode() == KeyEvent.VK_UP){
 			if(!userInputStack.isEmpty()){
@@ -56,6 +56,7 @@ public class TextfieldHistory{
 			}
 			else{
 				showEmptyInputString();
+				UserIntSwing.textField.setText(null);
 			}
 		}
 	}

@@ -71,12 +71,14 @@ public class DateParser {
         if (dateAvailable(dateGroups)) {
             
             
-            String dateWordUsed = DateStringMassager.removeWordDelimiter(getDateWordUsed(source, dateGroups));
-            
+            String dateWordUsed = getDateWordUsed(source, dateGroups);
+            dateWordUsed = DateStringMassager.removeWordDelimiter(dateWordUsed);
+            dateWordUsed = DateStringMassager.removeDigitDelimiters(dateWordUsed);
+
             source = DateStringMassager.removeDigitDelimiters(source);
             source = DateStringMassager.removeWordDelimiter(source);
             
-            String dateConnector = DateStringMassager.getDateConnector(source, dateWordUsed);
+            String dateConnector = DateStringMassager.getFrontDateConnector(source, dateWordUsed);
             wordUsed =  dateConnector + dateWordUsed;
             
             System.out.println("Total wordUsed = " + wordUsed);
