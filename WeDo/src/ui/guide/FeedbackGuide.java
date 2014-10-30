@@ -2,6 +2,8 @@ package ui.guide;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import userInterface.UserIntSwing;
 

@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
@@ -26,6 +28,7 @@ import logic.utility.Task;
 import ui.guide.CommandGuide;
 import ui.guide.FeedbackGuide;
 import ui.logic.command.Action;
+import ui.logic.command.FeedbackHandler;
 import ui.logic.command.HotkeyHandler;
 import ui.logic.command.Keywords;
 import ui.logic.command.VK;
@@ -53,6 +56,8 @@ public class UserInterfaceMain {
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 		UserIntSwing.lblTodayDate.setText(UserInterfaceMain.setTodayDate());
 		addTextfieldKeyListener();
+		addTextFieldActionListener();
+		addBtnEnterActionListener();
     }
 
     private static void formatLabels() {
@@ -143,6 +148,66 @@ public class UserInterfaceMain {
         });
     }
     
+    /**
+     * Textfield Action Listener - Process all the text that has
+     * been parsed in the Textfield when Enter is pressed
+     */
+    private static void addTextFieldActionListener() {
+    	
+    	UserIntSwing.textField.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				processTextfieldString();
+			}
+    	});
+    }
+    
+    /**
+     * Button Enter Action Listener - Process all the text has
+     * been pased in the Textfield when Eneter is clicked
+     */
+    private static void addBtnEnterActionListener() {
+    	
+    	UserIntSwing.btnEnter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				processTextfieldString();
+			}
+		});
+    }
+    
+    /**
+     * Process the parser and Feedback
+     */
+    private static void processTextfieldString() {
+    	
+    	ParseResult parseResult = UserIntSwing.logicManager
+				.processCommand(UserIntSwing.textField.getText());
+    	String getText = UserIntSwing.textField.getText();
+    	
+		if (parseResult.isSuccessful()) {
+			try {
+				UserIntSwing.logicManager.executeCommand(parseResult);
+			} 
+			catch (InvalidCommandException e) {
+				e.printStackTrace();
+			}
+			FeedbackHandler.successfulOperation();
+		} 
+		else if(UserIntSwing.textField.getText().isEmpty()) {
+			FeedbackHandler.emptyStringOperation();
+		} 
+		else if (FeedbackHandler.isDoubleSpace(getText)) {
+			FeedbackHandler.emptyStringOperation();
+		} 
+		else {
+			FeedbackHandler.NotSuccessfulOperation();
+		}
+		UserIntSwing.textField.setText(null);
+		// reset command guide to general guide
+		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
+    }
+    
 	/**
 	 *Textfield KeyListener
 	 *1. Set the Command guide Label to the indiviual command guide that the user input
@@ -154,6 +219,7 @@ public class UserInterfaceMain {
     private static void addTextfieldKeyListener() {
     	
 		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
+			
 			@Override
 			public void keyPressed(KeyEvent arg1) {
 				String userInput = UserIntSwing.textField.getText();
@@ -227,10 +293,8 @@ public class UserInterfaceMain {
 	 *@param arg1 KeyEvent Enter from the textfield
 	 */
     private static void processEnterkey(KeyEvent arg1) {
+    	
     	String getText = UserIntSwing.textField.getText();
-		
-		UserIntSwing.lblFeedback.setText(
-				UserInterfaceMain.processFeedbackLabel(getText));
 		TextfieldHistory.getTextfieldString(getText);
     }
 
@@ -264,54 +328,6 @@ public class UserInterfaceMain {
     }
 
     /**
-     * This operation process the Feedback Label
-     * @param getText gets the text from what the user input
-     * @return getText the text that the user input in String
-     */
-    private static String processFeedbackLabel(String getText) {
-
-        getText = getText.trim().replaceAll("\\s+", " ");
-        if (getText.isEmpty() || getText.matches(" ")) {
-        	feedbackTimerReset();
-            return FeedbackGuide.isEmptyString();
-        }
-
-        getText = getText.toLowerCase();
-        String[] tokens = getText.split(WHITESPACE_PATTERN);
-        Action action = Keywords.resolveActionIdentifier(tokens[0]);
-
-        switch (action) {
-        case ADD:
-        case VIEW:
-        case EDIT:
-        case DELETE:
-        case SEARCH:
-        case UNDO:
-        case REDO:
-        	feedbackTimerReset();
-            return FeedbackGuide.isValidString();
-        default:
-        	feedbackTimerReset();
-            return FeedbackGuide.isInvalidString();
-        }
-    }
-
-    /**
-     * This operation process the timer to clear the Warning Label. It is set at
-     * 1000 milli-seconds.
-     */
-    public static void feedbackTimerReset() {
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                UserIntSwing.lblFeedback.setText("");
-            }
-        }, 1000);
-    }
-
-    /**
      * This operation process the labels that the user input from the textfield
      * and show what will be parsed
      * 
@@ -324,7 +340,6 @@ public class UserInterfaceMain {
                 .dynamicParse(UserIntSwing.textField.getText());
 
         return parseResult;
-
     }
 
     /**

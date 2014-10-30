@@ -3,7 +3,6 @@ package ui.logic.command;
 import logic.command.UndoHandler;
 import logic.exception.InvalidCommandException;
 import logic.parser.ParseResult;
-import ui.UserInterfaceMain;
 import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
@@ -47,7 +46,7 @@ public class HotkeyHandler {
     	} else {
     		UserIntSwing.lblFeedback.setText(
     				FeedbackGuide.isEmptyUndoInput());
-    		UserInterfaceMain.feedbackTimerReset();
+    		FeedbackHandler.feedbackTimerReset();
     	}
     }
     
@@ -57,7 +56,7 @@ public class HotkeyHandler {
     	} else {
     		UserIntSwing.lblFeedback.setText(
     				FeedbackGuide.isEmptyRedoInput());
-    		UserInterfaceMain.feedbackTimerReset();
+    		FeedbackHandler.feedbackTimerReset();
     	}
     }
 }

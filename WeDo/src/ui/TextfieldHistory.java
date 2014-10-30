@@ -3,7 +3,7 @@ package ui;
 import java.awt.event.KeyEvent;
 import java.util.Stack;
 
-import ui.guide.FeedbackGuide;
+import ui.logic.command.FeedbackHandler;
 import userInterface.UserIntSwing;
 
 /**
@@ -46,7 +46,7 @@ public class TextfieldHistory{
 				pushToUndoStack();
 			}
 			else{
-				showEmptyHistoryString();
+				FeedbackHandler.emptyHistoryStringOperation();
 			}
 		}
 		else if(arg1.getKeyCode() == KeyEvent.VK_DOWN){
@@ -55,7 +55,7 @@ public class TextfieldHistory{
 				pushToUserInputStack();
 			}
 			else{
-				showEmptyInputString();
+				FeedbackHandler.emptyInputStringOperation();
 				UserIntSwing.textField.setText(null);
 			}
 		}
@@ -73,15 +73,5 @@ public class TextfieldHistory{
 		getText = undoStack.pop();
 		userInputStack.push(getText);
 		UserIntSwing.textField.setText(getText);
-	}
-	
-	private static void showEmptyHistoryString(){
-		UserIntSwing.lblFeedback.setText(FeedbackGuide.isEmptyHistoryString());
-		UserInterfaceMain.feedbackTimerReset();
-	}
-	
-	private static void showEmptyInputString(){
-		UserIntSwing.lblFeedback.setText(FeedbackGuide.isEmptyInput());
-		UserInterfaceMain.feedbackTimerReset();
 	}
 }
