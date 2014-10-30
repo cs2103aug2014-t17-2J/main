@@ -19,6 +19,7 @@ import logic.LogicManager;
 import logic.command.commandList.EditCommand;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
+import logic.parser.ParseResult;
 import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
@@ -215,6 +216,8 @@ public class UserInterfaceMain {
 
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         String date = sdf.format(new Date());
+	    //ParseResult parseResult = logicManager.processCommand(parseResult);
+        //parseResult.getTask().getStartDate();
         String dateDisplay = "You are viewing: " + date;
 
         return dateDisplay;

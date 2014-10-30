@@ -79,14 +79,15 @@ public class TestYo {
 		frame.getContentPane().add(panel);
 
 		table = new JTable();
+		table.setOpaque(true);
 		table.setFillsViewportHeight(true);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
 		table.setModel(new DefaultTableModel(new Object[][] {
 				{ "First", "Second", "Third", "Fourth" },
-				{ null, null, null, null }, { null, null, null, null },
-				{ null, null, null, null }, { null, null, null, null },
-				{ null, null, null, null }, { null, null, null, null }, },
+				{ "hi", "bye", "yo", "dude" }, { "hi2", null, null, null },
+				{ "hi3", null, null, null }, { "hi4", null, null, null },
+				{ "hi5", null, null, null }, { null, null, null, null }, },
 				new String[] { "First", "New column", "New column",
 						"New column" }));
 		//table.setBackground(Color.CYAN);
@@ -116,6 +117,7 @@ public class TestYo {
 				c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
 			}
 
+			this.setOpaque(true);
 			return c;
 		}
 	}
