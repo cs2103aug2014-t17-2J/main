@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -16,6 +17,7 @@ import java.util.Observer;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -45,7 +47,11 @@ import dataStorage.ObservableList;
 import java.awt.Toolkit;
 import java.awt.event.WindowStateListener;
 import java.awt.event.WindowEvent;
+
 import javax.swing.JRadioButton;
+import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -205,7 +211,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		btnSearch.setBackground(new Color(255, 153, 255));
 
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
+		//panel.setBackground(Color.WHITE);
 
 		JPanel panelBottom = new JPanel();
 		panelBottom.setBackground(new Color(255, 204, 255));
@@ -237,7 +243,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		textField.setColumns(10);
 
 		JButton btnEnter = new JButton("ENTER");
-		btnEnter.setBackground(new Color(204, 255, 255));
+		btnEnter.setBackground(new Color(255, 153, 255));
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// lblDisplay.setText(textField.getText());
@@ -440,34 +446,23 @@ public class UserIntSwing extends JPanel implements Observer {
 												GroupLayout.PREFERRED_SIZE,
 												153, GroupLayout.PREFERRED_SIZE)
 										.addContainerGap()));
-
-		JButton btnColour = new JButton("colour");
-		btnColour.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				panelBottom.setBackground(new Color(230, 230, 250));
-				frame.getContentPane().setBackground(new Color(230, 230, 250));
-
-			}
-		});
-		btnColour.setBackground(new Color(240, 230, 140));
-
+		
 		GroupLayout gl_panelBottom = new GroupLayout(panelBottom);
 		gl_panelBottom.setHorizontalGroup(
 			gl_panelBottom.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelBottom.createSequentialGroup()
 					.addGroup(gl_panelBottom.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblFeedback, GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+						.addComponent(lblFeedback, GroupLayout.DEFAULT_SIZE, 739, Short.MAX_VALUE)
 						.addGroup(gl_panelBottom.createSequentialGroup()
-							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelBottom.createSequentialGroup()
 							.addComponent(lblQuickHelp)
-							.addPreferredGap(ComponentPlacement.RELATED, 681, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED, 679, Short.MAX_VALUE))
 						.addGroup(gl_panelBottom.createSequentialGroup()
-							.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
-							.addGap(26)
-							.addComponent(btnColour)))
+							.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
+							.addGap(65)))
 					.addContainerGap())
 		);
 		gl_panelBottom.setVerticalGroup(
@@ -479,12 +474,9 @@ public class UserIntSwing extends JPanel implements Observer {
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnEnter))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelBottom.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panelBottom.createSequentialGroup()
-							.addComponent(lblQuickHelp)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
-						.addComponent(btnColour)))
+					.addComponent(lblQuickHelp)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))
 		);
 		// gl_panelBottom.setAutoCreateGaps(true);
 		panelBottom.setLayout(gl_panelBottom);

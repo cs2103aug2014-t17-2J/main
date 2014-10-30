@@ -17,6 +17,7 @@ public class LineWrapCellRenderer extends JTextArea implements
 	public LineWrapCellRenderer() {
 		setLineWrap(true);
 		setWrapStyleWord(true);
+		setOpaque(true);
 	}
 
 	@Override
@@ -31,6 +32,8 @@ public class LineWrapCellRenderer extends JTextArea implements
 		if (table.getRowHeight(row) != getPreferredSize().height) {
 			table.setRowHeight(row, getPreferredSize().height);
 		}
+		
+		table.setOpaque(true);
 
 		return this;
 	}

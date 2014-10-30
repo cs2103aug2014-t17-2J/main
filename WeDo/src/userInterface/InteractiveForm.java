@@ -17,6 +17,8 @@ import javax.swing.UIManager;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import logic.utility.Task;
@@ -67,20 +69,37 @@ public class InteractiveForm extends JPanel {
 		table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,
 				300));
 
+		TableColumn taskCol = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_TASK);
+
+		TableColumn descriptionCol = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_DESCRIPTION);
+
+		TableColumn startDateCol = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_STARTDATE);
+
+		TableColumn endDateCol = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_ENDDATE);
+
+		TableColumn startTimeCol = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_STARTTIME);
+
+		TableColumn endTimeCol = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_ENDTIME);
+
+		TableColumn priorityCol = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_PRIORITY);
+
+		TableColumn checkCol = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_CHECK);
+
 		TableColumn hidden = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_HIDDEN);
-		TableColumn taskID = table.getColumnModel().getColumn(
-				InteractiveTableModel.INDEX_TASK);
-		
-		TableColumn done = table.getColumnModel().getColumn(
-				InteractiveTableModel.INDEX_CHECK);
-		
 
-		//done.setCellRenderer(new CheckBoxRenderer());
 
-		taskID.setMinWidth(5);
-		taskID.setPreferredWidth(10);
-		taskID.setCellRenderer(new InteractiveRenderer(
+		taskCol.setMinWidth(5);
+		taskCol.setPreferredWidth(10);
+		taskCol.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_TASK));
 
 		hidden.setMinWidth(2);
@@ -88,6 +107,28 @@ public class InteractiveForm extends JPanel {
 		hidden.setMaxWidth(2);
 		hidden.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_HIDDEN));
+
+		descriptionCol.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_DESCRIPTION));
+
+		startDateCol.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_STARTDATE));
+
+		endDateCol.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_ENDTIME));
+
+		startTimeCol.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_STARTTIME));
+
+		endTimeCol.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_ENDTIME));
+
+		priorityCol.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_PRIORITY));
+
+		//checkCol.setCellRenderer(new InteractiveRenderer(
+		//		InteractiveTableModel.INDEX_CHECK));
+		//checkCol.setCellRenderer(new CheckBoxRenderer());
 
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
@@ -104,22 +145,18 @@ public class InteractiveForm extends JPanel {
 		table.setColumnSelectionInterval(0, 0);
 	}
 
-	
-	public void selectRow(int row)
-	{
-	    highLightRow(row);
-	    scrollToRow(row);
+	public void selectRow(int row) {
+		highLightRow(row);
+		scrollToRow(row);
 	}
-	
-	public void highLightRow(int row)
-	{
-	      table.setRowSelectionInterval(row, row);
-	      table.setColumnSelectionInterval(0, 0);
+
+	public void highLightRow(int row) {
+		table.setRowSelectionInterval(row, row);
+		table.setColumnSelectionInterval(0, 0);
 	}
-	
-	public void scrollToRow(int row)
-	{
-	    table.scrollRectToVisible(new Rectangle(table.getCellRect(row, 0, true)));
+
+	public void scrollToRow(int row) {
+		table.scrollRectToVisible(new Rectangle(table.getCellRect(row, 0, true)));
 	}
 
 	class InteractiveRenderer extends DefaultTableCellRenderer {
@@ -141,6 +178,7 @@ public class InteractiveForm extends JPanel {
 
 			// set alternating row colour
 			if (!table.isRowSelected(row)) {
+				table.setOpaque(true);
 				c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
 			}
 
@@ -148,27 +186,30 @@ public class InteractiveForm extends JPanel {
 			Color originalColour = c.getBackground();
 
 			// highlight completed tasks
-			if ((boolean) InteractiveForm.this.tableModel.getValueAt(row,
-					InteractiveTableModel.INDEX_CHECK)) {
-				if (!table.isRowSelected(row)) {
-					c.setBackground(Color.GREEN);
-				}
-			}
+			// if ((boolean) InteractiveForm.this.tableModel.getValueAt(row,
+			// InteractiveTableModel.INDEX_CHECK)) {
+			// if (!table.isRowSelected(row)) {
+			// c.setBackground(Color.GREEN);
+			// }
+			// }
 
 			// this is to highlight priority level
-			if (InteractiveForm.this.tableModel.getValueAt(row,
-					InteractiveTableModel.INDEX_PRIORITY).equals("High")) {
-				if (!table.isRowSelected(row)) {
+			if (!table.isRowSelected(row)) {
+				if (InteractiveForm.this.tableModel.getValueAt(row,
+						InteractiveTableModel.INDEX_PRIORITY).equals("High")) {
+
 					this.setOpaque(true);
-					c.setBackground(Color.ORANGE);
-				}
-			} else if (InteractiveForm.this.tableModel.getValueAt(row,
-					InteractiveTableModel.INDEX_PRIORITY).equals("Low")) {
-				if (!table.isRowSelected(row)) {
+				//	c.setBackground(Color.RED);
+					c.setBackground(Color.getHSBColor(325, 100, 100));
+				} else if (InteractiveForm.this.tableModel.getValueAt(row,
+						InteractiveTableModel.INDEX_PRIORITY).equals("Low")) {
+
 					this.setOpaque(true);
 					c.setBackground(Color.CYAN);
 				}
-			} else {
+			}
+
+			else {
 				this.setOpaque(true);
 				c.setBackground(originalColour);
 			}
@@ -183,6 +224,16 @@ public class InteractiveForm extends JPanel {
 			}
 			return c;
 		}
+
+		public Component getPrepareRenderer(TableCellRenderer renderer,
+				int row, int column) {
+
+			Component c = getPrepareRenderer(renderer, row, column);
+			Color originalColour = c.getBackground();
+
+			return c;
+		}
+
 	}
 
 	public class InteractiveTableModelListener implements TableModelListener {
