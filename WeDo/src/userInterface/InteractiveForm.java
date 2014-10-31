@@ -48,14 +48,9 @@ public class InteractiveForm extends JPanel {
 		// for wrap text
 		table.getColumnModel()
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
-				.setCellRenderer(new LineWrapCellRenderer());		
-		
-	      TableColumn done = table.getColumnModel().getColumn(
-	                InteractiveTableModel.INDEX_CHECK);
-	        
+				.setCellRenderer(new LineWrapCellRenderer());
 
 	        //done.setCellRenderer(new CheckBoxRenderer());
-
 	}
 
 //	
@@ -83,7 +78,6 @@ public class InteractiveForm extends JPanel {
 
 		TableColumn taskCol = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_TASK);
-<<<<<<< HEAD
 
 		TableColumn descriptionCol = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_DESCRIPTION);
@@ -109,19 +103,11 @@ public class InteractiveForm extends JPanel {
 		TableColumn hidden = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_HIDDEN);
 
+		table.setDefaultRenderer(Object.class, new TableDefaultRenderer());
 
 		taskCol.setMinWidth(5);
 		taskCol.setPreferredWidth(10);
 		taskCol.setCellRenderer(new InteractiveRenderer(
-=======
-
-		taskID.setMinWidth(5);
-		taskID.setPreferredWidth(10);
-		
-		table.setDefaultRenderer(Object.class, new TableDefaultRenderer());
-		
-		taskID.setCellRenderer(new InteractiveRenderer(
->>>>>>> 9547097deb847872af5de21881d1765dcc343ec8
 				InteractiveTableModel.INDEX_TASK));
 
 		hidden.setMinWidth(1);
@@ -131,7 +117,6 @@ public class InteractiveForm extends JPanel {
 		hidden.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_HIDDEN));
 
-<<<<<<< HEAD
 		descriptionCol.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_DESCRIPTION));
 
@@ -153,10 +138,7 @@ public class InteractiveForm extends JPanel {
 		//checkCol.setCellRenderer(new InteractiveRenderer(
 		//		InteractiveTableModel.INDEX_CHECK));
 		//checkCol.setCellRenderer(new CheckBoxRenderer());
-
-=======
 		
->>>>>>> 9547097deb847872af5de21881d1765dcc343ec8
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
 //		setHighLightSelectionColor(Color.MAGENTA);
@@ -171,18 +153,10 @@ public class InteractiveForm extends JPanel {
 		}
 		table.setColumnSelectionInterval(0, 0);
 	}
-<<<<<<< HEAD
 
 	public void selectRow(int row) {
 		highLightRow(row);
 		scrollToRow(row);
-=======
-	
-	public void selectRow(int row)
-	{
-	    highLightRow(row);
-	    scrollToRow(row);
->>>>>>> 9547097deb847872af5de21881d1765dcc343ec8
 	}
 
 	public void highLightRow(int row) {
@@ -225,7 +199,6 @@ public class InteractiveForm extends JPanel {
 				int column) {
 		    
 			Component c = super.getTableCellRendererComponent(table, value,
-<<<<<<< HEAD
 					isSelected, hasFocus, row, column);
 
 			this.setOpaque(true);
@@ -248,27 +221,24 @@ public class InteractiveForm extends JPanel {
 			// }
 
 			// this is to highlight priority level
-			if (!table.isRowSelected(row)) {
-				if (InteractiveForm.this.tableModel.getValueAt(row,
-						InteractiveTableModel.INDEX_PRIORITY).equals("High")) {
-
-					this.setOpaque(true);
-				//	c.setBackground(Color.RED);
-					c.setBackground(Color.getHSBColor(325, 100, 100));
-				} else if (InteractiveForm.this.tableModel.getValueAt(row,
-						InteractiveTableModel.INDEX_PRIORITY).equals("Low")) {
-
-					this.setOpaque(true);
-					c.setBackground(Color.CYAN);
-				}
-			}
-
-			else {
-				this.setOpaque(true);
-				c.setBackground(originalColour);
-			}
-=======
-					isSelected, hasFocus, row, column, tableModel);
+//			if (!table.isRowSelected(row)) {
+//				if (InteractiveForm.this.tableModel.getValueAt(row,
+//						InteractiveTableModel.INDEX_PRIORITY).equals("High")) {
+//
+//					this.setOpaque(true);
+//					c.setBackground(Color.RED);
+//				} else if (InteractiveForm.this.tableModel.getValueAt(row,
+//						InteractiveTableModel.INDEX_PRIORITY).equals("Low")) {
+//
+//					this.setOpaque(true);
+//					c.setBackground(Color.CYAN);
+//				}
+//			}
+//
+//			else {
+//				this.setOpaque(true);
+//				c.setBackground(originalColour);
+//			}
 
 //			this.setOpaque(true);
 //
@@ -307,7 +277,6 @@ public class InteractiveForm extends JPanel {
 //                super.setPriorityLowBackGroundColour(c);
 //			    }
 //			}
->>>>>>> 9547097deb847872af5de21881d1765dcc343ec8
 
 			// this is to highlight the last row
 			if (column == interactiveColumn && hasFocus) {
@@ -317,15 +286,6 @@ public class InteractiveForm extends JPanel {
 				}
 				highlightLastRow(row);
 			}
-
-			return c;
-		}
-
-		public Component getPrepareRenderer(TableCellRenderer renderer,
-				int row, int column) {
-
-			Component c = getPrepareRenderer(renderer, row, column);
-			Color originalColour = c.getBackground();
 
 			return c;
 		}
