@@ -3,6 +3,8 @@ package userInterface;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -85,6 +88,7 @@ public class InteractiveForm extends JPanel {
 				InteractiveTableModel.INDEX_HIDDEN);
 		TableColumn taskID = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_TASK);
+		TableColumn done = table.getColumnModel().getColumn(InteractiveTableModel.INDEX_CHECK);
 
 		taskID.setMinWidth(5);
 		taskID.setPreferredWidth(10);
@@ -100,7 +104,9 @@ public class InteractiveForm extends JPanel {
 		
 		hidden.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_HIDDEN));
-
+		
+		done.setCellRenderer(new BooleanCellRenderer());
+		
 		
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
@@ -175,26 +181,30 @@ public class InteractiveForm extends JPanel {
 	    table.setSelectionBackground(color);   
 	}
 	
-//	public class BooleanCellRenderer extends JCheckBox implements TableCellRenderer
-//	{
-//
-//	    
-//        public BooleanCellRenderer() {
-//            setLayout(new GridBagLayout());
-//            setMargin(new Insets(0, 0, 0, 0));
-//            setHorizontalAlignment(JLabel.CENTER);
-//        }
-//
-//    
-//        @Override
-//        public Component getTableCellRendererComponent(JTable table,
-//                Object value, boolean isSelected, boolean hasFocus, int row,
-//                int column) {
-//            // TODO Auto-generated method stub
-//            return null;
-//        }
-//	    
-//	}
+	public class BooleanCellRenderer extends JCheckBox implements TableCellRenderer
+	{
+
+	    public BooleanCellRenderer() {
+            setLayout(new GridBagLayout());
+            setMargin(new Insets(0, 0, 0, 0));
+            setHorizontalAlignment(JLabel.CENTER);
+        }
+    
+        @Override
+        public Component getTableCellRendererComponent(JTable table,
+                Object value, boolean isSelected, boolean hasFocus, int row,
+                int column) {
+            
+            if (value instanceof Boolean) {
+                setSelected((Boolean) value);
+            }
+            
+            DefaultWeDoTableColor.setDefaultBackGroundColour(this, row);
+
+            return this;
+        }
+	    
+	}
 	
 	public class TableDefaultRenderer extends DefaultWeDoTableRenderer  
 	{ 
@@ -222,44 +232,6 @@ public class InteractiveForm extends JPanel {
 		    
 			Component c = super.getTableCellRendererComponent(table, value,
 					isSelected, hasFocus, row, column, tableModel);
-
-//			this.setOpaque(true);
-//
-//			// set alternating row colour
-//			if (!table.isRowSelected(row)) 
-//			{
-//			    super.setDefaultBackGroundColour(c, row);
-//			}
-//
-//			// set default row colour
-//			Color originalColour = c.getBackground();
-//
-//			// highlight completed tasks
-//			if ((boolean) InteractiveForm.this.tableModel.getValueAt(row,
-//					tableModel.INDEX_CHECK)) {
-//				if (!table.isRowSelected(row)) {
-//					c.setBackground(Color.GREEN);
-//				}
-//			}
-//
-//			// this is to highlight priority level
-//			if (InteractiveForm.this.tableModel.getValueAt(row,
-//					tableModel.INDEX_PRIORITY).equals(Priority.PRIORITY_HIGH)) {
-//				if (!table.isRowSelected(row)) {
-//				    super.setPriorityHighBackGroundColour(c);
-//				}
-//			} else if (InteractiveForm.this.tableModel.getValueAt(row,
-//					tableModel.INDEX_PRIORITY).equals(Priority.PRIORITY_MEDIUM)) {
-//				if (!table.isRowSelected(row)) {
-//                    super.setPriorityMediumBackGroundColour(c);
-//				}
-//			} else if (InteractiveForm.this.tableModel.getValueAt(row,
-//                    tableModel.INDEX_PRIORITY).equals(Priority.PRIORITY_LOW))
-//			{			    
-//			    if (!table.isRowSelected(row)) {
-//                super.setPriorityLowBackGroundColour(c);
-//			    }
-//			}
 
 			// this is to highlight the last row
 			if (column == interactiveColumn && hasFocus) {
