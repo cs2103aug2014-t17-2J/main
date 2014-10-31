@@ -44,7 +44,7 @@ public class DefaultWeDoTableRenderer extends DefaultTableCellRenderer {
         if ((boolean) tableModel.getValueAt(row,
                 InteractiveTableModel.INDEX_CHECK)) {
             if (!table.isRowSelected(row)) {
-                component.setBackground(Color.GREEN);
+                component.setBackground(Color.CYAN);
             }
         }
 

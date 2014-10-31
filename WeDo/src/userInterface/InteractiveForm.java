@@ -48,8 +48,8 @@ public class InteractiveForm extends JPanel {
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
 				.setCellRenderer(new LineWrapCellRenderer());		
 		
-	      TableColumn done = table.getColumnModel().getColumn(
-	                InteractiveTableModel.INDEX_CHECK);
+//	      TableColumn done = table.getColumnModel().getColumn(
+//	                InteractiveTableModel.INDEX_CHECK);
 	        
 
 	        //done.setCellRenderer(new CheckBoxRenderer());
@@ -106,13 +106,29 @@ public class InteractiveForm extends JPanel {
 	}
 
 	public void highlightLastRow(int row) {
-		int lastrow = tableModel.getRowCount();
-		if (row == lastrow - 1) {
-			table.setRowSelectionInterval(lastrow - 1, lastrow - 1);
+	    
+	    assert(tableModel != null) : "tableModel should not be null at highlightLastRow";
+	    
+		int rowCount = tableModel.getRowCount();
+		int lastRow;
+		
+		if (row == rowCount - 1) {
+		    lastRow = rowCount - 1;
 		} else {
-			table.setRowSelectionInterval(row + 1, row + 1);
+			lastRow = row + 1;
 		}
-		table.setColumnSelectionInterval(0, 0);
+		highLightRow(lastRow);
+		scrollToRow(lastRow);
+	}
+	
+	public void highlightLastRow()
+	{
+	    assert(tableModel != null) : "tableModel should not be null at highlightLastRow";
+	    int rowCount = tableModel.getRowCount();
+	    final int ROW_OFFSET = 1;
+	    int lastRow = rowCount - ROW_OFFSET;
+        highLightRow(lastRow);
+        scrollToRow(lastRow);
 	}
 	
 	public void selectRow(int row)
@@ -129,7 +145,19 @@ public class InteractiveForm extends JPanel {
 	
 	public void scrollToRow(int row)
 	{
-	    table.scrollRectToVisible(new Rectangle(table.getCellRect(row, 0, true)));
+	    scrollToLastRow();
+	    Rectangle scrollRect = new Rectangle(table.getCellRect(row, InteractiveTableModel.INDEX_HIDDEN, true));
+	    table.scrollRectToVisible(scrollRect);
+	}
+	
+	public void scrollToLastRow()
+	{
+	    assert(tableModel != null) : "tableModel should not be null at highlightLastRow";
+        int rowCount = tableModel.getRowCount();
+        final int ROW_OFFSET = 1;
+        int lastRow = rowCount - ROW_OFFSET;
+        table.scrollRectToVisible(new Rectangle(table.getCellRect(lastRow, 0, true)));
+        
 	}
 	
 	
@@ -229,10 +257,10 @@ public class InteractiveForm extends JPanel {
 				int column = evt.getColumn();
 				int row = evt.getFirstRow();
 				System.out.println("row: " + row + " column: " + column);
-				table.setColumnSelectionInterval(column + 1, column + 1);
-				table.setRowSelectionInterval(row, row);
-				table.setOpaque(true);
-				table.setVisible(true);
+//				table.setColumnSelectionInterval(column + 1, column + 1);
+//				table.setRowSelectionInterval(row, row);
+//				table.setOpaque(true);
+//				table.setVisible(true);
 			}
 		}
 	}

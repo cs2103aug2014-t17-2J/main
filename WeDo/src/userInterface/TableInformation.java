@@ -74,8 +74,16 @@ public class TableInformation {
 	}
 	
 	public Boolean getCheck(){
-		return false;
+		return check;
 	}
+
+    /**
+     * @param boolean1
+     */
+    public void setCheck(Boolean check)
+    {
+        this.check = check;
+    }
 	
 //	public void setCheck(CheckBoxRenderer checkBoxRenderer){
 //		this.check = false;

@@ -125,6 +125,32 @@ public class StringHandler {
         return source;
     }
     
+    
+    /**
+     * @param source
+     *            the source that require a particular word to be removed
+     * @param toRemove
+     *            the String that is to be removed
+     * @return the new source without the toRemove word
+     *         <p>
+     *         This function remove the last word that matches with the
+     *         toRemove word
+     *         <p>
+     */
+    public static String removeLastMatch(String source, String toRemove) {
+        if (source != null && toRemove != null) {
+            toRemove = toRemove.trim() + "$";
+            toRemove = toRemove.trim();
+            String newWord = source.replaceFirst(toRemove, "");
+            return newWord.trim();
+        }
+
+        return source;
+    }
+    
+    
+    
+    
     /**
      * @param source
      *            the source that require a particular word to be removed

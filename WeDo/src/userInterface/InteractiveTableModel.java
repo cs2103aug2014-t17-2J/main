@@ -35,7 +35,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 	}
 
 	public boolean isCellEditable(int row, int column) {
-		if (column != INDEX_HIDDEN)
+		if (column == INDEX_CHECK)
 			return true;
 		else
 			return false;
@@ -108,7 +108,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 			tableInfo.setPriority((String) value);
 			break;
 		case INDEX_CHECK:
-			//tableInfo.setCheck(new CheckBoxRenderer());
+			tableInfo.setCheck((Boolean)(value));
 			break;
 		default:
 			System.out.println("invalid index");
@@ -202,6 +202,6 @@ public class InteractiveTableModel extends AbstractTableModel {
 
 	public void clearRows() {
 		dataVector.clear();
-		this.addEmptyRow();
+		//this.addEmptyRow();
 	}
 }
