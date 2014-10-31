@@ -23,6 +23,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 import logic.LogicManager;
+import logic.command.commandList.AddCommand;
+import logic.parser.ParseResult;
 import logic.utility.Task;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.AttachLocation;
@@ -450,9 +452,69 @@ public class UserIntSwing extends JPanel implements Observer {
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1) {
-		taskList = observableList.getList();
+	public void update(Observable arg0, Object arg1) 
+	{
+
+        taskList = observableList.getList();        
+        interForm.updateTable(taskList);
+        
+	    if(isTaskInstance(arg1))
+	    {
+	        Task task = (Task) arg1;
+	        int changedTaskRow = observableList.indexOf(task);
+	        if(isIndexValid(changedTaskRow))
+	        {
+	            interForm.selectRow(changedTaskRow);
+	        }
+	    }
+	    
 		assert (taskList != null);
-		interForm.updateTable(taskList);
+		
+
 	}
+	
+
+	
+    /**
+     * @param changedTaskRow
+     * @return
+     */
+    private boolean isIndexValid(int changedTaskRow) 
+    {
+        final int VALID_INDEX = 0;
+        return changedTaskRow >= VALID_INDEX;
+    }
+
+    /**
+     * @param arg1
+     * @return 
+     */
+    private boolean isTaskInstance(Object arg1) {
+        return arg1 instanceof Task;
+    }
+
+//    private int getPrevSize(ArrayList<Task> taskList) 
+//    {
+//        final int EMPTY = 0;
+//        
+//        if(taskList == null)
+//        {
+//            return EMPTY;
+//        }
+//        else
+//        {
+//            return taskList.size();
+//        }
+//        
+//    }
+//
+//    private void scrollToAddedTask(int prevSize, int currSize) 
+//    {
+//        if(prevSize != currSize)
+//        {
+//            interForm.selectLastRow();
+//        }
+//    }
 }
+
+

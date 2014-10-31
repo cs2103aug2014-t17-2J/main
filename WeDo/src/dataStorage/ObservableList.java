@@ -168,6 +168,16 @@ public class ObservableList<T> extends Observable {
         
         return true;
     }
+    
+    /**
+     * @param argument
+     * @return
+     */
+    public int indexOf(T argument)
+    {
+        assert(observedList != null);
+        return observedList.indexOf(argument);
+    }
 
     /**
      * This function replaces the entire list. <br>

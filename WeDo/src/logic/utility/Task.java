@@ -23,7 +23,8 @@ public class Task
     private static final int INITIAL_ID = 0;
     
     
-    private static int uniqueID = INITIAL_ID;
+    private static int taskCreateID = INITIAL_ID;
+    private int uniqueID = taskCreateID;
     private String description;
     private Priority priority;
     private LocalDate startDate;
@@ -45,7 +46,7 @@ public class Task
     // blank task constructor
     public Task()
     {
-        uniqueID++;
+        taskCreateID++;
    
         this.priority = PRIORITY_NOT_SET;
         this.startDate = this.endDate = DATE_NOT_SET;
@@ -67,7 +68,7 @@ public class Task
     public Task(String description, Priority priority, LocalDate startDate,
             LocalTime startTime, LocalDate endDate, LocalTime endTime) {
        
-        uniqueID++;
+        taskCreateID++;
         
         this.description = description;
         this.priority = priority;
@@ -94,7 +95,7 @@ public class Task
             LocalTime startTime, LocalDate endDate, LocalTime endTime,
             boolean isCompleted) {
         
-        uniqueID++;
+        taskCreateID++;
         
         this.description = description;
         this.priority = priority;
@@ -117,7 +118,7 @@ public class Task
     public Task(String description, Priority priority, LocalDate endDate,
             LocalTime endTime) {
 
-        uniqueID++;
+        taskCreateID++;
         
         this.description = description;
         this.priority = priority;
@@ -140,7 +141,7 @@ public class Task
     public Task(String description, Priority priority, LocalDate endDate,
             LocalTime endTime, boolean isCompleted) {
 
-        uniqueID++;
+        taskCreateID++;
         
         this.description = description;
         this.priority = priority;
@@ -161,7 +162,7 @@ public class Task
      */
     public Task(String description, Priority priority) {
 
-        uniqueID++;
+        taskCreateID++;
         
         this.description = description;
         this.priority = priority;
@@ -180,7 +181,7 @@ public class Task
      */
     public Task(String description, Priority priority, boolean isCompleted) {
 
-        uniqueID++;
+        taskCreateID++;
         
         this.description = description;
         this.priority = priority;
@@ -257,24 +258,24 @@ public class Task
 
 
 
-    @Override
-    public boolean equals(Object other)
-    {
-        if(other == null)
-            return false;
-        if (!(other instanceof Task))
-            return false;
-        Task otherTask = (Task)other;
-        if (otherTask.startDate.equals(this.startDate) && otherTask.endDate.equals(this.endDate)
-                && otherTask.startTime.equals(this.startTime) && otherTask.endTime.equals(this.endTime)
-                && otherTask.description.equals(this.description) && otherTask.isCompleted == this.isCompleted
-                && otherTask.priority == this.priority)
-        {
-            return true;
-        }
-        else
-            return false;
-    }
+//    @Override
+//    public boolean equals(Object other)
+//    {
+//        if(other == null)
+//            return false;
+//        if (!(other instanceof Task))
+//            return false;
+//        Task otherTask = (Task)other;
+//        if (otherTask.startDate.equals(this.startDate) && otherTask.endDate.equals(this.endDate)
+//                && otherTask.startTime.equals(this.startTime) && otherTask.endTime.equals(this.endTime)
+//                && otherTask.description.equals(this.description) && otherTask.isCompleted == this.isCompleted
+//                && otherTask.priority == this.priority)
+//        {
+//            return true;
+//        }
+//        else
+//            return false;
+//    }
     
     @Override
     public String toString()
@@ -423,4 +424,52 @@ public class Task
     /**
      * @return the testPriority
      */
+
+
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Task other = (Task) obj;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        } else if (!description.equals(other.description))
+            return false;
+        if (endDate == null) {
+            if (other.endDate != null)
+                return false;
+        } else if (!endDate.equals(other.endDate))
+            return false;
+        if (endTime == null) {
+            if (other.endTime != null)
+                return false;
+        } else if (!endTime.equals(other.endTime))
+            return false;
+        if (isCompleted != other.isCompleted)
+            return false;
+        if (priority != other.priority)
+            return false;
+        if (startDate == null) {
+            if (other.startDate != null)
+                return false;
+        } else if (!startDate.equals(other.startDate))
+            return false;
+        if (startTime == null) {
+            if (other.startTime != null)
+                return false;
+        } else if (!startTime.equals(other.startTime))
+            return false;
+        if (uniqueID != other.uniqueID)
+            return false;
+        return true;
+    }
 }

@@ -189,7 +189,6 @@ public class UserInterfaceMain {
 		if (parseResult.isSuccessful()) {
 			try {
 				UserIntSwing.logicManager.executeCommand(parseResult);
-				scrollToLastRowForAdd(parseResult);
 			} 
 			catch (InvalidCommandException e) {
 				e.printStackTrace();
@@ -210,12 +209,7 @@ public class UserInterfaceMain {
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
     }
 
-    private static void scrollToLastRowForAdd(ParseResult parseResult) {
-        if(parseResult.getCommand() instanceof AddCommand)
-        {
-            UserIntSwing.interForm.highlightLastRow();
-        }
-    }
+
     
 	/**
 	 *Textfield KeyListener

@@ -131,33 +131,40 @@ public class InteractiveForm extends JPanel {
         scrollToRow(lastRow);
 	}
 	
+	/**
+	 * <p>
+	 * Select and scroll to the row you specified, the row will be at the top of the list if scrollable
+	 * </p>
+	 * This function first select the last row, and move up to the row specified
+	 * @param row
+	 */
 	public void selectRow(int row)
 	{
+	    selectLastRow();   
 	    highLightRow(row);
 	    scrollToRow(row);
 	}
 	
-	public void highLightRow(int row)
+	private void highLightRow(int row)
 	{
 	      table.setRowSelectionInterval(row, row);
 	      table.setColumnSelectionInterval(0, 0);
 	}
 	
-	public void scrollToRow(int row)
+	private void scrollToRow(int row)
 	{
-	    scrollToLastRow();
 	    Rectangle scrollRect = new Rectangle(table.getCellRect(row, InteractiveTableModel.INDEX_HIDDEN, true));
 	    table.scrollRectToVisible(scrollRect);
 	}
 	
-	public void scrollToLastRow()
+	private void selectLastRow()
 	{
 	    assert(tableModel != null) : "tableModel should not be null at highlightLastRow";
         int rowCount = tableModel.getRowCount();
         final int ROW_OFFSET = 1;
         int lastRow = rowCount - ROW_OFFSET;
-        table.scrollRectToVisible(new Rectangle(table.getCellRect(lastRow, 0, true)));
-        
+        highLightRow(lastRow);
+        scrollToRow(lastRow);
 	}
 	
 	
