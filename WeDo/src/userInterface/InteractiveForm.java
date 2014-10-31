@@ -48,8 +48,8 @@ public class InteractiveForm extends JPanel {
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
 				.setCellRenderer(new LineWrapCellRenderer());		
 		
-	      TableColumn done = table.getColumnModel().getColumn(
-	                InteractiveTableModel.INDEX_CHECK);
+//	      TableColumn done = table.getColumnModel().getColumn(
+//	                InteractiveTableModel.INDEX_CHECK);
 	        
 
 	        //done.setCellRenderer(new CheckBoxRenderer());
@@ -257,10 +257,10 @@ public class InteractiveForm extends JPanel {
 				int column = evt.getColumn();
 				int row = evt.getFirstRow();
 				System.out.println("row: " + row + " column: " + column);
-				table.setColumnSelectionInterval(column + 1, column + 1);
-				table.setRowSelectionInterval(row, row);
-				table.setOpaque(true);
-				table.setVisible(true);
+//				table.setColumnSelectionInterval(column + 1, column + 1);
+//				table.setRowSelectionInterval(row, row);
+//				table.setOpaque(true);
+//				table.setVisible(true);
 			}
 		}
 	}

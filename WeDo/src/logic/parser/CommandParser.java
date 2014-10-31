@@ -70,7 +70,7 @@ public class CommandParser {
        {
            wordUsed = lastWord;
            source = handleEditCommandForLastWord(source);
-           setWordRemaining(StringHandler.removeFirstMatched(source,wordUsed));
+           setWordRemaining(StringHandler.removeLastMatch(source,wordUsed));
            return true;
        }
        
