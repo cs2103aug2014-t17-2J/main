@@ -360,4 +360,16 @@ public class BasicDataHandler implements DataHandler{
 
 	}
 
+    /* (non-Javadoc)
+     * @see dataStorage.DataHandler#completeTask(logic.utility.Task)
+     */
+    @Override
+    public boolean completeTask(int index) 
+    {
+        Task taskToComplete = getTask(index);
+        taskToComplete.setCompleted(true);
+        return observableList.edit(index, taskToComplete);
+    }
+
+
 }

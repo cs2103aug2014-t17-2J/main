@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import logic.command.commandList.AddCommand;
-import logic.command.commandList.ClearCommand;
+import logic.command.commandList.CompleteCommand;
 import logic.command.commandList.Command;
 import logic.command.commandList.DeleteCommand;
 import logic.command.commandList.EditCommand;
@@ -164,7 +164,7 @@ public class CommandParser {
         Multimap<Command, String> availableActions = ArrayListMultimap.create();
 
         Command addCommand = new AddCommand();
-        Command clearCommand = new ClearCommand();
+        Command completeCommand = new CompleteCommand();
         Command deleteCommand = new DeleteCommand();
         Command exitCommand = new ExitCommand();
         Command searchCommand = new SearchCommand();
@@ -177,8 +177,8 @@ public class CommandParser {
                 .<Command, Collection<String>> of(addCommand,
                         Arrays.asList("add", "new", "create", "cre8"));
         final Map<Command, Collection<String>> clearActions = ImmutableMap
-                .<Command, Collection<String>> of(clearCommand, Arrays.asList(
-                        "clear", "cl", "c", "delete all", "d all",
+                .<Command, Collection<String>> of(completeCommand, Arrays.asList(
+                        "complete", "done", "finish", "tick",
                         "clear screen", "clear"));
         final Map<Command, Collection<String>> deleteActions = ImmutableMap
                 .<Command, Collection<String>> of(deleteCommand, Arrays.asList(

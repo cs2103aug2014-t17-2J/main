@@ -146,6 +146,28 @@ public class ObservableList<T> extends Observable {
         notifyObservers(argument);
         return true;
     }
+    
+    
+    /**
+     * This function edit the task inside the list <br>
+     * In addition, it also updates the observer(s) about with the edited
+     * argument
+     * 
+     * @param argument
+     *            that will be replacing the initial information
+     * @return boolean if the operation is successful
+     */
+    public boolean edit(T argument)
+    {
+        try {
+            int index = observedList.indexOf(argument);
+            edit(index, argument);
+        } catch (IndexOutOfBoundsException exception) {
+            return false;
+        }
+        
+        return true;
+    }
 
     /**
      * This function replaces the entire list. <br>

@@ -9,7 +9,7 @@ import java.util.Stack;
 
 import logic.command.UndoHandler;
 import logic.command.commandList.AddCommand;
-import logic.command.commandList.ClearCommand;
+import logic.command.commandList.CompleteCommand;
 import logic.command.commandList.Command;
 import logic.command.commandList.DeleteCommand;
 import logic.command.commandList.EditCommand;
@@ -131,7 +131,7 @@ public class UndoHandlerTest {
         
         try {
             assertEquals(expectedStack.pop(), (undoCommand = undoHandler.undo()));
-            assertTrue(undoCommand instanceof ClearCommand);
+            assertTrue(undoCommand instanceof CompleteCommand);
         } catch (InvalidCommandException e) {
             fail(FAIL_MSG);
         }
@@ -204,7 +204,7 @@ public class UndoHandlerTest {
     }
     private void addUndoValidWithClearCommand(UndoHandler undoHandler,
             Stack<Command> expectedStack) {
-        addUndoValidWithCommand(new ClearCommand(), undoHandler, expectedStack);
+        addUndoValidWithCommand(new CompleteCommand(), undoHandler, expectedStack);
     }
     private void addUndoValidWithEditCommand(UndoHandler undoHandler,
             Stack<Command> expectedStack) {

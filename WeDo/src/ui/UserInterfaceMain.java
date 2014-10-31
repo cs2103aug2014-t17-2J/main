@@ -18,6 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import logic.LogicManager;
+import logic.command.commandList.AddCommand;
 import logic.command.commandList.EditCommand;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
@@ -188,6 +189,7 @@ public class UserInterfaceMain {
 		if (parseResult.isSuccessful()) {
 			try {
 				UserIntSwing.logicManager.executeCommand(parseResult);
+				scrollToLastRowForAdd(parseResult);
 			} 
 			catch (InvalidCommandException e) {
 				e.printStackTrace();
@@ -206,6 +208,13 @@ public class UserInterfaceMain {
 		UserIntSwing.textField.setText(null);
 		// reset command guide to general guide
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
+    }
+
+    private static void scrollToLastRowForAdd(ParseResult parseResult) {
+        if(parseResult.getCommand() instanceof AddCommand)
+        {
+            UserIntSwing.interForm.highlightLastRow();
+        }
     }
     
 	/**
