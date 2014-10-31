@@ -51,7 +51,7 @@ public class InteractiveForm extends JPanel {
 		// for wrap text
 		table.getColumnModel()
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
-				.setCellRenderer(new LineWrapCellRenderer());		
+				.setCellRenderer(new LineWrapCellRenderer(tableModel));		
 		
 //	      TableColumn done = table.getColumnModel().getColumn(
 //	                InteractiveTableModel.INDEX_CHECK);
@@ -199,8 +199,8 @@ public class InteractiveForm extends JPanel {
                 setSelected((Boolean) value);
             }
             
-            DefaultWeDoTableColor.setDefaultBackGroundColour(this, row);
-
+            DefaultWeDoTableColor.setDefaultBackGroundColour(this, row, column, tableModel.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY), tableModel.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
+            
             return this;
         }
 	    

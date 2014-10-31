@@ -24,7 +24,8 @@ public class DefaultWeDoTableColor
      * @param row
      *            the row to check which color to set
      */
-    public static void setDefaultBackGroundColour(Component component, int row) {
+    public static void setDefaultBackGroundColour(Component component, int row, int column, Object priority, Object checkBox) 
+    {
         final Color FIRST_COLOR = Color.LIGHT_GRAY;
         final Color ALTERNATE_COLOR = Color.WHITE;
 
@@ -33,6 +34,9 @@ public class DefaultWeDoTableColor
         } else {
             component.setBackground(ALTERNATE_COLOR);
         }
+        
+        setPriorityBackGroundColor(component, column, column, priority);
+        setDoneBackGroundColor(component, column, column, checkBox);
     }
 
     /**
@@ -43,7 +47,7 @@ public class DefaultWeDoTableColor
      * @param row
      *            the row to check which color to set
      */
-    public static void setPriorityHighBackGroundColour(Component component) {
+    private static void setPriorityHighBackGroundColour(Component component) {
         final Color PRIORITY_HIGH_COLOR = Color.RED;
         component.setBackground(PRIORITY_HIGH_COLOR);
     }
@@ -56,7 +60,7 @@ public class DefaultWeDoTableColor
      * @param row
      *            the row to check which color to set
      */
-    public static void setPriorityMediumBackGroundColour(Component component) {
+    private static void setPriorityMediumBackGroundColour(Component component) {
         final Color PRIORITY_MEDIUM_COLOR = Color.YELLOW;
         component.setBackground(PRIORITY_MEDIUM_COLOR);
     }
@@ -70,7 +74,7 @@ public class DefaultWeDoTableColor
      *            the row to check which color to set
      * @return 
      */
-    public static void setPriorityLowBackGroundColour(Component component) {
+    private static void setPriorityLowBackGroundColour(Component component) {
         final Color PRIORITY_LOW_COLOR = Color.GREEN;
         component.setBackground(PRIORITY_LOW_COLOR);
     }
@@ -89,7 +93,7 @@ public class DefaultWeDoTableColor
     }
     
     
-    public static void setPriorityBackGroundColor(Component component, int row, int column, String priority)
+    private static void setPriorityBackGroundColor(Component component, int row, int column, Object priority)
     {
         int colToSet1 = InteractiveTableModel.INDEX_TASK;
         int colToSet2 = InteractiveTableModel.INDEX_PRIORITY;
@@ -120,9 +124,17 @@ public class DefaultWeDoTableColor
     }
     
     
-    public static void setDoneBackGroundColor(Component component, int row, int column, boolean isDone)
+    private static void setDoneBackGroundColor(Component component, int row, int column, Object checkBox)
     {
-        final Color color = Color.DARK_GRAY;
+        final Color color = Color.CYAN;
+
+        if(!(checkBox instanceof Boolean))
+        {
+            return;
+        }
+        
+        boolean isDone = (Boolean) checkBox;
+        
         if(isDone)
         {
             component.setBackground(color);
