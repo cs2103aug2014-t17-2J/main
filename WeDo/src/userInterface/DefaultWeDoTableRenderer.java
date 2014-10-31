@@ -35,9 +35,10 @@ public class DefaultWeDoTableRenderer extends DefaultTableCellRenderer {
 
         this.setOpaque(true);
 
+        
         // set alternating row colour
         if (!table.isRowSelected(row)) {
-            DefaultWeDoTableColor.setDefaultBackGroundColour(component, row, column, tableModel.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY), tableModel.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
+            DefaultWeDoTableColor.setDefaultBackGroundColour(component, row, column, table.getSelectedRow(), tableModel.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY), tableModel.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
         }
 
         return component;

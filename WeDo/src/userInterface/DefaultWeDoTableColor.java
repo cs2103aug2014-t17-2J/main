@@ -24,7 +24,7 @@ public class DefaultWeDoTableColor
      * @param row
      *            the row to check which color to set
      */
-    public static void setDefaultBackGroundColour(Component component, int row, int column, Object priority, Object checkBox) 
+    public static void setDefaultBackGroundColour(Component component, int row, int column, int selectedRow, Object priority, Object checkBox) 
     {
         final Color FIRST_COLOR = Color.LIGHT_GRAY;
         final Color ALTERNATE_COLOR = Color.WHITE;
@@ -37,8 +37,22 @@ public class DefaultWeDoTableColor
         
         setPriorityBackGroundColor(component, column, column, priority);
         setDoneBackGroundColor(component, column, column, checkBox);
+        setSelectedRowColor(component, row, selectedRow);
     }
 
+    private static void setSelectedRowColor(Component component, int row, int selectedRow)
+    {        
+        if (selectedRow == row) 
+        {
+            component.setBackground(Color.BLUE);
+            component.setForeground(Color.WHITE);
+        } 
+        else
+        {
+            component.setForeground(Color.BLACK);
+        }
+    }
+    
     /**
      * This function set the priority high colour for WeDo table
      * 

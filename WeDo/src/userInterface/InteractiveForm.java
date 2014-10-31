@@ -110,7 +110,6 @@ public class InteractiveForm extends JPanel {
 		
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
-//		setHighLightSelectionColor(Color.MAGENTA);
 	}
 
 	public void highlightLastRow(int row) {
@@ -199,7 +198,7 @@ public class InteractiveForm extends JPanel {
                 setSelected((Boolean) value);
             }
             
-            DefaultWeDoTableColor.setDefaultBackGroundColour(this, row, column, tableModel.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY), tableModel.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
+            DefaultWeDoTableColor.setDefaultBackGroundColour(this, row, column, table.getSelectedRow(), tableModel.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY), tableModel.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
             
             return this;
         }

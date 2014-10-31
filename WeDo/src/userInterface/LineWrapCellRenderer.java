@@ -28,7 +28,7 @@ public class LineWrapCellRenderer extends JTextArea implements
 
         this.setOpaque(true);
         
-        DefaultWeDoTableColor.setDefaultBackGroundColour(this, row, column, tableModel.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY), tableModel.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
+        DefaultWeDoTableColor.setDefaultBackGroundColour(this, row, column, table.getSelectedRow(), tableModel.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY), tableModel.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
 
 		setText((String) value);
 
