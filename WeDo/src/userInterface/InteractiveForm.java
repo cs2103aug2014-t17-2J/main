@@ -8,6 +8,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ import javax.swing.UIManager;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import definedEnumeration.Priority;
@@ -172,6 +174,27 @@ public class InteractiveForm extends JPanel {
 	{
 	    table.setSelectionBackground(color);   
 	}
+	
+//	public class BooleanCellRenderer extends JCheckBox implements TableCellRenderer
+//	{
+//
+//	    
+//        public BooleanCellRenderer() {
+//            setLayout(new GridBagLayout());
+//            setMargin(new Insets(0, 0, 0, 0));
+//            setHorizontalAlignment(JLabel.CENTER);
+//        }
+//
+//    
+//        @Override
+//        public Component getTableCellRendererComponent(JTable table,
+//                Object value, boolean isSelected, boolean hasFocus, int row,
+//                int column) {
+//            // TODO Auto-generated method stub
+//            return null;
+//        }
+//	    
+//	}
 	
 	public class TableDefaultRenderer extends DefaultWeDoTableRenderer  
 	{ 
