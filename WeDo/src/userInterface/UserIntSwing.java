@@ -6,9 +6,12 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+=======
+>>>>>>> b7630bbe1d858cae7744ec4f00415bf4e7bd2630
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -27,25 +30,17 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 import logic.LogicManager;
-import logic.command.commandList.ViewCommand;
-import logic.exception.InvalidCommandException;
-import logic.parser.DynamicParseResult;
-import logic.parser.ParseResult;
-import logic.utility.StringHandler;
 import logic.utility.Task;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.AttachLocation;
 import net.java.balloontip.BalloonTip.Orientation;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
-import ui.MinimiseToTray;
-import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
-import ui.guide.CommandGuide;
-import ui.guide.FeedbackGuide;
 import dataStorage.ObservableList;
 
 import java.awt.Toolkit;
+<<<<<<< HEAD
 import java.awt.event.WindowStateListener;
 import java.awt.event.WindowEvent;
 
@@ -53,6 +48,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+=======
+>>>>>>> b7630bbe1d858cae7744ec4f00415bf4e7bd2630
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -63,6 +60,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static JTextField textField = new JTextField();
 	public static JLabel lblHelp = new JLabel("Label Help");
 	public static JButton btnHelp = new JButton();
+	public static JButton btnEnter = new JButton("ENTER");
 	public static final JLabel lblTodayDate = new JLabel("");
 	public static final JLabel lblFeedback = new JLabel("");
 	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
@@ -219,30 +217,9 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		lblHelp.setVerticalAlignment(SwingConstants.TOP);
 
-		textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				// String textInput = "";
-				// textInput += textField.getText();
-				try {
-					ParseResult parseResult = logicManager
-							.processCommand(textField.getText());
-					if (parseResult.isSuccessful()) {
-						logicManager.executeCommand(parseResult);
-					} else {
-						// print sth
-					}
-				} catch (InvalidCommandException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				textField.setText("");
-				// reset command guide to general guide
-				lblHelp.setText(CommandGuide.buildGeneralGuideString());
-			}
-		});
 		textField.setColumns(10);
 
+<<<<<<< HEAD
 		JButton btnEnter = new JButton("ENTER");
 		btnEnter.setBackground(new Color(255, 153, 255));
 		btnEnter.addActionListener(new ActionListener() {
@@ -267,6 +244,9 @@ public class UserIntSwing extends JPanel implements Observer {
 				lblHelp.setText(CommandGuide.buildGeneralGuideString());
 			}
 		});
+=======
+		btnEnter.setBackground(new Color(204, 255, 255));
+>>>>>>> b7630bbe1d858cae7744ec4f00415bf4e7bd2630
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout
@@ -397,6 +377,7 @@ public class UserIntSwing extends JPanel implements Observer {
 																				218,
 																				GroupLayout.PREFERRED_SIZE)
 																		.addContainerGap()))));
+		lblPriorityProcess.setHorizontalAlignment(SwingConstants.CENTER);
 		groupLayout
 				.setVerticalGroup(groupLayout
 						.createParallelGroup(Alignment.TRAILING)
@@ -488,7 +469,8 @@ public class UserIntSwing extends JPanel implements Observer {
 		interForm.execute(frame); // to display the table
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(interForm);
-
+		
+		/* Andy - Initialize all components*/
 		UserInterfaceMain.initProcess();
 	}
 

@@ -14,6 +14,10 @@ import userInterface.UserIntSwing;
  * All method using the commands will be called here
  * 
  */
+/**
+ * @author Hsuper
+ *
+ */
 public class CommandGuide {
 	private static final String GENERAL_GUIDE = buildGeneralGuideString();
 	private static final String ADD_GUIDE = buildAddGuideString();
@@ -42,6 +46,12 @@ public class CommandGuide {
 	private static final int MIN_TOKENS_LENGTH = 1;
 	private static final int ACTION_IDENTIFIER_INDEX = 0;
 	
+	/**
+	 * To get the relevant command guide according to command
+	 * @param commandString user input in String format
+	 * @return message the relevant command guide which the
+	 * user input command
+	 */
 	public static String getGuideMessage(String commandString) {
 
 		/* Check that there is at least 1 token */
@@ -58,6 +68,11 @@ public class CommandGuide {
 		return message;
 	}
 
+	/**
+	 * Format the command guide to String format
+	 * @param identifier the command the user input
+	 * @return the command guide in String format
+	 */
 	public static String buildGuideMessage(String identifier) {
 
 		identifier = identifier.toLowerCase();
@@ -83,6 +98,9 @@ public class CommandGuide {
 		}
 	}
 
+	/**
+	 * @return GENERAL Command Guide in String(HTML format)
+	 */
 	public static String buildGeneralGuideString() {
 
 		StringBuilder str = new StringBuilder();
@@ -100,6 +118,9 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	/**
+	 * @return ADD Command Guide in String(HTML format)
+	 */
 	public static String buildAddGuideString() {
 
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -128,6 +149,9 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	/**
+	 * @return VIEW Command Guide in String(HTML format)
+	 */
 	public static String buildViewGuideString(){
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		String date = sdf.format(new Date());
@@ -146,6 +170,9 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	/**
+	 * @return EDIT Command Guide in String(HTML format)
+	 */
 	public static String buildEditGuideString(){
 		StringBuilder str = new StringBuilder();
 
@@ -157,6 +184,9 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	/**
+	 * @return DELETE Command Guide in String(HTML format)
+	 */
 	public static String buildDeleteGuideString(){
 		StringBuilder str = new StringBuilder();
 
@@ -167,6 +197,10 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	
+	/**
+	 * @return SEARCH Command Guide in String(HTML format)
+	 */
 	public static String buildSearchGuideString(){
 		StringBuilder str = new StringBuilder();
 
@@ -177,6 +211,9 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	/**
+	 * @return UNDO Command Guide in String(HTML format)
+	 */
 	public static String buildUndoGuideString() {
 
 		StringBuilder str = new StringBuilder();
@@ -188,6 +225,9 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	/**
+	 * @return REDO Command Guide in String(HTML format)
+	 */
 	public static String buildRedoGuideString() {
 
 		StringBuilder str = new StringBuilder();
@@ -199,15 +239,26 @@ public class CommandGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 
+	/**
+	 * @param text String to be wrapped in HTML
+	 * @return String wrapped with HTML format
+	 */
 	private static String wrapWithHtmlTag(String text) {
 		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
 	}
 	
+	/**
+	 * @param text String to be wrapped in HTML underline format
+	 * @return String wrapped with HTML underline format
+	 */
 	private static String underline(String text) {
 		return String.format(TAG_WRAP_STRING, HTML_UNDERLINE_OPEN, text,
 				HTML_UNDERLINE_CLOSE);
 	}
 	
+	/**
+	 * Format the Command Guide Label
+	 */
 	public static void fomatCommandGuideLabel(){
 		UserIntSwing.lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
 				| Font.ITALIC, 14));

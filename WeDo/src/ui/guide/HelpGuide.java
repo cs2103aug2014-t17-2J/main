@@ -21,7 +21,6 @@ public class HelpGuide {
 	private static final String HTML_FONTCOLORRED_OPEN = "<font color=#C80000 >"; //red
 	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=green>"; 
 	private static final String HTML_FONT_CLOSE = "</font>";
-	private static final String space = " ";
 	private static final String spaceOr = " | ";
 	
 	public static String buildHelpGuideAddString() {
