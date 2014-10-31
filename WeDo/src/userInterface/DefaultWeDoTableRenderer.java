@@ -35,50 +35,10 @@ public class DefaultWeDoTableRenderer extends DefaultTableCellRenderer {
 
         this.setOpaque(true);
 
+        
         // set alternating row colour
         if (!table.isRowSelected(row)) {
-            DefaultWeDoTableColor.setDefaultBackGroundColour(component, row);
-        }
-
-        // highlight completed tasks
-        if ((boolean) tableModel.getValueAt(row,
-                InteractiveTableModel.INDEX_CHECK)) {
-            if (!table.isRowSelected(row)) {
-                component.setBackground(Color.CYAN);
-            }
-        }
-
-        // this is to highlight priority level
-        if (tableModel.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY)
-                .equals(Priority.PRIORITY_HIGH.toString())) {
-            if (!table.isRowSelected(row)) {
-                if (column == InteractiveTableModel.INDEX_TASK
-                        || column == InteractiveTableModel.INDEX_PRIORITY) {
-                    DefaultWeDoTableColor.setPriorityHighBackGroundColour(component);
-                }
-            }
-        } else if (tableModel.getValueAt(row,
-                InteractiveTableModel.INDEX_PRIORITY).equals(
-                Priority.PRIORITY_MEDIUM.toString())) {
-            if (!table.isRowSelected(row)) {
-                if (column == InteractiveTableModel.INDEX_TASK
-                        || column == InteractiveTableModel.INDEX_PRIORITY) {
-                    DefaultWeDoTableColor.setPriorityMediumBackGroundColour(component);
-                }
-            }
-        } else if (tableModel.getValueAt(row,
-                InteractiveTableModel.INDEX_PRIORITY).equals(
-                Priority.PRIORITY_LOW.toString())) {
-            if (!table.isRowSelected(row)) {
-                {
-                    if (column == InteractiveTableModel.INDEX_TASK
-                            || column == InteractiveTableModel.INDEX_PRIORITY)
-
-                    {
-                        DefaultWeDoTableColor.setPriorityLowBackGroundColour(component);
-                    }
-                }
-            }
+            DefaultWeDoTableColor.setDefaultBackGroundColour(component, row, column, table.getSelectedRow(), tableModel.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY), tableModel.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
         }
 
         return component;

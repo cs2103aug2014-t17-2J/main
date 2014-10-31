@@ -14,7 +14,10 @@ import javax.swing.table.TableCellRenderer;
 public class LineWrapCellRenderer extends JTextArea implements
 		TableCellRenderer {
 
-	public LineWrapCellRenderer() {
+    InteractiveTableModel tableModel;
+    
+	public LineWrapCellRenderer(InteractiveTableModel tableModel) {
+	    this.tableModel = tableModel;
 		setLineWrap(true);
 		setWrapStyleWord(true);
 	}
@@ -24,7 +27,8 @@ public class LineWrapCellRenderer extends JTextArea implements
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
         this.setOpaque(true);
-        DefaultWeDoTableColor.setDefaultBackGroundColour(this, row);
+        
+        DefaultWeDoTableColor.setDefaultBackGroundColour(this, row, column, table.getSelectedRow(), tableModel.getValueAt(row, InteractiveTableModel.INDEX_PRIORITY), tableModel.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
 
 		setText((String) value);
 
