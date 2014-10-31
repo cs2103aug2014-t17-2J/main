@@ -35,17 +35,18 @@ import ui.UserInterfaceMain;
 import dataStorage.ObservableList;
 
 import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
 
 	ArrayList<Task> taskList;
 
-	public static JFrame frame = new JFrame("WeDo");;
-	public static JTextField textField = new JTextField();
-	public static JLabel lblHelp = new JLabel("Label Help");
-	public static JButton btnHelp = new JButton();
-	public static JButton btnEnter = new JButton("ENTER");
+	public static final JFrame frame = new JFrame("WeDo");;
+	public static final JTextField textField = new JTextField();
+	public static final JLabel lblHelp = new JLabel("Label Help");
+	public static final JButton btnHelp = new JButton();
+	public static final JButton btnEnter = new JButton("ENTER");
 	public static final JLabel lblTodayDate = new JLabel("lblView");
 	public static final JLabel lblFeedback = new JLabel("");
 	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
@@ -213,19 +214,6 @@ public class UserIntSwing extends JPanel implements Observer {
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnHelp_1, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-							.addGap(18))
-						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addComponent(panelBottom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE))
@@ -248,14 +236,27 @@ public class UserIntSwing extends JPanel implements Observer {
 							.addComponent(lblDescriptionProcess, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblTodayDate, GroupLayout.PREFERRED_SIZE, 370, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+							.addComponent(btnHelp_1, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+							.addGap(18))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblTodayDate, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+							.addGap(510))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblTodayDate, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblTodayDate, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnAdd)
@@ -265,7 +266,7 @@ public class UserIntSwing extends JPanel implements Observer {
 						.addComponent(btnSearch)
 						.addComponent(btnHelp_1))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
 					.addGap(9)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCommand)
@@ -280,18 +281,16 @@ public class UserIntSwing extends JPanel implements Observer {
 					.addComponent(panelBottom, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
-		lblTodayDate.setFont(new Font("Serif", Font.ITALIC, 18));
-		lblPriorityProcess.setHorizontalAlignment(SwingConstants.CENTER);
 
-		JButton btnColour = new JButton("colour");
-		btnColour.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				panelBottom.setBackground(new Color(230, 230, 250));
-				frame.getContentPane().setBackground(new Color(230, 230, 250));
-
-			}
-		});
-		btnColour.setBackground(new Color(240, 230, 140));
+//		JButton btnColour = new JButton("colour");
+//		btnColour.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				panelBottom.setBackground(new Color(230, 230, 250));
+//				frame.getContentPane().setBackground(new Color(230, 230, 250));
+//
+//			}
+//		});
+//		btnColour.setBackground(new Color(240, 230, 140));
 
 		GroupLayout gl_panelBottom = new GroupLayout(panelBottom);
 		gl_panelBottom.setHorizontalGroup(
@@ -308,8 +307,7 @@ public class UserIntSwing extends JPanel implements Observer {
 							.addPreferredGap(ComponentPlacement.RELATED, 681, Short.MAX_VALUE))
 						.addGroup(gl_panelBottom.createSequentialGroup()
 							.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
-							.addGap(26)
-							.addComponent(btnColour)))
+							.addGap(26)))
 					.addContainerGap())
 		);
 		gl_panelBottom.setVerticalGroup(
@@ -325,8 +323,7 @@ public class UserIntSwing extends JPanel implements Observer {
 						.addGroup(gl_panelBottom.createSequentialGroup()
 							.addComponent(lblQuickHelp)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
-						.addComponent(btnColour)))
+							.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))))
 		);
 		// gl_panelBottom.setAutoCreateGaps(true);
 		panelBottom.setLayout(gl_panelBottom);
@@ -340,11 +337,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		
 		/* Andy - Initialize all components*/
 		UserInterfaceMain.initProcess();
-	}
-
-	private void addFrameWindowFocusListener() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -365,8 +357,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	    }
 	    
 		assert (taskList != null);
-		
-
 	}
 	
 
@@ -388,29 +378,6 @@ public class UserIntSwing extends JPanel implements Observer {
     private boolean isTaskInstance(Object arg1) {
         return arg1 instanceof Task;
     }
-
-//    private int getPrevSize(ArrayList<Task> taskList) 
-//    {
-//        final int EMPTY = 0;
-//        
-//        if(taskList == null)
-//        {
-//            return EMPTY;
-//        }
-//        else
-//        {
-//            return taskList.size();
-//        }
-//        
-//    }
-//
-//    private void scrollToAddedTask(int prevSize, int currSize) 
-//    {
-//        if(prevSize != currSize)
-//        {
-//            interForm.selectLastRow();
-//        }
-//    }
 }
 
 
