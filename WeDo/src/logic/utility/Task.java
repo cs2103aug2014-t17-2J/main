@@ -468,8 +468,8 @@ public class Task
                 return false;
         } else if (!startTime.equals(other.startTime))
             return false;
-        if (uniqueID != other.uniqueID)
-            return false;
+//        if (uniqueID != other.uniqueID)
+//            return false;
         return true;
     }
 }
