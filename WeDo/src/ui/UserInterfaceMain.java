@@ -1,20 +1,13 @@
 package ui;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowStateListener;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import javax.swing.SwingConstants;
 
 import logic.LogicManager;
 import logic.command.commandList.EditCommand;
@@ -25,9 +18,10 @@ import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 import ui.guide.CommandGuide;
-import ui.guide.FeedbackGuide;
 import ui.logic.command.FeedbackHandler;
+import ui.logic.command.FormatHandler;
 import ui.logic.command.HotkeyHandler;
+import ui.logic.command.ListenerHandler;
 import ui.logic.command.VK;
 import userInterface.UserIntSwing;
 
@@ -36,76 +30,137 @@ import userInterface.UserIntSwing;
  *         user execute.
  */
 public class UserInterfaceMain {
-	private static final String DATE_FORMAT = "dd/MM/yyyy";
+	private static final String DATE_FORMAT_FIRST = "dd-MMM-yy";
+	private static final String DATE_FORMAT_SECOND = "dd/MM/yyyy";
 	private static final int taskbarHeight = 40;
+
+	private static final String VIEW_STRING_TODAY = "You are viewing today tasks.";
+	private static final String VIEW_STRING_TOMORROW = "You are viewing tomorrow tasks.";
+	private static final String VIEW_STRING_YESTERDAY = "You are viewing yesterday tasks.";
+	private static final SimpleDateFormat sdf_first = new SimpleDateFormat(DATE_FORMAT_FIRST);
+	private static final SimpleDateFormat sdf_second = new SimpleDateFormat(DATE_FORMAT_SECOND);
 
 	/**
 	 * This operation initialize all the Processes 
 	 */
 	public static void initProcess() {
-
 		UserIntSwing.frame.pack();
 		setupFrameLocation();
-		addFrameWindowFocusListener();
-		addSystemTrayWindowStateListener();
-		formatLabels();
+		ListenerHandler.addFrameWindowFocusListener();
+		initAllListener();
+		FormatHandler.format();
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
-		UserIntSwing.lblTodayDate.setText(UserInterfaceMain.setTodayDate());
-		addTextfieldKeyListener();
-		addTextFieldActionListener();
-		addBtnEnterActionListener();
+		UserIntSwing.lblTodayDate.setText(setTodayDate());
+		
 	}
-
-	private static void formatLabels() {
-
-		UserIntSwing.lblCommand.setFont(new Font("Tahoma", Font.BOLD, 12));
-		UserIntSwing.lblCommandProcess.setFont(new Font("Tahoma", Font.ITALIC,11));
-		UserIntSwing.lblCommandProcess.setForeground(new Color(255, 0, 0));
-		UserIntSwing.lblCommandProcess.setBackground(new Color(255, 204, 255));
-		UserIntSwing.lblCommandProcess.setOpaque(true);
-
-		UserIntSwing.lblDate.setFont(new Font("Tahoma", Font.BOLD, 12));
-		UserIntSwing.lblDateProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		UserIntSwing.lblDateProcess.setForeground(new Color(0, 128, 0));
-		UserIntSwing.lblDateProcess.setBackground(new Color(255, 204, 255));
-		UserIntSwing.lblDateProcess.setOpaque(true);
-
-		UserIntSwing.lblPriority.setFont(new Font("Tahoma", Font.BOLD, 12));
-		UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		UserIntSwing.lblPriorityProcess.setBackground(new Color(255, 204, 255));
-		UserIntSwing.lblPriorityProcess.setOpaque(true);
-
-		UserIntSwing.lblDescription.setFont(new Font("Tahoma", Font.BOLD, 12));
-		UserIntSwing.lblDescriptionProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		UserIntSwing.lblDescriptionProcess.setBackground(new Color(255, 204, 255));
-		UserIntSwing.lblDescriptionProcess.setOpaque(true);
-
-		UserIntSwing.lblTodayDate.setFont(new Font("Serif", Font.ITALIC, 18));
-		UserIntSwing.lblPriorityProcess.setHorizontalAlignment(SwingConstants.CENTER);
-
-		FeedbackGuide.formatFeedbackLabel();
-		CommandGuide.fomatCommandGuideLabel();
+	
+	/**
+	 * This operation initialize all the Listener Processes
+	 */
+	private static void initAllListener() {
+		ListenerHandler.addBtnHelpListener();
+		ListenerHandler.addBtnAddListener();
+		ListenerHandler.addBtnViewListener();
+		ListenerHandler.addBtnEditListener();
+		ListenerHandler.addBtnDelListener();
+		ListenerHandler.addBtnSearchListener();
+		ListenerHandler.addSystemTrayWindowStateListener();
+		ListenerHandler.addTextfieldKeyListener();
+		ListenerHandler.addTextFieldActionListener();
+		ListenerHandler.addBtnEnterActionListener();
 	}
 
 	/**This operation display the date range of the table
 	 * @return dateDisplay the date in String
 	 */
-	private static String setTodayDate() {
+	private static String setTodayDate() {	
+		Calendar calendar = Calendar.getInstance();
+		int dayOfWeekInt = calendar.get(Calendar.DAY_OF_WEEK);
+		String date = sdf_first.format(new Date());
+		String dayOfWeekString;
+		String dateDisplay;
 
-		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-		String date = sdf.format(new Date());
-		//ParseResult parseResult = logicManager.processCommand(parseResult);
-		//parseResult.getTask().getStartDate();
-		String dateDisplay = "You are viewing: " + date;
+		switch (dayOfWeekInt){
+			case Calendar.MONDAY: dayOfWeekString = "Monday";
+				break;
+			case Calendar.TUESDAY: dayOfWeekString = "Tuesday";
+				break;
+			case Calendar.WEDNESDAY: dayOfWeekString = "Wednesday";
+				break;
+			case Calendar.THURSDAY: dayOfWeekString = "Thursday";
+				break;
+			case Calendar.FRIDAY: dayOfWeekString = "Friday";
+				break;
+			case Calendar.SATURDAY: dayOfWeekString = "Saturday";
+				break;
+			default: dayOfWeekString = "Sunday";
+				break;
+		}
+		dateDisplay = date + " " + dayOfWeekString;
 
 		return dateDisplay;
+	}
+	
+	/**Process lblViewTask to view tasks that the user is 
+	 * currently viewing
+	 * @return String telling the user what he is viewing
+	 */
+	public static String viewDateTask() {
+		String dateView = UserIntSwing.lblDateProcess.getText();
+        
+        if(dateView.matches(dateToday())) {
+        	return VIEW_STRING_TODAY;
+        }
+        else if(dateView.matches(dateTomorrow())) {
+        	return VIEW_STRING_TOMORROW;
+        }
+        else if(dateView.matches(dateYesterday())) {
+        	return VIEW_STRING_YESTERDAY;
+        }
+        else {
+        	return "You are viewing: " + dateView + " tasks.";
+        }
+	}
+	
+	/**
+	 * @return todayAsString the date today as String
+	 */
+	private static String dateToday() {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		String todayAsString = sdf_second.format(today);
+		 
+		return todayAsString;
+	}
+	
+	/**
+	 * @return tomorrowAsString the date tomorrow as String
+	 */
+	private static String dateTomorrow() {
+		Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        Date tomorrow = calendar.getTime();
+        String tomorrowAsString = sdf_second.format(tomorrow);
+        
+        return tomorrowAsString;
+	}
+	
+	/**
+	 * @return yesterdayAsString the date tomorrow as String
+	 */
+	private static String dateYesterday() {
+	    Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, -1);
+	    Date yesterday = calendar.getTime();
+	    String yesterdayAsString = sdf_second.format(yesterday);
+	    
+	    return yesterdayAsString;
 	}
 
 	/**
 	 * This operation sets the program at the bottom right hand corner of screen
 	 */
 	private static void setupFrameLocation() {
-
 		GraphicsEnvironment ge = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
 		GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
@@ -115,71 +170,11 @@ public class UserInterfaceMain {
 				- taskbarHeight;
 		UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
 	}
-
-	/**
-	 * Window State Listener
-	 * This operation process the SystemTray when minimise
-	 * operation is executed
-	 */
-	private static void addSystemTrayWindowStateListener() {
-		UserIntSwing.frame.addWindowStateListener(new WindowStateListener() {
-			public void windowStateChanged(WindowEvent arg) {
-				MinimiseToTray.Minimise(arg);
-			}
-		});
-	}
-
-	/**
-	 * Window Focus Listener
-	 * This operation puts the focus on the textField for the user to type
-	 * immediately when the program runs
-	 */
-	private static void addFrameWindowFocusListener() {
-
-		UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
-			public void windowGainedFocus(WindowEvent arg0) {
-
-				UserIntSwing.textField.requestFocusInWindow();
-			}
-
-			public void windowLostFocus(WindowEvent arg0) {
-			}
-		});
-	}
-
-	/**
-	 * Textfield Action Listener - Process all the text that has
-	 * been parsed in the Textfield when Enter is pressed
-	 */
-	private static void addTextFieldActionListener() {
-		
-		UserIntSwing.textField.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				processTextfieldString();
-			}
-		});
-	}
-
-	/**
-	 * Button Enter Action Listener - Process all the text has
-	 * been pased in the Textfield when Eneter is clicked
-	 */
-	private static void addBtnEnterActionListener() {
-
-		UserIntSwing.btnEnter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				processTextfieldString();
-			}
-		});
-	}
-
+	
 	/**
 	 * Process the parser and Feedback
 	 */
-	private static void processTextfieldString() {
-
+	public static void processTextfieldString() {
 		ParseResult parseResult = UserIntSwing.logicManager
 				.processCommand(UserIntSwing.textField.getText());
 		String getText = UserIntSwing.textField.getText();
@@ -208,99 +203,11 @@ public class UserInterfaceMain {
 	}
 
 	/**
-	 *Textfield KeyListener
-	 *1. Set the Command guide Label to the indiviual command guide that the user input
-	 *2. Process all the HotKeys Functions
-	 *3. Process the User Typed History
-	 *4. Enter KeyListener - Process all the feedback labels when the user type 
-	 *an incorrect input
-	 */
-	private static void addTextfieldKeyListener() {
-
-		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg1) {
-				String userInput = UserIntSwing.textField.getText();
-				try {
-					processTextfield(arg1, userInput);
-
-					if(arg1.getKeyCode() == VK.enter()){
-						processEnterkey(arg1);
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			@Override
-			public void keyReleased(KeyEvent arg1) {
-				DynamicParseResult parseResult = 
-						UserInterfaceMain.processUserParse(arg1, UserIntSwing.logicManager);
-				Task task = parseResult.getTask();
-				clearDynamicParseLabels();
-				handleDynamicEdit(parseResult, task);
-				showParseResult(parseResult, task);
-
-			}
-			private void handleDynamicEdit(DynamicParseResult parseResult,
-					Task task) {
-				if (containsValidEditCommand(parseResult)) 
-				{
-					String indexString = getIndexString(task);
-					int index = getTaskToBeEditedIndex(indexString);
-					Task taskToBeEdited = UserIntSwing.logicManager.getTaskToBeEdited(index);
-					if(taskToBeEdited != null)
-					{
-						task.setDescription(StringHandler.removeFirstMatched(
-								task.getDescription(), indexString));
-						showTaskToBeEdited(taskToBeEdited);
-						UserIntSwing.interForm.selectRow(index);
-					}
-					else
-					{
-						showInvalidIndexMessage(task);
-					}
-				}
-			}
-			private void showInvalidIndexMessage(Task task) {
-				final String INVALID_INDEX = "The index you are editing is INVALID";
-				task.setDescription(INVALID_INDEX);
-			}
-			/**
-			 *Textfield processes
-			 *@param arg1 KeyEvent from the textfield
-			 *@param userInput Input that the user entered from the textfield
-			 * @throws InvalidCommandException 
-			 */
-			private void processTextfield(KeyEvent arg1, String userInput)
-					throws InvalidCommandException {
-
-				UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
-				UserIntSwing.frame.setVisible(true);
-
-				TextfieldHistory.showTextfieldHistory(arg1);
-
-				UserInterfaceMain.processHotKeys(arg1);
-			}
-			/**
-			 *Enter Key Listener process
-			 *@param arg1 KeyEvent Enter from the textfield
-			 */
-			private void processEnterkey(KeyEvent arg1) {
-
-				String getText = UserIntSwing.textField.getText();
-				TextfieldHistory.getTextfieldString(getText);
-			}
-		});
-	}
-
-	/**
 	 * This operation process the hotkeys shortcut function
 	 * @param key KeyEvent keylistener from the textfield
 	 * @throws InvalidCommandException 
 	 */
-	private static void processHotKeys(KeyEvent key) throws InvalidCommandException {
-
+	public static void processHotKeys(KeyEvent key) throws InvalidCommandException {
 		if (key.getKeyCode() == VK.help()) {
 			HelpMenu.main(null);
 		}
@@ -331,7 +238,6 @@ public class UserInterfaceMain {
 	 * @return DynamicParseResult the result that was parsed on run time
 	 */
 	public static DynamicParseResult processUserParse(KeyEvent arg1, LogicManager logicManager) {
-
 		DynamicParseResult parseResult = logicManager
 				.dynamicParse(UserIntSwing.textField.getText());
 
@@ -431,7 +337,6 @@ public class UserInterfaceMain {
 	 * Low
 	 */
 	private static void processLblPriority() {
-
 		if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {
 			UserIntSwing.lblPriorityProcess.setBackground(Color.red);
 		} else if (UserIntSwing.lblPriorityProcess.getText().matches("Low")) {
