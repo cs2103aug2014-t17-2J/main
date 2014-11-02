@@ -22,6 +22,8 @@ public class BasicDataHandler implements DataHandler{
 	private final String TIMED = "timed";
 	private final String FLOATING = "floating";
 	private final String ALL = "all";
+	
+	private static Task currentView;
 
 	private String currentList;
 
@@ -48,6 +50,7 @@ public class BasicDataHandler implements DataHandler{
 		ArrayList<Task> today = new ArrayList<Task>(mainList2.get(LocalDate.now()));
 		observableList.replaceList(today);
 		currentList = DEADLINE;	
+		currentView.setEndDate(LocalDate.now());
 	}
 	
 	public ArrayList<Task> getCompleted() {
@@ -124,6 +127,7 @@ public class BasicDataHandler implements DataHandler{
 	public boolean populateLists() {
 
 		mainList2 = ArrayListMultimap.create();
+		currentView = new Task();
 		currentRange = new Task();
 		mainList2 = fileHandler.getAllTasks();
 		
@@ -169,7 +173,8 @@ public class BasicDataHandler implements DataHandler{
 	}
 	
 	public boolean addTask(Task task) {
-		this.addTask(observableList.getList().size()-1,task);
+		int index = observableList.getList().size();
+		this.addTask(index,task);
 		return true;
 	}
 	
@@ -181,13 +186,14 @@ public class BasicDataHandler implements DataHandler{
 		
 		mainList2.put(task.getEndDate(), task);
 		
+		
 		if(currentList.equals(TIMED)) {
 			if(withinRange(currentRange.getStartDate(),currentRange.getEndDate(),task)) {
 				observableList.add(index,task);
 			}
 		}
 		else if(currentList.equals(ALL) || (taskType.equals(currentList) && 
-				observableList.get(0).getEndDate().equals(task.getEndDate()))) {
+				currentView.getEndDate().equals(task.getEndDate()))) {
 			
 			observableList.add(index,task);
 		}
@@ -329,6 +335,7 @@ public class BasicDataHandler implements DataHandler{
 		ArrayList<Task> tmp = new ArrayList<Task>();
 		String type = determineTaskType(task);
 		currentList = type;
+		currentView.setDescription(task.getDescription());
 
 
 		 if (type.equals(DEADLINE)) {
