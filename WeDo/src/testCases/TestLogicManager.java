@@ -45,8 +45,7 @@ public class TestLogicManager {
         processValidRemoveCommandForIndividualTask("remove 4", 4);
         processValidRemoveCommandForMultipleTask("remove 2-5", 2,3,4,5);
         processValidAdd10Task();
-        processValidRemoveCommandForMultipleTask("remove 1-3 and 8,9 hmm 4 too plus 6", 1,2,3,8,9,4,6);
-        
+        processValidRemoveCommandForMultipleTask("remove 1-3 and 8,9 hmm 4 too plus 6", 1,2,3,8,9,4,6);        
     }
 
 
@@ -97,18 +96,25 @@ public class TestLogicManager {
     private void processValidAddCommand(String command, Task expectedTask)
             throws InvalidCommandException {
         
+        expectedTask = setNextUniqueID(expectedTask);
         expectedList.add(expectedTask);
         ParseResult parseResult = logicManager.processCommand(command);
         logicManager.executeCommand(parseResult); 
         assertEquals(expectedList, dataHandler.getObservableList());
     }
     
-    private static ObservableList<Task> cloneList(ObservableList<Task> displayList) 
+    private Task setNextUniqueID(Task expectedTask) 
+    {
+        expectedTask.setUniqueID(Task.getCreateID());
+        return expectedTask;
+    }
+    
+    private ObservableList<Task> cloneList(ObservableList<Task> displayList) 
     {
         ObservableList<Task> clonedList = new ObservableList<Task>(new ArrayList<Task>());
         
         for (Task task : displayList.getList()) 
-        {
+        {   
             clonedList.add(new Task(task));
         }
         

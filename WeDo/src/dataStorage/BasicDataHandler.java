@@ -187,10 +187,10 @@ public class BasicDataHandler implements DataHandler{
 		}
 
 		save();
-		System.out.println(task.getID() + " is added");
+		System.out.println(task.getUniqueID() + " is added");
 
 		// fileHandler.read("deadLine");
-		fileHandler.writeLog(LocalTime.now() + " : Added Task " + task.getID());
+		fileHandler.writeLog(LocalTime.now() + " : Added Task " + task.getUniqueID());
 
 		return true;
 	}
@@ -286,7 +286,7 @@ public class BasicDataHandler implements DataHandler{
 
 	public boolean editTask(Task source, Task replacement) {
 
-		fileHandler.writeLog(LocalTime.now() + " : edited " + source.getID());
+		fileHandler.writeLog(LocalTime.now() + " : edited " + source.getUniqueID());
 
 		removeTask(source);
 		addTask(replacement);

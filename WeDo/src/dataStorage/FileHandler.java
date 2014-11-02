@@ -182,7 +182,7 @@ public class FileHandler {
 
 		JSONObject tmp = new JSONObject();
 
-		tmp.put(ID, task.getID());
+		tmp.put(ID, task.getUniqueID());
 		tmp.put(DESCRPTION, task.getDescription());
 		tmp.put(S_DATE, task.getStartDate().toString());
 		tmp.put(E_DATE, task.getEndDate().toString());
@@ -196,7 +196,7 @@ public class FileHandler {
 	
 	public void resetID() {
 		Task task = new Task();
-		task.setID(0);
+		task.setUniqueID(0);
 	}
 	
 	
@@ -321,7 +321,7 @@ public class FileHandler {
 
 		Task task = new Task();
 
-		task.setID(Integer.parseInt(jTask.get(ID).toString()));
+		task.setUniqueID(Integer.parseInt(jTask.get(ID).toString()));
 		task.setDescription(jTask.get(DESCRPTION).toString());
 		task.setStartDate(LocalDate.parse(jTask.get(S_DATE).toString()));
 		
