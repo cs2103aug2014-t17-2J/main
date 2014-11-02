@@ -167,8 +167,14 @@ public class BasicDataHandler implements DataHandler{
 		
 		return tmp;
 	}
-
+	
 	public boolean addTask(Task task) {
+		this.addTask(observableList.getList().size()-1,task);
+		return true;
+	}
+	
+
+	public boolean addTask(int index, Task task) {
 
 		String taskType = determineTaskType(task);
 
@@ -177,13 +183,13 @@ public class BasicDataHandler implements DataHandler{
 		
 		if(currentList.equals(TIMED)) {
 			if(withinRange(currentRange.getStartDate(),currentRange.getEndDate(),task)) {
-				observableList.add(task);
+				observableList.add(index,task);
 			}
 		}
 		else if(currentList.equals(ALL) || (taskType.equals(currentList) && 
 				observableList.get(0).getEndDate().equals(task.getEndDate()))) {
 			
-			observableList.add(task);
+			observableList.add(index,task);
 		}
 
 		save();
@@ -287,9 +293,9 @@ public class BasicDataHandler implements DataHandler{
 	public boolean editTask(Task source, Task replacement) {
 
 		fileHandler.writeLog(LocalTime.now() + " : edited " + source.getUniqueID());
-
+		int index = observableList.indexOf(source);
 		removeTask(source);
-		addTask(replacement);
+		addTask(index,replacement);
 
 		return true;
 	}
