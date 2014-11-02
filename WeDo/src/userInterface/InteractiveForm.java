@@ -186,7 +186,7 @@ public class InteractiveForm extends JPanel {
      */
     public void selectRow(int row) 
     {
-        if(!isRowVisible(table,row))
+        if(!isRowVisible(table, scroller, row))
         {
             selectLastRow();
         }
@@ -219,27 +219,13 @@ public class InteractiveForm extends JPanel {
     }
     
     
-    public boolean isRowVisible(JTable table, int rowIndex) 
+    public boolean isRowVisible(JTable table, JScrollPane scroller, int rowIndex) 
     { 
-       if (!(table.getParent() instanceof JViewport)) { 
-           return false; 
-        } 
-
-        JViewport viewport = (JViewport)table.getParent(); 
-        // This rectangle is relative to the table where the 
-        // northwest corner of cell (0,0) is always (0,0) 
-
-        Rectangle rect = table.getCellRect(rowIndex, 0, true); 
-
-        // The location of the viewport relative to the table     
-        Point pt = viewport.getViewPosition(); 
-        // Translate the cell location so that it is relative 
-        // to the view, assuming the northwest corner of the 
-        // view is (0,0) 
-        rect.setLocation(rect.x-pt.x, rect.y-pt.y);
-
-        // Check if view completely contains the row
-        return new Rectangle(viewport.getExtentSize()).contains(rect); 
+       
+       JViewport viewport = scroller.getViewport();
+       Rectangle rect = table.getCellRect( rowIndex, 1, true ); 
+       return viewport.contains( rect.getLocation());
+       
     } 
     
     
