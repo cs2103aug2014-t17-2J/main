@@ -352,7 +352,6 @@ public class InteractiveForm extends JPanel {
                                 selectedRow[i], selectedColumns[j]);
                         System.out.println("Selected: " + selectedData);
                         try {
-                            table.clearSelection();
                             UserIntSwing.logicManager.setComplete(
                                     selectedRow[i] + 1, isComplete);
                         } catch (InvalidCommandException error) {
