@@ -42,17 +42,17 @@ public class LogicManager
         return parserManager.dynamicParsing(userInput);
     }
     
-    public void setComplete(int index, boolean isComplete) throws InvalidCommandException
+    public void setComplete(int index, boolean prevCompleteStatus) throws InvalidCommandException
     {
         String Command;
         
-        if(isComplete)
+        if(prevCompleteStatus)
         {
-            Command = "Complete " + index;
+            Command = "Uncomplete " + index;
         }
         else
         {
-            Command = "Incomplete " + index;
+            Command = "Complete " + index;
         }
         ParseResult parseResult = processCommand(Command);
         executeCommand(parseResult);       
