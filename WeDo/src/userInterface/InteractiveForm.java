@@ -25,6 +25,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import definedEnumeration.Priority;
+import logic.exception.InvalidCommandException;
 import logic.utility.Task;
 
 public class InteractiveForm extends JPanel {
@@ -65,8 +66,7 @@ public class InteractiveForm extends JPanel {
 	public void initComponent() {
 		System.out.println("init count " + hi++);
 		tableModel = new InteractiveTableModel(columnNames);
-		tableModel
-				.addTableModelListener(new InteractiveForm.InteractiveTableModelListener());
+		tableModel.addTableModelListener(new InteractiveForm.InteractiveTableModelListener());
 
 		table = new JTable();
 		table.setModel(tableModel);
@@ -233,13 +233,13 @@ public class InteractiveForm extends JPanel {
 					isSelected, hasFocus, row, column, tableModel);
 
 			// this is to highlight the last row
-			if (column == interactiveColumn && hasFocus) {
-				if ((InteractiveForm.this.tableModel.getRowCount() - 1) == row
-						&& !InteractiveForm.this.tableModel.hasEmptyRow()) {
-					InteractiveForm.this.tableModel.addEmptyRow();
-				}
-				highlightLastRow(row);
-			}
+//			if (column == interactiveColumn && hasFocus) {
+//				if ((InteractiveForm.this.tableModel.getRowCount() - 1) == row
+//						&& !InteractiveForm.this.tableModel.hasEmptyRow()) {
+//					InteractiveForm.this.tableModel.addEmptyRow();
+//				}
+//				highlightLastRow(row);
+//			}
 
 			return c;
 		}
@@ -252,16 +252,24 @@ public class InteractiveForm extends JPanel {
 	// }
 	// }
 
-	public class InteractiveTableModelListener implements TableModelListener {
+	public class InteractiveTableModelListener implements TableModelListener{
 		public void tableChanged(TableModelEvent evt) {
 			if (evt.getType() == TableModelEvent.UPDATE) {
 				int column = evt.getColumn();
 				int row = evt.getFirstRow();
-				System.out.println("row: " + row + " column: " + column);
-//				table.setColumnSelectionInterval(column + 1, column + 1);
-//				table.setRowSelectionInterval(row, row);
-//				table.setOpaque(true);
-//				table.setVisible(true);
+				System.out.println("\n\n\n\row: " + row + " column: " + column);
+//				if(column == InteractiveTableModel.INDEX_CHECK)
+//				{
+//				    boolean isComplete = (boolean) tableModel.getValueAt(row, column);
+//				    try {
+//                        UserIntSwing.logicManager.setComplete(row, isComplete);
+//                    } catch (InvalidCommandException e) 
+//				    {
+//                        // print invalid... or log..
+//                        e.printStackTrace();
+//                    }
+//				}
+
 			}
 		}
 	}

@@ -41,6 +41,13 @@ public class LogicManager
         ParserManager parserManager = new ParserManager();
         return parserManager.dynamicParsing(userInput);
     }
+    
+    public void setComplete(int index, boolean isComplete) throws InvalidCommandException
+    {
+        String CompleteCommand = "Complete " + index + " " + isComplete ;
+        ParseResult parseResult = processCommand(CompleteCommand);
+        executeCommand(parseResult);       
+    }
 
     /**
      * @param userInput the input that the user entered which will be decipher into task and command
