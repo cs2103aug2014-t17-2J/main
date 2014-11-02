@@ -13,6 +13,7 @@ import logic.command.commandList.Command;
 import logic.command.commandList.DeleteCommand;
 import logic.command.commandList.EditCommand;
 import logic.command.commandList.ExitCommand;
+import logic.command.commandList.UncompleteCommand;
 import logic.command.commandList.RedoCommand;
 import logic.command.commandList.SearchCommand;
 import logic.command.commandList.UndoCommand;
@@ -165,6 +166,7 @@ public class CommandParser {
 
         Command addCommand = new AddCommand();
         Command completeCommand = new CompleteCommand();
+        Command uncompleteCommand = new UncompleteCommand();
         Command deleteCommand = new DeleteCommand();
         Command exitCommand = new ExitCommand();
         Command searchCommand = new SearchCommand();
@@ -176,10 +178,13 @@ public class CommandParser {
         final Map<Command, Collection<String>> addActions = ImmutableMap
                 .<Command, Collection<String>> of(addCommand,
                         Arrays.asList("add", "new", "create", "cre8"));
-        final Map<Command, Collection<String>> clearActions = ImmutableMap
+        final Map<Command, Collection<String>> completeActions = ImmutableMap
                 .<Command, Collection<String>> of(completeCommand, Arrays.asList(
-                        "complete", "done", "finish", "tick",
-                        "clear screen", "clear"));
+                        "complete", "done", "finish", "tick"));
+        final Map<Command, Collection<String>> uncompleteActions = ImmutableMap
+                .<Command, Collection<String>> of(uncompleteCommand, Arrays.asList(
+                        "incomplete", "undone", "cancel", "uncomplete", "decomplete", "untick"));
+     
         final Map<Command, Collection<String>> deleteActions = ImmutableMap
                 .<Command, Collection<String>> of(deleteCommand, Arrays.asList(
                         "delete", "d", "delete", "remove", "remove"));
@@ -204,7 +209,8 @@ public class CommandParser {
                         Arrays.asList("redo", "redo"));
 
         addMapToMultiMap(addActions, availableActions);
-        addMapToMultiMap(clearActions, availableActions);
+        addMapToMultiMap(completeActions, availableActions);
+        addMapToMultiMap(uncompleteActions, availableActions);
         addMapToMultiMap(deleteActions, availableActions);
         addMapToMultiMap(exitActions, availableActions);
         addMapToMultiMap(searchActions, availableActions);

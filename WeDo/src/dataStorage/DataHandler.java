@@ -15,7 +15,7 @@ public interface DataHandler {
 
     public abstract Multimap <String,Task> getMainList();
     
-    public boolean completeTask(int index);
+    public boolean setCompleteTask(Task task, boolean isComplete);
        
     public abstract boolean addTask(Task task);
 

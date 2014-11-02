@@ -18,12 +18,12 @@ import logic.utility.Task;
  * @author TienLong This class makes use of the Command interface to implement
  *         execute function for ClearTask
  */
-public class CompleteCommand extends Command {
+public class UncompleteCommand extends Command {
     ArrayList<Task> editTaskList = new ArrayList<Task>();
 
     public void execute() throws InvalidCommandException {
 
-        System.out.println("complete");
+        System.out.println("incomplete");
 
         final int ARRAY_OFFSET = 1;
         final String NO_INTEGER_EXTRACTED = "No integer extracted";
@@ -45,19 +45,19 @@ public class CompleteCommand extends Command {
         }
 
         editTaskList = getTasksToComplete(ARRAY_OFFSET, digitList);
-        completeTask(editTaskList);
+        inCompleteTask(editTaskList);
 
         undoHandler.addUndo(this);
 
     }
 
     /**
-     * Complete all the task at completeTaskList
+     * Incomplete all the task at completeTaskList
      * @param editTaskList the list of task to delete
      */
-    private void completeTask(ArrayList<Task> editTaskList) 
+    private void inCompleteTask(ArrayList<Task> editTaskList) 
     {
-        final boolean COMPLETE = true;
+        final boolean COMPLETE = false;
     
         for (Task task : editTaskList) 
         {
@@ -135,7 +135,7 @@ public class CompleteCommand extends Command {
     @Override
     public void undo() 
     {
-        setIncomplete(editTaskList);
+        setComplete(editTaskList);
         
     }
 
@@ -145,9 +145,9 @@ public class CompleteCommand extends Command {
      * Add the previously removed task back
      * @param undoTaskList the list of task that was deleted
      */
-    private void setIncomplete(ArrayList<Task> undoTaskList) 
+    private void setComplete(ArrayList<Task> undoTaskList) 
     {
-        final boolean COMPLETE = false;
+        final boolean COMPLETE = true;
         
         for (Task task : editTaskList) 
         {

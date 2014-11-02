@@ -36,7 +36,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 
 	public boolean isCellEditable(int row, int column) {
 		if (column == INDEX_CHECK)
-			return true;
+			return false;
 		else
 			return false;
 	}
