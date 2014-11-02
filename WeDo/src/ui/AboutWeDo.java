@@ -24,41 +24,22 @@ import javax.swing.ImageIcon;
 public class AboutWeDo {
 
 	private JDialog frame;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AboutWeDo window = new AboutWeDo();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public AboutWeDo() {
-		initialize();
-	}
+	private static final String TAG_WRAP_STRING = "%s%s%s";
+	private static final String HTML_OPEN = "<html>";
+	private static final String HTML_CLOSE = "</html>";
+	private static final String HTML_BREAK = "<br>";
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private AboutWeDo() {
 		frame = new JDialog();
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(AboutWeDo.class.getResource("/ui/icon/WeDo.png")));
 		frame.setBounds(100, 100, 334, 300);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
 		
-		JLabel lblAbout = new JLabel("<html><b>About WeDo Task Manager: </b><br/>\r\n(CS2103T   T17/C05   t17-2j) <br/>\r\nTeam Members: <br/>\r\nAndy Hsu Wei Qiang  <br/>\r\nKuan Tien Long  <br/>\r\nWai Min <br/>\r\nSitti Marya Binte Rashid Ridza <br/>\r\n<br/>\r\n<br/>\r\n<b>Acknowledements: </b> <br/>\r\nBalloonTip dependency - https://balloontip.java.net/\r\n</html>");
+		JLabel lblAbout = new JLabel(buildAboutMessage());
 		lblAbout.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblAbout.setVerticalAlignment(SwingConstants.TOP);
 		lblAbout.setBounds(10, 11, 308, 249);
@@ -77,5 +58,49 @@ public class AboutWeDo {
 		lblIcon.setIcon(new ImageIcon(AboutWeDo.class.getResource("/ui/icon/WeDo.png")));
 		lblIcon.setBounds(199, 11, 103, 98);
 		frame.getContentPane().add(lblIcon);
+	}
+	
+	/**
+	 *This operation returns message the "About WeDo" menu item
+	 */
+	private static String buildAboutMessage() {
+		StringBuilder message = new StringBuilder();
+
+		message.append("<b> About WeDo Task Manager: </b>" + HTML_BREAK);
+		message.append("(CS2103T   T17/C05   t17-2j)" + HTML_BREAK);
+		message.append("Team Members:" + HTML_BREAK);
+		message.append("Andy Hsu Wei Qiang" + HTML_BREAK);
+		message.append("Kuan Tien Long" + HTML_BREAK);
+		message.append("Wai Min" + HTML_BREAK);
+		message.append("Sitti Marya Binte Rashid Ridza" + HTML_BREAK);
+		message.append(HTML_BREAK + HTML_BREAK);
+		message.append("<b> Acknowledements: </b>" + HTML_BREAK);
+		message.append("BalloonTip dependency - https://balloontip.java.net/");
+
+		return wrapWithHtmlTag(message.toString());
+	}
+	
+	/**
+	 * @param text String to be wrapped in HTML
+	 * @return String wrapped with HTML format
+	 */
+	private static String wrapWithHtmlTag(String text) {
+		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
+	}
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AboutWeDo window = new AboutWeDo();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }

@@ -22,7 +22,7 @@ import net.java.balloontip.BalloonTip.AttachLocation;
 import net.java.balloontip.BalloonTip.Orientation;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
-import ui.MinimiseToTray;
+import ui.WeDoSystemTray;
 import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
@@ -37,7 +37,7 @@ public class ListenerHandler {
 			Color.BLUE);
 	/**
 	 * Buttons Listener - Process the adding of text to the textfield
-	 * when Hotkeys are pressed. 
+	 * when Hotkey is pressed. 
 	 * Also process the balloonTip
 	 */
 	public static void addBtnHelpListener() {
@@ -186,7 +186,7 @@ public class ListenerHandler {
 	public static void addSystemTrayWindowStateListener() {
 		UserIntSwing.frame.addWindowStateListener(new WindowStateListener() {
 			public void windowStateChanged(WindowEvent arg) {
-				MinimiseToTray.Minimise(arg);
+				WeDoSystemTray.Minimise(arg);
 			}
 		});
 	}

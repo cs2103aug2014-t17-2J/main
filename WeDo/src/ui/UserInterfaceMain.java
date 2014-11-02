@@ -230,7 +230,7 @@ public class UserInterfaceMain {
 	 */
 	public static void processHotKeys(KeyEvent key) throws InvalidCommandException {
 		if (key.getKeyCode() == VK.help()) {
-			HelpMenu.launch(null);
+			HelpMenu.main(null);
 		}
 		if (UserIntSwing.textField.getText().isEmpty()) {
 			if (key.getKeyCode() == VK.add()) {

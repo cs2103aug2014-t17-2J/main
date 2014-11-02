@@ -10,7 +10,11 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
@@ -21,7 +25,7 @@ import userInterface.UserIntSwing;
  * This class handles the "Minimise To Tray"
  * operation
  */
-public class MinimiseToTray {
+public class WeDoSystemTray {
 	private static TrayIcon trayIcon;
 	private static SystemTray tray;
 	
@@ -57,6 +61,7 @@ public class MinimiseToTray {
 					openMainFrame();
 				}
 			});
+			addTrayIconMouseListener();
 			
 			MenuItem popupItemExit = new MenuItem(SYSTEMTRAY_MENU_EXIT);
 			popup.add(popupItemExit);
@@ -83,8 +88,35 @@ public class MinimiseToTray {
 	}
 	
 	/**
-	 * This operation opens the main frame when
-	 * the "Open" menu on the SystemTray is pressed
+	 *This operation adds listener to the tray icon
+	 *to maximize the program when mouse is double clicked
+	 */
+	private static void addTrayIconMouseListener() {
+		trayIcon.addMouseListener(new MouseAdapter() {
+			boolean isAlreadyOneClick;
+			@Override
+			public void mouseClicked(MouseEvent mouseEvent) {
+			    if (isAlreadyOneClick) {
+			    	openMainFrame();
+			        System.out.println("double click");
+			        isAlreadyOneClick = false;
+			    } else {
+			        isAlreadyOneClick = true;
+			        Timer t = new Timer("doubleclickTimer", false);
+			        t.schedule(new TimerTask() {
+
+			            @Override
+			            public void run() {
+			                isAlreadyOneClick = false;
+			            }
+			        }, 500);
+			    }
+			}
+		});
+	}
+
+	/**
+	 * This operation maximize the main frame
 	 */
 	private static void openMainFrame() {
 		UserIntSwing.frame.setVisible(true);
@@ -103,6 +135,9 @@ public class MinimiseToTray {
 		System.exit(0);
 	}
 	
+	/**
+	 * This operation opens the aboutWeDo
+	 */
 	private static void aboutWeDo() {
 		AboutWeDo.main(null);
 	}
