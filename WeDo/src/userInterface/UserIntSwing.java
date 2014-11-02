@@ -4,10 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,19 +19,11 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 import logic.LogicManager;
-import logic.command.commandList.AddCommand;
-import logic.parser.ParseResult;
 import logic.utility.Task;
-import net.java.balloontip.BalloonTip;
-import net.java.balloontip.BalloonTip.AttachLocation;
-import net.java.balloontip.BalloonTip.Orientation;
-import net.java.balloontip.styles.BalloonTipStyle;
-import net.java.balloontip.styles.EdgedBalloonStyle;
 import ui.UserInterfaceMain;
 import dataStorage.ObservableList;
 
 import java.awt.Toolkit;
-import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -44,12 +32,14 @@ public class UserIntSwing extends JPanel implements Observer {
 
 	public static final JFrame frame = new JFrame("WeDo");;
 	public static final JTextField textField = new JTextField();
-	public static final JLabel lblHelp = new JLabel("Label Help");
-	public static final JButton btnHelp = new JButton();
+	public static final JButton btnHelp = new JButton("F1 <Help>");
+	public static final JButton btnAdd = new JButton("F2 <Add>");
+	public static final JButton btnView = new JButton("F3 <View>");
+	public static final JButton btnEdit = new JButton("F4 <Edit>");
+	public static final JButton btnDel = new JButton("F5 <Delete>");
+	public static final JButton btnSearch = new JButton("F6 <Search>");
 	public static final JButton btnEnter = new JButton("ENTER");
-	public static final JLabel lblTodayDate = new JLabel("lblView");
-	public static final JLabel lblFeedback = new JLabel("");
-	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
+	
 	public static final JLabel lblCommand = new JLabel("Command:");
 	public static final JLabel lblCommandProcess = new JLabel("");
 	public static final JLabel lblDate = new JLabel("Date:");
@@ -58,7 +48,13 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static final JLabel lblPriorityProcess = new JLabel("");
 	public static final JLabel lblDescription = new JLabel("Description:");
 	public static final JLabel lblDescriptionProcess = new JLabel("");
-
+	
+	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
+	public static final JLabel lblHelp = new JLabel("Label Help");
+	public static final JLabel lblTodayDate = new JLabel("lblDate");
+	public static final JLabel lblFeedback = new JLabel("");
+	public static final JLabel lblViewTask = new JLabel("You are viewing today tasks.");
+	
 	public static InteractiveForm interForm;
 	public static LogicManager logicManager;
 	private ObservableList<Task> observableList;
@@ -108,93 +104,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.setBounds(100, 100, 767, 511); // windowSize
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
-				Color.BLUE);
-
-		JButton btnHelp_1 = new JButton("F1 <Help>");
-		btnHelp_1.setForeground(new Color(0, 0, 0));
-		btnHelp_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textField.setText("");
-			}
-		});
-		btnHelp_1.setBackground(new Color(255, 153, 255));
-		BalloonTip helpBalloonTip = new BalloonTip(btnHelp_1, new JLabel(
-				"Press F1 for Help"), edgedLook, Orientation.RIGHT_BELOW,
-				AttachLocation.ALIGNED, 40, 20, false);
-		btnHelp_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				helpBalloonTip.setVisible(true);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg1) {
-				helpBalloonTip.setVisible(false);
-			}
-		});
-
-		JButton btnAdd = new JButton("F2 <Add>");
-		btnAdd.setForeground(new Color(0, 0, 0));
-		btnAdd.setToolTipText("");
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				textField.setText("add");
-			}
-		});
-		btnAdd.setBackground(new Color(255, 153, 255));
-		BalloonTip AddBalloonTip = new BalloonTip(btnAdd, new JLabel(
-				"Press F2 to Add"), edgedLook, Orientation.RIGHT_BELOW,
-				AttachLocation.ALIGNED, 40, 20, false);
-		btnAdd.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				AddBalloonTip.setVisible(true);
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg1) {
-				AddBalloonTip.setVisible(false);
-			}
-		});
-
-		JButton btnView = new JButton("F3 <View>");
-		btnView.setForeground(new Color(0, 0, 0));
-		btnView.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textField.setText("view");
-			}
-		});
-		btnView.setToolTipText("Click for Viewing Tasks!");
-		btnView.setBackground(new Color(255, 153, 255));
-
-		JButton btnEdit = new JButton("F4 <Edit>");
-		btnEdit.setForeground(new Color(0, 0, 0));
-		btnEdit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textField.setText("edit");
-			}
-		});
-		btnEdit.setBackground(new Color(255, 153, 255));
-
-		JButton btnDel = new JButton("F5 <Delete>");
-		btnDel.setForeground(new Color(0, 0, 0));
-		btnDel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textField.setText("delete");
-			}
-		});
-		btnDel.setBackground(new Color(255, 153, 255));
-
-		JButton btnSearch = new JButton("F6 <Search>");
-		btnSearch.setForeground(new Color(0, 0, 0));
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textField.setText("search");
-			}
-		});
-		btnSearch.setBackground(new Color(255, 153, 255));
-
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 
@@ -235,28 +144,35 @@ public class UserIntSwing extends JPanel implements Observer {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblDescriptionProcess, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnHelp_1, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-							.addGap(18))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblTodayDate, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-							.addGap(510))))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnHelp, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnView, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblTodayDate, GroupLayout.PREFERRED_SIZE, 268, GroupLayout.PREFERRED_SIZE)
+									.addGap(92)))
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnSearch, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+								.addComponent(lblViewTask, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE))
+							.addGap(18))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblTodayDate, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblTodayDate, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblViewTask, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnAdd)
@@ -264,9 +180,9 @@ public class UserIntSwing extends JPanel implements Observer {
 						.addComponent(btnEdit)
 						.addComponent(btnDel)
 						.addComponent(btnSearch)
-						.addComponent(btnHelp_1))
+						.addComponent(btnHelp))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
 					.addGap(9)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCommand)
@@ -342,7 +258,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) 
 	{
-
         taskList = observableList.getList();        
         interForm.updateTable(taskList);
         

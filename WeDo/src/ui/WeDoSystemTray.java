@@ -10,7 +10,11 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
@@ -21,15 +25,16 @@ import userInterface.UserIntSwing;
  * This class handles the "Minimise To Tray"
  * operation
  */
-public class MinimiseToTray {
+public class WeDoSystemTray {
 	private static TrayIcon trayIcon;
 	private static SystemTray tray;
 	
 	private static final String MAIN_FRAME_NAME = "Wedo";
-	private static final String SYSTEMTRAY_MENU_OPEN = "Open";
-	private static final String SYSTEMTRAY_MENU_EXIT = "Exit";
+	private static final String SYSTEMTRAY_MENU_ABOUT = "About Wedo";
+	private static final String SYSTEMTRAY_MENU_OPEN = "Open Application";
+	private static final String SYSTEMTRAY_MENU_EXIT = "Exit Application";
 	
-	public static void Minimise(WindowEvent arg){
+	public static void Minimise(WindowEvent arg) {
 		
 		Image image = Toolkit.getDefaultToolkit().getImage(
 				UserIntSwing.class.getResource("/ui/icon/WeDo.png"));
@@ -41,13 +46,23 @@ public class MinimiseToTray {
 			System.out.println("SystemTray supported");
 			tray = SystemTray.getSystemTray();
 			
-			MenuItem popupItem = new MenuItem(SYSTEMTRAY_MENU_OPEN);
-			popup.add(popupItem);
-			popupItem.addActionListener(new ActionListener() {
+			MenuItem popupItemAbout = new MenuItem(SYSTEMTRAY_MENU_ABOUT);
+			popup.add(popupItemAbout);
+			popupItemAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					aboutWeDo();
+				}
+			});
+			
+			MenuItem popupItemOpen = new MenuItem(SYSTEMTRAY_MENU_OPEN);
+			popup.add(popupItemOpen);
+			popupItemOpen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					openMainFrame();
 				}
 			});
+			addTrayIconMouseListener();
+			
 			MenuItem popupItemExit = new MenuItem(SYSTEMTRAY_MENU_EXIT);
 			popup.add(popupItemExit);
 			popupItemExit.addActionListener(new ActionListener() {
@@ -73,10 +88,37 @@ public class MinimiseToTray {
 	}
 	
 	/**
-	 * This operation opens the main frame when
-	 * the "Open" menu on the SystemTray is pressed
+	 *This operation adds listener to the tray icon
+	 *to maximize the program when mouse is double clicked
 	 */
-	private static void openMainFrame(){
+	private static void addTrayIconMouseListener() {
+		trayIcon.addMouseListener(new MouseAdapter() {
+			boolean isAlreadyOneClick;
+			@Override
+			public void mouseClicked(MouseEvent mouseEvent) {
+			    if (isAlreadyOneClick) {
+			    	openMainFrame();
+			        System.out.println("double click");
+			        isAlreadyOneClick = false;
+			    } else {
+			        isAlreadyOneClick = true;
+			        Timer t = new Timer("doubleclickTimer", false);
+			        t.schedule(new TimerTask() {
+
+			            @Override
+			            public void run() {
+			                isAlreadyOneClick = false;
+			            }
+			        }, 500);
+			    }
+			}
+		});
+	}
+
+	/**
+	 * This operation maximize the main frame
+	 */
+	private static void openMainFrame() {
 		UserIntSwing.frame.setVisible(true);
 		UserIntSwing.frame.setExtendedState(JFrame.NORMAL);
 		tray.remove(trayIcon);
@@ -88,8 +130,15 @@ public class MinimiseToTray {
 	 * This operation closes the main frame when
 	 * the "Exit" menu on the SystemTray is pressed
 	 */
-	private static void exitMainFrame(){
+	private static void exitMainFrame() {
 		System.out.println("Exiting......");
 		System.exit(0);
+	}
+	
+	/**
+	 * This operation opens the aboutWeDo
+	 */
+	private static void aboutWeDo() {
+		AboutWeDo.main(null);
 	}
 }
