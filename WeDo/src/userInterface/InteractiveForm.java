@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
@@ -183,8 +184,12 @@ public class InteractiveForm extends JPanel {
      * 
      * @param row
      */
-    public void selectRow(int row) {
-        selectLastRow();
+    public void selectRow(int row) 
+    {
+        if(!isRowVisible(table,row))
+        {
+            selectLastRow();
+        }
         highLightRow(row);
         scrollToRow(row);
     }
@@ -212,6 +217,32 @@ public class InteractiveForm extends JPanel {
     public void setHighLightSelectionColor(Color color) {
         table.setSelectionBackground(color);
     }
+    
+    
+    public boolean isRowVisible(JTable table, int rowIndex) 
+    { 
+       if (!(table.getParent() instanceof JViewport)) { 
+           return false; 
+        } 
+
+        JViewport viewport = (JViewport)table.getParent(); 
+        // This rectangle is relative to the table where the 
+        // northwest corner of cell (0,0) is always (0,0) 
+
+        Rectangle rect = table.getCellRect(rowIndex, 0, true); 
+
+        // The location of the viewport relative to the table     
+        Point pt = viewport.getViewPosition(); 
+        // Translate the cell location so that it is relative 
+        // to the view, assuming the northwest corner of the 
+        // view is (0,0) 
+        rect.setLocation(rect.x-pt.x, rect.y-pt.y);
+
+        // Check if view completely contains the row
+        return new Rectangle(viewport.getExtentSize()).contains(rect); 
+    } 
+    
+    
 
     public class BooleanCellRenderer extends JCheckBox implements
             TableCellRenderer {
