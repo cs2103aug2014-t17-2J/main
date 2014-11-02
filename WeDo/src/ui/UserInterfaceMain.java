@@ -32,6 +32,9 @@ import userInterface.UserIntSwing;
 public class UserInterfaceMain {
 	private static final String DATE_FORMAT_FIRST = "dd-MMM-yy";
 	private static final String DATE_FORMAT_SECOND = "dd/MM/yyyy";
+	private static final String WHITESPACE_PATTERN = "\\s+";
+	private static final int MIN_TOKENS_LENGTH = 1;
+	private static final int ACTION_IDENTIFIER_INDEX = 0;
 	private static final int taskbarHeight = 40;
 
 	private static final String VIEW_STRING_TODAY = "You are viewing today tasks.";
@@ -52,7 +55,7 @@ public class UserInterfaceMain {
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 		UserIntSwing.lblTodayDate.setText(setTodayDate());
 	}
-	
+
 	/**
 	 * This operation initialize all the Listener Processes
 	 */
@@ -99,28 +102,47 @@ public class UserInterfaceMain {
 
 		return dateDisplay;
 	}
-	
+
 	/**Process lblViewTask to view tasks that the user is 
 	 * currently viewing
 	 * @return String telling the user what he is viewing
 	 */
 	public static String viewDateTask() {
 		String dateView = UserIntSwing.lblDateProcess.getText();
-        
-        if(dateView.matches(dateToday())) {
-        	return VIEW_STRING_TODAY;
-        }
-        else if(dateView.matches(dateTomorrow())) {
-        	return VIEW_STRING_TOMORROW;
-        }
-        else if(dateView.matches(dateYesterday())) {
-        	return VIEW_STRING_YESTERDAY;
-        }
-        else {
-        	return "You are viewing: " + dateView + " tasks.";
-        }
-	}
+		String getText = UserIntSwing.textField.getText();
+		String getCommand = getCommand(getText);
 	
+		if(getCommand.matches("view")) {
+			if(dateView.matches(dateToday())) {
+				return VIEW_STRING_TODAY;
+			}
+			else if(dateView.matches(dateTomorrow())) {
+				return VIEW_STRING_TOMORROW;
+			}
+			else if(dateView.matches(dateYesterday())) {
+				return VIEW_STRING_YESTERDAY;
+			}
+			else {
+				return "You are viewing: " + dateView + " tasks.";
+			}
+		}
+		return VIEW_STRING_TODAY;
+	}
+
+	private static String getCommand(String commandString) {
+		/* Check that there is at least 1 token */
+		String[] tokens = commandString.split(WHITESPACE_PATTERN);
+		boolean isValidLength = (tokens.length >= MIN_TOKENS_LENGTH);
+
+		String identifier = tokens[ACTION_IDENTIFIER_INDEX];
+		
+		if(isValidLength){
+			return identifier;
+		}
+		
+		return "notViewCommand";
+	}
+
 	/**
 	 * @return todayAsString the date today as String
 	 */
@@ -128,32 +150,32 @@ public class UserInterfaceMain {
 		Calendar calendar = Calendar.getInstance();
 		Date today = calendar.getTime();
 		String todayAsString = sdf_second.format(today);
-		 
+
 		return todayAsString;
 	}
-	
+
 	/**
 	 * @return tomorrowAsString the date tomorrow as String
 	 */
 	private static String dateTomorrow() {
 		Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        Date tomorrow = calendar.getTime();
-        String tomorrowAsString = sdf_second.format(tomorrow);
-        
-        return tomorrowAsString;
+		calendar.add(Calendar.DAY_OF_YEAR, 1);
+		Date tomorrow = calendar.getTime();
+		String tomorrowAsString = sdf_second.format(tomorrow);
+
+		return tomorrowAsString;
 	}
-	
+
 	/**
 	 * @return yesterdayAsString the date tomorrow as String
 	 */
 	private static String dateYesterday() {
-	    Calendar calendar = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_YEAR, -1);
-	    Date yesterday = calendar.getTime();
-	    String yesterdayAsString = sdf_second.format(yesterday);
-	    
-	    return yesterdayAsString;
+		Date yesterday = calendar.getTime();
+		String yesterdayAsString = sdf_second.format(yesterday);
+
+		return yesterdayAsString;
 	}
 
 	/**
@@ -169,7 +191,7 @@ public class UserInterfaceMain {
 				- taskbarHeight;
 		UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
 	}
-	
+
 	/**
 	 * Process the parser and Feedback
 	 */
@@ -208,7 +230,7 @@ public class UserInterfaceMain {
 	 */
 	public static void processHotKeys(KeyEvent key) throws InvalidCommandException {
 		if (key.getKeyCode() == VK.help()) {
-			HelpMenu.main(null);
+			HelpMenu.launch(null);
 		}
 		if (UserIntSwing.textField.getText().isEmpty()) {
 			if (key.getKeyCode() == VK.add()) {

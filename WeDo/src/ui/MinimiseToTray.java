@@ -26,10 +26,11 @@ public class MinimiseToTray {
 	private static SystemTray tray;
 	
 	private static final String MAIN_FRAME_NAME = "Wedo";
-	private static final String SYSTEMTRAY_MENU_OPEN = "Open";
-	private static final String SYSTEMTRAY_MENU_EXIT = "Exit";
+	private static final String SYSTEMTRAY_MENU_ABOUT = "About Wedo";
+	private static final String SYSTEMTRAY_MENU_OPEN = "Open Application";
+	private static final String SYSTEMTRAY_MENU_EXIT = "Exit Application";
 	
-	public static void Minimise(WindowEvent arg){
+	public static void Minimise(WindowEvent arg) {
 		
 		Image image = Toolkit.getDefaultToolkit().getImage(
 				UserIntSwing.class.getResource("/ui/icon/WeDo.png"));
@@ -41,13 +42,22 @@ public class MinimiseToTray {
 			System.out.println("SystemTray supported");
 			tray = SystemTray.getSystemTray();
 			
-			MenuItem popupItem = new MenuItem(SYSTEMTRAY_MENU_OPEN);
-			popup.add(popupItem);
-			popupItem.addActionListener(new ActionListener() {
+			MenuItem popupItemAbout = new MenuItem(SYSTEMTRAY_MENU_ABOUT);
+			popup.add(popupItemAbout);
+			popupItemAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					aboutWeDo();
+				}
+			});
+			
+			MenuItem popupItemOpen = new MenuItem(SYSTEMTRAY_MENU_OPEN);
+			popup.add(popupItemOpen);
+			popupItemOpen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					openMainFrame();
 				}
 			});
+			
 			MenuItem popupItemExit = new MenuItem(SYSTEMTRAY_MENU_EXIT);
 			popup.add(popupItemExit);
 			popupItemExit.addActionListener(new ActionListener() {
@@ -76,7 +86,7 @@ public class MinimiseToTray {
 	 * This operation opens the main frame when
 	 * the "Open" menu on the SystemTray is pressed
 	 */
-	private static void openMainFrame(){
+	private static void openMainFrame() {
 		UserIntSwing.frame.setVisible(true);
 		UserIntSwing.frame.setExtendedState(JFrame.NORMAL);
 		tray.remove(trayIcon);
@@ -88,8 +98,12 @@ public class MinimiseToTray {
 	 * This operation closes the main frame when
 	 * the "Exit" menu on the SystemTray is pressed
 	 */
-	private static void exitMainFrame(){
+	private static void exitMainFrame() {
 		System.out.println("Exiting......");
 		System.exit(0);
+	}
+	
+	private static void aboutWeDo() {
+		AboutWeDo.main(null);
 	}
 }
