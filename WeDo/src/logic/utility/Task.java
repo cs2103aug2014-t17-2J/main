@@ -367,8 +367,8 @@ public class Task
     /**
      * @param isCompleted the isCompleted to set
      */
-    public void setCompleted(boolean valid) {
-        this.isCompleted = valid;
+    public void setCompleted(boolean isComplete) {
+        this.isCompleted = isComplete;
     }
     /**
      * @return the description

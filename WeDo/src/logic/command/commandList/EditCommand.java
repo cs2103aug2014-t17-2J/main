@@ -74,9 +74,17 @@ public class EditCommand extends Command {
 
         setDateTimeBasedOnSpecified(source, toEditTask, editedTask);
         
+        setCompleteStatus(source, editedTask);
         
         return editedTask;
     }
+
+    private void setCompleteStatus(Task source,
+            Task editedTask)
+    {
+        editedTask.setCompleted(source.getCompleted());
+    }
+
 
     private void setDateTimeBasedOnSpecified(Task source, Task toEditTask,
             Task editedTask) {

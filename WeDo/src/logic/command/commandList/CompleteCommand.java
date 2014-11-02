@@ -19,7 +19,7 @@ import logic.utility.Task;
  *         execute function for ClearTask
  */
 public class CompleteCommand extends Command {
-    ArrayList<Task> undoTaskList = new ArrayList<Task>();
+    ArrayList<Task> editTaskList = new ArrayList<Task>();
 
     public void execute() throws InvalidCommandException {
 
@@ -44,8 +44,8 @@ public class CompleteCommand extends Command {
             throw new InvalidCommandException(INVALID_HIGHEST_INDEX);
         }
 
-        undoTaskList = getTasksToComplete(ARRAY_OFFSET, digitList);
-        completeTask(digitList);
+        editTaskList = getTasksToComplete(ARRAY_OFFSET, digitList);
+        completeTask(editTaskList);
 
         undoHandler.addUndo(this);
 
@@ -53,14 +53,15 @@ public class CompleteCommand extends Command {
 
     /**
      * Complete all the task at completeTaskList
-     * @param undoTaskList the list of task to delete
+     * @param editTaskList the list of task to delete
      */
-    private void completeTask(TreeSet<Integer> digitList) 
+    private void completeTask(ArrayList<Task> editTaskList) 
     {
-        final int ARRAY_OFFSET = 1;
-        for (int index : digitList) 
+        final boolean COMPLETE = true;
+    
+        for (Task task : editTaskList) 
         {
-                dataHandler.completeTask(index - ARRAY_OFFSET);
+                dataHandler.setCompleteTask(task, COMPLETE);
         }
     }
 
@@ -132,9 +133,11 @@ public class CompleteCommand extends Command {
      * @see logic.Command#undo()
      */
     @Override
-    public void undo() {
-        setIncomplete(undoTaskList);
-        }
+    public void undo() 
+    {
+        setIncomplete(editTaskList);
+        
+    }
 
     
     
@@ -142,11 +145,13 @@ public class CompleteCommand extends Command {
      * Add the previously removed task back
      * @param undoTaskList the list of task that was deleted
      */
-    private void setIncomplete(ArrayList<Task> undoTaskList) {
-        for (Task taskToComplete : undoTaskList) 
+    private void setIncomplete(ArrayList<Task> undoTaskList) 
+    {
+        final boolean COMPLETE = false;
+        
+        for (Task task : editTaskList) 
         {
-            taskToComplete.setCompleted(false);
-            
+                dataHandler.setCompleteTask(task, COMPLETE);
         }
     }
 
