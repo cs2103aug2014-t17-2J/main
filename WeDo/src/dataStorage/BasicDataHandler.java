@@ -368,6 +368,7 @@ public class BasicDataHandler implements DataHandler{
     {
 //        Task taskToComplete = getTask(index);
         task.setCompleted(isComplete);
+        save();
         return observableList.edit(task);
     }
 

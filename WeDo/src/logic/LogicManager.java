@@ -44,8 +44,17 @@ public class LogicManager
     
     public void setComplete(int index, boolean isComplete) throws InvalidCommandException
     {
-        String CompleteCommand = "Complete " + index + " " + isComplete ;
-        ParseResult parseResult = processCommand(CompleteCommand);
+        String Command;
+        
+        if(isComplete)
+        {
+            Command = "Complete " + index;
+        }
+        else
+        {
+            Command = "Incomplete " + index;
+        }
+        ParseResult parseResult = processCommand(Command);
         executeCommand(parseResult);       
     }
 
