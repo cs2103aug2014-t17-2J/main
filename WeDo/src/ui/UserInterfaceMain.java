@@ -49,7 +49,6 @@ public class UserInterfaceMain {
 	public static void initProcess() {
 		UserIntSwing.frame.pack();
 		setupFrameLocation();
-		ListenerHandler.addFrameWindowFocusListener();
 		initAllListener();
 		FormatHandler.format();
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
@@ -60,6 +59,7 @@ public class UserInterfaceMain {
 	 * This operation initialize all the Listener Processes
 	 */
 	private static void initAllListener() {
+		ListenerHandler.addFrameWindowFocusListener();
 		ListenerHandler.addBtnHelpListener();
 		ListenerHandler.addBtnAddListener();
 		ListenerHandler.addBtnViewListener();
