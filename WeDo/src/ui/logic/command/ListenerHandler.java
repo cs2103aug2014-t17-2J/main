@@ -3,6 +3,7 @@ package ui.logic.command;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -11,8 +12,14 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowStateListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.KeyStroke;
 
+import logic.command.UndoHandler;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
 import logic.utility.StringHandler;
@@ -26,6 +33,7 @@ import ui.WeDoSystemTray;
 import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
+import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
@@ -45,7 +53,7 @@ public class ListenerHandler {
 				"Press F1 for Help"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		helpBalloonTip.setVisible(false);
-		
+
 		UserIntSwing.btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserIntSwing.textField.setText("");
@@ -62,7 +70,7 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	public static void addBtnAddListener() {
 		BalloonTip addBalloonTip = new BalloonTip(UserIntSwing.btnAdd, new JLabel(
 				"Press F2 to Add"), edgedLook, Orientation.RIGHT_BELOW,
@@ -73,7 +81,7 @@ public class ListenerHandler {
 				UserIntSwing.textField.setText("add");
 			}
 		});
-		
+
 		UserIntSwing.btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -85,13 +93,13 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	public static void addBtnViewListener() {
 		BalloonTip viewBalloonTip = new BalloonTip(UserIntSwing.btnView, new JLabel(
 				"Press F3 to View"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		viewBalloonTip.setVisible(false);
-		
+
 		UserIntSwing.btnView.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserIntSwing.textField.setText("view");
@@ -108,13 +116,13 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	public static void addBtnEditListener() {
 		BalloonTip editBalloonTip = new BalloonTip(UserIntSwing.btnEdit, new JLabel(
 				"Press F4 to Edit"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		editBalloonTip.setVisible(false);
-		
+
 		UserIntSwing.btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserIntSwing.textField.setText("edit");
@@ -131,13 +139,13 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	public static void addBtnDelListener() {
 		BalloonTip delBalloonTip = new BalloonTip(UserIntSwing.btnDel, new JLabel(
 				"Press F5 to delete"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		delBalloonTip.setVisible(false);
-		
+
 		UserIntSwing.btnDel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserIntSwing.textField.setText("delete");
@@ -154,13 +162,13 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	public static void addBtnSearchListener() {
 		BalloonTip searchBalloonTip = new BalloonTip(UserIntSwing.btnSearch, new JLabel(
 				"Press F6 to search"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		searchBalloonTip.setVisible(false);
-		
+
 		UserIntSwing.btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UserIntSwing.textField.setText("search");
@@ -177,7 +185,7 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	/**
 	 * Window State Listener
 	 * This operation process the SystemTray when minimise
@@ -199,10 +207,12 @@ public class ListenerHandler {
 	public static void addFrameWindowFocusListener() {
 		UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
+				//UserIntSwing.textField.setText(null);
 				UserIntSwing.textField.requestFocusInWindow();
 			}
 
 			public void windowLostFocus(WindowEvent arg0) {
+				//UserIntSwing.textField.setText(FeedbackGuide.textfieldFeedback());
 			}
 		});
 	}
@@ -231,7 +241,7 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	/**
 	 *Textfield KeyListener
 	 *1. Set the Command guide Label to the indiviual command guide that the user input
@@ -247,7 +257,6 @@ public class ListenerHandler {
 				String userInput = UserIntSwing.textField.getText();
 				try {
 					processTextfield(arg1, userInput);
-
 					if(arg1.getKeyCode() == VK.enter()){
 						processEnterkey(arg1);
 					}
@@ -266,6 +275,7 @@ public class ListenerHandler {
 				UserInterfaceMain.showParseResult(parseResult, task);
 
 			}
+
 			private void handleDynamicEdit(DynamicParseResult parseResult,
 					Task task) {
 				if (UserInterfaceMain.containsValidEditCommand(parseResult)) 

@@ -39,19 +39,19 @@ public class TextfieldHistory{
 	 * Up arrow keylistener - Pushes the text from the user to "undoStack"
 	 * Down arrow keylistener - Pushes the text previously stored to "userInputStack"  
 	 */
-	public static void showTextfieldHistory(KeyEvent arg1){
+	public static void showTextfieldHistory(KeyEvent arg1) {
 		
-		if(arg1.getKeyCode() == KeyEvent.VK_UP){
-			if(!userInputStack.isEmpty()){
+		if(arg1.getKeyCode() == KeyEvent.VK_UP) {
+			if(!userInputStack.isEmpty()) {
 				pushToUndoStack();
 			}
 			else{
 				FeedbackHandler.emptyHistoryStringOperation();
 			}
 		}
-		else if(arg1.getKeyCode() == KeyEvent.VK_DOWN){
+		else if(arg1.getKeyCode() == KeyEvent.VK_DOWN) {
 			
-			if(!undoStack.isEmpty()){
+			if(!undoStack.isEmpty()) {
 				pushToUserInputStack();
 			}
 			else{
@@ -61,15 +61,13 @@ public class TextfieldHistory{
 		}
 	}
 	
-	private static void pushToUndoStack(){
-		
+	private static void pushToUndoStack() {
 		getText = userInputStack.pop();
 		undoStack.push(getText);
 		UserIntSwing.textField.setText(getText);
 	}
 	
-	private static void pushToUserInputStack(){
-		
+	private static void pushToUserInputStack() {
 		getText = undoStack.pop();
 		userInputStack.push(getText);
 		UserIntSwing.textField.setText(getText);
