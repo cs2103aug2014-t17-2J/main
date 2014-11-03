@@ -10,6 +10,7 @@ import javax.swing.table.AbstractTableModel;
 
 import logic.utility.Task;
 
+@SuppressWarnings("serial")
 public class InteractiveTableModel extends AbstractTableModel {
 
 	public static final int INDEX_TASK = 0;
@@ -108,7 +109,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 			tableInfo.setPriority((String) value);
 			break;
 		case INDEX_CHECK:
-			tableInfo.setCheck((Boolean)(value));
+			tableInfo.setCheck((Boolean) (value));
 			break;
 		default:
 			System.out.println("invalid index");
@@ -149,6 +150,11 @@ public class InteractiveTableModel extends AbstractTableModel {
 		fireTableRowsInserted(dataVector.size() - 1, dataVector.size() - 1);
 	}
 
+	/**
+	 * This method populates the table with values from the data storage.
+	 * 
+	 * @param taskList
+	 */
 	public void updateTable(ArrayList<Task> taskList) {
 		int row = 0;
 
@@ -158,14 +164,16 @@ public class InteractiveTableModel extends AbstractTableModel {
 				.ofPattern("hh:mm a");
 
 		clearRows();
-		
+
 		for (Task task : taskList) {
 			if (!this.hasEmptyRow()) {
 				this.addEmptyRow();
 			}
 
 			this.setValueAt("" + (row + 1), row, INDEX_TASK);
+
 			this.setValueAt(task.getDescription(), row, INDEX_DESCRIPTION);
+
 			if (!task.getStartDate().equals(null)
 					&& !task.getStartDate().equals(LocalDate.MAX)) {
 				this.setValueAt(task.getStartDate().format(dateFormatter), row,
@@ -190,8 +198,6 @@ public class InteractiveTableModel extends AbstractTableModel {
 					&& !task.getPriority().toString().isEmpty()) {
 				this.setValueAt(task.getPriority().toString(), row,
 						INDEX_PRIORITY);
-				
-				
 			}
 			if (task.getCompleted() == true) {
 				this.setValueAt(true, row, INDEX_CHECK);
@@ -202,6 +208,6 @@ public class InteractiveTableModel extends AbstractTableModel {
 
 	public void clearRows() {
 		dataVector.clear();
-		//this.addEmptyRow();
+		// this.addEmptyRow();
 	}
 }
