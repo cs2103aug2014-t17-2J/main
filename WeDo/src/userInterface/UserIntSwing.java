@@ -51,7 +51,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	
 	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
 	public static final JLabel lblHelp = new JLabel("Label Help");
-	public static final JLabel lblViewTask = new JLabel("You are viewing today tasks.");
+	public static final JLabel lblViewTask = new JLabel("You are viewing today's tasks.");
 	public static final JLabel lblFeedback = new JLabel();
 	public static final JLabel lblTodayDate = new JLabel();
 	
