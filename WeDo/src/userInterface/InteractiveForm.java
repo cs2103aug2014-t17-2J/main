@@ -1,7 +1,6 @@
 package userInterface;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,8 +11,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Vector;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -35,6 +32,7 @@ import logic.exception.InvalidCommandException;
 import logic.utility.Task;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
+@SuppressWarnings("serial")
 public class InteractiveForm extends JPanel {
 
 	public static final String[] columnNames = { "ID", "description",
