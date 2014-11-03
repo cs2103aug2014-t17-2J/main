@@ -18,10 +18,13 @@ public class BasicDataHandler implements DataHandler{
     
 
 	private final String SOMEDAY = "someday";
+	private final String ss ;
 	private final String DEADLINE = "deadLine";
 	private final String TIMED = "timed";
 	private final String FLOATING = "floating";
 	private final String ALL = "all";
+	
+	private static Task currentView;
 
 	private String currentList;
 
@@ -48,6 +51,7 @@ public class BasicDataHandler implements DataHandler{
 		ArrayList<Task> today = new ArrayList<Task>(mainList2.get(LocalDate.now()));
 		observableList.replaceList(today);
 		currentList = DEADLINE;	
+		currentView.setEndDate(LocalDate.now());
 	}
 	
 	public ArrayList<Task> getCompleted() {
@@ -124,6 +128,7 @@ public class BasicDataHandler implements DataHandler{
 	public boolean populateLists() {
 
 		mainList2 = ArrayListMultimap.create();
+		currentView = new Task();
 		currentRange = new Task();
 		mainList2 = fileHandler.getAllTasks();
 		
@@ -167,30 +172,38 @@ public class BasicDataHandler implements DataHandler{
 		
 		return tmp;
 	}
-
+	
 	public boolean addTask(Task task) {
+		int index = observableList.getList().size();
+		this.addTask(index,task);
+		return true;
+	}
+	
+
+	public boolean addTask(int index, Task task) {
 
 		String taskType = determineTaskType(task);
 
 		
 		mainList2.put(task.getEndDate(), task);
 		
+		
 		if(currentList.equals(TIMED)) {
 			if(withinRange(currentRange.getStartDate(),currentRange.getEndDate(),task)) {
-				observableList.add(task);
+				observableList.add(index,task);
 			}
 		}
 		else if(currentList.equals(ALL) || (taskType.equals(currentList) && 
-				observableList.get(0).getEndDate().equals(task.getEndDate()))) {
+				currentView.getEndDate().equals(task.getEndDate()))) {
 			
-			observableList.add(task);
+			observableList.add(index,task);
 		}
 
 		save();
-		System.out.println(task.getID() + " is added");
+		System.out.println(task.getUniqueID() + " is added");
 
 		// fileHandler.read("deadLine");
-		fileHandler.writeLog(LocalTime.now() + " : Added Task " + task.getID());
+		fileHandler.writeLog(LocalTime.now() + " : Added Task " + task.getUniqueID());
 
 		return true;
 	}
@@ -286,10 +299,10 @@ public class BasicDataHandler implements DataHandler{
 
 	public boolean editTask(Task source, Task replacement) {
 
-		fileHandler.writeLog(LocalTime.now() + " : edited " + source.getID());
-
+		fileHandler.writeLog(LocalTime.now() + " : edited " + source.getUniqueID());
+		int index = observableList.indexOf(source);
 		removeTask(source);
-		addTask(replacement);
+		addTask(index,replacement);
 
 		return true;
 	}
@@ -323,6 +336,7 @@ public class BasicDataHandler implements DataHandler{
 		ArrayList<Task> tmp = new ArrayList<Task>();
 		String type = determineTaskType(task);
 		currentList = type;
+		currentView.setDescription(task.getDescription());
 
 
 		 if (type.equals(DEADLINE)) {

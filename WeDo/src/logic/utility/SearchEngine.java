@@ -69,7 +69,16 @@ public class SearchEngine {
 	private boolean invalidSearchInput(String searchInput) {
 		return searchInput == null || searchInput.trim().isEmpty();
 	}
-
+	
+	public ArrayList<Task> search(String str1){
+		return searchWagnerList(str1);
+	}
+	
+	public ArrayList<Task> search(Task task){
+		dataHandler.view(task);
+		return null;
+	}
+	
 	public ArrayList<Task> searchWagnerList(String str1) {
 
 		int distance;

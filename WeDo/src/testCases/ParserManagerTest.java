@@ -296,8 +296,12 @@ public class ParserManagerTest {
 
     private void assertValidParse(String input, ParseResult expectedResult) {
         ParserManager parserManager = new ParserManager();
-
+        getNextUniqueID(expectedResult);
         assertEquals(expectedResult, parserManager.interpret(input));
 
+    }
+
+    private void getNextUniqueID(ParseResult expectedResult) {
+        expectedResult.getTask().setUniqueID(Task.getCreateID());
     }
 }

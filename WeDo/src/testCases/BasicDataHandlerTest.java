@@ -74,7 +74,7 @@ public class BasicDataHandlerTest {
 		datahandler.addTask(task1);
 		ArrayList<Task> tmp1 = new ArrayList<Task>(datahandler.getMainList().get("today"));
 		System.out.println(tmp1.get(0));
-		assertEquals(task1.getID(),tmp1.get(0).getID());
+		assertEquals(task1.getUniqueID(),tmp1.get(0).getUniqueID());
 		
 	}
 	
@@ -86,7 +86,7 @@ public class BasicDataHandlerTest {
 		datahandler.addTask(task2);
 		ArrayList<Task> tmp2 = new ArrayList<Task>(datahandler.getMainList().get("tomorrow"));
 		System.out.println(tmp2.get(0));
-		assertEquals(task2.getID(),tmp2.get(0).getID());
+		assertEquals(task2.getUniqueID(),tmp2.get(0).getUniqueID());
 	}
 	
 	public void addUpcoming() {
@@ -98,7 +98,7 @@ public class BasicDataHandlerTest {
 		datahandler.addTask(task3);
 		ArrayList<Task> tmp3 = new ArrayList<Task>(datahandler.getMainList().get("upcoming"));
 		System.out.println(tmp3.get(0));
-		assertEquals(task3.getID(),tmp3.get(0).getID());
+		assertEquals(task3.getUniqueID(),tmp3.get(0).getUniqueID());
 		
 	}
 	
@@ -110,7 +110,7 @@ public class BasicDataHandlerTest {
 		datahandler.addTask(task4);
 		ArrayList<Task> tmp4 = new ArrayList<Task>(datahandler.getMainList().get("someday"));
 		System.out.println(tmp4.get(0));
-		assertEquals(task4.getID(),tmp4.get(0).getID());
+		assertEquals(task4.getUniqueID(),tmp4.get(0).getUniqueID());
 		System.out.println(datahandler.getMainList().size());
 	}
 
