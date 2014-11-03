@@ -5,8 +5,6 @@ import java.awt.Font;
 
 import javax.swing.SwingConstants;
 
-import ui.guide.CommandGuide;
-import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
@@ -55,10 +53,7 @@ public class FormatHandler {
 		UserIntSwing.lblTodayDate.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 20));
 		UserIntSwing.lblTodayDate.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		UserIntSwing.lblViewTask.setFont(new Font("Calibri", Font.ITALIC, 16));
+		UserIntSwing.lblViewTask.setFont(new Font("Calibri", Font.ITALIC, 18));
 		UserIntSwing.lblViewTask.setHorizontalAlignment(SwingConstants.LEFT);
-
-		FeedbackGuide.formatFeedbackLabel();
-		CommandGuide.fomatCommandGuideLabel();
 	}
 }

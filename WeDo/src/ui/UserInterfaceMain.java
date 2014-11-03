@@ -18,6 +18,7 @@ import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 import ui.guide.CommandGuide;
+import ui.guide.FeedbackGuide;
 import ui.logic.command.FeedbackHandler;
 import ui.logic.command.FormatHandler;
 import ui.logic.command.HotkeyHandler;
@@ -47,12 +48,13 @@ public class UserInterfaceMain {
 	 * This operation initialize all the Processes 
 	 */
 	public static void initProcess() {
-		UserIntSwing.frame.pack();
 		setupFrameLocation();
 		initAllListener();
 		FormatHandler.format();
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 		UserIntSwing.lblTodayDate.setText(setTodayDate());
+		FeedbackGuide.formatFeedbackLabel();
+		CommandGuide.fomatCommandGuideLabel();
 	}
 
 	/**
@@ -243,12 +245,11 @@ public class UserInterfaceMain {
 				HotkeyHandler.delete();
 			} else if (key.getKeyCode() == VK.search()) {
 				HotkeyHandler.search();
-			} else if (key.getKeyCode() == VK.undo()) {
-				HotkeyHandler.undo();
-			} else if (key.getKeyCode() == VK.redo()) {
-				HotkeyHandler.redo();
-			}
+			} 
 		}
+		/*process the redo and undo using InputMap and ActionMap*/
+		HotkeyHandler.undo();
+		HotkeyHandler.redo();
 	}
 
 	/**
