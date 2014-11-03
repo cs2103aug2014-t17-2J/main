@@ -207,7 +207,7 @@ public class DateStringMassager {
         
        
 //        String regex = "(?<=[A-z]\\s)("+ restrictedWordRegex +")(?=$|\\s[A-z])";
-        String regex = "("+ restrictedWordRegex +")($|\\s+\\w+)($|\\s+\\w+){0,1}";
+        String regex = "(?<!\\d\\s)("+ restrictedWordRegex +")($|\\s+\\w+)($|\\s+\\w+){0,1}";
 
         
     
@@ -279,7 +279,7 @@ private static boolean isPriority(String source) {
  * @return
  */
 private static boolean isIntermediateDateConnector(String nextWord) {
-    final String[] POSSIBLE_INTERMEDIATE_CONNECTOR = {"after" , "before", "to" };
+    final String[] POSSIBLE_INTERMEDIATE_CONNECTOR = {"after" , "before", "to"};
     return StringHandler.containsWord(nextWord.trim(), POSSIBLE_INTERMEDIATE_CONNECTOR);
 }
 

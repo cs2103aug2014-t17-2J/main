@@ -18,7 +18,6 @@ public class BasicDataHandler implements DataHandler{
     
 
 	private final String SOMEDAY = "someday";
-	private final String ss ;
 	private final String DEADLINE = "deadLine";
 	private final String TIMED = "timed";
 	private final String FLOATING = "floating";
