@@ -39,9 +39,9 @@ public class UserInterfaceMain {
 	private static final int taskbarHeight = 40;
 
 	private static String userInput = new String();
-	private static final String VIEW_STRING_TODAY = "You are viewing today tasks.";
-	private static final String VIEW_STRING_TOMORROW = "You are viewing tomorrow tasks.";
-	private static final String VIEW_STRING_YESTERDAY = "You are viewing yesterday tasks.";
+	private static final String VIEW_STRING_TODAY = "You are viewing today's tasks.";
+	private static final String VIEW_STRING_TOMORROW = "You are viewing tomorrow's tasks.";
+	private static final String VIEW_STRING_YESTERDAY = "You are viewing yesterday's tasks.";
 	private static final SimpleDateFormat sdf_first = new SimpleDateFormat(DATE_FORMAT_FIRST);
 	private static final SimpleDateFormat sdf_second = new SimpleDateFormat(DATE_FORMAT_SECOND);
 
@@ -126,7 +126,7 @@ public class UserInterfaceMain {
 				return VIEW_STRING_YESTERDAY;
 			}
 			else {
-				return "You are viewing: " + dateView + " tasks.";
+				return "You are viewing: " + dateView + "'s tasks.";
 			}
 		}
 		return VIEW_STRING_TODAY;
@@ -234,20 +234,17 @@ public class UserInterfaceMain {
 	public static void processHotKeys(KeyEvent key) throws InvalidCommandException {
 		if (key.getKeyCode() == VK.help()) {
 			HelpMenu.main(null);
-		}
-		if (UserIntSwing.textField.getText().isEmpty()) {
-			if (key.getKeyCode() == VK.add()) {
-				HotkeyHandler.add();
-			} else if (key.getKeyCode() == VK.view()) {
-				HotkeyHandler.view();
-			} else if (key.getKeyCode() == VK.edit()) {
-				HotkeyHandler.edit();
-			} else if (key.getKeyCode() == VK.delete()) {
-				HotkeyHandler.delete();
-			} else if (key.getKeyCode() == VK.search()) {
-				HotkeyHandler.search();
-			} 
-		}
+		} else if (key.getKeyCode() == VK.add()) {
+			HotkeyHandler.add();
+		} else if (key.getKeyCode() == VK.view()) {
+			HotkeyHandler.view();
+		} else if (key.getKeyCode() == VK.edit()) {
+			HotkeyHandler.edit();
+		} else if (key.getKeyCode() == VK.delete()) {
+			HotkeyHandler.delete();
+		} else if (key.getKeyCode() == VK.search()) {
+			HotkeyHandler.search();
+		} 
 		
 		userInput = UserIntSwing.textField.getText();
 		UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
