@@ -41,18 +41,18 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static final JButton btnEnter = new JButton("ENTER");
 	
 	public static final JLabel lblCommand = new JLabel("Command:");
-	public static final JLabel lblCommandProcess = new JLabel("");
+	public static final JLabel lblCommandProcess = new JLabel();
 	public static final JLabel lblDate = new JLabel("Date:");
-	public static final JLabel lblDateProcess = new JLabel("");
+	public static final JLabel lblDateProcess = new JLabel();
 	public static final JLabel lblPriority = new JLabel("Priority:");
-	public static final JLabel lblPriorityProcess = new JLabel("");
+	public static final JLabel lblPriorityProcess = new JLabel();
 	public static final JLabel lblDescription = new JLabel("Description:");
-	public static final JLabel lblDescriptionProcess = new JLabel("");
+	public static final JLabel lblDescriptionProcess = new JLabel();
 	
 	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
 	public static final JLabel lblHelp = new JLabel("Label Help");
-	public static final JLabel lblViewTask = new JLabel("You are viewing today tasks.");
-	public static final JLabel lblFeedback = new JLabel("");
+	public static final JLabel lblViewTask = new JLabel("You are viewing today's tasks.");
+	public static final JLabel lblFeedback = new JLabel();
 	public static final JLabel lblTodayDate = new JLabel();
 	
 	public static InteractiveForm interForm;
@@ -103,7 +103,8 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.setBounds(100, 100, 767, 511); // windowSize
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		frame.pack();
+		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 

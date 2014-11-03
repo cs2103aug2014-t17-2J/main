@@ -18,6 +18,7 @@ import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 import ui.guide.CommandGuide;
+import ui.guide.FeedbackGuide;
 import ui.logic.command.FeedbackHandler;
 import ui.logic.command.FormatHandler;
 import ui.logic.command.HotkeyHandler;
@@ -37,6 +38,7 @@ public class UserInterfaceMain {
 	private static final int ACTION_IDENTIFIER_INDEX = 0;
 	private static final int taskbarHeight = 40;
 
+	private static String userInput = new String();
 	private static final String VIEW_STRING_TODAY = "You are viewing today tasks.";
 	private static final String VIEW_STRING_TOMORROW = "You are viewing tomorrow tasks.";
 	private static final String VIEW_STRING_YESTERDAY = "You are viewing yesterday tasks.";
@@ -47,19 +49,20 @@ public class UserInterfaceMain {
 	 * This operation initialize all the Processes 
 	 */
 	public static void initProcess() {
-		UserIntSwing.frame.pack();
 		setupFrameLocation();
-		ListenerHandler.addFrameWindowFocusListener();
 		initAllListener();
 		FormatHandler.format();
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 		UserIntSwing.lblTodayDate.setText(setTodayDate());
+		FeedbackGuide.formatFeedbackLabel();
+		CommandGuide.fomatCommandGuideLabel();
 	}
 
 	/**
 	 * This operation initialize all the Listener Processes
 	 */
 	private static void initAllListener() {
+		ListenerHandler.addFrameWindowFocusListener();
 		ListenerHandler.addBtnHelpListener();
 		ListenerHandler.addBtnAddListener();
 		ListenerHandler.addBtnViewListener();
@@ -243,12 +246,14 @@ public class UserInterfaceMain {
 				HotkeyHandler.delete();
 			} else if (key.getKeyCode() == VK.search()) {
 				HotkeyHandler.search();
-			} else if (key.getKeyCode() == VK.undo()) {
-				HotkeyHandler.undo();
-			} else if (key.getKeyCode() == VK.redo()) {
-				HotkeyHandler.redo();
-			}
+			} 
 		}
+		
+		userInput = UserIntSwing.textField.getText();
+		UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
+		/*process the redo and undo using InputMap and ActionMap*/
+		HotkeyHandler.undo();
+		HotkeyHandler.redo();
 	}
 
 	/**
