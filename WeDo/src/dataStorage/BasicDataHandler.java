@@ -336,6 +336,8 @@ public class BasicDataHandler implements DataHandler{
 		String type = determineTaskType(task);
 		currentList = type;
 		currentView.setDescription(task.getDescription());
+		currentView.setStartDate(task.getStartDate());
+		currentView.setEndDate(task.getEndDate());
 
 
 		 if (type.equals(DEADLINE)) {

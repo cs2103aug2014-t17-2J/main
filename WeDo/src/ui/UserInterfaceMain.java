@@ -38,6 +38,7 @@ public class UserInterfaceMain {
 	private static final int ACTION_IDENTIFIER_INDEX = 0;
 	private static final int taskbarHeight = 40;
 
+	private static String userInput = new String();
 	private static final String VIEW_STRING_TODAY = "You are viewing today tasks.";
 	private static final String VIEW_STRING_TOMORROW = "You are viewing tomorrow tasks.";
 	private static final String VIEW_STRING_YESTERDAY = "You are viewing yesterday tasks.";
@@ -247,6 +248,9 @@ public class UserInterfaceMain {
 				HotkeyHandler.search();
 			} 
 		}
+		
+		userInput = UserIntSwing.textField.getText();
+		UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
 		/*process the redo and undo using InputMap and ActionMap*/
 		HotkeyHandler.undo();
 		HotkeyHandler.redo();

@@ -3,7 +3,6 @@ package ui.logic.command;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -12,14 +11,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowStateListener;
 
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.KeyStroke;
 
-import logic.command.UndoHandler;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
 import logic.utility.StringHandler;
@@ -33,7 +26,6 @@ import ui.WeDoSystemTray;
 import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
-import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
@@ -43,6 +35,7 @@ import userInterface.UserIntSwing;
 public class ListenerHandler {
 	private static final BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
 			Color.BLUE);
+	private static String userInput;
 	/**
 	 * Buttons Listener - Process the adding of text to the textfield
 	 * when Hotkey is pressed. 
@@ -54,11 +47,6 @@ public class ListenerHandler {
 				AttachLocation.ALIGNED, 40, 20, false);
 		helpBalloonTip.setVisible(false);
 
-		UserIntSwing.btnHelp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				UserIntSwing.textField.setText("");
-			}
-		});
 		UserIntSwing.btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -78,7 +66,8 @@ public class ListenerHandler {
 		addBalloonTip.setVisible(false);
 		UserIntSwing.btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				UserIntSwing.textField.setText("add");
+				HotkeyHandler.add();
+				UserIntSwing.textField.requestFocusInWindow();
 			}
 		});
 
@@ -102,7 +91,8 @@ public class ListenerHandler {
 
 		UserIntSwing.btnView.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserIntSwing.textField.setText("view");
+				HotkeyHandler.view();
+				UserIntSwing.textField.requestFocusInWindow();
 			}
 		});
 		UserIntSwing.btnView.addMouseListener(new MouseAdapter() {
@@ -125,7 +115,8 @@ public class ListenerHandler {
 
 		UserIntSwing.btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserIntSwing.textField.setText("edit");
+				HotkeyHandler.edit();
+				UserIntSwing.textField.requestFocusInWindow();
 			}
 		});
 		UserIntSwing.btnEdit.addMouseListener(new MouseAdapter() {
@@ -148,7 +139,8 @@ public class ListenerHandler {
 
 		UserIntSwing.btnDel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserIntSwing.textField.setText("delete");
+				HotkeyHandler.delete();
+				UserIntSwing.textField.requestFocusInWindow();
 			}
 		});
 		UserIntSwing.btnDel.addMouseListener(new MouseAdapter() {
@@ -171,7 +163,8 @@ public class ListenerHandler {
 
 		UserIntSwing.btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserIntSwing.textField.setText("search");
+				HotkeyHandler.search();
+				UserIntSwing.textField.requestFocusInWindow();
 			}
 		});
 		UserIntSwing.btnSearch.addMouseListener(new MouseAdapter() {
@@ -254,26 +247,24 @@ public class ListenerHandler {
 		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg1) {
-				String userInput = UserIntSwing.textField.getText();
-				try {
-					processTextfield(arg1, userInput);
-					if(arg1.getKeyCode() == VK.enter()){
-						processEnterkey(arg1);
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
+				if(arg1.getKeyCode() == VK.enter()){
+					processEnterkey(arg1);
 				}
 			}
 			@Override
 			public void keyReleased(KeyEvent arg1) {
+				String userInput = UserIntSwing.textField.getText();
 				DynamicParseResult parseResult = 
 						UserInterfaceMain.processUserParse(arg1, UserIntSwing.logicManager);
 				Task task = parseResult.getTask();
 				UserInterfaceMain.clearDynamicParseLabels();
 				handleDynamicEdit(parseResult, task);
 				UserInterfaceMain.showParseResult(parseResult, task);
-
+				try {
+					processTextfield(arg1, userInput);
+				} catch (InvalidCommandException e) {
+					e.printStackTrace();
+				}
 			}
 
 			private void handleDynamicEdit(DynamicParseResult parseResult,
@@ -310,10 +301,7 @@ public class ListenerHandler {
 					throws InvalidCommandException {
 
 				UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
-				UserIntSwing.frame.setVisible(true);
-
 				TextfieldHistory.showTextfieldHistory(arg1);
-
 				UserInterfaceMain.processHotKeys(arg1);
 			}
 			/**
