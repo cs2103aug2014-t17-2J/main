@@ -55,8 +55,8 @@ public class FormatHandler {
 		UserIntSwing.lblTodayDate.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 20));
 		UserIntSwing.lblTodayDate.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		UserIntSwing.lblViewTask.setHorizontalAlignment(SwingConstants.LEFT);
 		UserIntSwing.lblViewTask.setFont(new Font("Calibri", Font.ITALIC, 16));
+		UserIntSwing.lblViewTask.setHorizontalAlignment(SwingConstants.LEFT);
 
 		FeedbackGuide.formatFeedbackLabel();
 		CommandGuide.fomatCommandGuideLabel();
