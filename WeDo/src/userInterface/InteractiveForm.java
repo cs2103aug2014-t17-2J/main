@@ -120,6 +120,8 @@ public class InteractiveForm extends JPanel {
 		// cellSelectionModel.addListSelectionListener(new
 		// CellSelectionListener());
 
+		setNoHighLightSelectionColor();
+		
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 				JTable table = (JTable) me.getSource();
@@ -204,8 +206,9 @@ public class InteractiveForm extends JPanel {
 		scrollToRow(lastRow);
 	}
 
-	public void setHighLightSelectionColor(Color color) {
-		table.setSelectionBackground(color);
+	public void setNoHighLightSelectionColor() {
+		table.setSelectionBackground(table.getBackground());
+		table.setSelectionForeground(table.getForeground());
 	}
 
 	public boolean isRowVisible(JTable table, JScrollPane scroller, int rowIndex) {
@@ -223,6 +226,7 @@ public class InteractiveForm extends JPanel {
 			setLayout(new GridBagLayout());
 			setMargin(new Insets(0, 0, 0, 0));
 			setHorizontalAlignment(JLabel.CENTER);
+			this.setBorderPainted(true);
 		}
 
 		@Override
