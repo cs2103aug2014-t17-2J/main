@@ -1,6 +1,7 @@
 package userInterface;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,6 +12,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Vector;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -28,11 +31,10 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import logic.exception.InvalidCommandException;
 import logic.utility.Task;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
-@SuppressWarnings("serial")
 public class InteractiveForm extends JPanel {
 
 	public static final String[] columnNames = { "ID", "description",
@@ -49,19 +51,16 @@ public class InteractiveForm extends JPanel {
 		initComponent();
 	}
 
-
 	public void updateTable(ArrayList<Task> taskList) {
 
 		// wrap text for description column
-	    
 		table.getColumnModel()
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
 				.setCellRenderer(new LineWrapCellRenderer(tableModel));
 
 		tableModel.updateTable(taskList);
 	}
-
-	//
+	
 	public void initComponent() {
 
 		System.out.println("init count " + hi++);
@@ -76,7 +75,7 @@ public class InteractiveForm extends JPanel {
 		table.setOpaque(true);
 		table.setVisible(true);
 		table.setRowSelectionAllowed(true);
-
+				
 		table.setSurrendersFocusOnKeystroke(true);
 		if (!tableModel.hasEmptyRow()) {
 			tableModel.addEmptyRow();
@@ -85,8 +84,10 @@ public class InteractiveForm extends JPanel {
 		scroller = new javax.swing.JScrollPane(table);
 
 		table.setDefaultRenderer(Object.class, new TableDefaultRenderer());
+	    
 		table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,
 				300));
+		
 
 		TableColumn hidden = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_HIDDEN);
@@ -96,7 +97,7 @@ public class InteractiveForm extends JPanel {
 				InteractiveTableModel.INDEX_CHECK);
 
 		taskID.setMinWidth(5);
-		taskID.setPreferredWidth(10);
+		taskID.setPreferredWidth(5);
 
 		taskID.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_TASK));
@@ -104,7 +105,6 @@ public class InteractiveForm extends JPanel {
 		hidden.setMinWidth(1);
 		hidden.setPreferredWidth(1);
 		hidden.setMaxWidth(1);
-
 		hidden.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_HIDDEN));
 
@@ -112,7 +112,13 @@ public class InteractiveForm extends JPanel {
 
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
-		setNoSelectionColor();
+
+		// ListSelectionModel cellSelectionModel = table.getSelectionModel();
+		// cellSelectionModel
+		// .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		//
+		// cellSelectionModel.addListSelectionListener(new
+		// CellSelectionListener());
 
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
@@ -198,9 +204,8 @@ public class InteractiveForm extends JPanel {
 		scrollToRow(lastRow);
 	}
 
-	public void setNoSelectionColor() {
-		table.setSelectionBackground(table.getBackground());
-		table.setSelectionForeground(table.getForeground());
+	public void setHighLightSelectionColor(Color color) {
+		table.setSelectionBackground(color);
 	}
 
 	public boolean isRowVisible(JTable table, JScrollPane scroller, int rowIndex) {
@@ -218,14 +223,13 @@ public class InteractiveForm extends JPanel {
 			setLayout(new GridBagLayout());
 			setMargin(new Insets(0, 0, 0, 0));
 			setHorizontalAlignment(JLabel.CENTER);
-	         this.setBorderPainted(true);
 		}
 
 		@Override
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
-		    
+
 			if (value instanceof Boolean) {
 				setSelected((Boolean) value);
 			}
