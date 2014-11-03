@@ -1,7 +1,6 @@
 package userInterface;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -21,24 +20,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
-import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableColumnModelEvent;
-import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import definedEnumeration.Priority;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import logic.exception.InvalidCommandException;
 import logic.utility.Task;
 
+@SuppressWarnings("serial")
 public class InteractiveForm extends JPanel {
 
 	public static final String[] columnNames = { "ID", "description",
@@ -55,10 +49,11 @@ public class InteractiveForm extends JPanel {
 		initComponent();
 	}
 
+
 	public void updateTable(ArrayList<Task> taskList) {
 
 		// wrap text for description column
-
+	    
 		table.getColumnModel()
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
 				.setCellRenderer(new LineWrapCellRenderer(tableModel));
@@ -117,13 +112,7 @@ public class InteractiveForm extends JPanel {
 
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
-
-		// ListSelectionModel cellSelectionModel = table.getSelectionModel();
-		// cellSelectionModel
-		// .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		//
-		// cellSelectionModel.addListSelectionListener(new
-		// CellSelectionListener());
+		setNoSelectionColor();
 
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
@@ -209,8 +198,9 @@ public class InteractiveForm extends JPanel {
 		scrollToRow(lastRow);
 	}
 
-	public void setHighLightSelectionColor(Color color) {
-		table.setSelectionBackground(color);
+	public void setNoSelectionColor() {
+		table.setSelectionBackground(table.getBackground());
+		table.setSelectionForeground(table.getForeground());
 	}
 
 	public boolean isRowVisible(JTable table, JScrollPane scroller, int rowIndex) {
@@ -228,13 +218,14 @@ public class InteractiveForm extends JPanel {
 			setLayout(new GridBagLayout());
 			setMargin(new Insets(0, 0, 0, 0));
 			setHorizontalAlignment(JLabel.CENTER);
+	         this.setBorderPainted(true);
 		}
 
 		@Override
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
-
+		    
 			if (value instanceof Boolean) {
 				setSelected((Boolean) value);
 			}

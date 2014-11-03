@@ -6,7 +6,9 @@ package userInterface;
 import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.JTable;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.border.MatteBorder;
 
 import definedEnumeration.Priority;
 
@@ -37,16 +39,35 @@ public class DefaultWeDoTableColor {
 
 		setPriorityBackGroundColor(component, column, column, priority);
 		setDoneBackGroundColor(component, column, column, checkBox);
-		setSelectedRowColor(component, row, selectedRow);
+		setSelectedRowColor(component, row, column, selectedRow);
 	}
 
-	private static void setSelectedRowColor(Component component, int row,
+	private static void setSelectedRowColor(Component component, int row, int column,
 			int selectedRow) {
-		if (selectedRow == row) {
-			component.setBackground(Color.BLUE);
-			component.setForeground(Color.WHITE);
-		} else {
-			component.setForeground(Color.BLACK);
+	    
+	    final Color BORDER_COLOR = Color.BLUE;
+	    final int BORDER_THICKNESS = 2;
+	    final int NO_BORDER = 0;
+	    
+        JComponent jComponent = (JComponent) component;
+
+		if (selectedRow == row) 
+		{
+		    if(column == InteractiveTableModel.INDEX_CHECK)
+		    {
+	              jComponent.setBorder(new MatteBorder(BORDER_THICKNESS, NO_BORDER, BORDER_THICKNESS, BORDER_THICKNESS, BORDER_COLOR));
+		    }
+		    else if (column == InteractiveTableModel.INDEX_TASK)
+		    {
+                jComponent.setBorder(new MatteBorder(BORDER_THICKNESS, BORDER_THICKNESS, BORDER_THICKNESS, NO_BORDER, BORDER_COLOR));
+		    }
+		    else
+		    {
+		        jComponent.setBorder(new MatteBorder(BORDER_THICKNESS, NO_BORDER, BORDER_THICKNESS, NO_BORDER, BORDER_COLOR));
+		    }
+		} else 
+		{
+            jComponent.setBorder(BorderFactory.createEmptyBorder());
 		}
 	}
 
