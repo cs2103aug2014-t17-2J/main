@@ -56,19 +56,21 @@ public class InteractiveForm extends JPanel {
 	}
 
 	public void updateTable(ArrayList<Task> taskList) {
-		tableModel.updateTable(taskList);
 
-		// for wrap text
+		// wrap text for description column
+
 		table.getColumnModel()
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
 				.setCellRenderer(new LineWrapCellRenderer(tableModel));
+
+		tableModel.updateTable(taskList);
 	}
 
 	//
 	public void initComponent() {
-		
+
 		System.out.println("init count " + hi++);
-		
+
 		tableModel = new InteractiveTableModel(columnNames);
 
 		tableModel
@@ -86,7 +88,7 @@ public class InteractiveForm extends JPanel {
 		}
 
 		scroller = new javax.swing.JScrollPane(table);
-		
+
 		table.setDefaultRenderer(Object.class, new TableDefaultRenderer());
 		table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,
 				300));
@@ -100,8 +102,6 @@ public class InteractiveForm extends JPanel {
 
 		taskID.setMinWidth(5);
 		taskID.setPreferredWidth(10);
-
-		
 
 		taskID.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_TASK));
