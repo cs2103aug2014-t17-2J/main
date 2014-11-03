@@ -2,8 +2,6 @@ package ui.logic.command;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -61,9 +59,6 @@ public class HotkeyHandler {
 				"listenCtrlzKey");
 		am.put("listenCtrlzKey", new AbstractAction(){
 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -92,9 +87,6 @@ public class HotkeyHandler {
 				"listenCtrlyKey");
 		am.put("listenCtrlyKey", new AbstractAction(){
 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
