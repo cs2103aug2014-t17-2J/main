@@ -115,7 +115,7 @@ public class UserIntSwing extends JPanel implements Observer {
 
 		textField.setColumns(10);
 
-		btnEnter.setBackground(new Color(204, 255, 255));
+		btnEnter.setBackground(new Color(255, 153, 255));
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(

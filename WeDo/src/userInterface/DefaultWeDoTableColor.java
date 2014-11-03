@@ -62,6 +62,7 @@ public class DefaultWeDoTableColor {
 		final Color PRIORITY_HIGH_COLOR = Color.RED;
 
 		component.setBackground(PRIORITY_HIGH_COLOR);
+		
 	}
 
 	/**

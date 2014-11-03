@@ -12,6 +12,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Vector;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -21,23 +23,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
-import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableColumnModelEvent;
-import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import definedEnumeration.Priority;
-import edu.emory.mathcs.backport.java.util.Arrays;
 import logic.exception.InvalidCommandException;
 import logic.utility.Task;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class InteractiveForm extends JPanel {
 
@@ -58,15 +54,13 @@ public class InteractiveForm extends JPanel {
 	public void updateTable(ArrayList<Task> taskList) {
 
 		// wrap text for description column
-
 		table.getColumnModel()
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
 				.setCellRenderer(new LineWrapCellRenderer(tableModel));
 
 		tableModel.updateTable(taskList);
 	}
-
-	//
+	
 	public void initComponent() {
 
 		System.out.println("init count " + hi++);
@@ -81,7 +75,7 @@ public class InteractiveForm extends JPanel {
 		table.setOpaque(true);
 		table.setVisible(true);
 		table.setRowSelectionAllowed(true);
-
+				
 		table.setSurrendersFocusOnKeystroke(true);
 		if (!tableModel.hasEmptyRow()) {
 			tableModel.addEmptyRow();
@@ -90,8 +84,10 @@ public class InteractiveForm extends JPanel {
 		scroller = new javax.swing.JScrollPane(table);
 
 		table.setDefaultRenderer(Object.class, new TableDefaultRenderer());
+	    
 		table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,
 				300));
+		
 
 		TableColumn hidden = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_HIDDEN);
@@ -101,7 +97,7 @@ public class InteractiveForm extends JPanel {
 				InteractiveTableModel.INDEX_CHECK);
 
 		taskID.setMinWidth(5);
-		taskID.setPreferredWidth(10);
+		taskID.setPreferredWidth(5);
 
 		taskID.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_TASK));
@@ -109,7 +105,6 @@ public class InteractiveForm extends JPanel {
 		hidden.setMinWidth(1);
 		hidden.setPreferredWidth(1);
 		hidden.setMaxWidth(1);
-
 		hidden.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_HIDDEN));
 
