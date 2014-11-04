@@ -168,9 +168,11 @@ public class CompleteCommand extends Command {
         final EnumSet<ParserFlags> VALID_COMPLETE_PARSE = EnumSet.of(
                 ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
    
-        
-        return parseFlags.containsAll(VALID_COMPLETE_PARSE);
+                
+        return ParserFlags.containsOnly(parseFlags, VALID_COMPLETE_PARSE);
     }
+    
+
 
     /*
      * (non-Javadoc)
