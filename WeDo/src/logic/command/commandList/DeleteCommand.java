@@ -154,11 +154,11 @@ public class DeleteCommand extends Command {
      */
     @Override
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
-        final EnumSet<ParserFlags> VALID_COMPLETE_PARSE = EnumSet.of(
+        final EnumSet<ParserFlags> VALID_DELETE_PARSE = EnumSet.of(
                 ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
    
                 
-        return ParserFlags.containsOnly(parseFlags, VALID_COMPLETE_PARSE);
+        return ParserFlags.containsOnly(parseFlags, VALID_DELETE_PARSE);
     }
 
     /*

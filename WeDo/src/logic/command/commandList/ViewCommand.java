@@ -53,8 +53,8 @@ public class ViewCommand extends Command {
      * @return if it contains more than MIN_VALID_FLAGS flags
      */
     public static boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
-        final int MIN_VALID_FLAGS = 1;
-        return parseFlags.size()>MIN_VALID_FLAGS;
+        final int MAX_VALID_FLAGS = 2;
+        return parseFlags.size() > MAX_VALID_FLAGS;
     }
     
     /* (non-Javadoc)
