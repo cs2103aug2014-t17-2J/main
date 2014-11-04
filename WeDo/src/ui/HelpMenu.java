@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import ui.logic.command.VK;
 import userInterface.UserIntSwing;
 
 import java.awt.BorderLayout;
@@ -38,7 +39,7 @@ public class HelpMenu {
         frame.addKeyListener(new KeyAdapter() {
         	@Override
         	public void keyPressed(KeyEvent arg0) {
-        		if(arg0.getKeyCode() == KeyEvent.VK_F1){
+        		if(arg0.getKeyCode() == VK.help()){
         			frame.dispose();
         		}
         	}
