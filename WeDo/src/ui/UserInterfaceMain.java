@@ -11,6 +11,7 @@ import java.util.Date;
 
 import logic.LogicManager;
 import logic.command.commandList.EditCommand;
+import logic.command.commandList.ViewCommand;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
 import logic.parser.ParseResult;
@@ -33,9 +34,6 @@ import userInterface.UserIntSwing;
 public class UserInterfaceMain {
 	private static final String DATE_FORMAT_FIRST = "dd-MMM-yy";
 	private static final String DATE_FORMAT_SECOND = "dd/MM/yyyy";
-	private static final String WHITESPACE_PATTERN = "\\s+";
-	private static final int MIN_TOKENS_LENGTH = 1;
-	private static final int ACTION_IDENTIFIER_INDEX = 0;
 	private static final int taskbarHeight = 40;
 
 	private static String userInput = new String();
@@ -108,42 +106,33 @@ public class UserInterfaceMain {
 
 	/**Process lblViewTask to view tasks that the user is 
 	 * currently viewing
+	 * @param parseResult 
 	 * @return String telling the user what he is viewing
 	 */
-	public static String viewDateTask() {
-		String dateView = UserIntSwing.lblDateProcess.getText();
-		String getText = UserIntSwing.textField.getText();
-		String getCommand = getCommand(getText);
-	
-		if(getCommand.matches("view")) {
-			if(dateView.matches(dateToday())) {
+	public static String viewDateTask(ParseResult parseResult) {
+		//String dateView = UserIntSwing.lblDateProcess.getText();
+		//String getText = UserIntSwing.textField.getText();
+		//String getCommand = getCommand(getText);
+		
+		if (parseResult.getCommand() instanceof ViewCommand) {
+			String getStr = parseResult.getTask().getDateTimeString();
+			if(getStr.isEmpty()) {
+				getStr = parseResult.getTask().getDescription();
+			}
+			else if(getStr.matches(dateToday())) {
 				return VIEW_STRING_TODAY;
 			}
-			else if(dateView.matches(dateTomorrow())) {
+			else if(getStr.matches(dateTomorrow())) {
 				return VIEW_STRING_TOMORROW;
 			}
-			else if(dateView.matches(dateYesterday())) {
+			else if(getStr.matches(dateYesterday())) {
 				return VIEW_STRING_YESTERDAY;
 			}
-			else {
-				return "You are viewing: " + dateView + "'s tasks.";
+			else{
+				return "You are viewing: " + getStr + "'s tasks.";
 			}
 		}
 		return VIEW_STRING_TODAY;
-	}
-
-	private static String getCommand(String commandString) {
-		/* Check that there is at least 1 token */
-		String[] tokens = commandString.split(WHITESPACE_PATTERN);
-		boolean isValidLength = (tokens.length >= MIN_TOKENS_LENGTH);
-
-		String identifier = tokens[ACTION_IDENTIFIER_INDEX];
-		
-		if(isValidLength){
-			return identifier;
-		}
-		
-		return "notViewCommand";
 	}
 
 	/**
@@ -206,6 +195,7 @@ public class UserInterfaceMain {
 		if (parseResult.isSuccessful()) {
 			try {
 				UserIntSwing.logicManager.executeCommand(parseResult);
+				 viewDateTask(parseResult);
 			} 
 			catch (InvalidCommandException e) {
 				e.printStackTrace();

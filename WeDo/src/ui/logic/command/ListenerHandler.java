@@ -309,7 +309,7 @@ public class ListenerHandler {
 			private void processEnterkey(KeyEvent arg1) {
 				userInput = UserIntSwing.textField.getText();
 				TextfieldHistory.getTextfieldString(userInput);
-				UserIntSwing.lblViewTask.setText(UserInterfaceMain.viewDateTask());
+				//UserIntSwing.lblViewTask.setText(UserInterfaceMain.viewDateTask());
 			}
 		});
 	}
