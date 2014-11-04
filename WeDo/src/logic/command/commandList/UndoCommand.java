@@ -37,8 +37,10 @@ public class UndoCommand extends Command {
      */
     @Override
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
-        final int MAX_VALID_FLAG = 1;
-        return parseFlags.size() == MAX_VALID_FLAG; 
+        final EnumSet<ParserFlags> VALID_UNDO_PARSE = EnumSet.of(
+                ParserFlags.COMMAND_FLAG);
+        
+        return ParserFlags.containsOnly(parseFlags, VALID_UNDO_PARSE);
     }
     
     /* (non-Javadoc)
@@ -47,5 +49,14 @@ public class UndoCommand extends Command {
     @Override
     public String toString() {
             return "Undo";
+    }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        final String ERROR_MESSAGE = "Format of undo should only be <Undo>";
+        return ERROR_MESSAGE;
     }
 }

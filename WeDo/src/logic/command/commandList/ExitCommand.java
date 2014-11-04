@@ -34,8 +34,10 @@ public class ExitCommand extends Command {
      */
     @Override
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
-        final int MIN_VALID_FLAGS = 1;
-        return parseFlags.size() == MIN_VALID_FLAGS;
+        final EnumSet<ParserFlags> VALID_EXIT_PARSE = EnumSet.of(
+                ParserFlags.COMMAND_FLAG);
+        
+        return ParserFlags.containsOnly(parseFlags, VALID_EXIT_PARSE);
     }
     
     /* (non-Javadoc)
@@ -44,5 +46,14 @@ public class ExitCommand extends Command {
     @Override
     public String toString() {
             return "Exit";
+    }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        final String ERROR_MESSAGE = "Format of exit should only be <Exit>";
+        return ERROR_MESSAGE;
     }
 }

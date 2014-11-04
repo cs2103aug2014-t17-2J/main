@@ -35,34 +35,60 @@ public class ViewCommand extends Command {
     public void undo() {
         dataHandler.setDisplayedTasks(previousView);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#validate(java.util.EnumSet)
      */
     @Override
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
         return isCommandValid(parseFlags);
     }
-    
+
     /**
      * <p>
      * Determine whether the command is valid
      * <p>
      * 
-     * @param parseFlags the set of ParserFlag to be tested
+     * @param parseFlags
+     *            the set of ParserFlag to be tested
      * @return if it contains more than MIN_VALID_FLAGS flags
      */
     public static boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
-        final int MIN_VALID_FLAGS = 1;
-        return parseFlags.size()>MIN_VALID_FLAGS;
+
+        final EnumSet<ParserFlags> VALID_VIEW_CATEGORY_PARSE = EnumSet.of(
+                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
+        final EnumSet<ParserFlags> VALID_VIEW_DATE_PARSE = EnumSet.of(
+                ParserFlags.DATE_FLAG, ParserFlags.COMMAND_FLAG);
+        final EnumSet<ParserFlags> VALID_VIEW_PRIORITY_PARSE = EnumSet.of(
+                ParserFlags.PRIORITY_FLAG, ParserFlags.COMMAND_FLAG);
+
+        return (ParserFlags.containsOnly(parseFlags, VALID_VIEW_CATEGORY_PARSE) || ParserFlags
+                .containsOnly(parseFlags, VALID_VIEW_DATE_PARSE) || ParserFlags
+                .containsOnly(parseFlags, VALID_VIEW_PRIORITY_PARSE));
+
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#toString()
      */
     @Override
     public String toString() {
-            return "View";
+        return "View";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        final String ERROR_MESSAGE = "Format of view should only be <View> <Date> or <View> <Category> or <View Priority>";
+        return ERROR_MESSAGE;
     }
 
 }
