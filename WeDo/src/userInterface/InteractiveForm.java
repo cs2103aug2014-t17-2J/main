@@ -94,9 +94,9 @@ public class InteractiveForm extends JPanel {
 		TableColumn done = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_CHECK);
 
-		taskID.setMinWidth(5);
-		taskID.setPreferredWidth(5);
-
+		taskID.setMinWidth(25);
+		taskID.setPreferredWidth(25);
+		taskID.setMaxWidth(25);
 		taskID.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_TASK));
 
@@ -107,7 +107,13 @@ public class InteractiveForm extends JPanel {
 				InteractiveTableModel.INDEX_HIDDEN));
 
 		done.setCellRenderer(new BooleanCellRenderer());
-
+		
+		TableColumn description = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_DESCRIPTION);
+		description.setMinWidth(200);
+		description.setPreferredWidth(200);
+		description.setMaxWidth(200);
+		
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
 

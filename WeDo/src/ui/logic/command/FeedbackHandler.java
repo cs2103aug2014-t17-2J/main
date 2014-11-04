@@ -17,9 +17,9 @@ public class FeedbackHandler {
 		feedbackTimerReset();
     }
     
-    public static void NotSuccessfulOperation() {
-    	UserIntSwing.lblFeedback.setText(FeedbackGuide.isInvalidString());
-		feedbackTimerReset();
+    public static void NotSuccessfulOperation(String exception) {
+    	UserIntSwing.lblFeedback.setText(exception);
+    	feedbackTimerReset();
     }
     
     /**

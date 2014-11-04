@@ -37,9 +37,6 @@ public class UserInterfaceMain {
 	private static final int taskbarHeight = 40;
 
 	private static String userInput = new String();
-	private static final String VIEW_STRING_TODAY = "You are viewing today's tasks.";
-	private static final String VIEW_STRING_TOMORROW = "You are viewing tomorrow's tasks.";
-	private static final String VIEW_STRING_YESTERDAY = "You are viewing yesterday's tasks.";
 	private static final SimpleDateFormat sdf_first = new SimpleDateFormat(DATE_FORMAT_FIRST);
 	private static final SimpleDateFormat sdf_second = new SimpleDateFormat(DATE_FORMAT_SECOND);
 
@@ -48,6 +45,7 @@ public class UserInterfaceMain {
 	 */
 	public static void initProcess() {
 		setupFrameLocation();
+		ListenerHandler.addFrameWindowFocusListener();
 		initAllListener();
 		FormatHandler.format();
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
@@ -60,7 +58,6 @@ public class UserInterfaceMain {
 	 * This operation initialize all the Listener Processes
 	 */
 	private static void initAllListener() {
-		ListenerHandler.addFrameWindowFocusListener();
 		ListenerHandler.addBtnHelpListener();
 		ListenerHandler.addBtnAddListener();
 		ListenerHandler.addBtnViewListener();
@@ -81,7 +78,6 @@ public class UserInterfaceMain {
 		int dayOfWeekInt = calendar.get(Calendar.DAY_OF_WEEK);
 		String date = sdf_first.format(new Date());
 		String dayOfWeekString;
-		String dateDisplay;
 
 		switch (dayOfWeekInt){
 			case Calendar.MONDAY: dayOfWeekString = "Monday";
@@ -99,7 +95,7 @@ public class UserInterfaceMain {
 			default: dayOfWeekString = "Sunday";
 				break;
 		}
-		dateDisplay = date + " " + dayOfWeekString;
+		String dateDisplay = date + " " + dayOfWeekString;
 
 		return dateDisplay;
 	}
@@ -110,29 +106,27 @@ public class UserInterfaceMain {
 	 * @return String telling the user what he is viewing
 	 */
 	public static String viewDateTask(ParseResult parseResult) {
-		//String dateView = UserIntSwing.lblDateProcess.getText();
-		//String getText = UserIntSwing.textField.getText();
-		//String getCommand = getCommand(getText);
-		
 		if (parseResult.getCommand() instanceof ViewCommand) {
 			String getStr = parseResult.getTask().getDateTimeString();
+			userInput = UserIntSwing.textField.getText();
+			System.out.println(getStr + " HEREEEEEEEEEEEEEE!!! " + UserIntSwing.textField.getText());
 			if(getStr.isEmpty()) {
 				getStr = parseResult.getTask().getDescription();
 			}
 			else if(getStr.matches(dateToday())) {
-				return VIEW_STRING_TODAY;
+				return FeedbackGuide.formatViewTodayTask();
 			}
 			else if(getStr.matches(dateTomorrow())) {
-				return VIEW_STRING_TOMORROW;
+				return FeedbackGuide.formatViewTomorrowTask();
 			}
 			else if(getStr.matches(dateYesterday())) {
-				return VIEW_STRING_YESTERDAY;
+				return FeedbackGuide.formatViewYesterdayTask();
 			}
 			else{
-				return "You are viewing: " + getStr + "'s tasks.";
+				return FeedbackGuide.formatViewDateTask(getStr);
 			}
 		}
-		return VIEW_STRING_TODAY;
+		return FeedbackGuide.formatViewTodayTask();
 	}
 
 	/**
@@ -190,30 +184,33 @@ public class UserInterfaceMain {
 	public static void processTextfieldString() {
 		ParseResult parseResult = UserIntSwing.logicManager
 				.processCommand(UserIntSwing.textField.getText());
-		String getText = UserIntSwing.textField.getText();
+		userInput = UserIntSwing.textField.getText();
 
 		if (parseResult.isSuccessful()) {
 			try {
+				UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 				UserIntSwing.logicManager.executeCommand(parseResult);
-				 viewDateTask(parseResult);
+				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult));
 			} 
-			catch (InvalidCommandException e) {
-				e.printStackTrace();
+			catch (InvalidCommandException exception) {
+				FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
+				UserIntSwing.textField.setText(null);
+				// Log this error.
+				//exception.printStackTrace();
+				return;
 			}
 			FeedbackHandler.successfulOperation();
 		} 
 		else if(UserIntSwing.textField.getText().isEmpty()) {
 			FeedbackHandler.emptyStringOperation();
 		} 
-		else if (FeedbackHandler.isDoubleSpace(getText)) {
+		else if (FeedbackHandler.isDoubleSpace(userInput)) {
 			FeedbackHandler.emptyStringOperation();
 		} 
 		else {
-			FeedbackHandler.NotSuccessfulOperation();
+			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
 		}
 		UserIntSwing.textField.setText(null);
-		// reset command guide to general guide
-		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 	}
 
 	/**

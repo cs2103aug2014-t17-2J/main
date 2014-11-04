@@ -202,7 +202,7 @@ public class DateStringMassager {
     
     private static String replacePossibleDateDescriptionWithDelimiter(String source) {
         
-        final String[] POSSIBLE_DATE_DESCRIPTION = {"day", "days", "week", "weeks", "month", "months",  "year", "years"};
+        final String[] POSSIBLE_DATE_DESCRIPTION = {"day", "days", "week", "weeks", "month", "months",  "year", "years", "now"};
         String restrictedWordRegex = addRestrictedWordToRegex(POSSIBLE_DATE_DESCRIPTION);
         
        
@@ -224,11 +224,11 @@ public class DateStringMassager {
             if (isDateDescription(matcher.group(POSSIBLE_DATE_GROUP), matcher.group(NEXT_WORD_GROUP), matcher.group(NEXT_NEXT_WORD_GROUP)))
             {       
                 matcher.appendReplacement(result,
-                    START_DIGIT_DELIMITER + matcher.group(POSSIBLE_DATE_GROUP) + END_DIGIT_DELIMITER + matcher.group(NEXT_WORD_GROUP) + matcher.group(NEXT_NEXT_WORD_GROUP));
+                    " " +START_DIGIT_DELIMITER + matcher.group(POSSIBLE_DATE_GROUP) + END_DIGIT_DELIMITER + matcher.group(NEXT_WORD_GROUP) + matcher.group(NEXT_NEXT_WORD_GROUP));
             }
             else
             {
-                matcher.appendReplacement(result, matcher.group(POSSIBLE_DATE_GROUP) + matcher.group(NEXT_WORD_GROUP) + matcher.group(NEXT_NEXT_WORD_GROUP));
+                matcher.appendReplacement(result, " " + matcher.group(POSSIBLE_DATE_GROUP) + matcher.group(NEXT_WORD_GROUP) + matcher.group(NEXT_NEXT_WORD_GROUP));
             }
             
 //            matcher.appendReplacement(result, matcher.group(NEXT_WORD_GROUP) + matcher.group(NEXT_NEXT_WORD_GROUP));

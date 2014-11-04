@@ -49,6 +49,11 @@ public abstract class Command {
      */
     public abstract boolean validate(EnumSet<ParserFlags> parseFlags);
 
+    /**
+     * Get validation error message from the command
+     * @return Error Message
+     */
+    public abstract String getValidateErrorMessage();
 
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)

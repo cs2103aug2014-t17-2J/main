@@ -45,7 +45,6 @@ public class CommandGuide {
 	
 	private static final int MIN_TOKENS_LENGTH = 1;
 	private static final int ACTION_IDENTIFIER_INDEX = 0;
-	
 	/**
 	 * To get the relevant command guide according to command
 	 * @param commandString user input in String format
@@ -220,7 +219,8 @@ public class CommandGuide {
 
 		str.append("To Undo an action, simply type undo");
 		str.append(HTML_BREAK);
-		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + Enter");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + [ENTER] ");
+		str.append("or simply use the shortcut key [Ctrl-Z]");
 		
 		return wrapWithHtmlTag(str.toString());
 	}
@@ -234,7 +234,8 @@ public class CommandGuide {
 
 		str.append("To Redo an action, simply type redo");
 		str.append(HTML_BREAK);
-		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + Enter");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + [ENTER] ");
+		str.append("or simply use the shortcut key [Ctrl-Y]");
 		
 		return wrapWithHtmlTag(str.toString());
 	}
