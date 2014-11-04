@@ -207,7 +207,7 @@ public class DateStringMassager {
         
        
 //        String regex = "(?<=[A-z]\\s)("+ restrictedWordRegex +")(?=$|\\s[A-z])";
-        String regex = "(?<!\\d\\s)("+ restrictedWordRegex +")($|\\s+\\w+)($|\\s+\\w+){0,1}";
+        String regex = "(?<!\\d)\\s+("+ restrictedWordRegex +")($|\\s+\\w+)($|\\s+\\w+){0,1}";
 
         
     
