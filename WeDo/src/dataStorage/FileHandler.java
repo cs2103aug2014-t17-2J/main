@@ -225,7 +225,8 @@ public class FileHandler {
 
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("File Empty");
 		}
 		
 		return tmp;
