@@ -1,12 +1,15 @@
 package dataStorage;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import logic.utility.Task;
@@ -44,6 +47,8 @@ public class FileHandler {
 
 		fileName = "WeDo.txt";
 		createFile();
+		//System.out.println(writeToString(fileName));
+		
 
 	}
 
@@ -78,22 +83,18 @@ public class FileHandler {
 
 	}
 
-	/**
-	 * @param three
-	 *            lists to be written to the file
-	 * @return the status of writing to file
-	 */
-	public String writeToFile(ArrayList<Task> deadLine, ArrayList<Task> timed,
-			ArrayList<Task> floating) {
-
-		JSONObject tasks = toJSON(deadLine, timed, floating);
-
+	private void stringToFile(String str) {
+		
+		if(isFileEmpty()) {
+			return;
+		}else {
+		
 		try {
-			FileWriter fstream = new FileWriter(fileName, true);
+			FileWriter fstream = new FileWriter(fileName, false);
 			BufferedWriter bw = new BufferedWriter(fstream);
-
-			bw.write(tasks.toString());
-			bw.newLine();
+			
+			bw.write(str);
+			
 			bw.close();
 
 		} catch (IOException e) {
@@ -101,13 +102,86 @@ public class FileHandler {
 			e.printStackTrace();
 		}
 
-		return null;
+		}
+		
 	}
+	
+	private boolean isFileEmpty() {
+		
+		String currentLine;
+		BufferedReader br;
+		
+
+		
+		try {
+			br = new BufferedReader(new FileReader(fileName));
+			currentLine = br.readLine();
+			br.close();
+
+			
+			if (currentLine == null )
+			{
+				return true;
+			}				
+			
+		
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	
+		
+		return false;
+	
+	}
+	
+	private String writeToString(String fileName) {
+		
+		String currentLine,wholeFile;
+		BufferedReader br;
+		
+		wholeFile = "";
+
+		
+		try {
+			br = new BufferedReader(new FileReader(fileName));
+			
+
+			while ((currentLine = br.readLine()) != null) {
+				wholeFile += currentLine + "\r\n";
+				
+			}
+			
+			br.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	
+		
+		
+		return wholeFile;
+	
+	}
+	
+	private String removeChar(int index,String str) {
+		StringBuilder sb = new StringBuilder(str);
+		sb.deleteCharAt(index);
+		return sb.toString();
+	}
+	
 	
 	public String writeToFile(ArrayList<Task> tasks) {
 	
 		JSONObject jTasks = toJSON("tasks",tasks);
-		
 
 		try {
 			FileWriter fstream = new FileWriter(fileName, true);
@@ -150,19 +224,6 @@ public class FileHandler {
 		}
 
 		return null;
-	}
-
-	public JSONObject toJSON(ArrayList<Task> deadLine, ArrayList<Task> timed,
-			ArrayList<Task> floating) {
-		JSONObject all = new JSONObject();
-		JSONArray lists = new JSONArray();
-
-		lists.add(toJSON("deadLine", deadLine));
-		lists.add(toJSON("timed", timed));
-		lists.add(toJSON("floating", floating));
-		all.put("all tasks", lists);
-
-		return all;
 	}
 
 	private JSONObject toJSON(String type, ArrayList<Task> tasks) {
@@ -220,112 +281,51 @@ public class FileHandler {
 
 			for (Object tObj : taskLists) {
 				JSONObject j = (JSONObject) tObj;
-				Task t = jsonToTask(j);
-				tmp.put(t.getEndDate(), t);
+				Task t = null;
+				try {
+					t = jsonToTask(j);
+				} catch (DateTimeParseException dte) {
+					
+					System.out.println(dte);
+					
+				} catch (NullPointerException n) {
+					System.out.println(n);
+
+				}
+				if(t != null)
+					tmp.put(t.getEndDate(), t);
 				
 			}
 
 
 		} catch (ParseException  pe) {
 			//e.printStackTrace();
-			System.out.println("JSON parsing error " + pe);
-		} catch (IOException e) {
 			
-		}
+			System.out.println("JSON parsing error" + pe);
+			if(!isFileEmpty()) {
+			stringToFile(removeChar(pe.getPosition(),writeToString(fileName)));
+			tmp = getAllTasks();
+			}else {
+				System.out.println("File is empty");
+			}
+
+			
+		} catch (IOException e) {
+			System.out.println("File Not Found!");
+		} 
 		
 		return tmp;
 		
 		
 	}
 
-	public ArrayList<Task> getList(String type) {
-		
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		JSONParser parser = new JSONParser();
 
-		try {
-
-			Object obj = parser.parse(new FileReader(fileName));
-
-			JSONObject jsonObject = (JSONObject) obj;
-			JSONArray taskLists = (JSONArray) jsonObject.get("tasks");
-
-			for (Object tObj : taskLists) {
-				JSONObject j = (JSONObject) tObj;
-				Task t = jsonToTask(j);
-				if(determineTaskType(t).equalsIgnoreCase(type)) {
-					tasks.add(t);
-
-				}
-			}
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		System.out.println(tasks.toString());
-		return tasks;
-
-	}
-
-	private String determineTaskType(Task task) {
-		if (task.getEndDate().equals(LocalDate.MAX)
-				&& task.getStartDate().equals(LocalDate.MAX)) {
-			return FLOATING;
-		} else if (!task.getStartDate().equals(LocalDate.MAX)
-				&& !task.getEndDate().equals(LocalTime.MAX)) {
-			return TIMED;
-		} else {
-			return DEADLINE;
-		}
-	}
 	
-	// @SuppressWarnings("unchecked")
-	public ArrayList<Task> read(String type) {
 
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		JSONParser parser = new JSONParser();
-
-		try {
-
-			Object obj = parser.parse(new FileReader(fileName));
-
-			JSONObject jsonObject = (JSONObject) obj;
-			JSONArray taskLists = (JSONArray) jsonObject.get(type);
-
-			for (Object tObj : taskLists) {
-				JSONObject j = (JSONObject) tObj;
-				Task t = jsonToTask(j);
-				tasks.add(t);
-				System.out.println(t.toString());
-			}
-
-			// JSONObject test = (JSONObject) taskLists.get(0);
-
-			// Task task = jsonToTask(test);
-
-			// System.out.println(task.getID());
-			// System.out.println(task.getDescription());
-			// System.out.println(task.getStartDate());
-			// System.out.println(task.getEndDate());
-			// System.out.println(task.getStartTime());
-			// System.out.println(task.getEndTime());
-			// System.out.println(task.getPriority());
-			// System.out.println(task.getCompleted());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		System.out.println(tasks.toString());
-		return tasks;
-	}
-
-	private Task jsonToTask(JSONObject jTask) {
+	private Task jsonToTask(JSONObject jTask)  {
 
 		Task task = new Task();
-
+		
 		task.setUniqueID(Integer.parseInt(jTask.get(ID).toString()));
 		task.setDescription(jTask.get(DESCRPTION).toString());
 		task.setStartDate(LocalDate.parse(jTask.get(S_DATE).toString()));
