@@ -154,8 +154,11 @@ public class DeleteCommand extends Command {
      */
     @Override
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
-        final int MAX_VALID_FLAG = 1;
-        return parseFlags.size() > MAX_VALID_FLAG;
+        final EnumSet<ParserFlags> VALID_DELETE_PARSE = EnumSet.of(
+                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
+   
+                
+        return ParserFlags.containsOnly(parseFlags, VALID_DELETE_PARSE);
     }
 
     /*
@@ -166,6 +169,15 @@ public class DeleteCommand extends Command {
     @Override
     public String toString() {
         return "Delete";
+    }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        final String ERROR_MESSAGE = "Format of delete should only be <Delete> <Index>";
+        return ERROR_MESSAGE;
     }
 
 }

@@ -14,6 +14,7 @@ import logic.utility.Task;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -106,6 +107,7 @@ public class FileHandler {
 	public String writeToFile(ArrayList<Task> tasks) {
 	
 		JSONObject jTasks = toJSON("tasks",tasks);
+		
 
 		try {
 			FileWriter fstream = new FileWriter(fileName, true);
@@ -224,8 +226,11 @@ public class FileHandler {
 			}
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (ParseException  pe) {
+			//e.printStackTrace();
+			System.out.println("JSON parsing error " + pe);
+		} catch (IOException e) {
+			
 		}
 		
 		return tmp;

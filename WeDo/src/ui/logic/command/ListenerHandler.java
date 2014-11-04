@@ -26,6 +26,7 @@ import ui.WeDoSystemTray;
 import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
+import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
@@ -35,7 +36,7 @@ import userInterface.UserIntSwing;
 public class ListenerHandler {
 	private static final BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
 			Color.BLUE);
-	private static String userInput;
+	private static String userInput = new String();
 	/**
 	 * Buttons Listener - Process the adding of text to the textfield
 	 * when Hotkey is pressed. 
@@ -247,24 +248,20 @@ public class ListenerHandler {
 		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg1) {
-				if(arg1.getKeyCode() == VK.enter()){
+				if(arg1.getKeyCode() == VK.enter()) {
 					processEnterkey(arg1);
 				}
 			}
 			@Override
 			public void keyReleased(KeyEvent arg1) {
-				String userInput = UserIntSwing.textField.getText();
+				userInput = UserIntSwing.textField.getText();
+				processTextfield(arg1, userInput);
 				DynamicParseResult parseResult = 
 						UserInterfaceMain.processUserParse(arg1, UserIntSwing.logicManager);
 				Task task = parseResult.getTask();
 				UserInterfaceMain.clearDynamicParseLabels();
 				handleDynamicEdit(parseResult, task);
 				UserInterfaceMain.showParseResult(parseResult, task);
-				try {
-					processTextfield(arg1, userInput);
-				} catch (InvalidCommandException e) {
-					e.printStackTrace();
-				}
 			}
 
 			private void handleDynamicEdit(DynamicParseResult parseResult,
@@ -280,9 +277,7 @@ public class ListenerHandler {
 								task.getDescription(), indexString));
 						UserInterfaceMain.showTaskToBeEdited(taskToBeEdited);
 						UserIntSwing.interForm.selectRow(index);
-					}
-					else
-					{
+					}else {
 						showInvalidIndexMessage(task);
 					}
 				}
@@ -297,21 +292,23 @@ public class ListenerHandler {
 			 *@param userInput Input that the user entered from the textfield
 			 * @throws InvalidCommandException 
 			 */
-			private void processTextfield(KeyEvent arg1, String userInput)
-					throws InvalidCommandException {
+			private void processTextfield(KeyEvent arg1, String userInput) {
 
 				UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
 				TextfieldHistory.showTextfieldHistory(arg1);
-				UserInterfaceMain.processHotKeys(arg1);
+				try {
+					UserInterfaceMain.processHotKeys(arg1);
+				} catch (InvalidCommandException e) {
+					FeedbackGuide.isInvalidString();
+				}
 			}
 			/**
 			 *Enter Key Listener process
 			 *@param arg1 KeyEvent Enter from the textfield
 			 */
 			private void processEnterkey(KeyEvent arg1) {
-				String getText = UserIntSwing.textField.getText();
-				TextfieldHistory.getTextfieldString(getText);
-				UserIntSwing.lblViewTask.setText(UserInterfaceMain.viewDateTask());
+				userInput = UserIntSwing.textField.getText();
+				TextfieldHistory.getTextfieldString(userInput);
 			}
 		});
 	}

@@ -163,8 +163,12 @@ public class UncompleteCommand extends Command {
      */
     @Override
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
-        final int MAX_VALID_FLAG = 1;
-        return parseFlags.size() > MAX_VALID_FLAG;
+
+        final EnumSet<ParserFlags> VALID_UNCOMPLETE_PARSE = EnumSet.of(
+                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
+   
+                
+        return ParserFlags.containsOnly(parseFlags, VALID_UNCOMPLETE_PARSE);
     }
 
     /*
@@ -175,6 +179,15 @@ public class UncompleteCommand extends Command {
     @Override
     public String toString() {
         return "Completed";
+    }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        final String ERROR_MESSAGE = "Format of complete should only be <Uncomplete> <Index>";
+        return ERROR_MESSAGE;
     }
 
 }

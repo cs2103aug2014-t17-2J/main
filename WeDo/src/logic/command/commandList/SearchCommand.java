@@ -62,8 +62,16 @@ public class SearchCommand extends Command {
      * @return if it contains more than MIN_VALID_FLAGS flags
      */
     public static boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
-        final int MIN_VALID_FLAGS = 1;
-        return parseFlags.size() > MIN_VALID_FLAGS;
+        final EnumSet<ParserFlags> VALID_SEARCH_CATEGORY_PARSE = EnumSet.of(
+                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
+        final EnumSet<ParserFlags> VALID_SEARCH_DATE_PARSE = EnumSet.of(
+                ParserFlags.DATE_FLAG, ParserFlags.COMMAND_FLAG);
+        final EnumSet<ParserFlags> VALID_SEARCH_PRIORITY_PARSE = EnumSet.of(
+                ParserFlags.PRIORITY_FLAG, ParserFlags.COMMAND_FLAG);
+
+        return (ParserFlags.containsOnly(parseFlags, VALID_SEARCH_CATEGORY_PARSE) || ParserFlags
+                .containsOnly(parseFlags, VALID_SEARCH_DATE_PARSE) || ParserFlags
+                .containsOnly(parseFlags, VALID_SEARCH_PRIORITY_PARSE));
     }
     
     /* (non-Javadoc)
@@ -72,6 +80,15 @@ public class SearchCommand extends Command {
     @Override
     public String toString() {
             return "Search";
+    }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        final String ERROR_MESSAGE = "Format of Search should only be <Search> <Description> or <Search> <Date> or <Search> <Priority>";
+        return ERROR_MESSAGE;
     }
 
 }

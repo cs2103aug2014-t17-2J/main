@@ -165,6 +165,13 @@ public class InteractiveTableModel extends AbstractTableModel {
 
 		clearRows();
 
+		if(taskList.isEmpty())
+		{
+		    if (!this.hasEmptyRow()) {
+                this.addEmptyRow();
+            }
+		}
+		
 		for (Task task : taskList) {
 			if (!this.hasEmptyRow()) {
 				this.addEmptyRow();

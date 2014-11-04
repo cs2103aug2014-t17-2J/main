@@ -79,6 +79,15 @@ public class AddCommand extends Command {
     @Override
     public String toString() {
             return "Add";
+    }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        final String ERROR_MESSAGE = "Format of add should consist at least 1 field";
+        return ERROR_MESSAGE;
     }    
     
 }

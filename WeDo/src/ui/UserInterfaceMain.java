@@ -11,6 +11,7 @@ import java.util.Date;
 
 import logic.LogicManager;
 import logic.command.commandList.EditCommand;
+import logic.command.commandList.ViewCommand;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
 import logic.parser.ParseResult;
@@ -33,15 +34,9 @@ import userInterface.UserIntSwing;
 public class UserInterfaceMain {
 	private static final String DATE_FORMAT_FIRST = "dd-MMM-yy";
 	private static final String DATE_FORMAT_SECOND = "dd/MM/yyyy";
-	private static final String WHITESPACE_PATTERN = "\\s+";
-	private static final int MIN_TOKENS_LENGTH = 1;
-	private static final int ACTION_IDENTIFIER_INDEX = 0;
 	private static final int taskbarHeight = 40;
 
 	private static String userInput = new String();
-	private static final String VIEW_STRING_TODAY = "You are viewing today tasks.";
-	private static final String VIEW_STRING_TOMORROW = "You are viewing tomorrow tasks.";
-	private static final String VIEW_STRING_YESTERDAY = "You are viewing yesterday tasks.";
 	private static final SimpleDateFormat sdf_first = new SimpleDateFormat(DATE_FORMAT_FIRST);
 	private static final SimpleDateFormat sdf_second = new SimpleDateFormat(DATE_FORMAT_SECOND);
 
@@ -108,42 +103,31 @@ public class UserInterfaceMain {
 
 	/**Process lblViewTask to view tasks that the user is 
 	 * currently viewing
+	 * @param parseResult 
 	 * @return String telling the user what he is viewing
 	 */
-	public static String viewDateTask() {
-		String dateView = UserIntSwing.lblDateProcess.getText();
-		String getText = UserIntSwing.textField.getText();
-		String getCommand = getCommand(getText);
-	
-		if(getCommand.matches("view")) {
-			if(dateView.matches(dateToday())) {
-				return VIEW_STRING_TODAY;
+	public static String viewDateTask(ParseResult parseResult) {
+		if (parseResult.getCommand() instanceof ViewCommand) {
+			String getStr = parseResult.getTask().getDateTimeString();
+			userInput = UserIntSwing.textField.getText();
+			System.out.println(getStr + " HEREEEEEEEEEEEEEE!!! " + UserIntSwing.textField.getText());
+			if(getStr.isEmpty()) {
+				getStr = parseResult.getTask().getDescription();
 			}
-			else if(dateView.matches(dateTomorrow())) {
-				return VIEW_STRING_TOMORROW;
+			else if(getStr.matches(dateToday())) {
+				return FeedbackGuide.formatViewTodayTask();
 			}
-			else if(dateView.matches(dateYesterday())) {
-				return VIEW_STRING_YESTERDAY;
+			else if(getStr.matches(dateTomorrow())) {
+				return FeedbackGuide.formatViewTomorrowTask();
 			}
-			else {
-				return "You are viewing: " + dateView + " tasks.";
+			else if(getStr.matches(dateYesterday())) {
+				return FeedbackGuide.formatViewYesterdayTask();
+			}
+			else{
+				return FeedbackGuide.formatViewDateTask(getStr);
 			}
 		}
-		return VIEW_STRING_TODAY;
-	}
-
-	private static String getCommand(String commandString) {
-		/* Check that there is at least 1 token */
-		String[] tokens = commandString.split(WHITESPACE_PATTERN);
-		boolean isValidLength = (tokens.length >= MIN_TOKENS_LENGTH);
-
-		String identifier = tokens[ACTION_IDENTIFIER_INDEX];
-		
-		if(isValidLength){
-			return identifier;
-		}
-		
-		return "notViewCommand";
+		return FeedbackGuide.formatViewTodayTask();
 	}
 
 	/**
@@ -205,10 +189,17 @@ public class UserInterfaceMain {
 
 		if (parseResult.isSuccessful()) {
 			try {
+				UserIntSwing.textField.setText(null);
+				// reset command guide to general guide
+				UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 				UserIntSwing.logicManager.executeCommand(parseResult);
+				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult));
+		
 			} 
-			catch (InvalidCommandException e) {
-				e.printStackTrace();
+			catch (InvalidCommandException exception) {
+				FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
+				exception.printStackTrace();
+				return;
 			}
 			FeedbackHandler.successfulOperation();
 		} 
@@ -219,11 +210,9 @@ public class UserInterfaceMain {
 			FeedbackHandler.emptyStringOperation();
 		} 
 		else {
-			FeedbackHandler.NotSuccessfulOperation();
+			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
 		}
-		UserIntSwing.textField.setText(null);
-		// reset command guide to general guide
-		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
+		
 	}
 
 	/**
@@ -234,20 +223,17 @@ public class UserInterfaceMain {
 	public static void processHotKeys(KeyEvent key) throws InvalidCommandException {
 		if (key.getKeyCode() == VK.help()) {
 			HelpMenu.main(null);
-		}
-		if (UserIntSwing.textField.getText().isEmpty()) {
-			if (key.getKeyCode() == VK.add()) {
-				HotkeyHandler.add();
-			} else if (key.getKeyCode() == VK.view()) {
-				HotkeyHandler.view();
-			} else if (key.getKeyCode() == VK.edit()) {
-				HotkeyHandler.edit();
-			} else if (key.getKeyCode() == VK.delete()) {
-				HotkeyHandler.delete();
-			} else if (key.getKeyCode() == VK.search()) {
-				HotkeyHandler.search();
-			} 
-		}
+		} else if (key.getKeyCode() == VK.add()) {
+			HotkeyHandler.add();
+		} else if (key.getKeyCode() == VK.view()) {
+			HotkeyHandler.view();
+		} else if (key.getKeyCode() == VK.edit()) {
+			HotkeyHandler.edit();
+		} else if (key.getKeyCode() == VK.delete()) {
+			HotkeyHandler.delete();
+		} else if (key.getKeyCode() == VK.search()) {
+			HotkeyHandler.search();
+		} 
 		
 		userInput = UserIntSwing.textField.getText();
 		UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));

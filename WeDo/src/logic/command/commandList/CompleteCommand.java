@@ -162,10 +162,17 @@ public class CompleteCommand extends Command {
      * @see logic.command.commandList.Command#validate(java.util.EnumSet)
      */
     @Override
-    public boolean validate(EnumSet<ParserFlags> parseFlags) {
-        final int MAX_VALID_FLAG = 1;
-        return parseFlags.size() > MAX_VALID_FLAG;
+    public boolean validate(EnumSet<ParserFlags> parseFlags) 
+    {
+        
+        final EnumSet<ParserFlags> VALID_COMPLETE_PARSE = EnumSet.of(
+                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
+   
+                
+        return ParserFlags.containsOnly(parseFlags, VALID_COMPLETE_PARSE);
     }
+    
+
 
     /*
      * (non-Javadoc)
@@ -175,6 +182,16 @@ public class CompleteCommand extends Command {
     @Override
     public String toString() {
         return "Completed";
+    }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() 
+    {
+        final String ERROR_MESSAGE = "Format of complete should only be <Complete> <Index>";
+        return ERROR_MESSAGE;
     }
 
 }
