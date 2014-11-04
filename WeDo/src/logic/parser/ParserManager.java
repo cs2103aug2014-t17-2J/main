@@ -70,7 +70,7 @@ public class ParserManager {
             if (!commandParser.getCommand().validate(parseFlags)) 
             {
                 parseResult.setSuccessful(false);
-                parseResult.setFailedMessage(INSUFFICIENT_ATTRIBUTE);
+                parseResult.setFailedMessage(commandParser.getCommand().getValidateErrorMessage());
                 return parseResult;
             } else {
                 parseResult.setSuccessful(true);
