@@ -33,7 +33,8 @@ public class DateParser {
     private String wordUsed;
     private String wordRemaining;
     private List<Date> dateList;
-    private boolean isTimeSet;
+    private boolean timeSet;
+    private boolean wordRemainingSeparated;
 
     /**
      * <p> The source will be parsed to see if it contains date.
@@ -83,6 +84,7 @@ public class DateParser {
             
             System.out.println("Total wordUsed = " + wordUsed);
 
+            wordRemainingSeparated = StringHandler.isWordUsedInTheMiddle(source, wordUsed);
             wordRemaining = StringHandler.removeFirstMatched(source, wordUsed);
             
             dateList = getDateList(dateGroups);
@@ -94,7 +96,7 @@ public class DateParser {
                 }
          
             
-            isTimeSet = isTimeInferred(dateGroups);
+            timeSet = isTimeInferred(dateGroups);
             return true;
         } else {
             return false;
@@ -260,7 +262,7 @@ public class DateParser {
     }
 
     public boolean isTimeSet() {
-        return isTimeSet;
+        return timeSet;
     }
 
     public LocalDate getStartDate() {
@@ -288,7 +290,7 @@ public class DateParser {
     public LocalTime getStartTime() {
         final int START_TIME_INDEX = 0;
 
-        if (isTimeSet) {
+        if (timeSet) {
             return dateToLocalTime(dateList.get(START_TIME_INDEX));
         } else {
             return AbstractTask.TIME_NOT_SET;
@@ -305,7 +307,7 @@ public class DateParser {
             return getStartTime();
         }
 
-        if (isTimeSet) {
+        if (timeSet) {
             return dateToLocalTime(dateList.get(END_TIME_INDEX));
         } else {
             return AbstractTask.TIME_NOT_SET;
@@ -381,6 +383,20 @@ public class DateParser {
      */
     public String getWordRemaining() {
         return wordRemaining;
+    }
+
+    /**
+     * @return the wordRemainingSeparated
+     */
+    public boolean isWordRemainingSeparated() {
+        return wordRemainingSeparated;
+    }
+
+    /**
+     * @param wordRemainingSeparated the wordRemainingSeparated to set
+     */
+    public void setWordRemainingSeparated(boolean wordRemainingSeparated) {
+        this.wordRemainingSeparated = wordRemainingSeparated;
     }
 
 }
