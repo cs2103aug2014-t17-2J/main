@@ -3,13 +3,10 @@
  */
 package userInterface;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-
-import definedEnumeration.Priority;
 
 @SuppressWarnings("serial")
 public class DefaultWeDoTableRenderer extends DefaultTableCellRenderer {
