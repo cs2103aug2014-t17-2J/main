@@ -103,6 +103,12 @@ public class StringHandler {
     
   
     
+    public static boolean isWordUsedInTheMiddle(String source, String word)
+    {
+        final int EXPECTED_TOKEN = 1;
+        String test[] = source.split(word);
+        return source.split(word).length > EXPECTED_TOKEN;
+    }
 
     /**
      * @param source

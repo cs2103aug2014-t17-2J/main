@@ -202,7 +202,7 @@ public class DateStringMassager {
     
     private static String replacePossibleDateDescriptionWithDelimiter(String source) {
         
-        final String[] POSSIBLE_DATE_DESCRIPTION = {"day", "days", "week", "weeks", "month", "months",  "year", "years", "now"};
+        final String[] POSSIBLE_DATE_DESCRIPTION = {"day", "days", "week", "weeks", "month", "months",  "year", "years"};
         String restrictedWordRegex = addRestrictedWordToRegex(POSSIBLE_DATE_DESCRIPTION);
         
        

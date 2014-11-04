@@ -51,7 +51,6 @@ public class ParserManager {
     public ParseResult interpret(String userInput) {
 
         final String COMMAND_PARSE_FAILED = "No such command";
-        final String INSUFFICIENT_ATTRIBUTE = "Insufficient attribute(s) for the command";
         
         ParseResult parseResult = new ParseResult();
         DateParser dateParser = new DateParser();
@@ -60,7 +59,7 @@ public class ParserManager {
         CommandParser commandParser = new CommandParser();
         
         EnumSet<ParserFlags> parseFlags = tryParse(userInput, dateParser,
-                priorityParser, descriptionParser, commandParser);
+                priorityParser, descriptionParser, commandParser, parseResult);
 
          if (!isCommandParsed(parseFlags)) {
             parseResult.setSuccessful(false);
@@ -73,7 +72,14 @@ public class ParserManager {
                 parseResult.setFailedMessage(commandParser.getCommand().getValidateErrorMessage());
                 return parseResult;
             } else {
-                parseResult.setSuccessful(true);
+                if(parseResult.getFailedMessage() == null || parseResult.getFailedMessage().isEmpty())
+                {    
+                    parseResult.setSuccessful(true);
+                }
+                else
+                {
+                    parseResult.setSuccessful(false);
+                }
                 parseResult.setCommand(commandParser.getCommand());
                 parseResult.setTask(buildTask(parseFlags, dateParser,
                         priorityParser, descriptionParser));
@@ -210,26 +216,28 @@ public class ParserManager {
      *            the parser which could parse description.
      * @param commandParser
      *            the parser which could parse command.
+     * @param parseResult 
      * @return parseFlags which consist of successful parses
      */
     public EnumSet<ParserFlags> tryParse(String userInput,
             DateParser dateParser, PriorityParser priorityParser,
-            DescriptionParser descriptionParser, CommandParser commandParser) {
+            DescriptionParser descriptionParser, CommandParser commandParser, ParseResult parseResult) {
         EnumSet<ParserFlags> parseFlags = EnumSet.noneOf(ParserFlags.class);
-
-        System.out.println("to date parser " + userInput);
-        if (dateParser.tryParse(userInput)) {
-            parseFlags.add(ParserFlags.DATE_FLAG);
-            userInput = dateParser.getWordRemaining();
-        }
-
+        final String DESCRIPTION_SEPARATED_ERROR = "Description Should not be separeted";
+        
         System.out.println("to priority parser is " + userInput);
 
         if (priorityParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.PRIORITY_FLAG);
             userInput = priorityParser.getWordRemaining();
         }
-        
+
+        System.out.println("to date parser " + userInput);
+        if (dateParser.tryParse(userInput)) {
+            parseFlags.add(ParserFlags.DATE_FLAG);
+            userInput = dateParser.getWordRemaining();
+        }
+                
         System.out.println("to command parser is " + userInput);
         if (commandParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.COMMAND_FLAG);
@@ -238,14 +246,87 @@ public class ParserManager {
         
         System.out.println("to description parser is " + userInput);
 
-        if (descriptionParser.tryParse(userInput)) {
+        if (descriptionParser.tryParse(userInput)) 
+        {
             parseFlags.add(ParserFlags.DESCRIPTION_FLAG);
+
+            if(isDescriptionSeparated(dateParser, commandParser))
+            {
+                parseResult.setFailedMessage(DESCRIPTION_SEPARATED_ERROR);
+            }
+            else
+            {
+                userInput = descriptionParser.getWordRemaining();
+            }
+            
+        }
+
+
+
+        return parseFlags;
+    }
+    
+    
+    /**
+     * This function try to parse the userInput with the available parser(s).<br>
+     * Parse(s) which are successful are added to the parseFlags. <br>
+     * 
+     * @param userInput
+     *            the String that will be parsed.
+     * @param dateParser
+     *            the parser which could parse date.
+     * @param priorityParser
+     *            the parser which could parse priority.
+     * @param descriptionParser
+     *            the parser which could parse description.
+     * @param commandParser
+     *            the parser which could parse command.
+     * @param parseResult 
+     * @return parseFlags which consist of successful parses
+     */
+    public EnumSet<ParserFlags> tryParse(String userInput,
+            DateParser dateParser, PriorityParser priorityParser,
+            DescriptionParser descriptionParser, CommandParser commandParser) {
+        EnumSet<ParserFlags> parseFlags = EnumSet.noneOf(ParserFlags.class);
+        final String DESCRIPTION_SEPARATED_ERROR = "Description Should not be separeted";
+        
+        System.out.println("to priority parser is " + userInput);
+
+        if (priorityParser.tryParse(userInput)) {
+            parseFlags.add(ParserFlags.PRIORITY_FLAG);
+            userInput = priorityParser.getWordRemaining();
+        }
+
+        System.out.println("to date parser " + userInput);
+        if (dateParser.tryParse(userInput)) {
+            parseFlags.add(ParserFlags.DATE_FLAG);
+            userInput = dateParser.getWordRemaining();
+        }
+                
+        System.out.println("to command parser is " + userInput);
+        if (commandParser.tryParse(userInput)) {
+            parseFlags.add(ParserFlags.COMMAND_FLAG);
+            userInput = commandParser.getWordRemaining();
+        }
+        
+        System.out.println("to description parser is " + userInput);
+
+        if (descriptionParser.tryParse(userInput)) 
+        {
+            parseFlags.add(ParserFlags.DESCRIPTION_FLAG);           
             userInput = descriptionParser.getWordRemaining();
         }
 
 
 
         return parseFlags;
+    }
+
+
+
+    private boolean isDescriptionSeparated(DateParser dateParser,
+            CommandParser commandParser) {
+        return dateParser.isWordRemainingSeparated() && !commandParser.isLastWordUsed();
     }
 
     /**
