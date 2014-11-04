@@ -51,14 +51,9 @@ public class InteractiveForm extends JPanel {
 
 	public void updateTable(ArrayList<Task> taskList) {
 
-		// wrap text for description column
-		table.getColumnModel()
-				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
-				.setCellRenderer(new LineWrapCellRenderer(tableModel));
-
 		tableModel.updateTable(taskList);
 	}
-	
+
 	public void initComponent() {
 
 		System.out.println("init count " + hi++);
@@ -73,7 +68,7 @@ public class InteractiveForm extends JPanel {
 		table.setOpaque(true);
 		table.setVisible(true);
 		table.setRowSelectionAllowed(true);
-				
+
 		table.setSurrendersFocusOnKeystroke(true);
 		if (!tableModel.hasEmptyRow()) {
 			tableModel.addEmptyRow();
@@ -82,10 +77,9 @@ public class InteractiveForm extends JPanel {
 		scroller = new javax.swing.JScrollPane(table);
 
 		table.setDefaultRenderer(Object.class, new TableDefaultRenderer());
-	    
+
 		table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,
 				300));
-		
 
 		TableColumn hidden = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_HIDDEN);
@@ -94,9 +88,9 @@ public class InteractiveForm extends JPanel {
 		TableColumn done = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_CHECK);
 
-		taskID.setMinWidth(25);
-		taskID.setPreferredWidth(25);
-		taskID.setMaxWidth(25);
+		taskID.setMinWidth(30);
+		taskID.setPreferredWidth(30);
+		taskID.setMaxWidth(30);
 		taskID.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_TASK));
 
@@ -106,14 +100,17 @@ public class InteractiveForm extends JPanel {
 		hidden.setCellRenderer(new InteractiveRenderer(
 				InteractiveTableModel.INDEX_HIDDEN));
 
+		done.setMinWidth(100);
+		done.setPreferredWidth(100);
+		done.setMaxWidth(100);
 		done.setCellRenderer(new BooleanCellRenderer());
-		
+
 		TableColumn description = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_DESCRIPTION);
 		description.setMinWidth(200);
 		description.setPreferredWidth(200);
 		description.setMaxWidth(200);
-		
+
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
 
@@ -125,7 +122,7 @@ public class InteractiveForm extends JPanel {
 		// CellSelectionListener());
 
 		setNoHighLightSelectionColor();
-		
+
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 				JTable table = (JTable) me.getSource();
@@ -146,6 +143,11 @@ public class InteractiveForm extends JPanel {
 				}
 			}
 		});
+
+		// wrap text for description column
+		table.getColumnModel()
+				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
+				.setCellRenderer(new LineWrapCellRenderer(tableModel));
 	}
 
 	public void highlightLastRow(int row) {

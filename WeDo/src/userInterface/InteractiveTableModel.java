@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
@@ -165,13 +167,19 @@ public class InteractiveTableModel extends AbstractTableModel {
 
 		clearRows();
 
-		if(taskList.isEmpty())
-		{
-		    if (!this.hasEmptyRow()) {
-                this.addEmptyRow();
-            }
+		if (taskList.isEmpty()) {
+			if (!this.hasEmptyRow()) {
+				this.addEmptyRow();
+			}
 		}
-		
+
+		Collections.sort(taskList, new Comparator<Task>() {
+			public int compare(Task t1, Task t2) {
+				return t1.getDescription().compareToIgnoreCase(
+						t2.getDescription());
+			}
+		});
+
 		for (Task task : taskList) {
 			if (!this.hasEmptyRow()) {
 				this.addEmptyRow();
@@ -211,6 +219,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 			}
 			row++;
 		}
+
 	}
 
 	public void clearRows() {
