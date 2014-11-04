@@ -173,8 +173,10 @@ public class BasicDataHandler implements DataHandler{
 	}
 	
 	public boolean addTask(Task task) {
+		addThenView(task);
+
 		int index = observableList.getList().size();
-		this.addTask(index,task);
+		addTask(index,task);
 		return true;
 	}
 	
@@ -183,9 +185,7 @@ public class BasicDataHandler implements DataHandler{
 
 		String taskType = determineTaskType(task);
 
-		
 		mainList2.put(task.getEndDate(), task);
-		
 		
 		if(currentList.equals(TIMED)) {
 			if(withinRange(currentRange.getStartDate(),currentRange.getEndDate(),task)) {
@@ -197,6 +197,7 @@ public class BasicDataHandler implements DataHandler{
 			
 			observableList.add(index,task);
 		}
+
 
 		save();
 		System.out.println(task.getUniqueID() + " is added");
@@ -326,7 +327,20 @@ public class BasicDataHandler implements DataHandler{
 		// TODO Auto-generated method stub
 		return mainList;
 	}
-
+	
+	public void addThenView(Task task) {
+		String type = determineTaskType(task);
+		
+		if( type.equals(DEADLINE) || type.equals(TIMED)) {
+			view(task);
+		}
+		else {
+			 Task tmp = new Task();
+			 tmp.setDescription(SOMEDAY);
+			 view(tmp);
+		}
+	}
+	
 	public void view(Task task) {
 
 		System.out.println(task.getStartDate().toString());
@@ -367,7 +381,7 @@ public class BasicDataHandler implements DataHandler{
 		else if(task.getDescription().equalsIgnoreCase(ALL)){
 			currentList = ALL;
 			tmp.addAll(mainList2.values());
-			tmp = sort(tmp);
+//			tmp = sort(tmp);
 			observableList.replaceList(tmp);
 		}
 
