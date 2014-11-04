@@ -45,6 +45,7 @@ public class UserInterfaceMain {
 	 */
 	public static void initProcess() {
 		setupFrameLocation();
+		ListenerHandler.addFrameWindowFocusListener();
 		initAllListener();
 		FormatHandler.format();
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
@@ -57,7 +58,6 @@ public class UserInterfaceMain {
 	 * This operation initialize all the Listener Processes
 	 */
 	private static void initAllListener() {
-		ListenerHandler.addFrameWindowFocusListener();
 		ListenerHandler.addBtnHelpListener();
 		ListenerHandler.addBtnAddListener();
 		ListenerHandler.addBtnViewListener();
@@ -78,7 +78,6 @@ public class UserInterfaceMain {
 		int dayOfWeekInt = calendar.get(Calendar.DAY_OF_WEEK);
 		String date = sdf_first.format(new Date());
 		String dayOfWeekString;
-		String dateDisplay;
 
 		switch (dayOfWeekInt){
 			case Calendar.MONDAY: dayOfWeekString = "Monday";
@@ -96,7 +95,7 @@ public class UserInterfaceMain {
 			default: dayOfWeekString = "Sunday";
 				break;
 		}
-		dateDisplay = date + " " + dayOfWeekString;
+		String dateDisplay = date + " " + dayOfWeekString;
 
 		return dateDisplay;
 	}
@@ -185,20 +184,19 @@ public class UserInterfaceMain {
 	public static void processTextfieldString() {
 		ParseResult parseResult = UserIntSwing.logicManager
 				.processCommand(UserIntSwing.textField.getText());
-		String getText = UserIntSwing.textField.getText();
+		userInput = UserIntSwing.textField.getText();
 
 		if (parseResult.isSuccessful()) {
 			try {
-				UserIntSwing.textField.setText(null);
-				// reset command guide to general guide
 				UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 				UserIntSwing.logicManager.executeCommand(parseResult);
 				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult));
-		
 			} 
 			catch (InvalidCommandException exception) {
 				FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
-				exception.printStackTrace();
+				UserIntSwing.textField.setText(null);
+				// Log this error.
+				//exception.printStackTrace();
 				return;
 			}
 			FeedbackHandler.successfulOperation();
@@ -206,13 +204,13 @@ public class UserInterfaceMain {
 		else if(UserIntSwing.textField.getText().isEmpty()) {
 			FeedbackHandler.emptyStringOperation();
 		} 
-		else if (FeedbackHandler.isDoubleSpace(getText)) {
+		else if (FeedbackHandler.isDoubleSpace(userInput)) {
 			FeedbackHandler.emptyStringOperation();
 		} 
 		else {
 			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
 		}
-		
+		UserIntSwing.textField.setText(null);
 	}
 
 	/**

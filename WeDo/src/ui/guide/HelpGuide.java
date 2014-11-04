@@ -174,7 +174,7 @@ public class HelpGuide {
 		str.append(HTML_BREAK);
 		str.append("By specifying the ID of the task, the task with the ID 2 in");
 		str.append(HTML_BREAK);
-		str.append("the above example will be removed.");
+		str.append("the above example task will be removed.");
 		
 		str.append(HTML_BREAK + HTML_BREAK);
 		str.append("---------------------------- END ----------------------------");
@@ -190,6 +190,24 @@ public class HelpGuide {
 		str.append(makeTitleStr("Advance help command for "));
 		str.append(makeCommandStr("\"Search\""));
 		str.append(HTML_BREAK);
+		
+		str.append("-You can use these commands: ");
+		str.append(underline("search") + spaceOr + underline("s") 
+				+ spaceOr + underline("find") + spaceOr + underline("f"));
+		str.append(HTML_BREAK);
+		str.append(" to search for a keyword.");
+		
+		str.append(HTML_BREAK);
+		str.append("1. " + bold("Search a specific task."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"search meeting\""));
+		str.append(HTML_BREAK);
+		str.append("By specifying the keyword \"meeting\", all the keyword");
+		str.append(HTML_BREAK);
+		str.append("\"meeting\" will be shown.");
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("---------------------------- END ----------------------------");
 		
 		return wrapWithHtmlTag(str.toString());
 	}
