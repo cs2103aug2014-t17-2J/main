@@ -23,17 +23,17 @@ public class HelpGuide {
 	private static final String HTML_FONT_CLOSE = "</font>";
 	private static final String spaceOr = " | ";
 	
+	/**
+	 * @return Advance help command for "Add" in String
+	 */
 	public static String buildHelpGuideAddString() {
 
 		StringBuilder str = new StringBuilder();
 		
-		 /* Advance help command for "Add" */
 		str.append(makeTitleStr("Advance help command for "));
 		str.append(makeCommandStr("\"Add\""));
 		str.append(HTML_BREAK);
 		
-		 /* -You can use these commands: add | create | cre8 to
-		  * create a task. */
 		str.append("-You can use these commands: ");
 		str.append(underline("add") + spaceOr + underline("create") 
 				+ spaceOr + underline("cre8") + " to");
@@ -54,9 +54,6 @@ public class HelpGuide {
 		str.append(HTML_BREAK);
 		str.append(makeExample("E.g. \"create Submit Assignment by 21/10/2014 at 2pm\""));
 		
-		 /* 1. If you add a task without any date or time
-		  * E.g. add Finish Revising Programming
-		  * This task will categorized as Floating Task. */
 		str.append(HTML_BREAK);
 		str.append("3. " + bold("Floating Task."));
 		str.append(HTML_BREAK);
@@ -76,11 +73,13 @@ public class HelpGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	/**
+	 * @return  Advance help command for "View" in String
+	 */
 	public static String buildHelpGuideViewString() {
 
 		StringBuilder str = new StringBuilder();
 		
-		 /* Advance help command for "View" */
 		str.append(makeTitleStr("Advance help command for "));
 		str.append(makeCommandStr("\"View\""));
 		str.append(HTML_BREAK);
@@ -122,11 +121,13 @@ public class HelpGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	/**
+	 * @return Advance help command for "Edit" in String
+	 */
 	public static String buildHelpGuideEditString() {
 
 		StringBuilder str = new StringBuilder();
 		
-		 /* Advance help command for "Edit" */
 		str.append(makeTitleStr("Advance help command for "));
 		str.append(makeCommandStr("\"Edit\""));
 		str.append(HTML_BREAK);
@@ -152,11 +153,13 @@ public class HelpGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	/**
+	 * @return Advance help command for "Delete" in String
+	 */
 	public static String buildHelpGuideDeleteString() {
 
 		StringBuilder str = new StringBuilder();
 		
-		 /* Advance help command for "Delete" */
 		str.append(makeTitleStr("Advance help command for "));
 		str.append(makeCommandStr("\"Delete\""));
 		str.append(HTML_BREAK);
@@ -182,11 +185,13 @@ public class HelpGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	/**
+	 * @return Advance help command for "Search" in String
+	 */
 	public static String buildHelpGuideSearchString() {
 
 		StringBuilder str = new StringBuilder();
 		
-		 /* Advance help command for "Search" */
 		str.append(makeTitleStr("Advance help command for "));
 		str.append(makeCommandStr("\"Search\""));
 		str.append(HTML_BREAK);
@@ -202,7 +207,7 @@ public class HelpGuide {
 		str.append(HTML_BREAK);
 		str.append(makeExample("E.g. \"search meeting\""));
 		str.append(HTML_BREAK);
-		str.append("By specifying the keyword \"meeting\", all the keyword");
+		str.append("By specifying the keyword \"meeting\", all the keywords");
 		str.append(HTML_BREAK);
 		str.append("\"meeting\" will be shown.");
 		
@@ -212,7 +217,10 @@ public class HelpGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	
+	/**
+	 * @param strMsg Title of the guide in String
+	 * @return text in bold
+	 */
 	private static String makeTitleStr(String strMsg){
 		strMsg = bold(strMsg);
 		strMsg = underline(strMsg);
@@ -221,6 +229,11 @@ public class HelpGuide {
 		return strMsg;
 	}
 	
+	/**
+	 * @param strMsg the command in String
+	 * @return text for Command(bold, underline, increase font size,
+	 * italic, font color green)
+	 */
 	private static String makeCommandStr(String strMsg){
 		strMsg = bold(strMsg);
 		strMsg = underline(strMsg);
@@ -231,6 +244,10 @@ public class HelpGuide {
 		return strMsg;
 	}
 	
+	/**
+	 * @param strMsg the example in String
+	 * @return text for example(font color red, italic)
+	 */
 	private static String makeExample(String strMsg){
 		strMsg = fontColorRed(strMsg);
 		strMsg = italic(strMsg);
