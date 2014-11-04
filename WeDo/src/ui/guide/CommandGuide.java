@@ -219,7 +219,8 @@ public class CommandGuide {
 
 		str.append("To Undo an action, simply type undo");
 		str.append(HTML_BREAK);
-		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + Enter");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + [ENTER] ");
+		str.append("or simply use the shortcut key [Ctrl-Z]");
 		
 		return wrapWithHtmlTag(str.toString());
 	}
@@ -233,7 +234,8 @@ public class CommandGuide {
 
 		str.append("To Redo an action, simply type redo");
 		str.append(HTML_BREAK);
-		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + Enter");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + [ENTER] ");
+		str.append("or simply use the shortcut key [Ctrl-Y]");
 		
 		return wrapWithHtmlTag(str.toString());
 	}

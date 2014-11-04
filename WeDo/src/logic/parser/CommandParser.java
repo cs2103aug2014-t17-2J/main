@@ -18,6 +18,7 @@ import logic.command.commandList.RedoCommand;
 import logic.command.commandList.SearchCommand;
 import logic.command.commandList.UndoCommand;
 import logic.command.commandList.ViewCommand;
+import logic.utility.KeyWordMappingList;
 import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 
@@ -147,7 +148,7 @@ public class CommandParser {
     }
 
     private Command getCommand(String firstWord) {
-       return MultiMapMatcher.getMatchedKey(createFakeMultiMapForCommand(), firstWord);
+       return MultiMapMatcher.getMatchedKey(KeyWordMappingList.getCommandMultiMap(), firstWord);
     }
     
     public Command getCommand()

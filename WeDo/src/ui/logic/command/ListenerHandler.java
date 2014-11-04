@@ -26,7 +26,6 @@ import ui.WeDoSystemTray;
 import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
-import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
@@ -251,6 +250,11 @@ public class ListenerHandler {
 				if(arg1.getKeyCode() == VK.enter()) {
 					processEnterkey(arg1);
 				}
+				try {
+					UserInterfaceMain.processHotKeys(arg1);
+				} catch (InvalidCommandException e) {
+					e.printStackTrace();
+				}
 			}
 			@Override
 			public void keyReleased(KeyEvent arg1) {
@@ -293,14 +297,8 @@ public class ListenerHandler {
 			 * @throws InvalidCommandException 
 			 */
 			private void processTextfield(KeyEvent arg1, String userInput) {
-
 				UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
 				TextfieldHistory.showTextfieldHistory(arg1);
-				try {
-					UserInterfaceMain.processHotKeys(arg1);
-				} catch (InvalidCommandException e) {
-					FeedbackGuide.isInvalidString();
-				}
 			}
 			/**
 			 *Enter Key Listener process
