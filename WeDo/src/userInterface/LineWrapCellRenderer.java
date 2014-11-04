@@ -6,6 +6,7 @@
 package userInterface;
 
 import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -28,7 +29,7 @@ public class LineWrapCellRenderer extends JTextArea implements
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
 		this.setOpaque(true);
-
+		
 		DefaultWeDoTableColor.setDefaultBackGroundColour(this, row, column,
 				table.getSelectedRow(), tableModel.getValueAt(row,
 						InteractiveTableModel.INDEX_PRIORITY), tableModel
