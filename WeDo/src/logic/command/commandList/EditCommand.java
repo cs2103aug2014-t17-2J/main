@@ -205,4 +205,14 @@ public class EditCommand extends Command {
     public String toString() {
             return "Edit";
     }
+
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

@@ -58,7 +58,7 @@ public class ParserManager {
         PriorityParser priorityParser = new PriorityParser();
         DescriptionParser descriptionParser = new DescriptionParser();
         CommandParser commandParser = new CommandParser();
-
+        
         EnumSet<ParserFlags> parseFlags = tryParse(userInput, dateParser,
                 priorityParser, descriptionParser, commandParser);
 
@@ -67,7 +67,8 @@ public class ParserManager {
             parseResult.setFailedMessage(COMMAND_PARSE_FAILED);
             return parseResult;
         } else {
-            if (!commandParser.getCommand().validate(parseFlags)) {
+            if (!commandParser.getCommand().validate(parseFlags)) 
+            {
                 parseResult.setSuccessful(false);
                 parseResult.setFailedMessage(INSUFFICIENT_ATTRIBUTE);
                 return parseResult;

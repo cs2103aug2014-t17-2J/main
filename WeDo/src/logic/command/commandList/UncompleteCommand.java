@@ -181,4 +181,13 @@ public class UncompleteCommand extends Command {
         return "Completed";
     }
 
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        final String ERROR_MESSAGE = "Format of complete should only be <Complete> <Index>";
+        return ERROR_MESSAGE;
+    }
+
 }

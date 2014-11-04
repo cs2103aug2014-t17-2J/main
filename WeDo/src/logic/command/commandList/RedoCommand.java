@@ -49,4 +49,13 @@ public class RedoCommand extends Command {
     public String toString() {
             return "Redo";
     }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

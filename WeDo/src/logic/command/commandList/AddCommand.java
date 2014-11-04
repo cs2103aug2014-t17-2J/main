@@ -79,6 +79,15 @@ public class AddCommand extends Command {
     @Override
     public String toString() {
             return "Add";
+    }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        // TODO Auto-generated method stub
+        return null;
     }    
     
 }

@@ -171,4 +171,13 @@ public class DeleteCommand extends Command {
         return "Delete";
     }
 
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

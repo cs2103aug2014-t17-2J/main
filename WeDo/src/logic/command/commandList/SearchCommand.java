@@ -74,4 +74,13 @@ public class SearchCommand extends Command {
             return "Search";
     }
 
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        final String ERROR_MESSAGE = "Format of view should only be <View> <Date> or <View> <Category>";
+        return ERROR_MESSAGE;
+    }
+
 }

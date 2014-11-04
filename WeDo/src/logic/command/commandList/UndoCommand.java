@@ -48,4 +48,13 @@ public class UndoCommand extends Command {
     public String toString() {
             return "Undo";
     }
+
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#getValidateErrorMessage()
+     */
+    @Override
+    public String getValidateErrorMessage() {
+        final String ERROR_MESSAGE = "Format of undo should only be <Undo>";
+        return ERROR_MESSAGE;
+    }
 }
