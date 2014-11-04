@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import logic.utility.Task;
@@ -246,8 +247,19 @@ public class FileHandler {
 
 			for (Object tObj : taskLists) {
 				JSONObject j = (JSONObject) tObj;
-				Task t = jsonToTask(j);
-				tmp.put(t.getEndDate(), t);
+				Task t = null;
+				try {
+					t = jsonToTask(j);
+				} catch (DateTimeParseException dte) {
+					
+					System.out.println(dte);
+					
+				} catch (NullPointerException n) {
+					System.out.println(n);
+
+				}
+				if(t != null)
+					tmp.put(t.getEndDate(), t);
 				
 			}
 
@@ -262,6 +274,10 @@ public class FileHandler {
 
 			
 		} catch (IOException e) {
+			System.out.println("File Not Found!");
+		} catch (DateTimeParseException dte) {
+			
+		} catch (NullPointerException n) {
 			
 		}
 		
@@ -273,10 +289,10 @@ public class FileHandler {
 
 	
 
-	private Task jsonToTask(JSONObject jTask) {
+	private Task jsonToTask(JSONObject jTask)  {
 
 		Task task = new Task();
-
+		
 		task.setUniqueID(Integer.parseInt(jTask.get(ID).toString()));
 		task.setDescription(jTask.get(DESCRPTION).toString());
 		task.setStartDate(LocalDate.parse(jTask.get(S_DATE).toString()));
