@@ -24,10 +24,18 @@ public class FeedbackGuide {
 	private static final String feedbackEmptyUndo = "No more input for Undo!";
 	private static final String feedbackEmptyRedo = "No more input for Redo!";
 	
+	private static final String VIEW_STRING = "You are viewing: ";
+	private static final String VIEW_STRING_APPEND = "'s tasks.";
+	private static final String VIEW_STRING_TODAY = "Today";
+	private static final String VIEW_STRING_TOMORROW = "Tomorrow";
+	private static final String VIEW_STRING_YESTERDAY = "Yesterday";
+	
 	private static final String HTML_OPEN = "<html>";
 	private static final String HTML_CLOSE = "</html>";
 	private static final String TAG_WRAP_STRING = "%s%s%s";
-	private static final String HTML_FONTCOLORGREY_OPEN = "<font color=#B0B0B0>";
+	private static final String HTML_FONTCOLORGREY_OPEN = "<font color=#B0B0B0>"; //grey
+	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=#00CC00>"; //green
+	private static final String HTML_FONTCOLORRED_OPEN = "<font color=#FF0000>"; //red
 	private static final String HTML_FONT_CLOSE = "</font>";
 	
 	public static String isEmptyString() {
@@ -39,7 +47,7 @@ public class FeedbackGuide {
 	}
 	
 	public static String isValidString() {
-		return feedbackValidString;
+		return formatValidCommand(feedbackValidString);
 	}
 	
 	public static String isEmptyHistoryString() {
@@ -80,11 +88,75 @@ public class FeedbackGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
+	private static String formatValidCommand(String text) {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORGREEN_OPEN, 
+				text, HTML_FONT_CLOSE));
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewTodayTask() {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				VIEW_STRING_TODAY, HTML_FONT_CLOSE));
+		str.append(VIEW_STRING_APPEND);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewTomorrowTask() {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				VIEW_STRING_TOMORROW, HTML_FONT_CLOSE));
+		str.append(VIEW_STRING_APPEND);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewYesterdayTask() {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				VIEW_STRING_YESTERDAY, HTML_FONT_CLOSE));
+		str.append(VIEW_STRING_APPEND);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewDateTask(String text) {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				text, HTML_FONT_CLOSE));
+		str.append(VIEW_STRING_APPEND);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewAllTask() {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				"All", HTML_FONT_CLOSE));
+		str.append(" tasks.");
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
 	private static String wrapWithHtmlTag(String text) {
 		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
 	}
 	
-	private static String fontColorGrey(String text){
+	private static String fontColorGrey(String text) {
 		return String.format(TAG_WRAP_STRING, HTML_FONTCOLORGREY_OPEN, 
 				text, HTML_FONT_CLOSE);
 	}

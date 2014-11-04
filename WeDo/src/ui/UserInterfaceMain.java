@@ -37,9 +37,6 @@ public class UserInterfaceMain {
 	private static final int taskbarHeight = 40;
 
 	private static String userInput = new String();
-	private static final String VIEW_STRING_TODAY = "You are viewing today's tasks.";
-	private static final String VIEW_STRING_TOMORROW = "You are viewing tomorrow's tasks.";
-	private static final String VIEW_STRING_YESTERDAY = "You are viewing yesterday's tasks.";
 	private static final SimpleDateFormat sdf_first = new SimpleDateFormat(DATE_FORMAT_FIRST);
 	private static final SimpleDateFormat sdf_second = new SimpleDateFormat(DATE_FORMAT_SECOND);
 
@@ -110,29 +107,30 @@ public class UserInterfaceMain {
 	 * @return String telling the user what he is viewing
 	 */
 	public static String viewDateTask(ParseResult parseResult) {
-		//String dateView = UserIntSwing.lblDateProcess.getText();
-		//String getText = UserIntSwing.textField.getText();
-		//String getCommand = getCommand(getText);
-		
 		if (parseResult.getCommand() instanceof ViewCommand) {
 			String getStr = parseResult.getTask().getDateTimeString();
+			userInput = UserIntSwing.textField.getText();
+			System.out.println(getStr + " HEREEEEEEEEEEEEEE!!! " + UserIntSwing.textField.getText());
 			if(getStr.isEmpty()) {
 				getStr = parseResult.getTask().getDescription();
 			}
 			else if(getStr.matches(dateToday())) {
-				return VIEW_STRING_TODAY;
+				return FeedbackGuide.formatViewTodayTask();
 			}
 			else if(getStr.matches(dateTomorrow())) {
-				return VIEW_STRING_TOMORROW;
+				return FeedbackGuide.formatViewTomorrowTask();
 			}
 			else if(getStr.matches(dateYesterday())) {
-				return VIEW_STRING_YESTERDAY;
+				return FeedbackGuide.formatViewYesterdayTask();
+			}
+			else if(userInput.matches("view all")){
+				return FeedbackGuide.formatViewAllTask();
 			}
 			else{
-				return "You are viewing: " + getStr + "'s tasks.";
+				return FeedbackGuide.formatViewDateTask(getStr);
 			}
 		}
-		return VIEW_STRING_TODAY;
+		return FeedbackGuide.formatViewTodayTask();
 	}
 
 	/**
@@ -195,7 +193,7 @@ public class UserInterfaceMain {
 		if (parseResult.isSuccessful()) {
 			try {
 				UserIntSwing.logicManager.executeCommand(parseResult);
-				 viewDateTask(parseResult);
+				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult));
 			} 
 			catch (InvalidCommandException e) {
 				e.printStackTrace();

@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import logic.LogicManager;
 import logic.utility.Task;
 import ui.UserInterfaceMain;
+import ui.guide.FeedbackGuide;
 import dataStorage.ObservableList;
 
 import java.awt.Toolkit;
@@ -51,7 +52,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	
 	public static final JLabel lblQuickHelp = new JLabel("Quick Help");
 	public static final JLabel lblHelp = new JLabel("Label Help");
-	public static final JLabel lblViewTask = new JLabel("You are viewing today's tasks.");
+	public static final JLabel lblViewTask = new JLabel(FeedbackGuide.formatViewTodayTask());
 	public static final JLabel lblFeedback = new JLabel("Feedback");
 	public static final JLabel lblTodayDate = new JLabel();
 	
@@ -165,6 +166,8 @@ public class UserIntSwing extends JPanel implements Observer {
 							.addComponent(lblDescriptionProcess, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap(84, Short.MAX_VALUE))))
 		);
+		lblTodayDate.setVerticalAlignment(SwingConstants.TOP);
+		lblViewTask.setVerticalAlignment(SwingConstants.TOP);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()

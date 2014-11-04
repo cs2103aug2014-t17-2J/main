@@ -45,7 +45,6 @@ public class CommandGuide {
 	
 	private static final int MIN_TOKENS_LENGTH = 1;
 	private static final int ACTION_IDENTIFIER_INDEX = 0;
-	
 	/**
 	 * To get the relevant command guide according to command
 	 * @param commandString user input in String format
