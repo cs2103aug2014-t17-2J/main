@@ -109,7 +109,6 @@ public class UserInterfaceMain {
 		if (parseResult.getCommand() instanceof ViewCommand) {
 			String getStr = parseResult.getTask().getDateTimeString();
 			userInput = UserIntSwing.textField.getText();
-			System.out.println(getStr + " HEREEEEEEEEEEEEEE!!! " + UserIntSwing.textField.getText());
 			if(getStr.isEmpty()) {
 				getStr = parseResult.getTask().getDescription();
 			}
@@ -153,7 +152,7 @@ public class UserInterfaceMain {
 	}
 
 	/**
-	 * @return yesterdayAsString the date tomorrow as String
+	 * @return yesterdayAsString the date yesterday as String
 	 */
 	private static String dateYesterday() {
 		Calendar calendar = Calendar.getInstance();

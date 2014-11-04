@@ -67,7 +67,7 @@ public class ListenerHandler {
 		UserIntSwing.btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				HotkeyHandler.add();
-				UserIntSwing.textField.requestFocusInWindow();
+				focusTextfield();
 			}
 		});
 
@@ -92,7 +92,7 @@ public class ListenerHandler {
 		UserIntSwing.btnView.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HotkeyHandler.view();
-				UserIntSwing.textField.requestFocusInWindow();
+				focusTextfield();
 			}
 		});
 		UserIntSwing.btnView.addMouseListener(new MouseAdapter() {
@@ -116,7 +116,7 @@ public class ListenerHandler {
 		UserIntSwing.btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HotkeyHandler.edit();
-				UserIntSwing.textField.requestFocusInWindow();
+				focusTextfield();
 			}
 		});
 		UserIntSwing.btnEdit.addMouseListener(new MouseAdapter() {
@@ -140,7 +140,7 @@ public class ListenerHandler {
 		UserIntSwing.btnDel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HotkeyHandler.delete();
-				UserIntSwing.textField.requestFocusInWindow();
+				focusTextfield();
 			}
 		});
 		UserIntSwing.btnDel.addMouseListener(new MouseAdapter() {
@@ -164,7 +164,7 @@ public class ListenerHandler {
 		UserIntSwing.btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HotkeyHandler.search();
-				UserIntSwing.textField.requestFocusInWindow();
+				focusTextfield();
 			}
 		});
 		UserIntSwing.btnSearch.addMouseListener(new MouseAdapter() {
@@ -177,6 +177,10 @@ public class ListenerHandler {
 				searchBalloonTip.setVisible(false);
 			}
 		});
+	}
+	
+	public static void focusTextfield() {
+		UserIntSwing.textField.requestFocusInWindow();
 	}
 
 	/**
