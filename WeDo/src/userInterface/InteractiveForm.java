@@ -1,7 +1,6 @@
 package userInterface;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,8 +11,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Vector;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -35,6 +32,7 @@ import logic.exception.InvalidCommandException;
 import logic.utility.Task;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
+@SuppressWarnings("serial")
 public class InteractiveForm extends JPanel {
 
 	public static final String[] columnNames = { "ID", "description",
@@ -120,6 +118,8 @@ public class InteractiveForm extends JPanel {
 		// cellSelectionModel.addListSelectionListener(new
 		// CellSelectionListener());
 
+		setNoHighLightSelectionColor();
+		
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 				JTable table = (JTable) me.getSource();
@@ -204,8 +204,9 @@ public class InteractiveForm extends JPanel {
 		scrollToRow(lastRow);
 	}
 
-	public void setHighLightSelectionColor(Color color) {
-		table.setSelectionBackground(color);
+	public void setNoHighLightSelectionColor() {
+		table.setSelectionBackground(table.getBackground());
+		table.setSelectionForeground(table.getForeground());
 	}
 
 	public boolean isRowVisible(JTable table, JScrollPane scroller, int rowIndex) {
@@ -223,6 +224,7 @@ public class InteractiveForm extends JPanel {
 			setLayout(new GridBagLayout());
 			setMargin(new Insets(0, 0, 0, 0));
 			setHorizontalAlignment(JLabel.CENTER);
+			this.setBorderPainted(true);
 		}
 
 		@Override
