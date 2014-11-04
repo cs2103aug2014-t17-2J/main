@@ -62,8 +62,16 @@ public class SearchCommand extends Command {
      * @return if it contains more than MIN_VALID_FLAGS flags
      */
     public static boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
-        final int MIN_VALID_FLAGS = 1;
-        return parseFlags.size() > MIN_VALID_FLAGS;
+        final EnumSet<ParserFlags> VALID_SEARCH_CATEGORY_PARSE = EnumSet.of(
+                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
+        final EnumSet<ParserFlags> VALID_SEARCH_DATE_PARSE = EnumSet.of(
+                ParserFlags.DATE_FLAG, ParserFlags.COMMAND_FLAG);
+        final EnumSet<ParserFlags> VALID_SEARCH_PRIORITY_PARSE = EnumSet.of(
+                ParserFlags.PRIORITY_FLAG, ParserFlags.COMMAND_FLAG);
+
+        return (ParserFlags.containsOnly(parseFlags, VALID_SEARCH_CATEGORY_PARSE) || ParserFlags
+                .containsOnly(parseFlags, VALID_SEARCH_DATE_PARSE) || ParserFlags
+                .containsOnly(parseFlags, VALID_SEARCH_PRIORITY_PARSE));
     }
     
     /* (non-Javadoc)
