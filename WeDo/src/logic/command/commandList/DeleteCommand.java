@@ -176,8 +176,8 @@ public class DeleteCommand extends Command {
      */
     @Override
     public String getValidateErrorMessage() {
-        // TODO Auto-generated method stub
-        return null;
+        final String ERROR_MESSAGE = "Format of delete should only be <Delete> <Index>";
+        return ERROR_MESSAGE;
     }
 
 }

@@ -87,7 +87,7 @@ public class SearchCommand extends Command {
      */
     @Override
     public String getValidateErrorMessage() {
-        final String ERROR_MESSAGE = "Format of view should only be <View> <Date> or <View> <Category>";
+        final String ERROR_MESSAGE = "Format of Search should only be <Search> <Description> or <Search> <Date> or <Search> <Priority>";
         return ERROR_MESSAGE;
     }
 

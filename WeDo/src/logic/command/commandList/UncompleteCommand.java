@@ -186,7 +186,7 @@ public class UncompleteCommand extends Command {
      */
     @Override
     public String getValidateErrorMessage() {
-        final String ERROR_MESSAGE = "Format of complete should only be <Complete> <Index>";
+        final String ERROR_MESSAGE = "Format of complete should only be <Uncomplete> <Index>";
         return ERROR_MESSAGE;
     }
 

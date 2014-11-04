@@ -57,7 +57,7 @@ public class RedoCommand extends Command {
      */
     @Override
     public String getValidateErrorMessage() {
-        // TODO Auto-generated method stub
-        return null;
+        final String ERROR_MESSAGE = "Format of redo should only be <Redo>";
+        return ERROR_MESSAGE;
     }
 }

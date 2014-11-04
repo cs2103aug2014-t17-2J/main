@@ -188,9 +188,10 @@ public class CompleteCommand extends Command {
      * @see logic.command.commandList.Command#getValidateErrorMessage()
      */
     @Override
-    public String getValidateErrorMessage() {
-        // TODO Auto-generated method stub
-        return null;
+    public String getValidateErrorMessage() 
+    {
+        final String ERROR_MESSAGE = "Format of complete should only be <Complete> <Index>";
+        return ERROR_MESSAGE;
     }
 
 }

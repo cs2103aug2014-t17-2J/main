@@ -86,8 +86,8 @@ public class AddCommand extends Command {
      */
     @Override
     public String getValidateErrorMessage() {
-        // TODO Auto-generated method stub
-        return null;
+        final String ERROR_MESSAGE = "Format of add should consist at least 1 field";
+        return ERROR_MESSAGE;
     }    
     
 }

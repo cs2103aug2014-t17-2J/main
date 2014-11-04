@@ -3,7 +3,6 @@
  */
 package logic.command.commandList;
 
-import java.lang.reflect.Field;
 import java.util.EnumSet;
 
 import logic.exception.InvalidCommandException;
@@ -212,7 +211,7 @@ public class EditCommand extends Command {
      */
     @Override
     public String getValidateErrorMessage() {
-        // TODO Auto-generated method stub
-        return null;
+        final String ERROR_MESSAGE = "Format of edit should consist at least 1 field to edit";
+        return ERROR_MESSAGE;
     }
 }

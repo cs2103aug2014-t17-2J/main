@@ -53,7 +53,7 @@ public class ExitCommand extends Command {
      */
     @Override
     public String getValidateErrorMessage() {
-        // TODO Auto-generated method stub
-        return null;
+        final String ERROR_MESSAGE = "Format of exit should only be <Exit>";
+        return ERROR_MESSAGE;
     }
 }
