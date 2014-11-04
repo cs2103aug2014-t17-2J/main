@@ -5,11 +5,13 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Observer;
+
 import logic.utility.Task;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
+import definedEnumeration.Priority;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 
@@ -341,6 +343,19 @@ public class BasicDataHandler implements DataHandler{
 		}
 	}
 	
+	private ArrayList<Task> getPriTasks(Priority pri){
+		
+		ArrayList<Task> tmp = new ArrayList<Task>();
+		
+		for(Task t: mainList2.values()) {
+			if(t.getPriority().equals(pri)) {
+				tmp.add(t);
+			}
+		}
+		
+		return tmp;
+	}
+	
 	public void view(Task task) {
 
 		System.out.println(task.getStartDate().toString());
@@ -382,6 +397,9 @@ public class BasicDataHandler implements DataHandler{
 			currentList = ALL;
 			tmp.addAll(mainList2.values());
 //			tmp = sort(tmp);
+			observableList.replaceList(tmp);
+		}else if(task.getDescription().equalsIgnoreCase("priority")) {
+			tmp = getPriTasks(task.getPriority());
 			observableList.replaceList(tmp);
 		}
 
