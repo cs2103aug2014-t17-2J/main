@@ -121,9 +121,6 @@ public class UserInterfaceMain {
 			else if(getStr.matches(dateYesterday())) {
 				return FeedbackGuide.formatViewYesterdayTask();
 			}
-			else if(userInput.matches("view all")) {
-				System.out.println("HEREEEEEEEEEEEEEEEEEEEEEE!!");
-			}
 			else{
 				return FeedbackGuide.formatViewDateTask(getStr);
 			}
@@ -155,7 +152,7 @@ public class UserInterfaceMain {
 	}
 
 	/**
-	 * @return yesterdayAsString the date tomorrow as String
+	 * @return yesterdayAsString the date yesterday as String
 	 */
 	private static String dateYesterday() {
 		Calendar calendar = Calendar.getInstance();

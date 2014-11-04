@@ -60,7 +60,7 @@ public class KeyWordMappingList {
     public static ImmutableMap<Command, Collection<String>> getExitCommandMap() {
         Command exitCommand = new ExitCommand();
         return ImmutableMap.<Command, Collection<String>> of(exitCommand,
-                Arrays.asList("exit", "quit", "quit", "alt qq", "leave",
+                Arrays.asList("exit", "quit", "quit", "leave",
                         "leave", "bye"));
     }
 
@@ -68,7 +68,7 @@ public class KeyWordMappingList {
         Command searchCommand = new SearchCommand();
         return ImmutableMap.<Command, Collection<String>> of(searchCommand,
                 Arrays.asList("search", "searching", "s", "find", "f", "found",
-                        "finding"));
+                        "finding" , "locate"));
     }
 
     public static ImmutableMap<Command, Collection<String>> getEditCommandMap() {
@@ -147,33 +147,30 @@ public class KeyWordMappingList {
 
         final Map<Command, Collection<String>> addActions = ImmutableMap
                 .<Command, Collection<String>> of(addCommand,
-                        Arrays.asList("add", "new", "create", "cre8"));
+                        Arrays.asList("new"));
         final Map<Command, Collection<String>> completeActions = ImmutableMap
                 .<Command, Collection<String>> of(completeCommand,
                         Arrays.asList("complete", "done", "finish", "tick"));
         final Map<Command, Collection<String>> uncompleteActions = ImmutableMap
                 .<Command, Collection<String>> of(uncompleteCommand, Arrays
-                        .asList("incomplete", "undone", "cancel", "uncomplete",
-                                "decomplete", "untick"));
+                        .asList("undone", "cancel", "uncomplete"
+                        		, "untick"));
 
         final Map<Command, Collection<String>> deleteActions = ImmutableMap
                 .<Command, Collection<String>> of(deleteCommand, Arrays.asList(
                         "delete", "d", "delete", "remove", "remove"));
         final Map<Command, Collection<String>> exitActions = ImmutableMap
                 .<Command, Collection<String>> of(exitCommand, Arrays.asList(
-                        "exit", "e", "exit", "quit", "q", "quit", "alt qq",
-                        "leave", "leave", "bye"));
+                        "exit", "quit", "leave"));
         final Map<Command, Collection<String>> searchActions = ImmutableMap
                 .<Command, Collection<String>> of(searchCommand, Arrays.asList(
-                        "search", "searching", "s", "find", "f", "found",
-                        "finding"));
+                        "search", "s", "find", "f"));
         final Map<Command, Collection<String>> editActions = ImmutableMap
                 .<Command, Collection<String>> of(editCommand, Arrays.asList(
-                        "edit", "edit", "e", "modify", "m", "modify"));
+                        "edit", "e", "modify", "m"));
         final Map<Command, Collection<String>> viewActions = ImmutableMap
                 .<Command, Collection<String>> of(viewCommand, Arrays.asList(
-                        "view", "viewed", "viewing", "read", "reading", "see",
-                        "saw", "get"));
+                        "view", "read"));
         final Map<Command, Collection<String>> undoActions = ImmutableMap
                 .<Command, Collection<String>> of(undoCommand,
                         Arrays.asList("undo", "undo"));

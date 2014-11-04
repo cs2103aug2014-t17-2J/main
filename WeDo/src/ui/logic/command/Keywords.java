@@ -1,8 +1,14 @@
 package ui.logic.command;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import logic.command.commandList.Command;
+import logic.utility.KeyWordMappingList;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  *  @author Andy Hsu Wei Qiang The Keywords class contains all command identifier 
@@ -42,6 +48,27 @@ public final class Keywords {
 	private static Map<String, Action> createMap() {
 
 		Map<String, Action> map = new HashMap<String, Action>();
+		ImmutableMap<Command, Collection<String>> addCommandMap = KeyWordMappingList.getAddCommandMap();
+        ImmutableMap<Command, Collection<String>> viewCommandMap = KeyWordMappingList.getViewCommandMap();
+        ImmutableMap<Command, Collection<String>> editCommandMap = KeyWordMappingList.getEditCommandMap();
+        ImmutableMap<Command, Collection<String>> deleteCommandMap = KeyWordMappingList.getDeleteCommandMap();
+        ImmutableMap<Command, Collection<String>> searchCommandMap = KeyWordMappingList.getSearchCommandMap();
+        ImmutableMap<Command, Collection<String>> undoCommandMap = KeyWordMappingList.getUndoCommandMap();
+        ImmutableMap<Command, Collection<String>> redoCommandMap = KeyWordMappingList.getRedoCommandMap();
+        ImmutableMap<Command, Collection<String>> completedCommandMap = KeyWordMappingList.getCompleteCommandMap();
+        ImmutableMap<Command, Collection<String>> uncompletedCommandMap = KeyWordMappingList.getUncompleteCommandMap();
+        ImmutableMap<Command, Collection<String>> exitCommandMap =KeyWordMappingList. getExitCommandMap();
+        
+		addToMapCommandAdd(map, addCommandMap, Action.ADD);
+		addToMapCommandView(map, viewCommandMap, Action.ADD);
+		addToMapCommandEdit(map, editCommandMap, Action.ADD);
+		addToMapCommandDelete(map, deleteCommandMap, Action.ADD);
+		addToMapCommandSearch(map, searchCommandMap, Action.ADD);
+		addToMapCommandUndo(map, undoCommandMap, Action.ADD);
+		addToMapCommandRedo(map, redoCommandMap, Action.ADD);
+		addToMapCommandCompleted(map, completedCommandMap, Action.ADD);
+		addToMapCommandUncompleted(map, uncompletedCommandMap, Action.ADD);
+		addToMapCommandExit(map, exitCommandMap, Action.ADD);
 
 		map.put(ADD_TASK_IDENTIFIER_1, Action.ADD);
 		map.put(ADD_TASK_IDENTIFIER_2, Action.ADD);
@@ -66,6 +93,101 @@ public final class Keywords {
 		map.put(REDO_ACTION_IDENTIFIER, Action.REDO);
 
 		return Collections.unmodifiableMap(map);
+	}
+
+	/**
+	 * @param map Current Map
+	 * @param addCommandMap Additional map for Add Command 
+	 * @param action Add command action
+	 */
+	private static void addToMapCommandAdd(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> addCommandMap, Action action) {
+		for(Command key : addCommandMap.keySet()) {
+			for (String keyWord : addCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandView(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> viewCommandMap, Action action) {
+		for(Command key : viewCommandMap.keySet()) {
+			for (String keyWord : viewCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandEdit(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> editCommandMap, Action action) {
+		for(Command key : editCommandMap.keySet()) {
+			for (String keyWord : editCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandDelete(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> deleteCommandMap, Action action) {
+		for(Command key : deleteCommandMap.keySet()) {
+			for (String keyWord : deleteCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandCompleted(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> completedCommandMap, Action action) {
+		for(Command key : completedCommandMap.keySet()) {
+			for (String keyWord : completedCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandUncompleted(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> uncompletedCommandMap, Action action) {
+		for(Command key : uncompletedCommandMap.keySet()) {
+			for (String keyWord : uncompletedCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandRedo(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> redoCommandMap, Action action) {
+		for(Command key : redoCommandMap.keySet()) {
+			for (String keyWord : redoCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandExit(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> exitCommandMap, Action action) {
+		for(Command key : exitCommandMap.keySet()) {
+			for (String keyWord : exitCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandUndo(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> undoCommandMap, Action action) {
+		for(Command key : undoCommandMap.keySet()) {
+			for (String keyWord : undoCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandSearch(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> searchCommandMap, Action action) {
+		for(Command key : searchCommandMap.keySet()) {
+			for (String keyWord : searchCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
 	}
 
 	/**
