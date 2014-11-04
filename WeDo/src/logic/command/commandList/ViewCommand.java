@@ -87,7 +87,7 @@ public class ViewCommand extends Command {
      */
     @Override
     public String getValidateErrorMessage() {
-        final String ERROR_MESSAGE = "Format of view should only be <View> <Date> or <View> <Category> or <View Priority>";
+        final String ERROR_MESSAGE = "Format of view should only be <View> <Date> or <View> <Category> or <View> <Priority>";
         return ERROR_MESSAGE;
     }
 

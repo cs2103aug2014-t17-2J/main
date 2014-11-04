@@ -123,9 +123,6 @@ public class UserInterfaceMain {
 			else if(getStr.matches(dateYesterday())) {
 				return FeedbackGuide.formatViewYesterdayTask();
 			}
-			else if(userInput.matches("view all")){
-				return FeedbackGuide.formatViewAllTask();
-			}
 			else{
 				return FeedbackGuide.formatViewDateTask(getStr);
 			}
@@ -207,7 +204,7 @@ public class UserInterfaceMain {
 			FeedbackHandler.emptyStringOperation();
 		} 
 		else {
-			FeedbackHandler.NotSuccessfulOperation();
+			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
 		}
 		UserIntSwing.textField.setText(null);
 		// reset command guide to general guide
