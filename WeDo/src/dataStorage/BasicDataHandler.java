@@ -5,11 +5,13 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Observer;
+
 import logic.utility.Task;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
+import definedEnumeration.Priority;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 
@@ -173,8 +175,10 @@ public class BasicDataHandler implements DataHandler{
 	}
 	
 	public boolean addTask(Task task) {
+		addThenView(task);
+
 		int index = observableList.getList().size();
-		this.addTask(index,task);
+		addTask(index,task);
 		return true;
 	}
 	
@@ -183,20 +187,19 @@ public class BasicDataHandler implements DataHandler{
 
 		String taskType = determineTaskType(task);
 
-		
 		mainList2.put(task.getEndDate(), task);
-		
 		
 		if(currentList.equals(TIMED)) {
 			if(withinRange(currentRange.getStartDate(),currentRange.getEndDate(),task)) {
 				observableList.add(index,task);
 			}
 		}
-		else if(currentList.equals(ALL) || (taskType.equals(currentList) && 
-				currentView.getEndDate().equals(task.getEndDate()))) {
+		else if(currentList.equals(ALL) || 
+				currentView.getEndDate().equals(task.getEndDate())) {
 			
 			observableList.add(index,task);
 		}
+
 
 		save();
 		System.out.println(task.getUniqueID() + " is added");
@@ -326,7 +329,33 @@ public class BasicDataHandler implements DataHandler{
 		// TODO Auto-generated method stub
 		return mainList;
 	}
-
+	
+	public void addThenView(Task task) {
+		String type = determineTaskType(task);
+		
+		if( type.equals(DEADLINE) || type.equals(TIMED)) {
+			view(task);
+		}
+		else {
+			 Task tmp = new Task();
+			 tmp.setDescription(SOMEDAY);
+			 view(tmp);
+		}
+	}
+	
+	private ArrayList<Task> getPriTasks(Priority pri){
+		
+		ArrayList<Task> tmp = new ArrayList<Task>();
+		
+		for(Task t: mainList2.values()) {
+			if(t.getPriority().equals(pri)) {
+				tmp.add(t);
+			}
+		}
+		
+		return tmp;
+	}
+	
 	public void view(Task task) {
 
 		System.out.println(task.getStartDate().toString());
@@ -367,7 +396,10 @@ public class BasicDataHandler implements DataHandler{
 		else if(task.getDescription().equalsIgnoreCase(ALL)){
 			currentList = ALL;
 			tmp.addAll(mainList2.values());
-			tmp = sort(tmp);
+//			tmp = sort(tmp);
+			observableList.replaceList(tmp);
+		}else if(task.getDescription().equalsIgnoreCase("priority")) {
+			tmp = getPriTasks(task.getPriority());
 			observableList.replaceList(tmp);
 		}
 

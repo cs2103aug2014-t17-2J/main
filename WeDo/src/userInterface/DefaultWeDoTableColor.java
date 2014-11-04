@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.border.MatteBorder;
 
+import ui.logic.command.ListenerHandler;
 import definedEnumeration.Priority;
 
 /**
@@ -56,6 +57,7 @@ public class DefaultWeDoTableColor {
 		    if(column == InteractiveTableModel.INDEX_CHECK)
 		    {
 	              jComponent.setBorder(new MatteBorder(BORDER_THICKNESS, NO_BORDER, BORDER_THICKNESS, BORDER_THICKNESS, BORDER_COLOR));
+	              ListenerHandler.focusTextfield();
 		    }
 		    else if (column == InteractiveTableModel.INDEX_TASK)
 		    {
