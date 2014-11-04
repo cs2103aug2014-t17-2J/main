@@ -163,8 +163,12 @@ public class UncompleteCommand extends Command {
      */
     @Override
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
-        final int MAX_VALID_FLAG = 1;
-        return parseFlags.size() > MAX_VALID_FLAG;
+
+        final EnumSet<ParserFlags> VALID_COMPLETE_PARSE = EnumSet.of(
+                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
+   
+        
+        return parseFlags.containsAll(VALID_COMPLETE_PARSE);
     }
 
     /*
