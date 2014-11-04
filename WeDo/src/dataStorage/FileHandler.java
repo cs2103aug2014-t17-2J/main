@@ -85,6 +85,10 @@ public class FileHandler {
 
 	private void stringToFile(String str) {
 		
+		if(isFileEmpty()) {
+			return;
+		}else {
+		
 		try {
 			FileWriter fstream = new FileWriter(fileName, false);
 			BufferedWriter bw = new BufferedWriter(fstream);
@@ -98,15 +102,46 @@ public class FileHandler {
 			e.printStackTrace();
 		}
 
-
+		}
 		
 	}
 	
+	private boolean isFileEmpty() {
+		
+		String currentLine;
+		BufferedReader br;
+		
+
+		
+		try {
+			br = new BufferedReader(new FileReader(fileName));
+			currentLine = br.readLine();
+			br.close();
+
+			
+			if (currentLine == null )
+			{
+				return true;
+			}				
+			
+		
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	
+		
+		return false;
+	
+	}
 	
 	private String writeToString(String fileName) {
 		
 		String currentLine,wholeFile;
-		int charCount=0;
 		BufferedReader br;
 		
 		wholeFile = "";
@@ -118,7 +153,6 @@ public class FileHandler {
 
 			while ((currentLine = br.readLine()) != null) {
 				wholeFile += currentLine + "\r\n";
-				charCount += currentLine.length()-1;
 				
 			}
 			
@@ -268,18 +302,17 @@ public class FileHandler {
 			//e.printStackTrace();
 			
 			System.out.println("JSON parsing error" + pe);
-			
+			if(!isFileEmpty()) {
 			stringToFile(removeChar(pe.getPosition(),writeToString(fileName)));
 			tmp = getAllTasks();
+			}else {
+				System.out.println("File is empty");
+			}
 
 			
 		} catch (IOException e) {
 			System.out.println("File Not Found!");
-		} catch (DateTimeParseException dte) {
-			
-		} catch (NullPointerException n) {
-			
-		}
+		} 
 		
 		return tmp;
 		
