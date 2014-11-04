@@ -27,6 +27,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 
 import logic.exception.InvalidCommandException;
 import logic.utility.Task;
@@ -106,18 +107,18 @@ public class InteractiveForm extends JPanel {
 
 		done.setMinWidth(80);
 		done.setPreferredWidth(80);
-		//done.setMaxWidth(80);
+		// done.setMaxWidth(80);
 		done.setCellRenderer(new BooleanCellRenderer());
-		
+
 		priority.setMinWidth(80);
 		priority.setPreferredWidth(80);
-		//priority.setMaxWidth(80);
+		// priority.setMaxWidth(80);
 
 		TableColumn description = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_DESCRIPTION);
-		//description.setMinWidth(200);
+		// description.setMinWidth(200);
 		description.setPreferredWidth(200);
-		//description.setMaxWidth(200);
+		// description.setMaxWidth(200);
 
 		TableColumn startTime = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_STARTTIME);
@@ -137,18 +138,18 @@ public class InteractiveForm extends JPanel {
 		endDate = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_ENDDATE);
 
-		//startTime.setMaxWidth(columnWidth);
+		// startTime.setMaxWidth(columnWidth);
 		startTime.setPreferredWidth(columnWidth);
 		startTime.setMinWidth(columnWidth);
-		
-		//endTime.setMaxWidth(columnWidth);
+
+		// endTime.setMaxWidth(columnWidth);
 		endTime.setPreferredWidth(columnWidth);
 		endTime.setMinWidth(columnWidth);
 
-		//startDate.setMaxWidth(columnWidth);
+		// startDate.setMaxWidth(columnWidth);
 		startDate.setPreferredWidth(columnWidth);
 		startDate.setMinWidth(columnWidth);
-	//	endDate.setMaxWidth(columnWidth);
+		// endDate.setMaxWidth(columnWidth);
 		endDate.setPreferredWidth(columnWidth);
 		endDate.setMinWidth(columnWidth);
 
@@ -189,6 +190,11 @@ public class InteractiveForm extends JPanel {
 		table.getColumnModel()
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
 				.setCellRenderer(new LineWrapCellRenderer(tableModel));
+
+		 TableRowSorter sorter = new TableRowSorter(tableModel);
+		// table.setRowSorter(sorter);
+		table.setAutoCreateRowSorter(true);
+		sorter.addRowSorterListener(table);
 	}
 
 	public void highlightLastRow(int row) {
