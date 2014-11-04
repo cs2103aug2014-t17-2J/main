@@ -10,6 +10,7 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -26,6 +27,9 @@ import logic.utility.Task;
 import ui.UserInterfaceMain;
 import ui.guide.FeedbackGuide;
 import dataStorage.ObservableList;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
@@ -333,104 +337,53 @@ public class UserIntSwing extends JPanel implements Observer {
 												153, GroupLayout.PREFERRED_SIZE)
 										.addContainerGap()));
 
-		// JButton btnColour = new JButton("colour");
-		// btnColour.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent arg0) {
-		// panelBottom.setBackground(new Color(230, 230, 250));
-		// frame.getContentPane().setBackground(new Color(230, 230, 250));
-		//
-		// }
-		// });
-		// btnColour.setBackground(new Color(240, 230, 140));
+		JButton btnColourPicker = new JButton("random colour");
+		btnColourPicker.setBackground(new Color(255, 153, 255));
+		btnColourPicker.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				Color colour = generateRandomColor(Color.WHITE);
+
+				panelBottom.setBackground(colour);
+				frame.getContentPane().setBackground(colour);
+			}
+		});
 
 		GroupLayout gl_panelBottom = new GroupLayout(panelBottom);
-		gl_panelBottom
-				.setHorizontalGroup(gl_panelBottom
-						.createParallelGroup(Alignment.TRAILING)
-						.addGroup(
-								gl_panelBottom
-										.createSequentialGroup()
-										.addGroup(
-												gl_panelBottom
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addComponent(
-																lblFeedback,
-																GroupLayout.DEFAULT_SIZE,
-																731,
-																Short.MAX_VALUE)
-														.addGroup(
-																gl_panelBottom
-																		.createSequentialGroup()
-																		.addComponent(
-																				textField,
-																				GroupLayout.DEFAULT_SIZE,
-																				613,
-																				Short.MAX_VALUE)
-																		.addGap(18)
-																		.addComponent(
-																				btnEnter,
-																				GroupLayout.PREFERRED_SIZE,
-																				100,
-																				GroupLayout.PREFERRED_SIZE))
-														.addGroup(
-																gl_panelBottom
-																		.createSequentialGroup()
-																		.addComponent(
-																				lblQuickHelp)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED,
-																				681,
-																				Short.MAX_VALUE))
-														.addGroup(
-																gl_panelBottom
-																		.createSequentialGroup()
-																		.addComponent(
-																				lblHelp,
-																				GroupLayout.DEFAULT_SIZE,
-																				622,
-																				Short.MAX_VALUE)
-																		.addGap(26)))
-										.addContainerGap()));
-		gl_panelBottom
-				.setVerticalGroup(gl_panelBottom
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_panelBottom
-										.createSequentialGroup()
-										.addComponent(lblFeedback,
-												GroupLayout.PREFERRED_SIZE, 19,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addGroup(
-												gl_panelBottom
-														.createParallelGroup(
-																Alignment.BASELINE)
-														.addComponent(
-																textField,
-																GroupLayout.PREFERRED_SIZE,
-																23,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(btnEnter))
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addGroup(
-												gl_panelBottom
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addGroup(
-																gl_panelBottom
-																		.createSequentialGroup()
-																		.addComponent(
-																				lblQuickHelp)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				lblHelp,
-																				GroupLayout.DEFAULT_SIZE,
-																				79,
-																				Short.MAX_VALUE)))));
+		gl_panelBottom.setHorizontalGroup(
+			gl_panelBottom.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelBottom.createSequentialGroup()
+					.addGroup(gl_panelBottom.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblFeedback, GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
+						.addGroup(gl_panelBottom.createSequentialGroup()
+							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelBottom.createSequentialGroup()
+							.addComponent(lblQuickHelp)
+							.addPreferredGap(ComponentPlacement.RELATED, 748, Short.MAX_VALUE))
+						.addGroup(gl_panelBottom.createSequentialGroup()
+							.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnColourPicker)))
+					.addContainerGap())
+		);
+		gl_panelBottom.setVerticalGroup(
+			gl_panelBottom.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBottom.createSequentialGroup()
+					.addComponent(lblFeedback, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelBottom.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnEnter))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblQuickHelp)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelBottom.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblHelp, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+						.addComponent(btnColourPicker)))
+		);
+
 		// gl_panelBottom.setAutoCreateGaps(true);
 		panelBottom.setLayout(gl_panelBottom);
 
@@ -482,5 +435,22 @@ public class UserIntSwing extends JPanel implements Observer {
 	 */
 	private boolean isTaskInstance(Object arg1) {
 		return arg1 instanceof Task;
+	}
+
+	public Color generateRandomColor(Color mix) {
+		Random random = new Random();
+		int red = random.nextInt(256);
+		int green = random.nextInt(256);
+		int blue = random.nextInt(256);
+
+		// mix the color
+		if (mix != null) {
+			red = (red + mix.getRed()) / 2;
+			green = (green + mix.getGreen()) / 2;
+			blue = (blue + mix.getBlue()) / 2;
+		}
+
+		Color color = new Color(red, green, blue);
+		return color;
 	}
 }
