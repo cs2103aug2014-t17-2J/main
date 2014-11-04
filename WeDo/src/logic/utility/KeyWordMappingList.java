@@ -95,7 +95,7 @@ public class KeyWordMappingList {
     public static ImmutableMap<Command, Collection<String>> getExitCommandMap() {
         Command exitCommand = new ExitCommand();
         return ImmutableMap.<Command, Collection<String>> of(exitCommand,
-                Arrays.asList("exit", "quit", "quit", "alt qq", "leave",
+                Arrays.asList("exit", "quit", "quit", "leave",
                         "leave", "bye"));
     }
 
@@ -103,7 +103,7 @@ public class KeyWordMappingList {
         Command searchCommand = new SearchCommand();
         return ImmutableMap.<Command, Collection<String>> of(searchCommand,
                 Arrays.asList("search", "searching", "s", "find", "f", "found",
-                        "finding"));
+                        "finding" , "locate"));
     }
 
     public static ImmutableMap<Command, Collection<String>> getEditCommandMap() {
@@ -181,6 +181,7 @@ public class KeyWordMappingList {
         final String KEYWORDS_FOR_LOW[] = { "low", "none", "never", "no",
                 "ignore" };
 
+<<<<<<< HEAD
         return ImmutableMap.<Priority, Collection<String>> of(
                 Priority.PRIORITY_LOW,
                 getPermuntation(PRIORITY_WORD, KEYWORDS_FOR_LOW));
@@ -197,6 +198,61 @@ public class KeyWordMappingList {
         ImmutableMap<Priority, Collection<String>> mediumPriorityMap = getMediumPriority();
         ImmutableMap<Priority, Collection<String>> lowPriorityMap = getLowPriority();
         return createMultiMap(highPriorityMap, mediumPriorityMap, lowPriorityMap);
+=======
+        final Map<Command, Collection<String>> addActions = ImmutableMap
+                .<Command, Collection<String>> of(addCommand,
+                        Arrays.asList("new"));
+        final Map<Command, Collection<String>> completeActions = ImmutableMap
+                .<Command, Collection<String>> of(completeCommand,
+                        Arrays.asList("complete", "done", "finish", "tick"));
+        final Map<Command, Collection<String>> uncompleteActions = ImmutableMap
+                .<Command, Collection<String>> of(uncompleteCommand, Arrays
+                        .asList("undone", "cancel", "uncomplete"
+                        		, "untick"));
+
+        final Map<Command, Collection<String>> deleteActions = ImmutableMap
+                .<Command, Collection<String>> of(deleteCommand, Arrays.asList(
+                        "delete", "d", "delete", "remove", "remove"));
+        final Map<Command, Collection<String>> exitActions = ImmutableMap
+                .<Command, Collection<String>> of(exitCommand, Arrays.asList(
+                        "exit", "quit", "leave"));
+        final Map<Command, Collection<String>> searchActions = ImmutableMap
+                .<Command, Collection<String>> of(searchCommand, Arrays.asList(
+                        "search", "s", "find", "f"));
+        final Map<Command, Collection<String>> editActions = ImmutableMap
+                .<Command, Collection<String>> of(editCommand, Arrays.asList(
+                        "edit", "e", "modify", "m"));
+        final Map<Command, Collection<String>> viewActions = ImmutableMap
+                .<Command, Collection<String>> of(viewCommand, Arrays.asList(
+                        "view", "read"));
+        final Map<Command, Collection<String>> undoActions = ImmutableMap
+                .<Command, Collection<String>> of(undoCommand,
+                        Arrays.asList("undo", "undo"));
+        final Map<Command, Collection<String>> redoActions = ImmutableMap
+                .<Command, Collection<String>> of(redoCommand,
+                        Arrays.asList("redo", "redo"));
+
+        addMapToMultiMap(addActions, availableActions);
+        addMapToMultiMap(completeActions, availableActions);
+        addMapToMultiMap(uncompleteActions, availableActions);
+        addMapToMultiMap(deleteActions, availableActions);
+        addMapToMultiMap(exitActions, availableActions);
+        addMapToMultiMap(searchActions, availableActions);
+        addMapToMultiMap(editActions, availableActions);
+        addMapToMultiMap(viewActions, availableActions);
+        addMapToMultiMap(undoActions, availableActions);
+        addMapToMultiMap(redoActions, availableActions);
+
+        return availableActions;
+    }
+
+    private static void addMapToMultiMap(
+            final Map<Command, Collection<String>> map,
+            Multimap<Command, String> availableActions) {
+        for (Command key : map.keySet()) {
+            availableActions.putAll(key, map.get(key));
+        }
+>>>>>>> 931c806c4de5bd8dc2275a39d49a50e336f5ccbd
     }
 
 }
