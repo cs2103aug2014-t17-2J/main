@@ -109,7 +109,6 @@ public class UserInterfaceMain {
 		if (parseResult.getCommand() instanceof ViewCommand) {
 			String getStr = parseResult.getTask().getDateTimeString();
 			userInput = UserIntSwing.textField.getText();
-			System.out.println(getStr + " HEREEEEEEEEEEEEEE!!! " + UserIntSwing.textField.getText());
 			if(getStr.isEmpty()) {
 				getStr = parseResult.getTask().getDescription();
 			}
@@ -121,6 +120,9 @@ public class UserInterfaceMain {
 			}
 			else if(getStr.matches(dateYesterday())) {
 				return FeedbackGuide.formatViewYesterdayTask();
+			}
+			else if(userInput.matches("view all")) {
+				System.out.println("HEREEEEEEEEEEEEEEEEEEEEEE!!");
 			}
 			else{
 				return FeedbackGuide.formatViewDateTask(getStr);
