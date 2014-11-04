@@ -189,11 +189,17 @@ public class UserInterfaceMain {
 
 		if (parseResult.isSuccessful()) {
 			try {
+				UserIntSwing.textField.setText(null);
+				// reset command guide to general guide
+				UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 				UserIntSwing.logicManager.executeCommand(parseResult);
 				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult));
+		
 			} 
-			catch (InvalidCommandException e) {
-				e.printStackTrace();
+			catch (InvalidCommandException exception) {
+				FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
+				exception.printStackTrace();
+				return;
 			}
 			FeedbackHandler.successfulOperation();
 		} 
@@ -206,9 +212,7 @@ public class UserInterfaceMain {
 		else {
 			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
 		}
-		UserIntSwing.textField.setText(null);
-		// reset command guide to general guide
-		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
+		
 	}
 
 	/**
