@@ -118,7 +118,7 @@ public class WeDoSystemTray {
 	/**
 	 * This operation maximize the main frame
 	 */
-	private static void openMainFrame() {
+	public static void openMainFrame() {
 		UserIntSwing.frame.setVisible(true);
 		UserIntSwing.frame.setExtendedState(JFrame.NORMAL);
 		tray.remove(trayIcon);

@@ -52,8 +52,14 @@ public class FormatHandler {
 		
 		UserIntSwing.lblTodayDate.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 20));
 		UserIntSwing.lblTodayDate.setHorizontalAlignment(SwingConstants.RIGHT);
+		UserIntSwing.lblTodayDate.setVerticalAlignment(SwingConstants.TOP);
 		
 		UserIntSwing.lblViewTask.setFont(new Font("Calibri", Font.ITALIC, 18));
 		UserIntSwing.lblViewTask.setHorizontalAlignment(SwingConstants.LEFT);
+		UserIntSwing.lblViewTask.setVerticalAlignment(SwingConstants.TOP);
+		
+		UserIntSwing.lblHelp.setVerticalAlignment(SwingConstants.TOP);
+		UserIntSwing.textField.setColumns(10);
+		UserIntSwing.btnEnter.setBackground(new Color(255, 153, 255));
 	}
 }

@@ -24,6 +24,8 @@ import javax.swing.ImageIcon;
 public class AboutWeDo {
 
 	private JDialog frame;
+	private static final int Xcoordinate = 5;
+	private static final int Ycoordinate = 5;
 	private static final String TAG_WRAP_STRING = "%s%s%s";
 	private static final String HTML_OPEN = "<html>";
 	private static final String HTML_CLOSE = "</html>";
@@ -38,6 +40,7 @@ public class AboutWeDo {
 		frame.setBounds(100, 100, 334, 300);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
+		frame.setLocation(Xcoordinate, Ycoordinate);
 		
 		JLabel lblAbout = new JLabel(buildAboutMessage());
 		lblAbout.setFont(new Font("Tahoma", Font.PLAIN, 12));

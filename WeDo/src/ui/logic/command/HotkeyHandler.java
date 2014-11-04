@@ -2,6 +2,8 @@ package ui.logic.command;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -11,6 +13,7 @@ import javax.swing.KeyStroke;
 import logic.command.UndoHandler;
 import logic.exception.InvalidCommandException;
 import logic.parser.ParseResult;
+import ui.WeDoSystemTray;
 import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
@@ -102,6 +105,19 @@ public class HotkeyHandler {
 		    				FeedbackGuide.isEmptyRedoInput());
 		    		FeedbackHandler.feedbackTimerReset();
 		    	}
+			}
+		});
+	}
+	
+	public static void openApplication() {	
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, InputEvent.CTRL_MASK), 
+				"listenCtrlSpaceKey");
+		am.put("listenCtrlSpaceKey", new AbstractAction(){
+
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				WeDoSystemTray.openMainFrame();
 			}
 		});
 	}

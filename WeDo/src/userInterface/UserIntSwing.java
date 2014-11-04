@@ -114,12 +114,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		JPanel panelBottom = new JPanel();
 		panelBottom.setBackground(new Color(255, 204, 255));
 
-		lblHelp.setVerticalAlignment(SwingConstants.TOP);
-
-		textField.setColumns(10);
-
-		btnEnter.setBackground(new Color(255, 153, 255));
-
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout
 				.setHorizontalGroup(groupLayout
@@ -266,8 +260,6 @@ public class UserIntSwing extends JPanel implements Observer {
 																		.addContainerGap(
 																				84,
 																				Short.MAX_VALUE)))));
-		lblTodayDate.setVerticalAlignment(SwingConstants.TOP);
-		lblViewTask.setVerticalAlignment(SwingConstants.TOP);
 		groupLayout
 				.setVerticalGroup(groupLayout
 						.createParallelGroup(Alignment.TRAILING)
