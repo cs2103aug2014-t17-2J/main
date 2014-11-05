@@ -75,12 +75,6 @@ public class FeedbackGuide {
 		return feedbackEmptyRedo;
 	}
 	
-	public static void formatFeedbackLabel(){
-        UserIntSwing.lblFeedback.setFont(new Font("Arial", Font.ITALIC, 12));
-        UserIntSwing.lblFeedback.setForeground(Color.red);
-        UserIntSwing.lblFeedback.setOpaque(false);
-	}
-	
 	public static String textfieldFeedback() {
 		StringBuilder str = new StringBuilder();
 		

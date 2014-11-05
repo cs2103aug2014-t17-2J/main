@@ -3,8 +3,6 @@ package ui.logic.command;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -28,8 +26,6 @@ public class HotkeyHandler {
 	private static final String getEditCommand = Keywords.getEditTaskIdentifier();
 	private static final String getDeleteCommand = Keywords.getDeleteTaskIdentifier();
 	private static final String getSearchCommand = Keywords.getSearchTaskIdentifier();
-	private static final ParseResult getUndoCommand = UserIntSwing.logicManager.processCommand("undo");
-	private static final ParseResult getRedoCommand = UserIntSwing.logicManager.processCommand("redo");
 	private static final InputMap im = UserIntSwing.textField.getInputMap(JComponent.WHEN_FOCUSED);
 	private static final ActionMap am = UserIntSwing.textField.getActionMap();
 	
@@ -58,6 +54,7 @@ public class HotkeyHandler {
 	 * using InputMap and ActionMap
 	 */
 	public static void undo() {
+		 ParseResult getUndoCommand = UserIntSwing.logicManager.processCommand("undo");
 		im.put(KeyStroke.getKeyStroke(VK.undo_Zkey(), InputEvent.CTRL_MASK), 
 				"listenCtrlzKey");
 		am.put("listenCtrlzKey", new AbstractAction(){
@@ -86,6 +83,7 @@ public class HotkeyHandler {
 	 * using InputMap and ActionMap
 	 */
 	public static void redo() {	
+		ParseResult getRedoCommand = UserIntSwing.logicManager.processCommand("redo");
 		im.put(KeyStroke.getKeyStroke(VK.redo_Ykey(), InputEvent.CTRL_MASK), 
 				"listenCtrlyKey");
 		am.put("listenCtrlyKey", new AbstractAction(){
@@ -109,8 +107,12 @@ public class HotkeyHandler {
 		});
 	}
 	
+	/**
+	 * This operation process minimise to SystemTray operation (ctrl-m) 
+	 * using InputMap and ActionMap
+	 */
 	public static void minimise() {	
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK), 
+		im.put(KeyStroke.getKeyStroke(VK.Mkey(), InputEvent.CTRL_MASK), 
 				"listenCtrlmKey");
 		am.put("listenCtrlmKey", new AbstractAction() {
 

@@ -40,7 +40,6 @@ public class TextfieldHistory{
 	 * Down arrow keylistener - Pushes the text previously stored to "userInputStack"  
 	 */
 	public static void showTextfieldHistory(KeyEvent arg1) {
-		
 		if(arg1.getKeyCode() == KeyEvent.VK_UP) {
 			if(!userInputStack.isEmpty()) {
 				pushToUndoStack();

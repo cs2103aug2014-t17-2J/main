@@ -50,8 +50,6 @@ public class UserInterfaceMain {
 		FormatHandler.format();
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 		UserIntSwing.lblTodayDate.setText(setTodayDate());
-		FeedbackGuide.formatFeedbackLabel();
-		CommandGuide.fomatCommandGuideLabel();
 	}
 
 	/**
