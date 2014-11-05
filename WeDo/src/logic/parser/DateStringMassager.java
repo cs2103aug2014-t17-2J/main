@@ -68,7 +68,7 @@ public class DateStringMassager {
         String editKeyWordsRegex = getEditKeyWordsRegex();
 
         System.out.println("Original String @ index Selection" + source);
-        String regexPattern = "(^\\s*(?:" + editKeyWordsRegex
+        String regexPattern = "(?i)(^\\s*(?:" + editKeyWordsRegex
                 + ")\\s+)(\\d+)(\\s+|\\$)";
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(source);
@@ -256,7 +256,7 @@ public class DateStringMassager {
 
         // String regex = "(?<=[A-z]\\s)("+ restrictedWordRegex
         // +")(?=$|\\s[A-z])";
-        String regex = "(?<!\\d)\\s+(" + restrictedWordRegex
+        String regex = "(?i)(?<!\\d)\\s+(" + restrictedWordRegex
                 + ")($|\\s+\\w+)($|\\s+\\w+){0,1}";
 
         final int POSSIBLE_DATE_GROUP = 1;
