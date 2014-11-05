@@ -46,6 +46,8 @@ public class DateStringMassager {
 
         source = addDelimiterForIndexSelection(source);
         
+        System.out.println("before word... is " + source);
+
         source = replaceWordWithDelimiter(source);
 
 
@@ -65,7 +67,8 @@ public class DateStringMassager {
 
         String editKeyWordsRegex = getEditKeyWordsRegex();
 
-        String regexPattern = "(\\s+|^(?:" + editKeyWordsRegex
+        System.out.println("Original String @ index Selection" + source);
+        String regexPattern = "(^(?:" + editKeyWordsRegex
                 + ")\\s+)(\\d+)(\\s+|\\$)";
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(source);
@@ -77,7 +80,11 @@ public class DateStringMassager {
                     + END_DIGIT_DELIMITER + matcher.group(SPACING_GROUP));
         }
 
-        return matcher.appendTail(result).toString();
+        matcher.appendTail(result);
+
+        System.out.println("Modified String @ index Selection" + result.toString());
+
+        return result.toString();
 
     }
 
