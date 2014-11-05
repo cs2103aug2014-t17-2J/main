@@ -68,7 +68,7 @@ public class DateStringMassager {
         String editKeyWordsRegex = getEditKeyWordsRegex();
 
         System.out.println("Original String @ index Selection" + source);
-        String regexPattern = "(^(?:" + editKeyWordsRegex
+        String regexPattern = "(^\\s*(?:" + editKeyWordsRegex
                 + ")\\s+)(\\d+)(\\s+|\\$)";
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(source);
