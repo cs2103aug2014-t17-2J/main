@@ -204,12 +204,12 @@ public class ListenerHandler {
 	public static void addFrameWindowFocusListener() {
 		UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
-				UserIntSwing.textField.setText(null);
+				//UserIntSwing.textField.setText(null);
 				UserIntSwing.textField.requestFocusInWindow();
 			}
 
 			public void windowLostFocus(WindowEvent arg0) {
-				UserIntSwing.textField.setText(FeedbackGuide.textfieldFeedback());
+				//UserIntSwing.textField.setText(FeedbackGuide.textfieldFeedback());
 			}
 		});
 	}

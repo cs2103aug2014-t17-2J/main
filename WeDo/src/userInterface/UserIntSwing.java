@@ -97,7 +97,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-
+		
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
 				UserIntSwing.class.getResource("/ui/icon/WeDo.png")));
 		frame.getContentPane().setEnabled(false);

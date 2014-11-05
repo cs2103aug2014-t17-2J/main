@@ -1,6 +1,7 @@
 package ui.logic.command;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.SwingConstants;
@@ -62,11 +63,24 @@ public class FormatHandler {
 		UserIntSwing.textField.setColumns(10);
 		UserIntSwing.btnEnter.setBackground(new Color(255, 153, 255));
 		
+		formatFrameMinSize();
 		formatFeedbackLabel();
 		fomatCommandGuideLabel();
 	}
 	
-	public static void formatFeedbackLabel() {
+	/**
+	 * Set the minimum size for the frame
+	 */
+	private static void formatFrameMinSize() {
+		int frameWidth = UserIntSwing.frame.getWidth();
+		int frameHeight = UserIntSwing.frame.getHeight();
+		UserIntSwing.frame.setMinimumSize(new Dimension(frameWidth, frameHeight));
+	}
+	
+	/**
+	 * Format the Feedback label
+	 */
+	private static void formatFeedbackLabel() {
         UserIntSwing.lblFeedback.setFont(new Font("Arial", Font.ITALIC, 13));
         UserIntSwing.lblFeedback.setForeground(Color.red);
         UserIntSwing.lblFeedback.setOpaque(false);
@@ -75,7 +89,7 @@ public class FormatHandler {
 	/**
 	 * Format the Command Guide Label
 	 */
-	public static void fomatCommandGuideLabel(){
+	private static void fomatCommandGuideLabel(){
 		UserIntSwing.lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
 				| Font.ITALIC, 14));
 	}
