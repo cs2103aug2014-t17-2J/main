@@ -108,7 +108,7 @@ public class UserInterfaceMain {
 	public static String viewDateTask(ParseResult parseResult) {
 		if (parseResult.getCommand() instanceof ViewCommand) {
 			String getStr = parseResult.getTask().getDateTimeString();
-			userInput = UserIntSwing.textField.getText();
+
 			if(getStr.isEmpty()) {
 				getStr = parseResult.getTask().getDescription();
 			}
@@ -179,9 +179,8 @@ public class UserInterfaceMain {
 	 * Process the parser and Feedback
 	 */
 	public static void processTextfieldString() {
-		ParseResult parseResult = UserIntSwing.logicManager.processCommand(
-				UserIntSwing.textField.getText());
 		userInput = UserIntSwing.textField.getText();
+		ParseResult parseResult = UserIntSwing.logicManager.processCommand(userInput);
 
 		if (parseResult.isSuccessful()) {
 			try {
@@ -235,6 +234,7 @@ public class UserInterfaceMain {
 		/*process the redo and undo using InputMap and ActionMap*/
 		HotkeyHandler.undo();
 		HotkeyHandler.redo();
+		HotkeyHandler.minimise();
 	}
 
 	/**

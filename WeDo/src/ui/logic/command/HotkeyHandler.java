@@ -1,5 +1,6 @@
 package ui.logic.command;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -13,7 +14,6 @@ import javax.swing.KeyStroke;
 import logic.command.UndoHandler;
 import logic.exception.InvalidCommandException;
 import logic.parser.ParseResult;
-import ui.WeDoSystemTray;
 import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
@@ -33,7 +33,7 @@ public class HotkeyHandler {
 	private static final InputMap im = UserIntSwing.textField.getInputMap(JComponent.WHEN_FOCUSED);
 	private static final ActionMap am = UserIntSwing.textField.getActionMap();
 	
-    public static void add() {
+	public static void add() {
         UserIntSwing.textField.setText(getAddCommand);
     }
     
@@ -109,15 +109,15 @@ public class HotkeyHandler {
 		});
 	}
 	
-	public static void openApplication() {	
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, InputEvent.CTRL_MASK), 
-				"listenCtrlSpaceKey");
-		am.put("listenCtrlSpaceKey", new AbstractAction(){
+	public static void minimise() {	
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_MASK), 
+				"listenCtrlmKey");
+		am.put("listenCtrlmKey", new AbstractAction() {
 
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				WeDoSystemTray.openMainFrame();
+				UserIntSwing.frame.setState(Frame.ICONIFIED);
 			}
 		});
 	}
