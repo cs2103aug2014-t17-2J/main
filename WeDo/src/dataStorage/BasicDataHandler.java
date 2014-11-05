@@ -9,7 +9,6 @@ import java.util.Observer;
 import logic.command.commandList.Command;
 import logic.command.commandList.CompleteCommand;
 import logic.command.commandList.UncompleteCommand;
-import logic.parser.PriorityParser;
 import logic.utility.KeyWordMappingList;
 import logic.utility.MultiMapMatcher;
 import logic.utility.Task;
@@ -296,8 +295,10 @@ public class BasicDataHandler implements DataHandler {
 
 		fileHandler.writeLog(LocalTime.now() + " : edited "
 				+ source.getUniqueID());
-		int index = observableList.indexOf(source);
+		int index;
 		removeTask(source);
+		addThenView(replacement);
+		index = observableList.getList().size();
 		addTask(index, replacement);
 
 		return true;
@@ -366,7 +367,6 @@ public class BasicDataHandler implements DataHandler {
 		currentView.setEndDate(task.getEndDate());
 
 		Command cmd = getCommand(task.getDescription());
-		PriorityParser pp = new PriorityParser();
 
 		if (type.equals(DEADLINE)) {
 
