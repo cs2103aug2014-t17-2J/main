@@ -15,8 +15,6 @@ import userInterface.UserIntSwing;
 public class FormatHandler {
 	
 	public static void formatAll() {
-		
-		//UserIntSwing.lblHelp.setVerticalAlignment(SwingConstants.TOP);
 		formatFrameMinSize();
 		formatTodayDateLabel();
 		formatViewTaskLabel();
@@ -24,6 +22,7 @@ public class FormatHandler {
 		formatCommandGuideLabel();
 		formatDynamicParserLabel();
 		formatAllButton();
+		UserIntSwing.lblHelp.setVerticalAlignment(SwingConstants.TOP);
 	}
 	
 	/**
@@ -36,9 +35,9 @@ public class FormatHandler {
 	}
 	
 	private static void formatTodayDateLabel() {
-		UserIntSwing.lblTodayDate.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 20));
+		UserIntSwing.lblTodayDate.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 16));
 		UserIntSwing.lblTodayDate.setHorizontalAlignment(SwingConstants.RIGHT);
-		UserIntSwing.lblTodayDate.setVerticalAlignment(SwingConstants.TOP);
+		UserIntSwing.lblTodayDate.setVerticalAlignment(SwingConstants.CENTER);
 	}
 	
 	private static void formatViewTaskLabel() {
