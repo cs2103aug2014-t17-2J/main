@@ -69,16 +69,20 @@ public class SearchEngine {
 	private boolean invalidSearchInput(String searchInput) {
 		return searchInput == null || searchInput.trim().isEmpty();
 	}
-	
-	public ArrayList<Task> search(String str1){
+
+	public ArrayList<Task> search(String str1) {
 		return searchWagnerList(str1);
 	}
-	
-	public ArrayList<Task> search(Task task){
-		dataHandler.view(task);
+
+	public ArrayList<Task> search(Task task) {
+		if (task.getDescription().isEmpty()) {
+			dataHandler.view(task);
+		} else {
+			searchWagnerList(task.getDescription());
+		}
 		return null;
 	}
-	
+
 	public ArrayList<Task> searchWagnerList(String str1) {
 
 		int distance;
@@ -86,25 +90,21 @@ public class SearchEngine {
 
 		for (Task t : dataHandler.getAllTasks()) {
 			String[] str2 = t.getDescription().split(" ");
-			for (String s: str2) {
-				
+			for (String s : str2) {
+
 				distance = getDist(str1, s);
 
-				
-				if(!wagnerWord.isEmpty() && s.contains(wagnerWord) || wagnerWord.contains(s)) {
+				if (distance < s.length() / 2) {
 					tmp.add(t);
 					break;
-				} else if (distance < s.length()/2) {
-					tmp.add(t);
-					break;
+
 				}
 			}
 		}
-		
 		wagnerWord = "";
-		
+
 		dataHandler.setDisplayedTasks(tmp);
-		
+
 		return tmp;
 	}
 
@@ -125,10 +125,7 @@ public class SearchEngine {
 						arr[i - 1][j - 1] + m);
 			}
 		}
-		if(arr[len1][len2] < str1.length()/2) {
-			wagnerWord = str2;
-		}
-		
+
 		return arr[len1][len2];
 	}
 
