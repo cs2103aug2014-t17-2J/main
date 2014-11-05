@@ -20,7 +20,6 @@ import userInterface.UserIntSwing;
  * 
  */
 public class HotkeyHandler {
-	
 	private static final String getAddCommand = Keywords.getAddTaskIdentifier();
 	private static final String getViewCommand = Keywords.getViewTaskIdentifier();
 	private static final String getEditCommand = Keywords.getEditTaskIdentifier();
@@ -57,7 +56,7 @@ public class HotkeyHandler {
 		 ParseResult getUndoCommand = UserIntSwing.logicManager.processCommand("undo");
 		im.put(KeyStroke.getKeyStroke(VK.undo_Zkey(), InputEvent.CTRL_MASK), 
 				"listenCtrlzKey");
-		am.put("listenCtrlzKey", new AbstractAction(){
+		am.put("listenCtrlzKey", new AbstractAction() {
 
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -112,7 +111,7 @@ public class HotkeyHandler {
 	 * using InputMap and ActionMap
 	 */
 	public static void minimise() {	
-		im.put(KeyStroke.getKeyStroke(VK.Mkey(), InputEvent.CTRL_MASK), 
+		im.put(KeyStroke.getKeyStroke(VK.minimise_Mkey(), InputEvent.CTRL_MASK), 
 				"listenCtrlmKey");
 		am.put("listenCtrlmKey", new AbstractAction() {
 
@@ -120,6 +119,22 @@ public class HotkeyHandler {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				UserIntSwing.frame.setState(Frame.ICONIFIED);
+			}
+		});
+	}
+	
+	/**
+	 * This operation process the scrolling up of the table
+	 */
+	public static void scrollUpTable() {	
+		im.put(KeyStroke.getKeyStroke(VK.scrollUp_UpKey(), InputEvent.CTRL_MASK), 
+				"listenCtrlUpKey");
+		am.put("listenCtrlUpKey", new AbstractAction() {
+
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("HEREEEEEEEEEEEEEEEEE UP KEY");
 			}
 		});
 	}

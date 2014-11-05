@@ -233,6 +233,7 @@ public class UserInterfaceMain {
 		HotkeyHandler.undo();
 		HotkeyHandler.redo();
 		HotkeyHandler.minimise();
+		HotkeyHandler.scrollUpTable();
 	}
 
 	/**
