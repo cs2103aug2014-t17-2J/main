@@ -6,12 +6,15 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
 import logic.LogicManager;
 import logic.command.commandList.AddCommand;
 import logic.command.commandList.EditCommand;
+import logic.command.commandList.RedoCommand;
+import logic.command.commandList.UndoCommand;
 import logic.command.commandList.ViewCommand;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
@@ -40,6 +43,7 @@ public class UserInterfaceMain {
 	private static String userInput = new String();
 	private static final SimpleDateFormat sdf_first = new SimpleDateFormat(DATE_FORMAT_FIRST);
 	private static final SimpleDateFormat sdf_second = new SimpleDateFormat(DATE_FORMAT_SECOND);
+	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT_SECOND);
 
 	/**
 	 * This operation initialize all the Processes 
@@ -105,26 +109,29 @@ public class UserInterfaceMain {
 	 * @return String telling the user what date is he viewing
 	 */
 	public static String viewDateTask(ParseResult parseResult) {
-		String getCommandStr = parseResult.getTask().getDateTimeString();
+		String getDateStr = parseResult.getTask().getDateTimeString();
 		boolean viewCommand = parseResult.getCommand() instanceof ViewCommand;
 		boolean addCommand = parseResult.getCommand() instanceof AddCommand;
 		boolean editCommand = parseResult.getCommand() instanceof EditCommand;
+		boolean undoCommand = parseResult.getCommand() instanceof UndoCommand;
+		boolean redoCommand = parseResult.getCommand() instanceof RedoCommand;
 		
-		if(viewCommand || addCommand || editCommand) {
-			if(getCommandStr.isEmpty()) {
-				getCommandStr = parseResult.getTask().getDescription();
+		if(viewCommand || addCommand || editCommand || undoCommand || redoCommand) {
+			if(getDateStr.isEmpty()) {
+				getDateStr = UserIntSwing.lblDateProcess.getText();
 			}
-			else if(getCommandStr.matches(dateToday())) {
+			
+			if(getDateStr.matches(dateToday())) {
 				return FeedbackGuide.formatViewTodayTask();
 			}
-			else if(getCommandStr.matches(dateTomorrow())) {
+			else if(getDateStr.matches(dateTomorrow())) {
 				return FeedbackGuide.formatViewTomorrowTask();
 			}
-			else if(getCommandStr.matches(dateYesterday())) {
+			else if(getDateStr.matches(dateYesterday())) {
 				return FeedbackGuide.formatViewYesterdayTask();
 			}
 			else{
-				return FeedbackGuide.formatViewDateTask(getCommandStr);
+				return FeedbackGuide.formatViewDateTask(getDateStr);
 			}
 		}
 		return FeedbackGuide.formatViewTodayTask();

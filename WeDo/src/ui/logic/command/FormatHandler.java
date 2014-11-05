@@ -77,7 +77,7 @@ public class FormatHandler {
 		UserIntSwing.lblDateProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		UserIntSwing.lblDateProcess.setForeground(new Color(0, 128, 0));
 		UserIntSwing.lblDateProcess.setBackground(new Color(255, 204, 255));
-		UserIntSwing.lblDateProcess.setOpaque(true);
+		UserIntSwing.lblDateProcess.setOpaque(true);  
 		
 		UserIntSwing.lblPriority.setFont(new Font("Tahoma", Font.BOLD, 12));
 		UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
