@@ -135,7 +135,7 @@ public class DateParser {
         final int monthGroup = 2;
         final int dayGroup = 3;
                 
-        String yyyymmddRegex = "(\\d+)[/-](\\d+)[/-](\\d+)";
+        String yyyymmddRegex = "(\\d+)/(\\d+)/(\\d+)";
         
          
         Pattern pattern = Pattern.compile(yyyymmddRegex);

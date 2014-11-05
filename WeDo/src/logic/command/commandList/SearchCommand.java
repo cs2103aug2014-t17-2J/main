@@ -12,8 +12,6 @@ import logic.parser.ParserFlags;
 import logic.utility.SearchEngine;
 import logic.utility.Task;
 
-
-
 /**
  * @author TienLong This class makes use of the Command interface to implement
  *         execute function for searchTask
@@ -25,13 +23,16 @@ public class SearchCommand extends Command {
 
         System.out.println("searching");
 
-        SearchEngine searchEngine = new SearchEngine((BasicDataHandler) dataHandler);
-        ArrayList<Task> searchList = searchEngine.searchWagnerList( task.getDescription());
+        SearchEngine searchEngine = new SearchEngine(
+                (BasicDataHandler) dataHandler);
+        ArrayList<Task> searchList = searchEngine.search(task);
         if (searchList.isEmpty()) {
             throw new InvalidCommandException("Search failed unable to find...");
         } else {
             displayedTask = dataHandler.getDisplayedTasks(task.getStartDate(),
                     task.getEndDate());
+            undoHandler.addUndo(this);
+
         }
     }
 
@@ -45,20 +46,24 @@ public class SearchCommand extends Command {
     public void undo() {
         dataHandler.setDisplayedTasks(displayedTask);
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#validate(java.util.EnumSet)
      */
     @Override
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
         return isCommandValid(parseFlags);
     }
-    
+
     /**
      * <p>
      * Determine whether the command is valid
      * <p>
      * 
-     * @param parseFlags the set of ParserFlag to be tested
+     * @param parseFlags
+     *            the set of ParserFlag to be tested
      * @return if it contains more than MIN_VALID_FLAGS flags
      */
     public static boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
@@ -69,20 +74,26 @@ public class SearchCommand extends Command {
         final EnumSet<ParserFlags> VALID_SEARCH_PRIORITY_PARSE = EnumSet.of(
                 ParserFlags.PRIORITY_FLAG, ParserFlags.COMMAND_FLAG);
 
-        return (ParserFlags.containsOnly(parseFlags, VALID_SEARCH_CATEGORY_PARSE) || ParserFlags
-                .containsOnly(parseFlags, VALID_SEARCH_DATE_PARSE) || ParserFlags
-                .containsOnly(parseFlags, VALID_SEARCH_PRIORITY_PARSE));
+        return (ParserFlags.containsOnly(parseFlags,
+                VALID_SEARCH_CATEGORY_PARSE)
+                || ParserFlags
+                        .containsOnly(parseFlags, VALID_SEARCH_DATE_PARSE) || ParserFlags
+                    .containsOnly(parseFlags, VALID_SEARCH_PRIORITY_PARSE));
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#toString()
      */
     @Override
     public String toString() {
-            return "Search";
+        return "Search";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#getValidateErrorMessage()
      */
     @Override
