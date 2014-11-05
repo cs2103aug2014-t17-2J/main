@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import logic.LogicManager;
+import logic.command.commandList.AddCommand;
 import logic.command.commandList.EditCommand;
 import logic.command.commandList.ViewCommand;
 import logic.exception.InvalidCommandException;
@@ -47,7 +48,7 @@ public class UserInterfaceMain {
 		setupFrameLocation();
 		ListenerHandler.addFrameWindowFocusListener();
 		initAllListener();
-		FormatHandler.format();
+		FormatHandler.formatAll();
 		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 		UserIntSwing.lblTodayDate.setText(setTodayDate());
 	}
@@ -101,26 +102,29 @@ public class UserInterfaceMain {
 	/**Process lblViewTask to view tasks that the user is 
 	 * currently viewing
 	 * @param parseResult 
-	 * @return String telling the user what he is viewing
+	 * @return String telling the user what date is he viewing
 	 */
 	public static String viewDateTask(ParseResult parseResult) {
-		if (parseResult.getCommand() instanceof ViewCommand) {
-			String getStr = parseResult.getTask().getDateTimeString();
-
-			if(getStr.isEmpty()) {
-				getStr = parseResult.getTask().getDescription();
+		String getCommandStr = parseResult.getTask().getDateTimeString();
+		boolean viewCommand = parseResult.getCommand() instanceof ViewCommand;
+		boolean addCommand = parseResult.getCommand() instanceof AddCommand;
+		boolean editCommand = parseResult.getCommand() instanceof EditCommand;
+		
+		if(viewCommand || addCommand || editCommand) {
+			if(getCommandStr.isEmpty()) {
+				getCommandStr = parseResult.getTask().getDescription();
 			}
-			else if(getStr.matches(dateToday())) {
+			else if(getCommandStr.matches(dateToday())) {
 				return FeedbackGuide.formatViewTodayTask();
 			}
-			else if(getStr.matches(dateTomorrow())) {
+			else if(getCommandStr.matches(dateTomorrow())) {
 				return FeedbackGuide.formatViewTomorrowTask();
 			}
-			else if(getStr.matches(dateYesterday())) {
+			else if(getCommandStr.matches(dateYesterday())) {
 				return FeedbackGuide.formatViewYesterdayTask();
 			}
 			else{
-				return FeedbackGuide.formatViewDateTask(getStr);
+				return FeedbackGuide.formatViewDateTask(getCommandStr);
 			}
 		}
 		return FeedbackGuide.formatViewTodayTask();

@@ -1,12 +1,10 @@
 package ui.guide;
 
-import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ui.logic.command.Action;
 import ui.logic.command.Keywords;
-import userInterface.UserIntSwing;
 
 /**
  * @author Andy Hsu Wei Qiang 

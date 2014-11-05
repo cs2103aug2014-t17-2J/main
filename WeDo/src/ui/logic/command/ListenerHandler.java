@@ -26,7 +26,6 @@ import ui.WeDoSystemTray;
 import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
-import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**

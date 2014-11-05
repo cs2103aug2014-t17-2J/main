@@ -13,6 +13,7 @@ import java.util.Observer;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -106,7 +107,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.setBounds(100, 100, 767, 511); // windowSize
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
