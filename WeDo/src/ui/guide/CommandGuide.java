@@ -256,12 +256,4 @@ public class CommandGuide {
 		return String.format(TAG_WRAP_STRING, HTML_UNDERLINE_OPEN, text,
 				HTML_UNDERLINE_CLOSE);
 	}
-	
-	/**
-	 * Format the Command Guide Label
-	 */
-	public static void fomatCommandGuideLabel(){
-		UserIntSwing.lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
-				| Font.ITALIC, 14));
-	}
 }

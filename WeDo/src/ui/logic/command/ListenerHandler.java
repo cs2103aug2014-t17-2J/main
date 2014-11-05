@@ -26,15 +26,15 @@ import ui.WeDoSystemTray;
 import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
+import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
  * @author Andy Hsu Wei Qiang
- *This class process all the Listener
+ *This class process all the Listeners
  */
 public class ListenerHandler {
-	private static final BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
-			Color.BLUE);
+	private static final BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
 	private static String userInput = new String();
 	/**
 	 * Buttons Listener - Process the adding of text to the textfield
@@ -204,12 +204,12 @@ public class ListenerHandler {
 	public static void addFrameWindowFocusListener() {
 		UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
-				//UserIntSwing.textField.setText(null);
+				UserIntSwing.textField.setText(null);
 				UserIntSwing.textField.requestFocusInWindow();
 			}
 
 			public void windowLostFocus(WindowEvent arg0) {
-				//UserIntSwing.textField.setText(FeedbackGuide.textfieldFeedback());
+				UserIntSwing.textField.setText(FeedbackGuide.textfieldFeedback());
 			}
 		});
 	}
@@ -260,16 +260,34 @@ public class ListenerHandler {
 					e.printStackTrace();
 				}
 			}
+			/**
+			 *Enter Key Listener process
+			 *@param arg1 KeyEvent Enter from the textfield
+			 */
+			private void processEnterkey(KeyEvent arg1) {
+				userInput = UserIntSwing.textField.getText();
+				TextfieldHistory.getTextfieldString(userInput);
+			}
 			@Override
 			public void keyReleased(KeyEvent arg1) {
-				userInput = UserIntSwing.textField.getText();
-				processTextfield(arg1, userInput);
+				processTextfield(arg1);
 				DynamicParseResult parseResult = 
 						UserInterfaceMain.processUserParse(arg1, UserIntSwing.logicManager);
 				Task task = parseResult.getTask();
 				UserInterfaceMain.clearDynamicParseLabels();
 				handleDynamicEdit(parseResult, task);
 				UserInterfaceMain.showParseResult(parseResult, task);
+			}
+			/**
+			 *Textfield processes
+			 *@param arg1 KeyEvent from the textfield
+			 *@param userInput Input that the user entered from the textfield
+			 * @throws InvalidCommandException 
+			 */
+			private void processTextfield(KeyEvent arg1) {
+				userInput = UserIntSwing.textField.getText();
+				UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
+				TextfieldHistory.showTextfieldHistory(arg1);
 			}
 
 			private void handleDynamicEdit(DynamicParseResult parseResult,
@@ -293,24 +311,6 @@ public class ListenerHandler {
 			private void showInvalidIndexMessage(Task task) {
 				final String INVALID_INDEX = "The index you are editing is INVALID";
 				task.setDescription(INVALID_INDEX);
-			}
-			/**
-			 *Textfield processes
-			 *@param arg1 KeyEvent from the textfield
-			 *@param userInput Input that the user entered from the textfield
-			 * @throws InvalidCommandException 
-			 */
-			private void processTextfield(KeyEvent arg1, String userInput) {
-				UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
-				TextfieldHistory.showTextfieldHistory(arg1);
-			}
-			/**
-			 *Enter Key Listener process
-			 *@param arg1 KeyEvent Enter from the textfield
-			 */
-			private void processEnterkey(KeyEvent arg1) {
-				userInput = UserIntSwing.textField.getText();
-				TextfieldHistory.getTextfieldString(userInput);
 			}
 		});
 	}

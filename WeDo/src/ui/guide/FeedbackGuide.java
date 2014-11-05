@@ -23,6 +23,7 @@ public class FeedbackGuide {
 	private static final String feedbackRedoSucceed = "Redo completed";
 	private static final String feedbackEmptyUndo = "No more input for Undo!";
 	private static final String feedbackEmptyRedo = "No more input for Redo!";
+	private static final String feedbackTextfield = "Enter your command here...";
 	
 	private static final String VIEW_STRING = "You are viewing: ";
 	private static final String VIEW_STRING_APPEND = "'s tasks.";
@@ -34,7 +35,7 @@ public class FeedbackGuide {
 	private static final String HTML_CLOSE = "</html>";
 	private static final String TAG_WRAP_STRING = "%s%s%s";
 	private static final String HTML_FONTCOLORGREY_OPEN = "<font color=#B0B0B0>"; //grey
-	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=#00CC00>"; //green
+	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=#00FF33>"; //green
 	private static final String HTML_FONTCOLORRED_OPEN = "<font color=#FF0000>"; //red
 	private static final String HTML_FONT_CLOSE = "</font>";
 	
@@ -74,16 +75,10 @@ public class FeedbackGuide {
 		return feedbackEmptyRedo;
 	}
 	
-	public static void formatFeedbackLabel(){
-        UserIntSwing.lblFeedback.setFont(new Font("Arial", Font.ITALIC, 12));
-        UserIntSwing.lblFeedback.setForeground(Color.red);
-        UserIntSwing.lblFeedback.setOpaque(false);
-	}
-	
 	public static String textfieldFeedback() {
 		StringBuilder str = new StringBuilder();
 		
-		str.append(fontColorGrey("Enter You Command Here"));
+		str.append(fontColorGrey(feedbackTextfield));
 		
 		return wrapWithHtmlTag(str.toString());
 	}

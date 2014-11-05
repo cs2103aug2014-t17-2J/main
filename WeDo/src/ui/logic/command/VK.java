@@ -43,4 +43,8 @@ public class VK {
     public static int undo_Zkey() {
     	return KeyEvent.VK_Z;
     }
+    
+    public static int Mkey() {
+    	return KeyEvent.VK_M;
+    }
 }

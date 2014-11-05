@@ -52,8 +52,31 @@ public class FormatHandler {
 		
 		UserIntSwing.lblTodayDate.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 20));
 		UserIntSwing.lblTodayDate.setHorizontalAlignment(SwingConstants.RIGHT);
+		UserIntSwing.lblTodayDate.setVerticalAlignment(SwingConstants.TOP);
 		
 		UserIntSwing.lblViewTask.setFont(new Font("Calibri", Font.ITALIC, 18));
 		UserIntSwing.lblViewTask.setHorizontalAlignment(SwingConstants.LEFT);
+		UserIntSwing.lblViewTask.setVerticalAlignment(SwingConstants.TOP);
+		
+		UserIntSwing.lblHelp.setVerticalAlignment(SwingConstants.TOP);
+		UserIntSwing.textField.setColumns(10);
+		UserIntSwing.btnEnter.setBackground(new Color(255, 153, 255));
+		
+		formatFeedbackLabel();
+		fomatCommandGuideLabel();
+	}
+	
+	public static void formatFeedbackLabel() {
+        UserIntSwing.lblFeedback.setFont(new Font("Arial", Font.ITALIC, 14));
+        UserIntSwing.lblFeedback.setForeground(Color.red);
+        UserIntSwing.lblFeedback.setOpaque(false);
+	}
+	
+	/**
+	 * Format the Command Guide Label
+	 */
+	public static void fomatCommandGuideLabel(){
+		UserIntSwing.lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
+				| Font.ITALIC, 14));
 	}
 }

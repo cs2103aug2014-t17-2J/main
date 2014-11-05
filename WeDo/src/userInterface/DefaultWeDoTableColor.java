@@ -57,7 +57,6 @@ public class DefaultWeDoTableColor {
 		    if(column == InteractiveTableModel.INDEX_CHECK)
 		    {
 	              jComponent.setBorder(new MatteBorder(BORDER_THICKNESS, NO_BORDER, BORDER_THICKNESS, BORDER_THICKNESS, BORDER_COLOR));
-	              ListenerHandler.focusTextfield();
 		    }
 		    else if (column == InteractiveTableModel.INDEX_TASK)
 		    {
@@ -68,10 +67,11 @@ public class DefaultWeDoTableColor {
 		        jComponent.setBorder(new MatteBorder(BORDER_THICKNESS, NO_BORDER, BORDER_THICKNESS, NO_BORDER, BORDER_COLOR));
 		    }
 		} else 
-		{
-            jComponent.setBorder(BorderFactory.createEmptyBorder());
+			{
+				jComponent.setBorder(BorderFactory.createEmptyBorder());
+			}
+		ListenerHandler.focusTextfield();
 		}
-	}
 
 	/**
 	 * This function set the priority high colour for WeDo table

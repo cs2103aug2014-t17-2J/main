@@ -109,11 +109,15 @@ public class HelpGuide {
 		str.append(HTML_BREAK);
 		str.append("tasks dated yesterday or tomorrow respectively.");
 		
-		str.append(HTML_BREAK + HTML_BREAK);
-		str.append("Special shortcut keyword can also be used");
 		str.append(HTML_BREAK);
-		str.append("Specifying the date: ");
-		str.append(underline("tomorrow") + spaceOr + underline("tmr") + spaceOr + underline("tml"));
+		str.append("3. " + bold("View All tasks / View Completed tasks"));
+		str.append(HTML_BREAK);
+		str.append(bold("/  View Uncompleted tasks."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"view all\"") + spaceOr + makeExample("\"view completed\"") + 
+				spaceOr + makeExample("\"view uncompleted\""));
+		str.append(HTML_BREAK);
+		str.append("respectively...");
 		
 		str.append(HTML_BREAK + HTML_BREAK);
 		str.append("---------------------------- END ----------------------------");
@@ -178,6 +182,15 @@ public class HelpGuide {
 		str.append("By specifying the ID of the task, the task with the ID 2 in");
 		str.append(HTML_BREAK);
 		str.append("the above example task will be removed.");
+		str.append(HTML_BREAK);
+		str.append("2. " + bold("Delete multiple tasks."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"delete 1 - 10\"") + spaceOr + 
+				makeExample("\"delete 1 to 10\""));
+		str.append(HTML_BREAK);
+		str.append("By specifying the ID tasks of 1 to 10, the tasks with");
+		str.append(HTML_BREAK);
+		str.append("the ID 1 to 10 will be deleted.");
 		
 		str.append(HTML_BREAK + HTML_BREAK);
 		str.append("---------------------------- END ----------------------------");
