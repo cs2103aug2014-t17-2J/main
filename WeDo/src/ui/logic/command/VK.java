@@ -44,7 +44,11 @@ public class VK {
     	return KeyEvent.VK_Z;
     }
     
-    public static int Mkey() {
+    public static int minimise_Mkey() {
     	return KeyEvent.VK_M;
+    }
+    
+    public static int scrollUp_UpKey() {
+    	return KeyEvent.VK_UP;
     }
 }

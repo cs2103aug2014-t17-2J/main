@@ -67,7 +67,7 @@ public class FormatHandler {
 	}
 	
 	public static void formatFeedbackLabel() {
-        UserIntSwing.lblFeedback.setFont(new Font("Arial", Font.ITALIC, 14));
+        UserIntSwing.lblFeedback.setFont(new Font("Arial", Font.ITALIC, 13));
         UserIntSwing.lblFeedback.setForeground(Color.red);
         UserIntSwing.lblFeedback.setOpaque(false);
 	}
