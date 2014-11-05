@@ -26,15 +26,15 @@ import ui.WeDoSystemTray;
 import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
+import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
  * @author Andy Hsu Wei Qiang
- *This class process all the Listener
+ *This class process all the Listeners
  */
 public class ListenerHandler {
-	private static final BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE,
-			Color.BLUE);
+	private static final BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
 	private static String userInput = new String();
 	/**
 	 * Buttons Listener - Process the adding of text to the textfield
@@ -204,12 +204,12 @@ public class ListenerHandler {
 	public static void addFrameWindowFocusListener() {
 		UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
-				//UserIntSwing.textField.setText(null);
+				UserIntSwing.textField.setText(null);
 				UserIntSwing.textField.requestFocusInWindow();
 			}
 
 			public void windowLostFocus(WindowEvent arg0) {
-				//UserIntSwing.textField.setText(FeedbackGuide.textfieldFeedback());
+				UserIntSwing.textField.setText(FeedbackGuide.textfieldFeedback());
 			}
 		});
 	}

@@ -167,13 +167,11 @@ public class UserInterfaceMain {
 	 * This operation sets the program at the bottom right hand corner of screen
 	 */
 	private static void setupFrameLocation() {
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
 		Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
 		int Xcoordinate = (int) rect.getMaxX() - UserIntSwing.frame.getWidth();
-		int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() 
-				- taskbarHeight;
+		int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() - taskbarHeight;
 		UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
 	}
 
@@ -181,8 +179,8 @@ public class UserInterfaceMain {
 	 * Process the parser and Feedback
 	 */
 	public static void processTextfieldString() {
-		ParseResult parseResult = UserIntSwing.logicManager
-				.processCommand(UserIntSwing.textField.getText());
+		ParseResult parseResult = UserIntSwing.logicManager.processCommand(
+				UserIntSwing.textField.getText());
 		userInput = UserIntSwing.textField.getText();
 
 		if (parseResult.isSuccessful()) {
@@ -247,8 +245,8 @@ public class UserInterfaceMain {
 	 * @return DynamicParseResult the result that was parsed on run time
 	 */
 	public static DynamicParseResult processUserParse(KeyEvent arg1, LogicManager logicManager) {
-		DynamicParseResult parseResult = logicManager
-				.dynamicParse(UserIntSwing.textField.getText());
+		DynamicParseResult parseResult = logicManager.dynamicParse(
+				UserIntSwing.textField.getText());
 
 		return parseResult;
 	}
@@ -268,8 +266,7 @@ public class UserInterfaceMain {
 	 * @param parseResult the result that was parse
 	 * @param task the task that was parse
 	 */
-	public static void showParseResult(DynamicParseResult parseResult,
-			Task task) {
+	public static void showParseResult(DynamicParseResult parseResult, Task task) {
 		for (ParserFlags parseFlag : parseResult.getParseFlags()) {
 			switch (parseFlag) {
 			case COMMAND_FLAG:
@@ -301,8 +298,8 @@ public class UserInterfaceMain {
 	 * @return the string which contains the index
 	 */
 	public static String getIndexString(Task task) {
-		String indexString = StringHandler.getIntegerFromFirstSlot(task
-				.getDescription());
+		String indexString = StringHandler.getIntegerFromFirstSlot(
+				task.getDescription());
 		return indexString;
 	}
 
@@ -311,8 +308,7 @@ public class UserInterfaceMain {
 	 * @param parseResult the parse result
 	 * @return if it contains valid edit command
 	 */
-	public static boolean containsValidEditCommand(
-			DynamicParseResult parseResult) {
+	public static boolean containsValidEditCommand(DynamicParseResult parseResult) {
 		return parseResult.getParseFlags().contains(ParserFlags.COMMAND_FLAG)
 				&& parseResult.getParseFlags().contains(
 						ParserFlags.DESCRIPTION_FLAG)
