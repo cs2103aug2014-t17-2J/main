@@ -32,6 +32,7 @@ public class DateParser {
 
     private String wordUsed;
     private String wordRemaining;
+    private String errorMessage;
     private List<Date> dateList;
     private boolean timeSet;
     private boolean wordRemainingSeparated;
@@ -43,6 +44,9 @@ public class DateParser {
      */
     public boolean tryParse(String source) {
 
+        final String EXCEEDED_DATE_PARSE_LIMIT = "Input contains more than 2 dates to parse";
+
+        
         if (source == null) {
             return false;
         }
@@ -71,6 +75,13 @@ public class DateParser {
 
         if (dateAvailable(dateGroups)) {
             
+            dateList = getDateList(dateGroups);
+
+            if(exceededDateListLimit())
+            {
+                setErrorMessage(EXCEEDED_DATE_PARSE_LIMIT);
+                return false;
+            }
             
             String dateWordUsed = getDateWordUsed(source, dateGroups);
             dateWordUsed = DateStringMassager.removeWordDelimiter(dateWordUsed);
@@ -87,7 +98,6 @@ public class DateParser {
             wordRemainingSeparated = StringHandler.isWordUsedInTheMiddle(source, wordUsed);
             wordRemaining = StringHandler.removeFirstMatched(source, wordUsed);
             
-            dateList = getDateList(dateGroups);
             
             try {
                 dateList = parseDateBeforeEpochYear(dateWordUsed, dateList);
@@ -98,9 +108,17 @@ public class DateParser {
             
             timeSet = isTimeInferred(dateGroups);
             return true;
-        } else {
+        }
+        else 
+        {
             return false;
         }
+    }
+
+    private boolean exceededDateListLimit() 
+    {
+        final int MAX_DATE_PARSE = 2;
+        return dateList.size() > MAX_DATE_PARSE;
     }
 
     private boolean formalDateContainsZero(String source) {
@@ -126,9 +144,17 @@ public class DateParser {
         
         while (matcher.find()) 
         {
-            int year = Integer.parseInt(matcher.group(yearGroup));
-            int month = Integer.parseInt(matcher.group(monthGroup));
-            int day = Integer.parseInt(matcher.group(dayGroup));
+            int year, month, day;
+            try
+            {
+                year = Integer.parseInt(matcher.group(yearGroup));
+                month = Integer.parseInt(matcher.group(monthGroup));
+                day = Integer.parseInt(matcher.group(dayGroup));
+            }
+            catch(NumberFormatException numberTooBig)
+            {
+                return false;
+            }
             
             if(isYearInvalid(year))
             {
@@ -397,6 +423,20 @@ public class DateParser {
      */
     public void setWordRemainingSeparated(boolean wordRemainingSeparated) {
         this.wordRemainingSeparated = wordRemainingSeparated;
+    }
+
+    /**
+     * @return the warningMessage
+     */
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    /**
+     * @param warningMessage the warningMessage to set
+     */
+    public void setErrorMessage(String warningMessage) {
+        this.errorMessage = warningMessage;
     }
 
 }
