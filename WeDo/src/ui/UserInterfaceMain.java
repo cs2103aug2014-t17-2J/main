@@ -116,11 +116,11 @@ public class UserInterfaceMain {
 		boolean undoCommand = parseResult.getCommand() instanceof UndoCommand;
 		boolean redoCommand = parseResult.getCommand() instanceof RedoCommand;
 		
-		if(viewCommand || addCommand || editCommand || undoCommand || redoCommand) {
-			if(getDateStr.isEmpty()) {
-				getDateStr = UserIntSwing.lblDateProcess.getText();
-			}
-			
+		if(getDateStr.isEmpty()) {
+			getDateStr = UserIntSwing.lblDateProcess.getText();
+		}
+		
+		if(viewCommand || addCommand || editCommand) {
 			if(getDateStr.matches(dateToday())) {
 				return FeedbackGuide.formatViewTodayTask();
 			}
@@ -193,13 +193,14 @@ public class UserInterfaceMain {
 
 		if (parseResult.isSuccessful()) {
 			try {
+				UserIntSwing.textField.setText(null);
 				UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
 				UserIntSwing.logicManager.executeCommand(parseResult);
 				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult));
 			} 
 			catch (InvalidCommandException exception) {
-				FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
 				UserIntSwing.textField.setText(null);
+				FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
 				// Log this error.
 				//exception.printStackTrace();
 				return;
