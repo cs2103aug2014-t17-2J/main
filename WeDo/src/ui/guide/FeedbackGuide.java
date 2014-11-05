@@ -131,12 +131,12 @@ public class FeedbackGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	public static String formatViewAllTask() {
+	public static String formatViewAllTask(String text) {
 		StringBuilder str = new StringBuilder();
 		
 		str.append(VIEW_STRING);
 		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
-				"All", HTML_FONT_CLOSE));
+				text, HTML_FONT_CLOSE));
 		str.append(" tasks.");
 		
 		return wrapWithHtmlTag(str.toString());

@@ -41,6 +41,7 @@ public class UserInterfaceMain {
 	private static final int taskbarHeight = 40;
 
 	private static String userInput = new String();
+	private static String VIEW_TASKS_ALL_STRING = "ALL";
 	private static final SimpleDateFormat sdf_first = new SimpleDateFormat(DATE_FORMAT_FIRST);
 	private static final SimpleDateFormat sdf_second = new SimpleDateFormat(DATE_FORMAT_SECOND);
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT_SECOND);
@@ -113,13 +114,16 @@ public class UserInterfaceMain {
 		boolean viewCommand = parseResult.getCommand() instanceof ViewCommand;
 		boolean addCommand = parseResult.getCommand() instanceof AddCommand;
 		boolean editCommand = parseResult.getCommand() instanceof EditCommand;
-		boolean undoCommand = parseResult.getCommand() instanceof UndoCommand;
-		boolean redoCommand = parseResult.getCommand() instanceof RedoCommand;
+		//boolean undoCommand = parseResult.getCommand() instanceof UndoCommand;
+		//boolean redoCommand = parseResult.getCommand() instanceof RedoCommand;
 		
-		if(getDateStr.isEmpty()) {
+		if(getDateStr.isEmpty() && editCommand) {
 			getDateStr = UserIntSwing.lblDateProcess.getText();
 		}
-		
+		else if(getDateStr.isEmpty() && viewCommand){
+			return FeedbackGuide.formatViewAllTask(VIEW_TASKS_ALL_STRING);
+		}
+
 		if(viewCommand || addCommand || editCommand) {
 			if(getDateStr.matches(dateToday())) {
 				return FeedbackGuide.formatViewTodayTask();
