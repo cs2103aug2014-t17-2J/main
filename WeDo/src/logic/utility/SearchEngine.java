@@ -73,7 +73,7 @@ public class SearchEngine {
 	public ArrayList<Task> search(String str1) {
 		return searchWagnerList(str1);
 	}
-
+	//@author A0112862L
 	public ArrayList<Task> search(Task task) {
 		if (task.getDescription()!=null) {
 			return searchWagnerList(task.getDescription());
@@ -83,7 +83,8 @@ public class SearchEngine {
 			return dataHandler.getObservableList().getList();
 		}
 	}
-
+	
+	//@author A0112862L
 	public ArrayList<Task> searchWagnerList(String str1) {
 
 		int distance;
@@ -109,6 +110,8 @@ public class SearchEngine {
 		return tmp;
 	}
 
+	
+	//@author A0112862L
 	public int getDist(String str1, String str2) {
 
 		int len1 = str1.length();
