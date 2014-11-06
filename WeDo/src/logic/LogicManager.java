@@ -14,8 +14,9 @@ import logic.utility.Task;
 import dataStorage.BasicDataHandler;
 import dataStorage.DataHandler;
 
+
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class LogicManager 

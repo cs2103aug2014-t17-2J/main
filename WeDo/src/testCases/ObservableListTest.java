@@ -13,10 +13,9 @@ import org.junit.Test;
 
 import dataStorage.ObservableList;
 
+
 /**
- * This test case...
- * 
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class ObservableListTest {

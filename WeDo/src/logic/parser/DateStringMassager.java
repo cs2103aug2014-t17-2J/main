@@ -24,7 +24,7 @@ import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class DateStringMassager {

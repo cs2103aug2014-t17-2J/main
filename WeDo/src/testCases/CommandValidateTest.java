@@ -14,7 +14,7 @@ import logic.parser.ParserFlags;
 import org.junit.Test;
 
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class CommandValidateTest {

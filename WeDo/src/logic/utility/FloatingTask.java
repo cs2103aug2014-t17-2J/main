@@ -5,8 +5,9 @@ package logic.utility;
 
 import definedEnumeration.Priority;
 
+
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class FloatingTask extends AbstractTask {

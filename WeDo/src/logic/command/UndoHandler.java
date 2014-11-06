@@ -12,7 +12,7 @@ import logic.command.commandList.UndoCommand;
 import logic.exception.InvalidCommandException;
 
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class UndoHandler {

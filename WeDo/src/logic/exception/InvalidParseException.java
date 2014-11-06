@@ -4,7 +4,7 @@
 package logic.exception;
 
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 @SuppressWarnings("serial")
