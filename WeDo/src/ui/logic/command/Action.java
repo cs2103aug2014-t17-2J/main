@@ -1,7 +1,7 @@
 package ui.logic.command;
 
 /**
- * @author Andy Hsu Wei Qiang 
+ // @author A0112636M
  * This class create the Action emueration which specify
  * the command action the user entered. 
  * 

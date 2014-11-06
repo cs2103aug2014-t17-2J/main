@@ -68,7 +68,14 @@ public class DefaultWeDoTableColor {
 		    }
 		} else 
 			{
-				jComponent.setBorder(BorderFactory.createEmptyBorder());
+				if (column == InteractiveTableModel.INDEX_TASK)
+				{
+					jComponent.setBorder(new MatteBorder(NO_BORDER, NO_BORDER, NO_BORDER, NO_BORDER, BORDER_COLOR));
+				}
+				else
+				{
+					jComponent.setBorder(BorderFactory.createEmptyBorder());
+				}
 			}
 		ListenerHandler.focusTextfield();
 		}

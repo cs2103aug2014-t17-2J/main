@@ -5,11 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang
+ // @author  A0112636M 
  *This class format all the Swing design of the application
  */
 public class FormatHandler {
@@ -19,10 +20,9 @@ public class FormatHandler {
 		formatTodayDateLabel();
 		formatViewTaskLabel();
 		formatFeedbackLabel();
-		formatCommandGuideLabel();
 		formatDynamicParserLabel();
 		formatAllButton();
-		UserIntSwing.lblHelp.setVerticalAlignment(SwingConstants.TOP);
+		UserIntSwing.lblCommandGuide.setVerticalAlignment(SwingConstants.TOP);
 	}
 	
 	/**
@@ -56,63 +56,84 @@ public class FormatHandler {
 	}
 	
 	/**
-	 * Format the Command Guide Label
-	 */
-	private static void formatCommandGuideLabel() {
-		UserIntSwing.lblQuickHelp.setFont(new Font("Times New Roman", Font.BOLD
-				| Font.ITALIC, 14));
-	}
-	
-	/**
 	 * Format the Dynamic Parser Labels
 	 */
 	private static void formatDynamicParserLabel() {
-		UserIntSwing.lblCommand.setFont(new Font("Tahoma", Font.BOLD, 12));
-		UserIntSwing.lblCommandProcess.setFont(new Font("Tahoma", Font.ITALIC,11));
+		UserIntSwing.lblCommandProcess.setFont(new Font("Tahoma", Font.ITALIC,12));
 		UserIntSwing.lblCommandProcess.setForeground(new Color(255, 0, 0));
-		UserIntSwing.lblCommandProcess.setBackground(new Color(255, 204, 255));
-		UserIntSwing.lblCommandProcess.setOpaque(true);
+		UserIntSwing.lblCommandProcess.setOpaque(false);
 		
-		UserIntSwing.lblDate.setFont(new Font("Tahoma", Font.BOLD, 12));
-		UserIntSwing.lblDateProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		UserIntSwing.lblDateProcess.setFont(new Font("Tahoma", Font.ITALIC, 12));
 		UserIntSwing.lblDateProcess.setForeground(new Color(0, 128, 0));
-		UserIntSwing.lblDateProcess.setBackground(new Color(255, 204, 255));
-		UserIntSwing.lblDateProcess.setOpaque(true);  
+		UserIntSwing.lblDateProcess.setOpaque(false);  
 		
-		UserIntSwing.lblPriority.setFont(new Font("Tahoma", Font.BOLD, 12));
-		UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		UserIntSwing.lblPriorityProcess.setBackground(new Color(255, 204, 255));
+		UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.ITALIC, 12));
 		UserIntSwing.lblPriorityProcess.setHorizontalAlignment(SwingConstants.CENTER);
+		UserIntSwing.lblPriorityProcess.setBackground(Color.white);
 		UserIntSwing.lblPriorityProcess.setOpaque(true);
 		
-		UserIntSwing.lblDescription.setFont(new Font("Tahoma", Font.BOLD, 12));
-		UserIntSwing.lblDescriptionProcess.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		UserIntSwing.lblDescriptionProcess.setBackground(new Color(255, 204, 255));
-		UserIntSwing.lblDescriptionProcess.setOpaque(true);
+		UserIntSwing.lblDescriptionProcess.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		UserIntSwing.lblDescriptionProcess.setOpaque(false);
 	}
 	
 	/**
 	 * Format all the Buttons
 	 */
 	private static void formatAllButton() {
-		UserIntSwing.btnHelp.setForeground(new Color(0, 0, 0));
-		UserIntSwing.btnHelp.setBackground(new Color(255, 153, 255));
+
+		UserIntSwing.btnHelp.setContentAreaFilled(false);
+		UserIntSwing.btnAdd.setContentAreaFilled(false);
+		UserIntSwing.btnView.setContentAreaFilled(false);
+		UserIntSwing.btnEdit.setContentAreaFilled(false);
+		UserIntSwing.btnDelete.setContentAreaFilled(false);
+		UserIntSwing.btnSearch.setContentAreaFilled(false);
+		UserIntSwing.btnEnter.setContentAreaFilled(false);
+		UserIntSwing.btnClose.setContentAreaFilled(false);
+		UserIntSwing.btnClose.setBorderPainted(false);
+		UserIntSwing.btnMinimize.setContentAreaFilled(false);
+		UserIntSwing.btnMinimize.setBorderPainted(false);
+		UserIntSwing.btnSetting.setContentAreaFilled(false);
+		UserIntSwing.btnSetting.setBorderPainted(false);
 		
-		UserIntSwing.btnAdd.setForeground(new Color(0, 0, 0));
-		UserIntSwing.btnAdd.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnAdd.setForeground(new Color(0, 0, 0));
+//		UserIntSwing.btnAdd.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnAdd.setBorderPainted(false);
+//		UserIntSwing.btnAdd.setOpaque(false);
+//		
+//		UserIntSwing.btnView.setForeground(new Color(0, 0, 0));
+//		UserIntSwing.btnView.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnView.setBorderPainted(false);
+//		UserIntSwing.btnView.setOpaque(false);
+//		
+//		UserIntSwing.btnEdit.setForeground(new Color(0, 0, 0));
+//		UserIntSwing.btnEdit.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnEdit.setBorderPainted(false);
+//		UserIntSwing.btnEdit.setOpaque(false);
+//		
+//		UserIntSwing.btnDelete.setForeground(new Color(0, 0, 0));
+//		UserIntSwing.btnDelete.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnDelete.setBorderPainted(false);
+//		UserIntSwing.btnDelete.setOpaque(false);
+//		
+//		UserIntSwing.btnSearch.setForeground(new Color(0, 0, 0));
+//		UserIntSwing.btnSearch.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnSearch.setBorderPainted(false);
+//		UserIntSwing.btnSearch.setOpaque(false);
 		
-		UserIntSwing.btnView.setForeground(new Color(0, 0, 0));
-		UserIntSwing.btnView.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnEnter.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnEnter.setBorderPainted(false);
+//		UserIntSwing.btnEnter.setOpaque(false);
 		
-		UserIntSwing.btnEdit.setForeground(new Color(0, 0, 0));
-		UserIntSwing.btnEdit.setBackground(new Color(255, 153, 255));
-		
-		UserIntSwing.btnDel.setForeground(new Color(0, 0, 0));
-		UserIntSwing.btnDel.setBackground(new Color(255, 153, 255));
-		
-		UserIntSwing.btnSearch.setForeground(new Color(0, 0, 0));
-		UserIntSwing.btnSearch.setBackground(new Color(255, 153, 255));
-		
-		UserIntSwing.btnEnter.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnClose.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnClose.setOpaque(false);
+//		UserIntSwing.btnClose.setBorderPainted(false);
+//		
+//		UserIntSwing.btnMinimize.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnMinimize.setOpaque(false);
+//		UserIntSwing.btnMinimize.setBorderPainted(false);
+//		
+//		UserIntSwing.btnSetting.setBackground(new Color(255, 153, 255));
+//		UserIntSwing.btnSetting.setOpaque(false);
+//		UserIntSwing.btnSetting.setBorderPainted(false);
 	}
 }

@@ -3,7 +3,7 @@ package ui.logic.command;
 import java.awt.event.KeyEvent;
 
 /**
- * @author Andy Hsu Wei Qiang 
+ * @author A0112636M 
  * This class create the Virtual Keyboard keys
  */
 public class VK {

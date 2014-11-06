@@ -12,6 +12,7 @@ import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowStateListener;
 
 import javax.swing.JLabel;
+import javax.swing.border.LineBorder;
 
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
@@ -22,6 +23,7 @@ import net.java.balloontip.BalloonTip.AttachLocation;
 import net.java.balloontip.BalloonTip.Orientation;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
+import ui.HelpMenu;
 import ui.WeDoSystemTray;
 import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
@@ -29,7 +31,7 @@ import ui.guide.CommandGuide;
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang
+ * @author A0112636M 
  *This class process all the Listeners
  */
 public class ListenerHandler {
@@ -45,15 +47,23 @@ public class ListenerHandler {
 				"Press F1 for Help"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		helpBalloonTip.setVisible(false);
+		UserIntSwing.btnHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				HelpMenu.main(null);
+			}
+		});
+
 
 		UserIntSwing.btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				helpBalloonTip.setVisible(true);
+				UserIntSwing.btnHelp.setBorder(new LineBorder(Color.yellow, 1));
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				helpBalloonTip.setVisible(false);
+				UserIntSwing.btnHelp.setBorder(new LineBorder(Color.GRAY, 1));
 			}
 		});
 	}
@@ -74,10 +84,12 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				addBalloonTip.setVisible(true);
+				UserIntSwing.btnAdd.setBorder(new LineBorder(Color.cyan, 1));
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				addBalloonTip.setVisible(false);
+				UserIntSwing.btnAdd.setBorder(new LineBorder(Color.gray, 1));
 			}
 		});
 	}
@@ -98,10 +110,12 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				viewBalloonTip.setVisible(true);
+				UserIntSwing.btnView.setBorder(new LineBorder(Color.cyan, 1));
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				viewBalloonTip.setVisible(false);
+				UserIntSwing.btnView.setBorder(new LineBorder(Color.gray, 1));
 			}
 		});
 	}
@@ -122,34 +136,38 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				editBalloonTip.setVisible(true);
+				UserIntSwing.btnEdit.setBorder(new LineBorder(Color.cyan, 1));
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				editBalloonTip.setVisible(false);
+				UserIntSwing.btnEdit.setBorder(new LineBorder(Color.gray, 1));
 			}
 		});
 	}
 
 	public static void addBtnDelListener() {
-		BalloonTip delBalloonTip = new BalloonTip(UserIntSwing.btnDel, new JLabel(
+		BalloonTip delBalloonTip = new BalloonTip(UserIntSwing.btnDelete, new JLabel(
 				"Press F5 to delete"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		delBalloonTip.setVisible(false);
 
-		UserIntSwing.btnDel.addActionListener(new ActionListener() {
+		UserIntSwing.btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HotkeyHandler.delete();
 				focusTextfield();
 			}
 		});
-		UserIntSwing.btnDel.addMouseListener(new MouseAdapter() {
+		UserIntSwing.btnDelete.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				delBalloonTip.setVisible(true);
+				UserIntSwing.btnDelete.setBorder(new LineBorder(Color.cyan, 1));
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				delBalloonTip.setVisible(false);
+				UserIntSwing.btnDelete.setBorder(new LineBorder(Color.gray, 1));
 			}
 		});
 	}
@@ -170,10 +188,51 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				searchBalloonTip.setVisible(true);
+				UserIntSwing.btnSearch.setBorder(new LineBorder(Color.cyan, 1));
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				searchBalloonTip.setVisible(false);
+				UserIntSwing.btnSearch.setBorder(new LineBorder(Color.gray, 1));
+			}
+		});
+	}
+	
+	public static void addBtnEnterListener() {
+		UserIntSwing.btnEnter.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				UserIntSwing.btnEnter.setBorder(new LineBorder(Color.cyan, 1));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				UserIntSwing.btnEnter.setBorder(new LineBorder(Color.gray, 1));
+			}
+		});
+	}
+	
+	public static void addBtnCloseListener() {
+		UserIntSwing.btnClose.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				UserIntSwing.btnClose.setBorder(new LineBorder(Color.cyan, 1));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				UserIntSwing.btnClose.setBorder(new LineBorder(Color.gray, 1));
+			}
+		});
+	}
+	
+	public static void addBtnMinimizeListener() {
+		UserIntSwing.btnMinimize.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				UserIntSwing.btnMinimize.setBorder(new LineBorder(Color.cyan, 1));
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				UserIntSwing.btnMinimize.setBorder(new LineBorder(Color.gray, 1));
 			}
 		});
 	}
@@ -285,7 +344,7 @@ public class ListenerHandler {
 			 */
 			private void processTextfield(KeyEvent arg1) {
 				userInput = UserIntSwing.textField.getText();
-				UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
+				UserIntSwing.lblCommandGuide.setText(CommandGuide.getGuideMessage(userInput));
 				TextfieldHistory.showTextfieldHistory(arg1);
 			}
 
@@ -301,7 +360,7 @@ public class ListenerHandler {
 						task.setDescription(StringHandler.removeFirstMatched(
 								task.getDescription(), indexString));
 						UserInterfaceMain.showTaskToBeEdited(taskToBeEdited);
-						UserIntSwing.interForm.selectRow(index);
+						UserIntSwing.interactiveForm.selectRow(index);
 					}else {
 						showInvalidIndexMessage(task);
 					}
