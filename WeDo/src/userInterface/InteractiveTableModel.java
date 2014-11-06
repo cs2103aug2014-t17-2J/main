@@ -161,7 +161,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 		int row = 0;
 
 		DateTimeFormatter dateFormatter = DateTimeFormatter
-				.ofPattern("dd/MM/YYYY");
+				.ofPattern("dd/MM/yyyy");
 		DateTimeFormatter timeFormatter = DateTimeFormatter
 				.ofPattern("hh:mm a");
 

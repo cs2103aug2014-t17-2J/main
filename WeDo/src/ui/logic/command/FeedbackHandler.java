@@ -22,9 +22,6 @@ public class FeedbackHandler {
     	feedbackTimerReset();
     }
     
-    /**
-     * 
-     */
     public static void emptyStringOperation() {
     	UserIntSwing.lblFeedback.setText(FeedbackGuide.isEmptyString());
     	feedbackTimerReset();

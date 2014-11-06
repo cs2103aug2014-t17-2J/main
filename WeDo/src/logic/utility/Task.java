@@ -202,7 +202,7 @@ public class Task
         String dateString = EMPTY_STRING;
         
         DateTimeFormatter dateFormatter = DateTimeFormatter
-                .ofPattern("dd/MM/YYYY");
+                .ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter
                 .ofPattern("hh:mm a");
         

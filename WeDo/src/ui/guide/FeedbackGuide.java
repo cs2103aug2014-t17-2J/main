@@ -1,10 +1,5 @@
 package ui.guide;
 
-import java.awt.Color;
-import java.awt.Font;
-
-import userInterface.UserIntSwing;
-
 /**
  * @author Andy Hsu Wei Qiang 
  * This class create the guide String for feedback
@@ -35,7 +30,7 @@ public class FeedbackGuide {
 	private static final String HTML_CLOSE = "</html>";
 	private static final String TAG_WRAP_STRING = "%s%s%s";
 	private static final String HTML_FONTCOLORGREY_OPEN = "<font color=#B0B0B0>"; //grey
-	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=#00FF33>"; //green
+	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=#00CC66>"; //green
 	private static final String HTML_FONTCOLORRED_OPEN = "<font color=#FF0000>"; //red
 	private static final String HTML_FONT_CLOSE = "</font>";
 	
@@ -73,12 +68,6 @@ public class FeedbackGuide {
 	
 	public static String isEmptyRedoInput() {
 		return feedbackEmptyRedo;
-	}
-	
-	public static void formatFeedbackLabel(){
-        UserIntSwing.lblFeedback.setFont(new Font("Arial", Font.ITALIC, 12));
-        UserIntSwing.lblFeedback.setForeground(Color.red);
-        UserIntSwing.lblFeedback.setOpaque(false);
 	}
 	
 	public static String textfieldFeedback() {
@@ -142,12 +131,12 @@ public class FeedbackGuide {
 		return wrapWithHtmlTag(str.toString());
 	}
 	
-	public static String formatViewAllTask() {
+	public static String formatViewAllTask(String text) {
 		StringBuilder str = new StringBuilder();
 		
 		str.append(VIEW_STRING);
 		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
-				"All", HTML_FONT_CLOSE));
+				text, HTML_FONT_CLOSE));
 		str.append(" tasks.");
 		
 		return wrapWithHtmlTag(str.toString());
