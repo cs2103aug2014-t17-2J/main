@@ -194,7 +194,7 @@ public class InteractiveForm extends JPanel {
 		 TableRowSorter sorter = new TableRowSorter(tableModel);
 		// table.setRowSorter(sorter);
 		table.setAutoCreateRowSorter(true);
-		sorter.addRowSorterListener(table);
+		//sorter.addRowSorterListener(table);
 	}
 
 	public void highlightLastRow(int row) {
