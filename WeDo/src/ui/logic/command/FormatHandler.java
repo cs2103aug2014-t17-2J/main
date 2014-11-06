@@ -82,12 +82,19 @@ public class FormatHandler {
 	private static void formatAllButton() {
 
 		UserIntSwing.btnHelp.setContentAreaFilled(false);
+		UserIntSwing.btnHelp.setBorderPainted(false);
 		UserIntSwing.btnAdd.setContentAreaFilled(false);
+		UserIntSwing.btnAdd.setBorderPainted(false);
 		UserIntSwing.btnView.setContentAreaFilled(false);
+		UserIntSwing.btnView.setBorderPainted(false);
 		UserIntSwing.btnEdit.setContentAreaFilled(false);
+		UserIntSwing.btnEdit.setBorderPainted(false);
 		UserIntSwing.btnDelete.setContentAreaFilled(false);
+		UserIntSwing.btnDelete.setBorderPainted(false);
 		UserIntSwing.btnSearch.setContentAreaFilled(false);
+		UserIntSwing.btnSearch.setBorderPainted(false);
 		UserIntSwing.btnEnter.setContentAreaFilled(false);
+		UserIntSwing.btnEnter.setBorderPainted(false);
 		UserIntSwing.btnClose.setContentAreaFilled(false);
 		UserIntSwing.btnClose.setBorderPainted(false);
 		UserIntSwing.btnMinimize.setContentAreaFilled(false);
@@ -97,7 +104,6 @@ public class FormatHandler {
 		
 //		UserIntSwing.btnAdd.setForeground(new Color(0, 0, 0));
 //		UserIntSwing.btnAdd.setBackground(new Color(255, 153, 255));
-//		UserIntSwing.btnAdd.setBorderPainted(false);
 //		UserIntSwing.btnAdd.setOpaque(false);
 //		
 //		UserIntSwing.btnView.setForeground(new Color(0, 0, 0));

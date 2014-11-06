@@ -63,7 +63,7 @@ public class UserInterfaceMain {
 		ListenerHandler.addBtnAddListener();
 		ListenerHandler.addBtnViewListener();
 		ListenerHandler.addBtnEditListener();
-		ListenerHandler.addBtnDelListener();
+		ListenerHandler.addBtnDeleteListener();
 		ListenerHandler.addBtnSearchListener();
 		ListenerHandler.addBtnEnterListener();
 		ListenerHandler.addBtnMinimizeListener();

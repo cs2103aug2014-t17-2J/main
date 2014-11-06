@@ -151,7 +151,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		panel.add(interactiveForm);
 		interactiveForm.setLayout(null);
 		
-		btnHelp.setBounds(15, 80, 111, 25);
+		btnHelp.setBounds(15, 80, 111, 27);
 		frame.getContentPane().add(btnHelp);
 		
 		btnAdd.setBounds(133, 78, 118, 30);
@@ -160,23 +160,19 @@ public class UserIntSwing extends JPanel implements Observer {
 		btnView.setBounds(254, 78, 118, 32);
 		frame.getContentPane().add(btnView);
 		
-		btnEdit.setBounds(375, 78, 118, 27);
+		btnEdit.setBounds(375, 78, 118, 30);
 		frame.getContentPane().add(btnEdit);
 		
-		btnDelete.setBounds(503, 75, 127, 30);
+		btnDelete.setBounds(503, 75, 127, 32);
 		frame.getContentPane().add(btnDelete);
 		
-		btnSearch.setBounds(635, 75, 122, 30);
+		btnSearch.setBounds(635, 75, 122, 32);
 		frame.getContentPane().add(btnSearch);
 		
 		btnEnter.setBounds(656, 408, 105, 30);
 		frame.getContentPane().add(btnEnter);
-		btnClose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				frame.dispose();
-			}
-		});
-		btnClose.setBounds(730, 11, 27, 25);
+
+		btnClose.setBounds(728, 12, 33, 30);
 		
 		frame.getContentPane().add(btnClose);
 		btnMinimize.addActionListener(new ActionListener() {
@@ -184,10 +180,10 @@ public class UserIntSwing extends JPanel implements Observer {
 				frame.setExtendedState(JFrame.ICONIFIED);
 			}
 		});
-		btnMinimize.setBounds(693, 12, 27, 25);
+		btnMinimize.setBounds(693, 12, 33, 30);
 		
 		frame.getContentPane().add(btnMinimize);
-		btnSetting.setBounds(656, 12, 27, 25);
+		btnSetting.setBounds(656, 11, 33, 30);
 		
 		frame.getContentPane().add(btnSetting);
 		
@@ -227,6 +223,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().add(lblBackground);
 		
 		frame.setBounds(100, 100, 767, 550); // windowSize
+		
 		/* Andy - Initialize all components */
 		UserInterfaceMain.initProcess();
 	}

@@ -52,18 +52,17 @@ public class ListenerHandler {
 				HelpMenu.main(null);
 			}
 		});
-
-
+		
 		UserIntSwing.btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				helpBalloonTip.setVisible(true);
-				UserIntSwing.btnHelp.setBorder(new LineBorder(Color.yellow, 1));
+				UserIntSwing.btnHelp.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				helpBalloonTip.setVisible(false);
-				UserIntSwing.btnHelp.setBorder(new LineBorder(Color.GRAY, 1));
+				UserIntSwing.btnHelp.setBorderPainted(false);
 			}
 		});
 	}
@@ -84,12 +83,12 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				addBalloonTip.setVisible(true);
-				UserIntSwing.btnAdd.setBorder(new LineBorder(Color.cyan, 1));
+				UserIntSwing.btnAdd.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				addBalloonTip.setVisible(false);
-				UserIntSwing.btnAdd.setBorder(new LineBorder(Color.gray, 1));
+				UserIntSwing.btnAdd.setBorderPainted(false);
 			}
 		});
 	}
@@ -110,12 +109,12 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				viewBalloonTip.setVisible(true);
-				UserIntSwing.btnView.setBorder(new LineBorder(Color.cyan, 1));
+				UserIntSwing.btnView.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				viewBalloonTip.setVisible(false);
-				UserIntSwing.btnView.setBorder(new LineBorder(Color.gray, 1));
+				UserIntSwing.btnView.setBorderPainted(false);
 			}
 		});
 	}
@@ -136,17 +135,17 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				editBalloonTip.setVisible(true);
-				UserIntSwing.btnEdit.setBorder(new LineBorder(Color.cyan, 1));
+				UserIntSwing.btnEdit.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				editBalloonTip.setVisible(false);
-				UserIntSwing.btnEdit.setBorder(new LineBorder(Color.gray, 1));
+				UserIntSwing.btnEdit.setBorderPainted(false);
 			}
 		});
 	}
 
-	public static void addBtnDelListener() {
+	public static void addBtnDeleteListener() {
 		BalloonTip delBalloonTip = new BalloonTip(UserIntSwing.btnDelete, new JLabel(
 				"Press F5 to delete"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
@@ -162,12 +161,12 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				delBalloonTip.setVisible(true);
-				UserIntSwing.btnDelete.setBorder(new LineBorder(Color.cyan, 1));
+				UserIntSwing.btnDelete.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				delBalloonTip.setVisible(false);
-				UserIntSwing.btnDelete.setBorder(new LineBorder(Color.gray, 1));
+				UserIntSwing.btnDelete.setBorderPainted(false);
 			}
 		});
 	}
@@ -188,12 +187,12 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				searchBalloonTip.setVisible(true);
-				UserIntSwing.btnSearch.setBorder(new LineBorder(Color.cyan, 1));
+				UserIntSwing.btnSearch.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				searchBalloonTip.setVisible(false);
-				UserIntSwing.btnSearch.setBorder(new LineBorder(Color.gray, 1));
+				UserIntSwing.btnSearch.setBorderPainted(false);
 			}
 		});
 	}
@@ -202,37 +201,53 @@ public class ListenerHandler {
 		UserIntSwing.btnEnter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				UserIntSwing.btnEnter.setBorder(new LineBorder(Color.cyan, 1));
+				UserIntSwing.btnEnter.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
-				UserIntSwing.btnEnter.setBorder(new LineBorder(Color.gray, 1));
+				UserIntSwing.btnEnter.setBorderPainted(true);
 			}
 		});
 	}
 	
 	public static void addBtnCloseListener() {
+		BalloonTip closeBalloonTip = new BalloonTip(UserIntSwing.btnClose, new JLabel(
+				"Press to quit application"), edgedLook, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		closeBalloonTip.setVisible(false);
+		
+		UserIntSwing.btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				UserIntSwing.frame.dispose();
+			}
+		});
+		
 		UserIntSwing.btnClose.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				UserIntSwing.btnClose.setBorder(new LineBorder(Color.cyan, 1));
+				closeBalloonTip.setVisible(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
-				UserIntSwing.btnClose.setBorder(new LineBorder(Color.gray, 1));
+				closeBalloonTip.setVisible(false);
 			}
 		});
 	}
 	
 	public static void addBtnMinimizeListener() {
+		BalloonTip minimizeBalloonTip = new BalloonTip(UserIntSwing.btnMinimize, new JLabel(
+				"Minimize to Tray"), edgedLook, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		minimizeBalloonTip.setVisible(false);
+		
 		UserIntSwing.btnMinimize.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				UserIntSwing.btnMinimize.setBorder(new LineBorder(Color.cyan, 1));
+				minimizeBalloonTip.setVisible(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
-				UserIntSwing.btnMinimize.setBorder(new LineBorder(Color.gray, 1));
+				minimizeBalloonTip.setVisible(false);
 			}
 		});
 	}
