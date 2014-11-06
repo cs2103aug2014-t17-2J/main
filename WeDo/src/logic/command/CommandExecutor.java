@@ -7,9 +7,10 @@ import logic.utility.Task;
 import dataStorage.BasicDataHandler;
 import dataStorage.DataHandler;
 
-/**
- * @author Kuan Tien Long This class handle all the commands passed in by the
- *         user
+/** 
+ * @author A0112887X
+ * 
+ * This class handle all the commands passed in by the user
  * 
  */
 public class CommandExecutor {

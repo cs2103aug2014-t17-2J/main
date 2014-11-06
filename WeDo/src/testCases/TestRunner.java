@@ -5,7 +5,7 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class TestRunner {

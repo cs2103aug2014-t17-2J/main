@@ -6,11 +6,11 @@ package logic.parser;
 import logic.command.commandList.Command;
 import logic.utility.Task;
 
+
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
-
 public class ParseResult 
 {
     private Task task;

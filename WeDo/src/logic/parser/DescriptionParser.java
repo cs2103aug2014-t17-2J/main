@@ -6,7 +6,7 @@ package logic.parser;
 import logic.utility.StringHandler;
 
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class DescriptionParser 

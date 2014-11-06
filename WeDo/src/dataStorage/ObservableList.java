@@ -5,13 +5,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
+ * @author A0112887X
+ * 
  * This class consist the observable list which update it's observers whenever a
  * modification occurs The possible modification includes : <li>add <li>delete
  * <li>edit <li>replace list
  * <p>
  * <br>
  * 
- * @author Kuan Tien Long
  * 
  * @param <T>
  *            the list type

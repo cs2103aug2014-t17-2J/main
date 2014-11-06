@@ -10,8 +10,9 @@ import logic.command.commandList.EditCommand;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 
+
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class ParserManager {

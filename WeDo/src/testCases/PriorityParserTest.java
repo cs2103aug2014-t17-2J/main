@@ -13,7 +13,7 @@ import definedEnumeration.Priority;
 
 //@formatter:off
 /**
- * @author 
+ * @author A0112887X
  *
  * Priority Parser works by testing the first two words or the last two words of the String.
  * If either the first two words or the last two words contain the priority key words, tryParse function will return true. 
