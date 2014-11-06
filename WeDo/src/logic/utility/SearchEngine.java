@@ -75,12 +75,13 @@ public class SearchEngine {
 	}
 
 	public ArrayList<Task> search(Task task) {
-		if (task.getDescription().isEmpty()) {
-			dataHandler.view(task);
+		if (task.getDescription()!=null) {
+			return searchWagnerList(task.getDescription());
+			
 		} else {
-			searchWagnerList(task.getDescription());
+			dataHandler.view(task);
+			return dataHandler.getObservableList().getList();
 		}
-		return null;
 	}
 
 	public ArrayList<Task> searchWagnerList(String str1) {

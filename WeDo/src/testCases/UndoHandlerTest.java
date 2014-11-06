@@ -24,7 +24,7 @@ import org.junit.Test;
 
 //@formatter:off
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *  UndoHandler contains 3 methods
  *  1. addUndo
  *  2. undo

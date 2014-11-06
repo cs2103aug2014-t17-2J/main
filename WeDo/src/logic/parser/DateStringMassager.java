@@ -4,7 +4,10 @@
 package logic.parser;
 
 import java.text.DateFormatSymbols;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -21,7 +24,7 @@ import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class DateStringMassager {
@@ -31,8 +34,11 @@ public class DateStringMassager {
     private static final String WORD_DELIMITER = ".";
 
     public static String massageData(String source) {
+        
         source = convertImplicitFormalDate(source);
+        System.out.println("Converted Implicit date " + source);
         source = convertFormalDate(source);
+        System.out.println("Converted Formal date " + source);
 
         source = replaceNonDateDigitWithDelimiter(source);
 
@@ -43,13 +49,14 @@ public class DateStringMassager {
         source = MultiMapMatcher.replaceMatchedWithKey(
                 createFakeMultiMapForShortForm(), source);
 
-
         source = addDelimiterForIndexSelection(source);
+
+        source = addDelimiterForInvalidFormalDate(source);
+
         
         System.out.println("before word... is " + source);
 
         source = replaceWordWithDelimiter(source);
-
 
         System.out.println("massage date is " + source);
 
@@ -82,7 +89,8 @@ public class DateStringMassager {
 
         matcher.appendTail(result);
 
-        System.out.println("Modified String @ index Selection" + result.toString());
+        System.out.println("Modified String @ index Selection"
+                + result.toString());
 
         return result.toString();
 
@@ -480,8 +488,9 @@ public class DateStringMassager {
         final int monthGroup = 3;
         final int yearGroup = 4;
         final int endGroup = 5;
-
-        final String ddmmyyRegex = "([^\\w]|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])[/](\\d\\d)([^\\w]|$)+";
+  
+        final String ddmmyyRegex = "([^\\w]|^)+(\\d{1,2})[/](\\d{1,2})[/](\\d\\d)([^\\w]|$)+";
+//        final String ddmmyyRegex = "([^\\w]|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])[/](\\d\\d)([^\\w]|$)+";
 
         Pattern pattern = Pattern.compile(ddmmyyRegex);
         Matcher matcher = pattern.matcher(source);
@@ -511,12 +520,12 @@ public class DateStringMassager {
         final int inferredYear = LocalDateTime.now().getYear();
         final int startGroup = 1;
         final int dayGroup = 2;
-        final int monthGroup = 3;
+        final int monthGroup = 3;   
         final int endGroup = 4;
 
-        // final String ddmmyyRegex =
-        // "([^\\w]|^)+([012]?[0-9]|3[01])[/-](0?[1-9]|1[012])([^\\w]|$)";
-        final String ddmmyyRegex = "(\\s+|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])(\\s+|$)";
+        final String ddmmyyRegex = "(\\s+|^)+(\\d{1,2})[/](\\d{1,2})(\\s+|$)";
+
+//        final String ddmmyyRegex = "(\\s+|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])(\\s+|$)";
         Pattern pattern = Pattern.compile(ddmmyyRegex);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
@@ -552,6 +561,162 @@ public class DateStringMassager {
         }
 
         return mappedWords;
+
+    }
+
+    private static String addDelimiterForInvalidFormalDate(String source) {
+        source = addDelimiterForInvalidRangeDate(source);
+//        source = addDelimiterForInvalidDate(source);
+        return source;
+    }
+    
+    private static String addDelimiterForInvalidDate(String source) {
+
+        final int DIGIT_GROUP = 1;
+        boolean invalidDateDigitCount = false;
+        
+        String regex = "(?<=/)(\\d+)(?!\\s|$|\\d)";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(source);
+        StringBuffer result = new StringBuffer();
+
+        while (matcher.find()) {
+            matcher.appendReplacement(result, START_DIGIT_DELIMITER + matcher.group(DIGIT_GROUP) + END_DIGIT_DELIMITER);
+            invalidDateDigitCount = isInvalidDateDigitCount(matcher.group(DIGIT_GROUP));
+        }
+        matcher.appendTail(result);
+
+        if(invalidDateDigitCount)
+        {
+            return result.toString();
+        }
+        else
+        {
+            return source;
+        }
+
+    }
+    
+    private static boolean isInvalidDateDigitCount(String date)
+    {
+
+        return (date.length() > 4 || date.length() == 3);
+    }
+    
+    
+    @SuppressWarnings("finally")
+    private static String addDelimiterForInvalidRangeDate(String source) {
+        final int YEAR_GROUP = 1;
+        final int FIRST_DATE_SEPARATOR = 2;
+        final int MONTH_GROUP = 3;
+        final int SECOND_DATE_SEPARATOR = 4;
+        final int DAY_GROUP = 5;
+        boolean formalDateInvalid = false;
+
+        String yyyymmddRegex = "(\\d+)(/)(\\d+)(/)(\\d+)";
+
+        Pattern pattern = Pattern.compile(yyyymmddRegex);
+        Matcher matcher = pattern.matcher(source);
+        StringBuffer result = new StringBuffer();
+
+        while (matcher.find()) {
+            try {
+                matcher.appendReplacement(
+                        result,
+                        START_DIGIT_DELIMITER + matcher.group(YEAR_GROUP)
+                                + matcher.group(FIRST_DATE_SEPARATOR)
+                                + matcher.group(MONTH_GROUP)
+                                + matcher.group(SECOND_DATE_SEPARATOR)
+                                + matcher.group(DAY_GROUP)
+                                + END_DIGIT_DELIMITER);
+                int year = Integer.parseInt(matcher.group(YEAR_GROUP));
+                int month = Integer.parseInt(matcher.group(MONTH_GROUP));
+                int day = Integer.parseInt(matcher.group(DAY_GROUP));
+                formalDateInvalid = isDateInvalid(year, month, day);
+ 
+            } catch (NumberFormatException numberTooBig) {
+                formalDateInvalid = true;
+            } finally {
+                if (formalDateInvalid) 
+                {
+                    matcher.appendTail(result);
+                    System.out.println("Invalid Range of Date " + result);
+                    return result.toString();
+
+                } else {
+                    System.out.println("Valid Range of Date " + source);
+                    return source;
+                }
+            }
+
+        }
+
+        return source;
+    }
+
+    private static boolean isDateInvalid(int year, int month, int day) {
+        boolean invalidYear = isYearInvalid(year);
+        boolean invalidMonth = isMonthInvalid(month);
+        boolean isDayInvalid = isDayInvalid(day, month, year);
+        return invalidYear || invalidMonth
+                || isDayInvalid;
+    }
+
+    private static boolean isYearInvalid(int year) {
+        return yearContains3Digit(year) || yearContainsMoreThan4Digit(year);
+    }
+
+    /**
+     * @param year
+     * @return
+     */
+    private static boolean yearContains3Digit(int year) {
+        final int digitCheck = 3;
+        return ((Integer) year).toString().length() == digitCheck;
+
+    }
+
+    private static boolean isDayInvalid(int day, int month, int year) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("y/M/d");
+        
+        year = setValidYearToTest(year);
+
+        String date = year + "/" + month + "/" + day;
+        
+        System.out.println("Checking day invalid = " + date);
+        
+        try {
+                LocalDate parsedDate = LocalDate.parse(date, formatter);
+                return (parsedDate.getDayOfMonth() != day);
+                
+        } catch (DateTimeParseException pe) {
+            return true;
+        }
+
+        
+    }
+
+    private static int setValidYearToTest(int year) {
+        final int INVALID_YEAR = 0;
+        final int VALID_YEAR = 1;
+        
+        if(year == INVALID_YEAR)
+        {
+            year = VALID_YEAR;
+        }
+        
+        return year;
+    }
+
+    private static boolean isMonthInvalid(int month) {
+        final int MAX_MONTH = 12;
+        return month > MAX_MONTH;
+    }
+
+    private static boolean yearContainsMoreThan4Digit(int year) {
+        final int DIGIT_LIMIT = 4;
+        return ((Integer) year).toString().length() > DIGIT_LIMIT;
 
     }
 

@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import definedEnumeration.Priority;
 
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public class Task 
@@ -202,7 +202,7 @@ public class Task
         String dateString = EMPTY_STRING;
         
         DateTimeFormatter dateFormatter = DateTimeFormatter
-                .ofPattern("dd/MM/YYYY");
+                .ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter
                 .ofPattern("hh:mm a");
         

@@ -1,7 +1,8 @@
 package definedEnumeration;
 
+
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *
  */
 public enum Priority {

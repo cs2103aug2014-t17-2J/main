@@ -7,7 +7,7 @@ import java.util.EnumSet;
 
 
 /**
- * @author Kuan Tien Long
+ * @author A0112887X
  *         <p>
  *         ParserFlag keep track of parses that are executed successfully.
  *         <p>

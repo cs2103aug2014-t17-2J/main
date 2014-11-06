@@ -26,7 +26,9 @@ import com.joestelmach.natty.Parser;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
- * @author Kuan Tien Long This class help filter our the date for natty parser.
+ * @author A0112887X
+ * 
+ * This class help filter our the date for natty parser.
  */
 public class DateParser {
 
@@ -135,7 +137,7 @@ public class DateParser {
         final int monthGroup = 2;
         final int dayGroup = 3;
                 
-        String yyyymmddRegex = "(\\d+)[/-](\\d+)[/-](\\d+)";
+        String yyyymmddRegex = "(\\d+)/(\\d+)/(\\d+)";
         
          
         Pattern pattern = Pattern.compile(yyyymmddRegex);
