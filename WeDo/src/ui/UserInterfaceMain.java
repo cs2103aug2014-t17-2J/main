@@ -31,9 +31,9 @@ import userInterface.UserIntSwing;
 
 /**
  // @author A0112636M
- * This class handles all the GUI logic which the
- * user execute.
- */
+  * This class handles all the GUI logic which the
+  * user execute.
+  */
 public class UserInterfaceMain {
 	private static final String DATE_FORMAT_FIRST = "dd-MMM-yy";
 	private static final String DATE_FORMAT_SECOND = "dd/MM/yyyy";
@@ -167,7 +167,7 @@ public class UserInterfaceMain {
 	/**
 	 * This operation sets the program at the bottom right hand corner of screen
 	 */
-	private static void setupFrameLocation() {
+	public static void setupFrameLocation() {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
 		Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();

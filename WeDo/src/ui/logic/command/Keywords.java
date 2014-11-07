@@ -11,10 +11,11 @@ import logic.utility.KeyWordMappingList;
 import com.google.common.collect.ImmutableMap;
 
 /**
- //  @author A0112636M The Keywords class contains all command identifier 
- *  constants that the application uses. Any processing of command identifier should 
- *  go through this class and make use of its methods.
- */
+ // @author A0112636M 
+  * The Keywords class contains all command identifier 
+  * constants that the application uses. Any processing of command identifier should 
+  * go through this class and make use of its methods.
+  */
 public final class Keywords {
 
 	private static final String ADD_TASK_IDENTIFIER_1 = "add";

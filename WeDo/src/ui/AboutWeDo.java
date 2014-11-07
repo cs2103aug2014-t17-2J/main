@@ -17,9 +17,9 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 
 /**
- * @author Andy Hsu Wei Qiang
- *This window shows the authors of WeDo Task Manager and
- *the acknowledements 
+ // @author A0112636M
+  * This window shows the authors of WeDo Task Manager and
+  * the acknowledements 
  */
 public class AboutWeDo {
 

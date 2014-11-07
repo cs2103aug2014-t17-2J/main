@@ -30,8 +30,8 @@ import userInterface.UserIntSwing;
 
 /**
  // @author A0112636M 
- *This class process all the Listeners
- */
+  * This class process all the Listeners
+  */
 public class ListenerHandler {
 	private static final BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
 	private static Point mouseDownCompCoords = null;

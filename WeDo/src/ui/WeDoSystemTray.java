@@ -22,8 +22,8 @@ import userInterface.UserIntSwing;
 
 /**
  // @author A0112636M 
- * This class handles the "Minimise To Tray" operation.
- */
+  * This class handles the "Minimise To Tray" operation.
+  */
 public class WeDoSystemTray {
 	private static TrayIcon trayIcon;
 	private static SystemTray tray;
@@ -60,6 +60,7 @@ public class WeDoSystemTray {
 			popupItemOpen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					openMainFrame();
+					UserInterfaceMain.setupFrameLocation();
 				}
 			});
 			addTrayIconMouseListener();
@@ -100,6 +101,7 @@ public class WeDoSystemTray {
 			public void mouseClicked(MouseEvent mouseEvent) {
 			    if (isAlreadyOneClick) {
 			    	openMainFrame();
+			    	UserInterfaceMain.setupFrameLocation();
 			        System.out.println("double click");
 			        isAlreadyOneClick = false;
 			    } else {
