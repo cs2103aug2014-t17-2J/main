@@ -331,6 +331,7 @@ public class UserInterfaceMain {
 		UserIntSwing.lblDateProcess.setText(null);
 		UserIntSwing.lblDescriptionProcess.setText(null);
 		UserIntSwing.lblPriorityProcess.setText(null);
+		UserIntSwing.lblPriorityProcess.setOpaque(false);
 	}
 
 	/**
@@ -354,6 +355,7 @@ public class UserInterfaceMain {
 							.getDescription());
 				break;
 			case PRIORITY_FLAG:
+				UserIntSwing.lblPriorityProcess.setOpaque(true);
 				UserIntSwing.lblPriorityProcess.setText(task.getPriority()
 						.toString());
 				processLblPriority();
@@ -415,7 +417,7 @@ public class UserInterfaceMain {
 	 */
 	private static void processLblPriority() {
 		if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {
-			UserIntSwing.lblPriorityProcess.setBackground(Color.red);
+			UserIntSwing.lblPriorityProcess.setBackground(Color.magenta);
 		} else if (UserIntSwing.lblPriorityProcess.getText().matches("Low")) {
 			UserIntSwing.lblPriorityProcess.setBackground(Color.green);
 		} else {

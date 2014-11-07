@@ -50,7 +50,7 @@ public class WeDoSystemTray {
 			/*This listener opens up the AboutWeDo Window*/
 			popupItemAbout.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					AboutWeDo.main(null);
+					aboutWeDo();
 				}
 			});
 			

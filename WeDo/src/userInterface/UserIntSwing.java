@@ -123,7 +123,6 @@ public class UserIntSwing extends JPanel implements Observer {
 				lblViewTask.setText(UserInterfaceMain.viewDateTask(task));
 			}
 		}
-
 		assert (taskList != null);
 	}
 

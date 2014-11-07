@@ -98,9 +98,7 @@ public class FormatHandler {
 		UserIntSwing.lblDateProcess.setBounds(176, 359, 132, 14);
 		
 		UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.ITALIC, 12));
-		UserIntSwing.lblPriorityProcess.setHorizontalAlignment(SwingConstants.CENTER);
-		UserIntSwing.lblPriorityProcess.setBackground(Color.white);
-		UserIntSwing.lblPriorityProcess.setOpaque(true);
+		UserIntSwing.lblPriorityProcess.setOpaque(false);
 		UserIntSwing.lblPriorityProcess.setHorizontalAlignment(SwingConstants.CENTER);
 		UserIntSwing.lblPriorityProcess.setBounds(366, 359, 53, 14);
 		
