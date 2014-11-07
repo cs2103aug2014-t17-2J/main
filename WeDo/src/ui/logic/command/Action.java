@@ -1,7 +1,7 @@
 package ui.logic.command;
 
 /**
- * @author Andy Hsu Wei Qiang 
+ // @author A0112636M
  * This class create the Action emueration which specify
  * the command action the user entered. 
  * 
@@ -15,6 +15,9 @@ public enum Action {
 	SEARCH				(false, false),
 	UNDO                (false, true),
 	REDO				(false, true),
+	COMPLETED			(true, false),
+	UNCOMPLETED         (false, true),
+	EXIT   				(true, false),
 	INVALID             (false, false);
 	
 	private final boolean isReversible;

@@ -17,9 +17,9 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 
 /**
- * @author Andy Hsu Wei Qiang
- *This window shows the authors of WeDo Task Manager and
- *the acknowledements 
+ // @author A0112636M
+  * This window shows the authors of WeDo Task Manager and
+  * the acknowledements 
  */
 public class AboutWeDo {
 
@@ -36,7 +36,7 @@ public class AboutWeDo {
 	 */
 	private AboutWeDo() {
 		frame = new JDialog();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(AboutWeDo.class.getResource("/ui/icon/WeDo.png")));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(AboutWeDo.class.getResource("/ui/icon/Wedo_logo.png")));
 		frame.setBounds(100, 100, 334, 300);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
@@ -58,7 +58,7 @@ public class AboutWeDo {
 		});
 		
 		JLabel lblIcon = new JLabel("lblIcon");
-		lblIcon.setIcon(new ImageIcon(AboutWeDo.class.getResource("/ui/icon/WeDo.png")));
+		lblIcon.setIcon(new ImageIcon(AboutWeDo.class.getResource("/ui/icon/Wedo_logo.png")));
 		lblIcon.setBounds(199, 11, 103, 98);
 		frame.getContentPane().add(lblIcon);
 	}
@@ -75,7 +75,7 @@ public class AboutWeDo {
 		message.append("Andy Hsu Wei Qiang" + HTML_BREAK);
 		message.append("Kuan Tien Long" + HTML_BREAK);
 		message.append("Wai Min" + HTML_BREAK);
-		message.append("Sitti Marya Binte Rashid Ridza" + HTML_BREAK);
+		message.append("Sitti Maryam Binte Rashid Ridza" + HTML_BREAK);
 		message.append(HTML_BREAK + HTML_BREAK);
 		message.append("<b> Acknowledements: </b>" + HTML_BREAK);
 		message.append("BalloonTip dependency - https://balloontip.java.net/");

@@ -1,11 +1,10 @@
 package ui.guide;
 
 /**
- * @author Andy Hsu Wei Qiang 
+ // @author A0112636M
  * This class create the guide String for feedback
  * It return the string to the Feedback Label and
  * give user appropriate feedbacks.
- * 
  */
 public class FeedbackGuide {
 	
@@ -132,6 +131,17 @@ public class FeedbackGuide {
 	}
 	
 	public static String formatViewAllTask(String text) {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				text, HTML_FONT_CLOSE));
+		str.append(" tasks.");
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewSomedayTask(String text) {
 		StringBuilder str = new StringBuilder();
 		
 		str.append(VIEW_STRING);

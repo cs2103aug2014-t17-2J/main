@@ -42,7 +42,7 @@ public class FileHandler {
 	private final String TIMED = "timed";
 	private final String FLOATING = "floating";
 
-
+	//@author A0112862L
 	public FileHandler() {
 
 		fileName = "WeDo.txt";
@@ -52,6 +52,7 @@ public class FileHandler {
 
 	}
 
+	//@author A0112862L
 	public void createFile() {
 
 		try {
@@ -67,6 +68,7 @@ public class FileHandler {
 
 	}
 
+	//@author A0112862L
 	public void clear() {
 
 		try {
@@ -83,6 +85,7 @@ public class FileHandler {
 
 	}
 
+	//@author A0112862L
 	private void stringToFile(String str) {
 		
 		if(isFileEmpty()) {
@@ -106,6 +109,7 @@ public class FileHandler {
 		
 	}
 	
+	//@author A0112862L
 	private boolean isFileEmpty() {
 		
 		String currentLine;
@@ -139,6 +143,7 @@ public class FileHandler {
 	
 	}
 	
+	//@author A0112862L
 	private String writeToString(String fileName) {
 		
 		String currentLine,wholeFile;
@@ -172,6 +177,7 @@ public class FileHandler {
 	
 	}
 	
+	//@author A0112862L
 	private String removeChar(int index,String str) {
 		StringBuilder sb = new StringBuilder(str);
 		sb.deleteCharAt(index);
@@ -179,6 +185,7 @@ public class FileHandler {
 	}
 	
 	
+	//@author A0112862L
 	public String writeToFile(ArrayList<Task> tasks) {
 	
 		JSONObject jTasks = toJSON("tasks",tasks);
@@ -208,6 +215,7 @@ public class FileHandler {
 
 	}
 
+	//@author A0112862L
 	public String writeLog(String log) {
 
 		try {
@@ -226,6 +234,7 @@ public class FileHandler {
 		return null;
 	}
 
+	//@author A0112862L
 	private JSONObject toJSON(String type, ArrayList<Task> tasks) {
 
 		JSONObject taskObj = new JSONObject();
@@ -241,6 +250,7 @@ public class FileHandler {
 		return taskObj;
 	}
 
+	//@author A0112862L
 	private JSONObject taskToJSON(Task task) {
 
 		JSONObject tmp = new JSONObject();
@@ -257,12 +267,13 @@ public class FileHandler {
 		return tmp;
 	}
 	
+	//@author A0112862L
 	public void resetID() {
 		Task task = new Task();
 		task.setUniqueID(0);
 	}
 	
-	
+	//@author A0112862L
 	public Multimap<LocalDate,Task> getAllTasks(){
 		
 		Multimap<LocalDate,Task> tmp;
@@ -321,7 +332,7 @@ public class FileHandler {
 
 
 	
-
+	//@author A0112862L
 	private Task jsonToTask(JSONObject jTask)  {
 
 		Task task = new Task();
@@ -340,6 +351,7 @@ public class FileHandler {
 
 	}
 
+	//@author A0112862L
 	private Priority checkPriority(JSONObject jTask) {
 
 		String pri = jTask.get(PRIORITY).toString();

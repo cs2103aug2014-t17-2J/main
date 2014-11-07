@@ -68,7 +68,14 @@ public class DefaultWeDoTableColor {
 		    }
 		} else 
 			{
-				jComponent.setBorder(BorderFactory.createEmptyBorder());
+				if (column == InteractiveTableModel.INDEX_TASK)
+				{
+					jComponent.setBorder(new MatteBorder(NO_BORDER, NO_BORDER, NO_BORDER, NO_BORDER, BORDER_COLOR));
+				}
+				else
+				{
+					jComponent.setBorder(BorderFactory.createEmptyBorder());
+				}
 			}
 		ListenerHandler.focusTextfield();
 		}
@@ -82,7 +89,7 @@ public class DefaultWeDoTableColor {
 	 *            the row to check which color to set
 	 */
 	private static void setPriorityHighBackGroundColour(Component component) {
-		final Color PRIORITY_HIGH_COLOR = Color.RED;
+		final Color PRIORITY_HIGH_COLOR = Color.MAGENTA;
 
 		component.setBackground(PRIORITY_HIGH_COLOR);
 		

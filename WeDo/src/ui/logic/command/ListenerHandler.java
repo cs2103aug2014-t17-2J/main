@@ -1,59 +1,99 @@
 package ui.logic.command;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowStateListener;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import logic.exception.InvalidCommandException;
-import logic.parser.DynamicParseResult;
-import logic.utility.StringHandler;
-import logic.utility.Task;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.AttachLocation;
 import net.java.balloontip.BalloonTip.Orientation;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.EdgedBalloonStyle;
+import ui.HelpMenu;
 import ui.WeDoSystemTray;
-import ui.TextfieldHistory;
 import ui.UserInterfaceMain;
-import ui.guide.CommandGuide;
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang
- *This class process all the Listeners
- */
+ // @author A0112636M 
+  * This class process all the Listeners
+  */
 public class ListenerHandler {
 	private static final BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
-	private static String userInput = new String();
+	private static Point mouseDownCompCoords = null;
+	
 	/**
-	 * Buttons Listener - Process the adding of text to the textfield
-	 * when Hotkey is pressed. 
-	 * Also process the balloonTip
+	 * Buttons Listener - Help, Add, View, Edit, Delete, Search, 
+	 * Enter, Close, Minimize.
+	 * Process individual functions of the buttons when Hotkey
+	 * is pressed
+	 * Also process the balloonTip and Mouse Listener
 	 */
+	public static void addFrameLocationListener() {
+		/* calculate the axis of the frame when mouse is pressed
+		 * on the frame*/
+		UserIntSwing.frame.addMouseListener(new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+                mouseDownCompCoords = null;
+            }
+            public void mousePressed(MouseEvent e) {
+                mouseDownCompCoords = e.getPoint();
+            }
+            public void mouseExited(MouseEvent e) {
+            }
+            public void mouseEntered(MouseEvent e) {
+            }
+            public void mouseClicked(MouseEvent e) {
+            }
+        });
+		/* Set the frame to the location when the Point
+		 * of the frame is calculated*/
+		UserIntSwing.frame.addMouseMotionListener(new MouseMotionListener(){
+			public void mouseMoved(MouseEvent e) {
+            }
+            public void mouseDragged(MouseEvent e) {
+                Point currCoords = e.getLocationOnScreen();
+                UserIntSwing.frame.setLocation(currCoords.x - mouseDownCompCoords.x, 
+                		currCoords.y - mouseDownCompCoords.y);
+            }
+	    });
+	}
+	
 	public static void addBtnHelpListener() {
 		BalloonTip helpBalloonTip = new BalloonTip(UserIntSwing.btnHelp, new JLabel(
 				"Press F1 for Help"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		helpBalloonTip.setVisible(false);
-
+		UserIntSwing.btnHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				HelpMenu.main(null);
+			}
+		});
+		
 		UserIntSwing.btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				helpBalloonTip.setVisible(true);
+				UserIntSwing.btnHelp.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				helpBalloonTip.setVisible(false);
+				UserIntSwing.btnHelp.setBorderPainted(false);
 			}
 		});
 	}
@@ -74,10 +114,12 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				addBalloonTip.setVisible(true);
+				UserIntSwing.btnAdd.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				addBalloonTip.setVisible(false);
+				UserIntSwing.btnAdd.setBorderPainted(false);
 			}
 		});
 	}
@@ -98,10 +140,12 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				viewBalloonTip.setVisible(true);
+				UserIntSwing.btnView.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				viewBalloonTip.setVisible(false);
+				UserIntSwing.btnView.setBorderPainted(false);
 			}
 		});
 	}
@@ -122,34 +166,38 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				editBalloonTip.setVisible(true);
+				UserIntSwing.btnEdit.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				editBalloonTip.setVisible(false);
+				UserIntSwing.btnEdit.setBorderPainted(false);
 			}
 		});
 	}
 
-	public static void addBtnDelListener() {
-		BalloonTip delBalloonTip = new BalloonTip(UserIntSwing.btnDel, new JLabel(
+	public static void addBtnDeleteListener() {
+		BalloonTip delBalloonTip = new BalloonTip(UserIntSwing.btnDelete, new JLabel(
 				"Press F5 to delete"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		delBalloonTip.setVisible(false);
 
-		UserIntSwing.btnDel.addActionListener(new ActionListener() {
+		UserIntSwing.btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HotkeyHandler.delete();
 				focusTextfield();
 			}
 		});
-		UserIntSwing.btnDel.addMouseListener(new MouseAdapter() {
+		UserIntSwing.btnDelete.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				delBalloonTip.setVisible(true);
+				UserIntSwing.btnDelete.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				delBalloonTip.setVisible(false);
+				UserIntSwing.btnDelete.setBorderPainted(false);
 			}
 		});
 	}
@@ -170,10 +218,72 @@ public class ListenerHandler {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				searchBalloonTip.setVisible(true);
+				UserIntSwing.btnSearch.setBorderPainted(true);
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
 				searchBalloonTip.setVisible(false);
+				UserIntSwing.btnSearch.setBorderPainted(false);
+			}
+		});
+	}
+	
+	public static void addBtnEnterListener() {
+		UserIntSwing.btnEnter.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				UserIntSwing.btnEnter.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				UserIntSwing.btnEnter.setBorderPainted(false);
+			}
+		});
+	}
+	
+	public static void addBtnCloseListener() {
+		BalloonTip closeBalloonTip = new BalloonTip(UserIntSwing.btnClose, new JLabel(
+				"Press to quit application"), edgedLook, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		closeBalloonTip.setVisible(false);
+		
+		UserIntSwing.btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				UserIntSwing.frame.dispose();
+			}
+		});
+		
+		UserIntSwing.btnClose.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				closeBalloonTip.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				closeBalloonTip.setVisible(false);
+			}
+		});
+	}
+	
+	public static void addBtnMinimizeListener() {
+		BalloonTip minimizeBalloonTip = new BalloonTip(UserIntSwing.btnMinimize, new JLabel(
+				"Minimize to Tray"), edgedLook, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		minimizeBalloonTip.setVisible(false);
+		
+		UserIntSwing.btnMinimize.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				minimizeBalloonTip.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				minimizeBalloonTip.setVisible(false);
+			}
+		});
+		UserIntSwing.btnMinimize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserIntSwing.frame.setExtendedState(JFrame.ICONIFIED);
 			}
 		});
 	}
@@ -203,19 +313,16 @@ public class ListenerHandler {
 	public static void addFrameWindowFocusListener() {
 		UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
-				//UserIntSwing.textField.setText(null);
 				UserIntSwing.textField.requestFocusInWindow();
 			}
-
 			public void windowLostFocus(WindowEvent arg0) {
-				//UserIntSwing.textField.setText(FeedbackGuide.textfieldFeedback());
 			}
 		});
 	}
 
 	/**
 	 * Textfield Action Listener - Process all the text that has
-	 * been parsed in the Textfield when Enter is pressed
+	 * been parsed in the Textfield when user start typing
 	 */
 	public static void addTextFieldActionListener() {
 		UserIntSwing.textField.addActionListener(new ActionListener() {
@@ -228,7 +335,7 @@ public class ListenerHandler {
 
 	/**
 	 * Button Enter Action Listener - Process all the text has
-	 * been pased in the Textfield when Eneter is clicked
+	 * been pased in the Textfield when Enter is clicked
 	 */
 	public static void addBtnEnterActionListener() {
 		UserIntSwing.btnEnter.addActionListener(new ActionListener() {
@@ -239,19 +346,19 @@ public class ListenerHandler {
 	}
 
 	/**
-	 *Textfield KeyListener
-	 *1. Set the Command guide Label to the indiviual command guide that the user input
-	 *2. Process all the HotKeys Functions
-	 *3. Process the User Typed History
-	 *4. Enter KeyListener - Process all the feedback labels when the user type 
-	 *an incorrect input
+	 * Textfield KeyListener
+	 * 1. Set the Command guide Label to the indiviual command guide that the user input
+	 * 2. Process all the HotKeys Functions
+	 * 3. Process the User Typed History
+	 * 4. Enter KeyListener - Process all the feedback labels when the user type 
+	 * an incorrect input
 	 */
 	public static void addTextfieldKeyListener() {
 		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg1) {
 				if(arg1.getKeyCode() == VK.enter()) {
-					processEnterkey(arg1);
+					UserInterfaceMain.processEnterkey(arg1);
 				}
 				try {
 					UserInterfaceMain.processHotKeys(arg1);
@@ -259,57 +366,9 @@ public class ListenerHandler {
 					e.printStackTrace();
 				}
 			}
-			/**
-			 *Enter Key Listener process
-			 *@param arg1 KeyEvent Enter from the textfield
-			 */
-			private void processEnterkey(KeyEvent arg1) {
-				userInput = UserIntSwing.textField.getText();
-				TextfieldHistory.getTextfieldString(userInput);
-			}
 			@Override
 			public void keyReleased(KeyEvent arg1) {
-				processTextfield(arg1);
-				DynamicParseResult parseResult = 
-						UserInterfaceMain.processUserParse(arg1, UserIntSwing.logicManager);
-				Task task = parseResult.getTask();
-				UserInterfaceMain.clearDynamicParseLabels();
-				handleDynamicEdit(parseResult, task);
-				UserInterfaceMain.showParseResult(parseResult, task);
-			}
-			/**
-			 *Textfield processes
-			 *@param arg1 KeyEvent from the textfield
-			 *@param userInput Input that the user entered from the textfield
-			 * @throws InvalidCommandException 
-			 */
-			private void processTextfield(KeyEvent arg1) {
-				userInput = UserIntSwing.textField.getText();
-				UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
-				TextfieldHistory.showTextfieldHistory(arg1);
-			}
-
-			private void handleDynamicEdit(DynamicParseResult parseResult,
-					Task task) {
-				if (UserInterfaceMain.containsValidEditCommand(parseResult)) 
-				{
-					String indexString = UserInterfaceMain.getIndexString(task);
-					int index = UserInterfaceMain.getTaskToBeEditedIndex(indexString);
-					Task taskToBeEdited = UserIntSwing.logicManager.getTaskToBeEdited(index);
-					if(taskToBeEdited != null)
-					{
-						task.setDescription(StringHandler.removeFirstMatched(
-								task.getDescription(), indexString));
-						UserInterfaceMain.showTaskToBeEdited(taskToBeEdited);
-						UserIntSwing.interForm.selectRow(index);
-					}else {
-						showInvalidIndexMessage(task);
-					}
-				}
-			}
-			private void showInvalidIndexMessage(Task task) {
-				final String INVALID_INDEX = "The index you are editing is INVALID";
-				task.setDescription(INVALID_INDEX);
+				UserInterfaceMain.processTextfieldKeyReleased(arg1);
 			}
 		});
 	}

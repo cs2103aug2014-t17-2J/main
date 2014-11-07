@@ -1,3 +1,5 @@
+
+
 package dataStorage;
 
 import java.time.LocalDate;
@@ -38,6 +40,7 @@ public class BasicDataHandler implements DataHandler {
 	Multimap<LocalDate, Task> mainList2;
 	Task currentRange;
 
+	//@author A0112862L
 	public BasicDataHandler() {
 		fileHandler = new FileHandler();
 		populateLists();
@@ -48,6 +51,7 @@ public class BasicDataHandler implements DataHandler {
 
 	}
 
+	//@author A0112862L
 	public void showToday() {
 		ArrayList<Task> today = new ArrayList<Task>(mainList2.get(LocalDate
 				.now()));
@@ -68,6 +72,7 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 	}
 
+	//@author A0112862L
 	public ArrayList<Task> getUncompleted() {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 
@@ -80,6 +85,7 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 	}
 
+	//@author A0112862L
 	public boolean withinRange(LocalDate startDate, LocalDate endDate, Task task) {
 
 		while (startDate.isBefore(endDate) || startDate.equals(endDate)) {
@@ -95,6 +101,7 @@ public class BasicDataHandler implements DataHandler {
 		return false;
 	}
 
+	//@author A0112862L
 	public ArrayList<Task> sort(ArrayList<Task> tasks) {
 
 		Collections.sort(tasks, new Comparator<Task>() {
@@ -107,6 +114,7 @@ public class BasicDataHandler implements DataHandler {
 		return tasks;
 	}
 
+	
 	public ObservableList<Task> getObservableList() {
 
 		fileHandler.writeLog(LocalTime.now() + " : ObservableList retrieved!");
@@ -119,6 +127,7 @@ public class BasicDataHandler implements DataHandler {
 				+ observer.toString());
 	}
 
+	//@author A0112862L
 	/**
 	 * This function add all the lists into a Multimap according to list type
 	 * 
@@ -164,12 +173,14 @@ public class BasicDataHandler implements DataHandler {
 
 	}
 
+	//@author A0112862L
 	public ArrayList<Task> getAllTasks() {
 		ArrayList<Task> tmp = new ArrayList<Task>(mainList2.values());
 
 		return tmp;
 	}
-
+	
+	//@author A0112862L
 	public boolean addTask(Task task) {
 		addThenView(task);
 
@@ -177,7 +188,8 @@ public class BasicDataHandler implements DataHandler {
 		addTask(index, task);
 		return true;
 	}
-
+	
+	//@author A0112862L
 	public boolean addTask(int index, Task task) {
 
 		String taskType = determineTaskType(task);
@@ -204,7 +216,8 @@ public class BasicDataHandler implements DataHandler {
 
 		return true;
 	}
-
+	
+	//@author A0112862L
 	public String save() {
 
 		fileHandler.clear();
@@ -213,6 +226,7 @@ public class BasicDataHandler implements DataHandler {
 		return null;
 	}
 
+	//@author A0112862L
 	/**
 	 * Check if the task should be added to or removed from both main list and
 	 * observable list
@@ -249,6 +263,7 @@ public class BasicDataHandler implements DataHandler {
 
 	}
 
+	//@author A0112862L
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -263,6 +278,7 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
+	//@author A0112862L
 	public ArrayList<Task> getList(LocalDate startDate, LocalDate endDate) {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 
@@ -274,6 +290,7 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 	}
 
+	//@author A0112862L
 	public boolean removeTask(int index) {
 		if (indexValid(index)) {
 
@@ -291,6 +308,7 @@ public class BasicDataHandler implements DataHandler {
 		return false;
 	}
 
+	//@author A0112862L
 	public boolean editTask(Task source, Task replacement) {
 
 		fileHandler.writeLog(LocalTime.now() + " : edited "
@@ -304,11 +322,13 @@ public class BasicDataHandler implements DataHandler {
 		return true;
 	}
 
+	//@author A0112862L
 	public Task getTask(int index) {
 
 		return observableList.get(index);
 	}
 
+	//@author A0112862L
 	public boolean removeTask(Task task) {
 
 		System.out.println(determineTaskType(task));
@@ -319,11 +339,13 @@ public class BasicDataHandler implements DataHandler {
 		return true;
 	}
 
+	//@author A0112862L
 	public Multimap<String, Task> getMainList() {
 		// TODO Auto-generated method stub
 		return mainList;
 	}
 
+	//@author A0112862L
 	public void addThenView(Task task) {
 		String type = determineTaskType(task);
 
@@ -336,6 +358,7 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
+	//@author A0112862L
 	private ArrayList<Task> getPriTasks(Priority pri) {
 
 		ArrayList<Task> tmp = new ArrayList<Task>();
@@ -354,6 +377,7 @@ public class BasicDataHandler implements DataHandler {
 				KeyWordMappingList.getCompletedUnCompleteMultiMap(), firstWord);
 	}
 
+	//@author A0112862L
 	public void view(Task task) {
 
 		System.out.println(task.getStartDate().toString());

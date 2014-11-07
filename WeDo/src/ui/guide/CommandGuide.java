@@ -7,14 +7,9 @@ import ui.logic.command.Action;
 import ui.logic.command.Keywords;
 
 /**
- * @author Andy Hsu Wei Qiang 
+ // @author A0112636M
  * This class create the guide String for all commands
  * All method using the commands will be called here
- * 
- */
-/**
- * @author Hsuper
- *
  */
 public class CommandGuide {
 	private static final String GENERAL_GUIDE = buildGeneralGuideString();

@@ -1,7 +1,7 @@
 package ui.guide;
 
 /**
- * @author Andy Hsu Wei Qiang 
+ // @author A0112636M
  * This class create the Help guide String
  * which is shown on the Help Menu
  * 

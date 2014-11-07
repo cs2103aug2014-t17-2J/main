@@ -21,10 +21,9 @@ import javax.swing.JFrame;
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang 
- * This class handles the "Minimise To Tray"
- * operation
- */
+ // @author A0112636M 
+  * This class handles the "Minimise To Tray" operation.
+  */
 public class WeDoSystemTray {
 	private static TrayIcon trayIcon;
 	private static SystemTray tray;
@@ -37,7 +36,7 @@ public class WeDoSystemTray {
 	public static void Minimise(WindowEvent arg) {
 		
 		Image image = Toolkit.getDefaultToolkit().getImage(
-				UserIntSwing.class.getResource("/ui/icon/WeDo.png"));
+				UserIntSwing.class.getResource("/ui/icon/Wedo_Logo.png"));
 		PopupMenu popup = new PopupMenu();
 		trayIcon = new TrayIcon(image, MAIN_FRAME_NAME, popup);
 		trayIcon.setImageAutoSize(true);
@@ -48,6 +47,7 @@ public class WeDoSystemTray {
 			
 			MenuItem popupItemAbout = new MenuItem(SYSTEMTRAY_MENU_ABOUT);
 			popup.add(popupItemAbout);
+			/*This listener opens up the AboutWeDo Window*/
 			popupItemAbout.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					aboutWeDo();
@@ -56,15 +56,18 @@ public class WeDoSystemTray {
 			
 			MenuItem popupItemOpen = new MenuItem(SYSTEMTRAY_MENU_OPEN);
 			popup.add(popupItemOpen);
+			/*This listener opens up the main Window*/
 			popupItemOpen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					openMainFrame();
+					UserInterfaceMain.setupFrameLocation();
 				}
 			});
 			addTrayIconMouseListener();
 			
 			MenuItem popupItemExit = new MenuItem(SYSTEMTRAY_MENU_EXIT);
 			popup.add(popupItemExit);
+			/*This listener when pressed directly exit the application*/
 			popupItemExit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					exitMainFrame();
@@ -88,8 +91,8 @@ public class WeDoSystemTray {
 	}
 	
 	/**
-	 *This operation adds listener to the tray icon
-	 *to maximize the program when mouse is double clicked
+	 * This operation adds listener to the tray icon
+	 * to maximize the program when mouse is double clicked
 	 */
 	private static void addTrayIconMouseListener() {
 		trayIcon.addMouseListener(new MouseAdapter() {
@@ -98,6 +101,7 @@ public class WeDoSystemTray {
 			public void mouseClicked(MouseEvent mouseEvent) {
 			    if (isAlreadyOneClick) {
 			    	openMainFrame();
+			    	UserInterfaceMain.setupFrameLocation();
 			        System.out.println("double click");
 			        isAlreadyOneClick = false;
 			    } else {

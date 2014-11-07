@@ -6,15 +6,13 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
 import logic.LogicManager;
 import logic.command.commandList.AddCommand;
 import logic.command.commandList.EditCommand;
-import logic.command.commandList.RedoCommand;
-import logic.command.commandList.UndoCommand;
+import logic.command.commandList.SearchCommand;
 import logic.command.commandList.ViewCommand;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
@@ -32,19 +30,19 @@ import ui.logic.command.VK;
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang This class handles all the GUI logic which the
- *         user execute.
- */
+ // @author A0112636M
+  * This class handles all the GUI logic which the
+  * user execute.
+  */
 public class UserInterfaceMain {
 	private static final String DATE_FORMAT_FIRST = "dd-MMM-yy";
 	private static final String DATE_FORMAT_SECOND = "dd/MM/yyyy";
 	private static final int taskbarHeight = 40;
 
 	private static String userInput = new String();
-	private static String VIEW_TASKS_ALL_STRING = "ALL";
+	private static String VIEW_TASKS_SOMEDAY_STRING = "Someday";
 	private static final SimpleDateFormat sdf_first = new SimpleDateFormat(DATE_FORMAT_FIRST);
 	private static final SimpleDateFormat sdf_second = new SimpleDateFormat(DATE_FORMAT_SECOND);
-	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT_SECOND);
 
 	/**
 	 * This operation initialize all the Processes 
@@ -54,7 +52,7 @@ public class UserInterfaceMain {
 		ListenerHandler.addFrameWindowFocusListener();
 		initAllListener();
 		FormatHandler.formatAll();
-		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
+		UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
 		UserIntSwing.lblTodayDate.setText(setTodayDate());
 	}
 
@@ -62,12 +60,16 @@ public class UserInterfaceMain {
 	 * This operation initialize all the Listener Processes
 	 */
 	private static void initAllListener() {
+		ListenerHandler.addFrameLocationListener();
 		ListenerHandler.addBtnHelpListener();
 		ListenerHandler.addBtnAddListener();
 		ListenerHandler.addBtnViewListener();
 		ListenerHandler.addBtnEditListener();
-		ListenerHandler.addBtnDelListener();
+		ListenerHandler.addBtnDeleteListener();
 		ListenerHandler.addBtnSearchListener();
+		ListenerHandler.addBtnEnterListener();
+		ListenerHandler.addBtnMinimizeListener();
+		ListenerHandler.addBtnCloseListener();
 		ListenerHandler.addSystemTrayWindowStateListener();
 		ListenerHandler.addTextfieldKeyListener();
 		ListenerHandler.addTextFieldActionListener();
@@ -109,36 +111,22 @@ public class UserInterfaceMain {
 	 * @param parseResult 
 	 * @return String telling the user what date is he viewing
 	 */
-	public static String viewDateTask(ParseResult parseResult) {
-		String getDateStr = parseResult.getTask().getDateTimeString();
-		boolean viewCommand = parseResult.getCommand() instanceof ViewCommand;
-		boolean addCommand = parseResult.getCommand() instanceof AddCommand;
-		boolean editCommand = parseResult.getCommand() instanceof EditCommand;
-		//boolean undoCommand = parseResult.getCommand() instanceof UndoCommand;
-		//boolean redoCommand = parseResult.getCommand() instanceof RedoCommand;
-		
-		if(getDateStr.isEmpty() && editCommand) {
-			getDateStr = UserIntSwing.lblDateProcess.getText();
-		}
-		else if(getDateStr.isEmpty() && viewCommand){
-			return FeedbackGuide.formatViewAllTask(VIEW_TASKS_ALL_STRING);
-		}
+	public static String viewDateTask(Task task) {
+		String getDateStr = task.getDateTimeString();
 
-		if(viewCommand || addCommand || editCommand) {
-			if(getDateStr.matches(dateToday())) {
-				return FeedbackGuide.formatViewTodayTask();
-			}
-			else if(getDateStr.matches(dateTomorrow())) {
-				return FeedbackGuide.formatViewTomorrowTask();
-			}
-			else if(getDateStr.matches(dateYesterday())) {
-				return FeedbackGuide.formatViewYesterdayTask();
-			}
-			else{
-				return FeedbackGuide.formatViewDateTask(getDateStr);
-			}
+		if(getDateStr.matches(dateToday())) {
+			return FeedbackGuide.formatViewTodayTask();
 		}
-		return FeedbackGuide.formatViewTodayTask();
+		else if(getDateStr.matches(dateTomorrow())) {
+			return FeedbackGuide.formatViewTomorrowTask();
+		}
+		else if(getDateStr.matches(dateYesterday())) {
+			return FeedbackGuide.formatViewYesterdayTask();
+		}
+		else if(task.getEndDate() == Task.DATE_NOT_SET) {
+			return FeedbackGuide.formatViewSomedayTask(VIEW_TASKS_SOMEDAY_STRING);
+		}
+		return FeedbackGuide.formatViewDateTask(getDateStr);
 	}
 
 	/**
@@ -179,7 +167,7 @@ public class UserInterfaceMain {
 	/**
 	 * This operation sets the program at the bottom right hand corner of screen
 	 */
-	private static void setupFrameLocation() {
+	public static void setupFrameLocation() {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
 		Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
@@ -198,9 +186,15 @@ public class UserInterfaceMain {
 		if (parseResult.isSuccessful()) {
 			try {
 				UserIntSwing.textField.setText(null);
-				UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
+				UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
 				UserIntSwing.logicManager.executeCommand(parseResult);
-				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult));
+				
+				if((parseResult.getCommand() instanceof AddCommand) || (parseResult.getCommand() instanceof ViewCommand)
+						|| (parseResult.getCommand() instanceof SearchCommand && 
+								parseResult.getTask().getEndDate() != Task.DATE_NOT_SET))
+				{
+					UserIntSwing.lblViewTask.setText(viewDateTask(parseResult.getTask()));
+				}
 			} 
 			catch (InvalidCommandException exception) {
 				UserIntSwing.textField.setText(null);
@@ -221,6 +215,41 @@ public class UserInterfaceMain {
 			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
 		}
 		UserIntSwing.textField.setText(null);
+	}
+	
+	/**
+	 * Enter Key Listener process
+	 * @param arg1 KeyEvent Enter from the textfield
+	 */
+	public static void processEnterkey(KeyEvent arg1) {
+		userInput = UserIntSwing.textField.getText();
+		TextfieldHistory.getTextfieldString(userInput);
+	}
+	
+	/**
+	 * Textfield processes
+	 * @param arg1 KeyEvent from the textfield
+	 * @param userInput Input that the user entered from the textfield
+	 * @throws InvalidCommandException 
+	 */
+	public static void processTextfield(KeyEvent arg1) {
+		userInput = UserIntSwing.textField.getText();
+		UserIntSwing.lblCommandGuide.setText(CommandGuide.getGuideMessage(userInput));
+		TextfieldHistory.showTextfieldHistory(arg1);
+	}
+	
+	/**
+	 * Process the textField when key is released
+	 * @param arg1 Keyevent code from keyboard
+	 */
+	public static void processTextfieldKeyReleased(KeyEvent arg1) {
+		processTextfield(arg1);
+		DynamicParseResult parseResult = 
+				processUserParse(arg1, UserIntSwing.logicManager);
+		Task task = parseResult.getTask();
+		clearDynamicParseLabels();
+		handleDynamicEdit(parseResult, task);
+		showParseResult(parseResult, task);
 	}
 
 	/**
@@ -244,12 +273,40 @@ public class UserInterfaceMain {
 		} 
 		
 		userInput = UserIntSwing.textField.getText();
-		UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
+		UserIntSwing.lblCommandGuide.setText(CommandGuide.getGuideMessage(userInput));
 		/*process the redo and undo using InputMap and ActionMap*/
 		HotkeyHandler.undo();
 		HotkeyHandler.redo();
 		HotkeyHandler.minimise();
 		HotkeyHandler.scrollUpTable();
+	}
+	
+	public static void handleDynamicEdit(DynamicParseResult parseResult,
+			Task task) {
+		if (containsValidEditCommand(parseResult)) 
+		{
+			String indexString = getIndexString(task);
+			int index = getTaskToBeEditedIndex(indexString);
+			Task taskToBeEdited = UserIntSwing.logicManager.getTaskToBeEdited(index);
+			if(taskToBeEdited != null)
+			{
+				task.setDescription(StringHandler.removeFirstMatched(
+						task.getDescription(), indexString));
+				showTaskToBeEdited(taskToBeEdited);
+				UserIntSwing.interactiveForm.selectRow(index);
+			}else {
+				showInvalidIndexMessage(task);
+			}
+		}
+	}
+	
+	/**
+	 * Show the user error message when error command is pressed
+	 * @param task Determine what task it it
+	 */
+	private static void showInvalidIndexMessage(Task task) {
+		final String INVALID_INDEX = "The index you are editing is INVALID";
+		task.setDescription(INVALID_INDEX);
 	}
 
 	/**
@@ -274,6 +331,7 @@ public class UserInterfaceMain {
 		UserIntSwing.lblDateProcess.setText(null);
 		UserIntSwing.lblDescriptionProcess.setText(null);
 		UserIntSwing.lblPriorityProcess.setText(null);
+		UserIntSwing.lblPriorityProcess.setOpaque(false);
 	}
 
 	/**
@@ -297,6 +355,7 @@ public class UserInterfaceMain {
 							.getDescription());
 				break;
 			case PRIORITY_FLAG:
+				UserIntSwing.lblPriorityProcess.setOpaque(true);
 				UserIntSwing.lblPriorityProcess.setText(task.getPriority()
 						.toString());
 				processLblPriority();
@@ -312,7 +371,7 @@ public class UserInterfaceMain {
 	 * @param task the new task that will edit the old task
 	 * @return the string which contains the index
 	 */
-	public static String getIndexString(Task task) {
+	private static String getIndexString(Task task) {
 		String indexString = StringHandler.getIntegerFromFirstSlot(
 				task.getDescription());
 		return indexString;
@@ -323,7 +382,7 @@ public class UserInterfaceMain {
 	 * @param parseResult the parse result
 	 * @return if it contains valid edit command
 	 */
-	public static boolean containsValidEditCommand(DynamicParseResult parseResult) {
+	private static boolean containsValidEditCommand(DynamicParseResult parseResult) {
 		return parseResult.getParseFlags().contains(ParserFlags.COMMAND_FLAG)
 				&& parseResult.getParseFlags().contains(
 						ParserFlags.DESCRIPTION_FLAG)
@@ -334,7 +393,7 @@ public class UserInterfaceMain {
 	 * Show the task that is to be edited on the GUI
 	 * @param taskToBeEdited the task to be edited
 	 */
-	public static void showTaskToBeEdited(Task taskToBeEdited) {
+	private static void showTaskToBeEdited(Task taskToBeEdited) {
 		UserIntSwing.lblDateProcess.setText(taskToBeEdited.getDateTimeString());
 		UserIntSwing.lblDescriptionProcess.setText(taskToBeEdited
 				.getDescription());
@@ -347,7 +406,7 @@ public class UserInterfaceMain {
 	 * @param indexString the string which contains the index to extract
 	 * @return the index in integer form
 	 */
-	public static int getTaskToBeEditedIndex(String indexString) {
+	private static int getTaskToBeEditedIndex(String indexString) {
 		final int ARRAY_OFFSET = -1;
 		return StringHandler.parseStringToInteger(indexString) + ARRAY_OFFSET;
 	}
@@ -358,7 +417,7 @@ public class UserInterfaceMain {
 	 */
 	private static void processLblPriority() {
 		if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {
-			UserIntSwing.lblPriorityProcess.setBackground(Color.red);
+			UserIntSwing.lblPriorityProcess.setBackground(Color.magenta);
 		} else if (UserIntSwing.lblPriorityProcess.getText().matches("Low")) {
 			UserIntSwing.lblPriorityProcess.setBackground(Color.green);
 		} else {

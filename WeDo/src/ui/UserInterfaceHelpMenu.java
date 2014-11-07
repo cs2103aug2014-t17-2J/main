@@ -12,11 +12,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 import ui.guide.HelpGuide;
 
 /**
- * @author Andy Hsu Wei Qiang 
- * This class process all the Help Menu
- * logic
- * 
- */public class UserInterfaceHelpMenu {
+ // @author A0112636M
+  * This class process all the Help Menu logic
+  * 
+  */
+public class UserInterfaceHelpMenu {
     /**
   	 * UIManager.setLookAndFeel() method to set the look and feel
   	 */

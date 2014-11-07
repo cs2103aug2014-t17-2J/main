@@ -7,7 +7,7 @@ import ui.logic.command.FeedbackHandler;
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang 
+ // @author A0112636M 
  * This class create 2 Stacks which store the user
  * input. 
  * Up Arrow Listener - Display the history of what the user input
