@@ -36,7 +36,7 @@ public class AboutWeDo {
 	 */
 	private AboutWeDo() {
 		frame = new JDialog();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(AboutWeDo.class.getResource("/ui/icon/WeDo.png")));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(AboutWeDo.class.getResource("/ui/icon/Wedo_logo.png")));
 		frame.setBounds(100, 100, 334, 300);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
@@ -58,7 +58,7 @@ public class AboutWeDo {
 		});
 		
 		JLabel lblIcon = new JLabel("lblIcon");
-		lblIcon.setIcon(new ImageIcon(AboutWeDo.class.getResource("/ui/icon/WeDo.png")));
+		lblIcon.setIcon(new ImageIcon(AboutWeDo.class.getResource("/ui/icon/Wedo_logo.png")));
 		lblIcon.setBounds(199, 11, 103, 98);
 		frame.getContentPane().add(lblIcon);
 	}

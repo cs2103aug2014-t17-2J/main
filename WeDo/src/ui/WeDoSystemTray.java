@@ -47,14 +47,16 @@ public class WeDoSystemTray {
 			
 			MenuItem popupItemAbout = new MenuItem(SYSTEMTRAY_MENU_ABOUT);
 			popup.add(popupItemAbout);
+			/*This listener opens up the AboutWeDo Window*/
 			popupItemAbout.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					aboutWeDo();
+					AboutWeDo.main(null);
 				}
 			});
 			
 			MenuItem popupItemOpen = new MenuItem(SYSTEMTRAY_MENU_OPEN);
 			popup.add(popupItemOpen);
+			/*This listener opens up the main Window*/
 			popupItemOpen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					openMainFrame();
@@ -64,6 +66,7 @@ public class WeDoSystemTray {
 			
 			MenuItem popupItemExit = new MenuItem(SYSTEMTRAY_MENU_EXIT);
 			popup.add(popupItemExit);
+			/*This listener when pressed directly exit the application*/
 			popupItemExit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					exitMainFrame();
@@ -87,8 +90,8 @@ public class WeDoSystemTray {
 	}
 	
 	/**
-	 *This operation adds listener to the tray icon
-	 *to maximize the program when mouse is double clicked
+	 * This operation adds listener to the tray icon
+	 * to maximize the program when mouse is double clicked
 	 */
 	private static void addTrayIconMouseListener() {
 		trayIcon.addMouseListener(new MouseAdapter() {

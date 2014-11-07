@@ -8,9 +8,16 @@ import javax.swing.JButton;
 
 import org.junit.Test;
 
+import ui.UserInterfaceMain;
 import ui.guide.CommandGuide;
+import ui.guide.FeedbackGuide;
+import ui.logic.command.FeedbackHandler;
 import userInterface.UserIntSwing;
 
+/**
+ // @author A0112636M
+ * Testing on the GUI 
+ */
 public class TestingCommandGuide {
 
 	@Test //all cases
@@ -36,7 +43,7 @@ public class TestingCommandGuide {
 	@Test public void labelShouldDisplayCorrectCommandAddGuide() throws AWTException {
 		String expectedResult = CommandGuide.buildGeneralGuideString();
 		String testingResult;
-		String command = "addsomething";
+		String command = "add";
 		
 		testingResult = CommandGuide.getGuideMessage(command);
 		assertEquals(expectedResult, testingResult);
@@ -46,7 +53,7 @@ public class TestingCommandGuide {
 	@Test public void labelShouldDisplayCorrectCommandViewGuide() throws AWTException {
 		String expectedResult = CommandGuide.buildGeneralGuideString();
 		String testingResult;
-		String command = "viewsomething";
+		String command = "view";
 		
 		testingResult = CommandGuide.getGuideMessage(command);
 		assertEquals(expectedResult, testingResult);
@@ -54,9 +61,9 @@ public class TestingCommandGuide {
 	
 	//Junit testing on the Edit Command Guide
 	@Test public void labelShouldDisplayCorrectCommandEditGuide() throws AWTException {
-		String expectedResult = CommandGuide.buildGeneralGuideString();
+		String expectedResult = CommandGuide.buildEditGuideString();
 		String testingResult;
-		String command = "editsomething";
+		String command = "edit";
 		
 		testingResult = CommandGuide.getGuideMessage(command);
 		assertEquals(expectedResult, testingResult);
@@ -66,10 +73,10 @@ public class TestingCommandGuide {
 	@Test public void labelShouldDisplayCorrectCommandDeleteGuide() throws AWTException {
 		String expectedResult = CommandGuide.buildGeneralGuideString();
 		String testingResult;
-		String command = "deletesomething";
+		String command = "delete something";
 		
 		testingResult = CommandGuide.getGuideMessage(command);
 		assertEquals(expectedResult, testingResult);
 	}
-
+	
 }

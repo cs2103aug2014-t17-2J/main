@@ -236,7 +236,7 @@ public class ListenerHandler {
 			}
 			@Override
 			public void mouseExited(MouseEvent arg1) {
-				UserIntSwing.btnEnter.setBorderPainted(true);
+				UserIntSwing.btnEnter.setBorderPainted(false);
 			}
 		});
 	}

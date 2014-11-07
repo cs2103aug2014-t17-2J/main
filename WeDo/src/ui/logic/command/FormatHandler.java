@@ -24,7 +24,6 @@ public class FormatHandler {
 		formatFeedbackLabel();
 		formatDynamicParserLabel();
 		formatAllButton();
-		
 	}
 	
 	/**

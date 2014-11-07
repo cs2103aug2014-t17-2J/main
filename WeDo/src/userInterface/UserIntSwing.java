@@ -27,7 +27,7 @@ public class UserIntSwing extends JPanel implements Observer {
 
 	public static final JFrame frame = new JFrame("WeDo");
 	public static final InteractiveForm interactiveForm = new InteractiveForm();
-	public static final JLabel lblBackground = new JLabel("CommandGuide");
+	public static final JLabel lblBackground = new JLabel();
 	public static final JLabel lblCommandGuide = new JLabel();
 	public static final JTextField textField = new JTextField();
 	public static final JLabel lblFeedback = new JLabel("Feedback");
