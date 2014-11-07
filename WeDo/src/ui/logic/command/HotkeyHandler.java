@@ -16,8 +16,8 @@ import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang - Handles all the Hotkey Functions
- * 
+ //@author A0112636M - Handles all the Hotkey Functions
+ *
  */
 public class HotkeyHandler {
 	private static final String getAddCommand = Keywords.getAddTaskIdentifier();

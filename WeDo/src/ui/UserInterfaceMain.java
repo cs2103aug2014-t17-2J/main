@@ -6,15 +6,13 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
 import logic.LogicManager;
 import logic.command.commandList.AddCommand;
 import logic.command.commandList.EditCommand;
-import logic.command.commandList.RedoCommand;
-import logic.command.commandList.UndoCommand;
+import logic.command.commandList.SearchCommand;
 import logic.command.commandList.ViewCommand;
 import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
@@ -41,10 +39,9 @@ public class UserInterfaceMain {
 	private static final int taskbarHeight = 40;
 
 	private static String userInput = new String();
-	private static String VIEW_TASKS_ALL_STRING = "ALL";
+	private static String VIEW_TASKS_SOMEDAY_STRING = "Someday";
 	private static final SimpleDateFormat sdf_first = new SimpleDateFormat(DATE_FORMAT_FIRST);
 	private static final SimpleDateFormat sdf_second = new SimpleDateFormat(DATE_FORMAT_SECOND);
-	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT_SECOND);
 
 	/**
 	 * This operation initialize all the Processes 
@@ -54,7 +51,7 @@ public class UserInterfaceMain {
 		ListenerHandler.addFrameWindowFocusListener();
 		initAllListener();
 		FormatHandler.formatAll();
-		UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
+		UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
 		UserIntSwing.lblTodayDate.setText(setTodayDate());
 	}
 
@@ -66,8 +63,11 @@ public class UserInterfaceMain {
 		ListenerHandler.addBtnAddListener();
 		ListenerHandler.addBtnViewListener();
 		ListenerHandler.addBtnEditListener();
-		ListenerHandler.addBtnDelListener();
+		ListenerHandler.addBtnDeleteListener();
 		ListenerHandler.addBtnSearchListener();
+		ListenerHandler.addBtnEnterListener();
+		ListenerHandler.addBtnMinimizeListener();
+		ListenerHandler.addBtnCloseListener();
 		ListenerHandler.addSystemTrayWindowStateListener();
 		ListenerHandler.addTextfieldKeyListener();
 		ListenerHandler.addTextFieldActionListener();
@@ -109,36 +109,22 @@ public class UserInterfaceMain {
 	 * @param parseResult 
 	 * @return String telling the user what date is he viewing
 	 */
-	public static String viewDateTask(ParseResult parseResult) {
-		String getDateStr = parseResult.getTask().getDateTimeString();
-		boolean viewCommand = parseResult.getCommand() instanceof ViewCommand;
-		boolean addCommand = parseResult.getCommand() instanceof AddCommand;
-		boolean editCommand = parseResult.getCommand() instanceof EditCommand;
-		//boolean undoCommand = parseResult.getCommand() instanceof UndoCommand;
-		//boolean redoCommand = parseResult.getCommand() instanceof RedoCommand;
-		
-		if(getDateStr.isEmpty() && editCommand) {
-			getDateStr = UserIntSwing.lblDateProcess.getText();
-		}
-		else if(getDateStr.isEmpty() && viewCommand){
-			return FeedbackGuide.formatViewAllTask(VIEW_TASKS_ALL_STRING);
-		}
+	public static String viewDateTask(Task task) {
+		String getDateStr = task.getDateTimeString();
 
-		if(viewCommand || addCommand || editCommand) {
-			if(getDateStr.matches(dateToday())) {
-				return FeedbackGuide.formatViewTodayTask();
-			}
-			else if(getDateStr.matches(dateTomorrow())) {
-				return FeedbackGuide.formatViewTomorrowTask();
-			}
-			else if(getDateStr.matches(dateYesterday())) {
-				return FeedbackGuide.formatViewYesterdayTask();
-			}
-			else{
-				return FeedbackGuide.formatViewDateTask(getDateStr);
-			}
+		if(getDateStr.matches(dateToday())) {
+			return FeedbackGuide.formatViewTodayTask();
 		}
-		return FeedbackGuide.formatViewTodayTask();
+		else if(getDateStr.matches(dateTomorrow())) {
+			return FeedbackGuide.formatViewTomorrowTask();
+		}
+		else if(getDateStr.matches(dateYesterday())) {
+			return FeedbackGuide.formatViewYesterdayTask();
+		}
+		else if(task.getEndDate() == Task.DATE_NOT_SET) {
+			return FeedbackGuide.formatViewSomedayTask(VIEW_TASKS_SOMEDAY_STRING);
+		}
+		return FeedbackGuide.formatViewDateTask(getDateStr);
 	}
 
 	/**
@@ -198,9 +184,15 @@ public class UserInterfaceMain {
 		if (parseResult.isSuccessful()) {
 			try {
 				UserIntSwing.textField.setText(null);
-				UserIntSwing.lblHelp.setText(CommandGuide.buildGeneralGuideString());
+				UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
 				UserIntSwing.logicManager.executeCommand(parseResult);
-				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult));
+				
+				if((parseResult.getCommand() instanceof AddCommand) || (parseResult.getCommand() instanceof ViewCommand)
+						|| (parseResult.getCommand() instanceof SearchCommand && 
+								parseResult.getTask().getEndDate() != Task.DATE_NOT_SET))
+				{
+					UserIntSwing.lblViewTask.setText(viewDateTask(parseResult.getTask()));
+				}
 			} 
 			catch (InvalidCommandException exception) {
 				UserIntSwing.textField.setText(null);
@@ -244,7 +236,7 @@ public class UserInterfaceMain {
 		} 
 		
 		userInput = UserIntSwing.textField.getText();
-		UserIntSwing.lblHelp.setText(CommandGuide.getGuideMessage(userInput));
+		UserIntSwing.lblCommandGuide.setText(CommandGuide.getGuideMessage(userInput));
 		/*process the redo and undo using InputMap and ActionMap*/
 		HotkeyHandler.undo();
 		HotkeyHandler.redo();

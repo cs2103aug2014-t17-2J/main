@@ -40,5 +40,10 @@ public class DefaultWeDoTableRenderer extends DefaultTableCellRenderer {
 
         return component;
     }
-
+    
+    public void updateUI()
+    {
+    	super.updateUI();
+    }
+    
 }

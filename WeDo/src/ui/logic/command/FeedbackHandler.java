@@ -7,7 +7,7 @@ import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang 
+ // @author A0112636M 
  * This class handle all the Feedback to the user
  */
 public class FeedbackHandler {
