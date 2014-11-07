@@ -60,15 +60,15 @@ public final class Keywords {
         ImmutableMap<Command, Collection<String>> exitCommandMap =KeyWordMappingList. getExitCommandMap();
         
 		addToMapCommandAdd(map, addCommandMap, Action.ADD);
-		addToMapCommandView(map, viewCommandMap, Action.ADD);
-		addToMapCommandEdit(map, editCommandMap, Action.ADD);
-		addToMapCommandDelete(map, deleteCommandMap, Action.ADD);
-		addToMapCommandSearch(map, searchCommandMap, Action.ADD);
-		addToMapCommandUndo(map, undoCommandMap, Action.ADD);
-		addToMapCommandRedo(map, redoCommandMap, Action.ADD);
-		addToMapCommandCompleted(map, completedCommandMap, Action.ADD);
-		addToMapCommandUncompleted(map, uncompletedCommandMap, Action.ADD);
-		addToMapCommandExit(map, exitCommandMap, Action.ADD);
+		addToMapCommandView(map, viewCommandMap, Action.VIEW);
+		addToMapCommandEdit(map, editCommandMap, Action.EDIT);
+		addToMapCommandDelete(map, deleteCommandMap, Action.DELETE);
+		addToMapCommandSearch(map, searchCommandMap, Action.SEARCH);
+		addToMapCommandUndo(map, undoCommandMap, Action.UNDO);
+		addToMapCommandRedo(map, redoCommandMap, Action.REDO);
+		addToMapCommandCompleted(map, completedCommandMap, Action.COMPLETED);
+		addToMapCommandUncompleted(map, uncompletedCommandMap, Action.UNCOMPLETED);
+		addToMapCommandExit(map, exitCommandMap, Action.EXIT);
 
 		map.put(ADD_TASK_IDENTIFIER_1, Action.ADD);
 		map.put(ADD_TASK_IDENTIFIER_2, Action.ADD);

@@ -21,9 +21,8 @@ import javax.swing.JFrame;
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang 
- * This class handles the "Minimise To Tray"
- * operation
+ // @author A0112636M 
+ * This class handles the "Minimise To Tray" operation.
  */
 public class WeDoSystemTray {
 	private static TrayIcon trayIcon;

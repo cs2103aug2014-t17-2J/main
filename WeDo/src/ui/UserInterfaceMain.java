@@ -30,8 +30,9 @@ import ui.logic.command.VK;
 import userInterface.UserIntSwing;
 
 /**
- * @author Andy Hsu Wei Qiang This class handles all the GUI logic which the
- *         user execute.
+ // @author A0112636M
+ * This class handles all the GUI logic which the
+ * user execute.
  */
 public class UserInterfaceMain {
 	private static final String DATE_FORMAT_FIRST = "dd-MMM-yy";
@@ -59,6 +60,7 @@ public class UserInterfaceMain {
 	 * This operation initialize all the Listener Processes
 	 */
 	private static void initAllListener() {
+		ListenerHandler.addFrameLocationListener();
 		ListenerHandler.addBtnHelpListener();
 		ListenerHandler.addBtnAddListener();
 		ListenerHandler.addBtnViewListener();
@@ -214,6 +216,41 @@ public class UserInterfaceMain {
 		}
 		UserIntSwing.textField.setText(null);
 	}
+	
+	/**
+	 * Enter Key Listener process
+	 * @param arg1 KeyEvent Enter from the textfield
+	 */
+	public static void processEnterkey(KeyEvent arg1) {
+		userInput = UserIntSwing.textField.getText();
+		TextfieldHistory.getTextfieldString(userInput);
+	}
+	
+	/**
+	 * Textfield processes
+	 * @param arg1 KeyEvent from the textfield
+	 * @param userInput Input that the user entered from the textfield
+	 * @throws InvalidCommandException 
+	 */
+	public static void processTextfield(KeyEvent arg1) {
+		userInput = UserIntSwing.textField.getText();
+		UserIntSwing.lblCommandGuide.setText(CommandGuide.getGuideMessage(userInput));
+		TextfieldHistory.showTextfieldHistory(arg1);
+	}
+	
+	/**
+	 * Process the textField when key is released
+	 * @param arg1 Keyevent code from keyboard
+	 */
+	public static void processTextfieldKeyReleased(KeyEvent arg1) {
+		processTextfield(arg1);
+		DynamicParseResult parseResult = 
+				processUserParse(arg1, UserIntSwing.logicManager);
+		Task task = parseResult.getTask();
+		clearDynamicParseLabels();
+		handleDynamicEdit(parseResult, task);
+		showParseResult(parseResult, task);
+	}
 
 	/**
 	 * This operation process the hotkeys shortcut function
@@ -242,6 +279,34 @@ public class UserInterfaceMain {
 		HotkeyHandler.redo();
 		HotkeyHandler.minimise();
 		HotkeyHandler.scrollUpTable();
+	}
+	
+	public static void handleDynamicEdit(DynamicParseResult parseResult,
+			Task task) {
+		if (containsValidEditCommand(parseResult)) 
+		{
+			String indexString = getIndexString(task);
+			int index = getTaskToBeEditedIndex(indexString);
+			Task taskToBeEdited = UserIntSwing.logicManager.getTaskToBeEdited(index);
+			if(taskToBeEdited != null)
+			{
+				task.setDescription(StringHandler.removeFirstMatched(
+						task.getDescription(), indexString));
+				showTaskToBeEdited(taskToBeEdited);
+				UserIntSwing.interactiveForm.selectRow(index);
+			}else {
+				showInvalidIndexMessage(task);
+			}
+		}
+	}
+	
+	/**
+	 * Show the user error message when error command is pressed
+	 * @param task Determine what task it it
+	 */
+	private static void showInvalidIndexMessage(Task task) {
+		final String INVALID_INDEX = "The index you are editing is INVALID";
+		task.setDescription(INVALID_INDEX);
 	}
 
 	/**
@@ -304,7 +369,7 @@ public class UserInterfaceMain {
 	 * @param task the new task that will edit the old task
 	 * @return the string which contains the index
 	 */
-	public static String getIndexString(Task task) {
+	private static String getIndexString(Task task) {
 		String indexString = StringHandler.getIntegerFromFirstSlot(
 				task.getDescription());
 		return indexString;
@@ -315,7 +380,7 @@ public class UserInterfaceMain {
 	 * @param parseResult the parse result
 	 * @return if it contains valid edit command
 	 */
-	public static boolean containsValidEditCommand(DynamicParseResult parseResult) {
+	private static boolean containsValidEditCommand(DynamicParseResult parseResult) {
 		return parseResult.getParseFlags().contains(ParserFlags.COMMAND_FLAG)
 				&& parseResult.getParseFlags().contains(
 						ParserFlags.DESCRIPTION_FLAG)
@@ -326,7 +391,7 @@ public class UserInterfaceMain {
 	 * Show the task that is to be edited on the GUI
 	 * @param taskToBeEdited the task to be edited
 	 */
-	public static void showTaskToBeEdited(Task taskToBeEdited) {
+	private static void showTaskToBeEdited(Task taskToBeEdited) {
 		UserIntSwing.lblDateProcess.setText(taskToBeEdited.getDateTimeString());
 		UserIntSwing.lblDescriptionProcess.setText(taskToBeEdited
 				.getDescription());
@@ -339,7 +404,7 @@ public class UserInterfaceMain {
 	 * @param indexString the string which contains the index to extract
 	 * @return the index in integer form
 	 */
-	public static int getTaskToBeEditedIndex(String indexString) {
+	private static int getTaskToBeEditedIndex(String indexString) {
 		final int ARRAY_OFFSET = -1;
 		return StringHandler.parseStringToInteger(indexString) + ARRAY_OFFSET;
 	}
