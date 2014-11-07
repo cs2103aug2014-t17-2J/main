@@ -12,6 +12,7 @@ import javax.swing.table.AbstractTableModel;
 
 import logic.utility.Task;
 
+//@author A0112675H
 @SuppressWarnings("serial")
 public class InteractiveTableModel extends AbstractTableModel {
 
@@ -154,7 +155,6 @@ public class InteractiveTableModel extends AbstractTableModel {
 
 	/**
 	 * This method populates the table with values from the data storage.
-	 * 
 	 * @param taskList
 	 */
 	public void updateTable(ArrayList<Task> taskList) {
@@ -224,6 +224,5 @@ public class InteractiveTableModel extends AbstractTableModel {
 
 	public void clearRows() {
 		dataVector.clear();
-		// this.addEmptyRow();
 	}
 }

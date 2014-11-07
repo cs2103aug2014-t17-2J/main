@@ -1,5 +1,4 @@
 /**
- * @author Maryam
  * This class enables the wrap-text function of the table.
  */
 
@@ -13,6 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
+//@author A0112675H
 public class LineWrapCellRenderer extends JTextArea implements
 		TableCellRenderer {
 
@@ -30,6 +30,7 @@ public class LineWrapCellRenderer extends JTextArea implements
 
 		this.setOpaque(true);
 		
+		// for setting of colours in the table
 		DefaultWeDoTableColor.setDefaultBackGroundColour(this, row, column,
 				table.getSelectedRow(), tableModel.getValueAt(row,
 						InteractiveTableModel.INDEX_PRIORITY), tableModel

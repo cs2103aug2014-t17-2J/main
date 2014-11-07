@@ -46,10 +46,12 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static final JButton btnClose = new JButton();
 	public static final JButton btnMinimize = new JButton();
 	public static final JButton btnSetting = new JButton();
-	public static final JLabel lblViewTask = new JLabel(FeedbackGuide.formatViewTodayTask());
+	public static final JLabel lblViewTask = new JLabel(
+			FeedbackGuide.formatViewTodayTask());
 	public static LogicManager logicManager;
 	private ObservableList<Task> observableList;
 
+	//@author A0112675H
 	/**
 	 * Launch the application.
 	 */
@@ -57,10 +59,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					// UserIntSwing window = new UserIntSwing(commandHandler,
-					// observableList);
-					// initialize(); //reduce the initialize count
-					// observableList.addObserver(window);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -80,20 +78,21 @@ public class UserIntSwing extends JPanel implements Observer {
 		initialize();
 	}
 
+	//@author A0112675H
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setUndecorated(true);
 		frame.setBounds(100, 100, 767, 550); // windowSize
-		
+
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 121, 750, 227);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
-		
+
 		interactiveForm.table.setShowGrid(false);
 		interactiveForm.table.setIntercellSpacing(new Dimension(0, 0));
 		interactiveForm.table.setFillsViewportHeight(true);
@@ -102,14 +101,15 @@ public class UserIntSwing extends JPanel implements Observer {
 		interactiveForm.setBounds(0, 0, 750, 227);
 		panel.add(interactiveForm);
 		interactiveForm.setLayout(null);
-		
+
 		/* A0112636M - Initialize all components */
 		FormatHandler.addtoContentPane();
-		
+
 		/* A0112636M - Initialize all components */
 		UserInterfaceMain.initProcess();
 	}
 
+	//@author A0112675H
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		taskList = observableList.getList();
@@ -136,10 +136,10 @@ public class UserIntSwing extends JPanel implements Observer {
 	}
 
 	/**
-	 * @param arg1
+	 * @param task
 	 * @return
 	 */
-	private boolean isTaskInstance(Object arg1) {
-		return arg1 instanceof Task;
+	private boolean isTaskInstance(Object task) {
+		return task instanceof Task;
 	}
 }
