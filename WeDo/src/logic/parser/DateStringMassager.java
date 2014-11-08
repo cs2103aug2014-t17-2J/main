@@ -575,9 +575,9 @@ public class DateStringMassager {
     private static String addDelimiterForInvalidDate(String source) {
 
         final int FORMAL_DATE_GROUP = 1;
-        final String INVALID_LAST_CHAR = "/";
+        final String DATE_SEPARATOR = "/";
+        final int MAX_SEPARATOR = 3;
         final int STRING_OFFSET = 1;
-        boolean invalidDateDigitCount = false;
         
         String formalDatePattern = "((?:\\d+/)+\\d*)";
 
@@ -587,14 +587,21 @@ public class DateStringMassager {
 
         while (matcher.find()) 
         {
-            String lastChar = matcher.group(FORMAL_DATE_GROUP).substring(matcher.group(FORMAL_DATE_GROUP).length() - STRING_OFFSET);
-            if(lastChar.equals(INVALID_LAST_CHAR))
+            String matchedString = matcher.group(FORMAL_DATE_GROUP);
+            int lastIndex = matchedString.length() - STRING_OFFSET;
+            String lastChar = matchedString.substring(matchedString.length() - STRING_OFFSET);
+            String[] digitFromFormalDate = matchedString.split(DATE_SEPARATOR);
+            
+            System.out.println("Last char of string is " + lastChar);
+            System.out.println("Testing string is " +Arrays.toString(digitFromFormalDate));
+           // System.out.println("Splittign string " +separator.length);
+            if(lastChar.equals(DATE_SEPARATOR) || digitFromFormalDate.length > MAX_SEPARATOR || containsInvalidFormalDateDigit(digitFromFormalDate))
             {
-                matcher.appendReplacement(result, START_DIGIT_DELIMITER + matcher.group(FORMAL_DATE_GROUP) + END_DIGIT_DELIMITER);
+                matcher.appendReplacement(result, START_DIGIT_DELIMITER + matchedString + END_DIGIT_DELIMITER);
             }
             else
             {
-                matcher.appendReplacement(result, matcher.group(FORMAL_DATE_GROUP));
+                matcher.appendReplacement(result, matchedString);
             }
         }
         
@@ -603,6 +610,18 @@ public class DateStringMassager {
     }
     
 
+    private static boolean containsInvalidFormalDateDigit(String[] digitFromFormalDate)
+    {
+        final int INVALID_DATE_DIGIT = 3;
+        final int MAX_DATE_DIGIT = 4;
+        
+        for(String digit : digitFromFormalDate)
+        {
+            return (digit.length() == INVALID_DATE_DIGIT || digit.length() > MAX_DATE_DIGIT);
+        }
+        
+        return false;
+    }
     
     
     @SuppressWarnings("finally")
