@@ -73,6 +73,7 @@ public class DateParser {
         
 
         Parser nattyParser = new Parser();
+        
         List<DateGroup> dateGroups = nattyParser.parse(source);
 
         if (dateAvailable(dateGroups)) {

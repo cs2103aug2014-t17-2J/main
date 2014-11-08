@@ -96,6 +96,8 @@ public class DateStringMassager {
 
     }
 
+    
+    
     private static String getEditKeyWordsRegex() {
         String editKeyWordsRegex = "";
         ImmutableMap<Command, Collection<String>> editKeyWords = KeyWordMappingList
@@ -565,48 +567,46 @@ public class DateStringMassager {
     }
 
     private static String addDelimiterForInvalidFormalDate(String source) {
-        source = addDelimiterForInvalidRangeDate(source);
-//        source = addDelimiterForInvalidDate(source);
+        source = addDelimiterForInvalidDateRange(source);
+        source = addDelimiterForInvalidDate(source);
         return source;
     }
     
     private static String addDelimiterForInvalidDate(String source) {
 
-        final int DIGIT_GROUP = 1;
+        final int FORMAL_DATE_GROUP = 1;
+        final String INVALID_LAST_CHAR = "/";
+        final int STRING_OFFSET = 1;
         boolean invalidDateDigitCount = false;
         
-        String regex = "(?<=/)(\\d+)(?!\\s|$|\\d)";
+        String formalDatePattern = "((?:\\d+/)+\\d*)";
 
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(formalDatePattern);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
 
-        while (matcher.find()) {
-            matcher.appendReplacement(result, START_DIGIT_DELIMITER + matcher.group(DIGIT_GROUP) + END_DIGIT_DELIMITER);
-            invalidDateDigitCount = isInvalidDateDigitCount(matcher.group(DIGIT_GROUP));
-        }
-        matcher.appendTail(result);
-
-        if(invalidDateDigitCount)
+        while (matcher.find()) 
         {
-            return result.toString();
+            String lastChar = matcher.group(FORMAL_DATE_GROUP).substring(matcher.group(FORMAL_DATE_GROUP).length() - STRING_OFFSET);
+            if(lastChar.equals(INVALID_LAST_CHAR))
+            {
+                matcher.appendReplacement(result, START_DIGIT_DELIMITER + matcher.group(FORMAL_DATE_GROUP) + END_DIGIT_DELIMITER);
+            }
+            else
+            {
+                matcher.appendReplacement(result, matcher.group(FORMAL_DATE_GROUP));
+            }
         }
-        else
-        {
-            return source;
-        }
+        
+        return matcher.appendTail(result).toString();
 
     }
     
-    private static boolean isInvalidDateDigitCount(String date)
-    {
 
-        return (date.length() > 4 || date.length() == 3);
-    }
     
     
     @SuppressWarnings("finally")
-    private static String addDelimiterForInvalidRangeDate(String source) {
+    private static String addDelimiterForInvalidDateRange(String source) {
         final int YEAR_GROUP = 1;
         final int FIRST_DATE_SEPARATOR = 2;
         final int MONTH_GROUP = 3;
