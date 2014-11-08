@@ -20,6 +20,7 @@ import ui.guide.FeedbackGuide;
 import ui.logic.command.FormatHandler;
 import dataStorage.ObservableList;
 
+//@author A0112675H
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
 
@@ -67,6 +68,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		});
 	}
 
+	//@author A0112675H
 	/**
 	 * Create the application.
 	 */
@@ -101,7 +103,9 @@ public class UserIntSwing extends JPanel implements Observer {
 		interactiveForm.setBounds(0, 0, 750, 227);
 		panel.add(interactiveForm);
 		interactiveForm.setLayout(null);
-
+		interactiveForm.updateTable(taskList);
+		
+		
 		/* A0112636M - Initialize all components */
 		FormatHandler.addtoContentPane();
 

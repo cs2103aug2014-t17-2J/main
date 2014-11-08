@@ -1,5 +1,9 @@
 package userInterface;
 
+//@author A0112675H
+/**
+ * Table Details
+ */
 public class TableInformation {
 
 	protected String task, description, startDate, endDate, startTime, endTime,
@@ -72,20 +76,15 @@ public class TableInformation {
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
-	
-	public Boolean getCheck(){
+
+	public Boolean getCheck() {
 		return check;
 	}
 
-    /**
-     * @param boolean1
-     */
-    public void setCheck(Boolean check)
-    {
-        this.check = check;
-    }
-	
-//	public void setCheck(CheckBoxRenderer checkBoxRenderer){
-//		this.check = false;
-//	}
+	/**
+	 * @param boolean
+	 */
+	public void setCheck(Boolean check) {
+		this.check = check;
+	}
 }
