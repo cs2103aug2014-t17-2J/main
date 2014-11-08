@@ -3,6 +3,7 @@ package userInterface;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.TrayIcon;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -30,7 +31,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static final InteractiveForm interactiveForm = new InteractiveForm();
 	public static final JLabel lblBackground = new JLabel();
 	public static final JLabel lblCommandGuide = new JLabel();
-	public static final JTextField textField = new JTextField();
 	public static final JLabel lblFeedback = new JLabel("Feedback");
 	public static final JLabel lblDescriptionProcess = new JLabel();
 	public static final JLabel lblPriorityProcess = new JLabel();
@@ -47,8 +47,10 @@ public class UserIntSwing extends JPanel implements Observer {
 	public static final JButton btnClose = new JButton();
 	public static final JButton btnMinimize = new JButton();
 	public static final JButton btnSetting = new JButton();
-	public static final JLabel lblViewTask = new JLabel(
-			FeedbackGuide.formatViewTodayTask());
+
+	public static final JLabel lblViewTask = new JLabel(FeedbackGuide.formatViewTodayTask());
+	public static final JTextField textField = new JTextField();
+
 	public static LogicManager logicManager;
 	private ObservableList<Task> observableList;
 
