@@ -23,9 +23,10 @@ public class DeleteCommand extends Command {
 
     ArrayList<Task> deleteTaskList = new ArrayList<Task>();
 
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#execute()
+     */
     public void execute() throws InvalidCommandException {
-
-        System.out.println("delete");
 
         final int ARRAY_OFFSET = 1;
         final String NO_INTEGER_EXTRACTED = "No integer extracted";
@@ -98,12 +99,12 @@ public class DeleteCommand extends Command {
 
         TreeSet<Integer> extractedDigitList = new TreeSet<Integer>();
 
-        String regex = "(-{0,1}[0-9]+)\\s*(?:to|-)\\s*(-{0,1}[0-9]+)|(-{0,1}[0-9]+)";
+        String digitRegex = "(-{0,1}[0-9]+)\\s*(?:to|-)\\s*(-{0,1}[0-9]+)|(-{0,1}[0-9]+)";
         final int START_RANGE_GROUP = 1;
         final int END_RANGE_GROUP = 2;
         final int INDIVIDUAL_DIGIT_GROUP = 3;
 
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(digitRegex);
         Matcher matcher = pattern.matcher(source);
 
         while (matcher.find()) {
@@ -171,7 +172,8 @@ public class DeleteCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Delete";
+        final String COMMAND_NAME = "Delete";
+        return COMMAND_NAME;
     }
 
     /*

@@ -26,8 +26,7 @@ public class ObservableListTest {
         private Object storedArg;
 
         @Override
-        public void update(Observable o, Object arg) 
-        {
+        public void update(Observable o, Object arg) {
             setStoredArg(arg);
         }
 

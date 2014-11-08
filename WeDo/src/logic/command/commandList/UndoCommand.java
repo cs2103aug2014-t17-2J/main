@@ -15,11 +15,11 @@ import logic.parser.ParserFlags;
  */
 public class UndoCommand extends Command {
 
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#execute()
+     */
     public void execute() throws InvalidCommandException {
-        System.out.println("undo");
-
         undoHandler.undo();
-
     }
 
     /*
@@ -53,7 +53,8 @@ public class UndoCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Undo";
+        final String COMMAND_NAME = "Undo";
+        return COMMAND_NAME;
     }
 
     /*

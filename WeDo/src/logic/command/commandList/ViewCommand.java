@@ -20,8 +20,6 @@ public class ViewCommand extends Command {
     ArrayList<Task> previousView;
 
     public void execute() throws InvalidCommandException {
-        System.out.println("view");
-
         previousView = dataHandler.getObservableList().getList();
         dataHandler.view(task);
         undoHandler.addUndo(this);
@@ -78,7 +76,8 @@ public class ViewCommand extends Command {
      */
     @Override
     public String toString() {
-        return "View";
+        final String COMMAND_NAME = "View";
+        return COMMAND_NAME;
     }
 
     /*

@@ -26,6 +26,7 @@ public class CommandExecutor {
     }
 
     /**
+     * Execute the command such as add, view etc
      * @param command
      *            the command to execute
      * @param task

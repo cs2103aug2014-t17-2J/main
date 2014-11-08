@@ -10,6 +10,10 @@ public enum Priority {
 
     private final String priorityLevel;
 
+    /**
+     * Set the string for the corresponding priority level
+     * @param priorityLevel the priority level to set
+     */
     private Priority(String priorityLevel) {
         this.priorityLevel = priorityLevel;
     }

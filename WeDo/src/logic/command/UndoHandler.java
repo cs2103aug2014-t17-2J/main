@@ -11,7 +11,7 @@ import logic.exception.InvalidCommandException;
 
 //@author A0112887X
 /**
- *
+ * UndoHandler stores all undo and redo operation
  */
 public class UndoHandler {
     private enum State {
@@ -23,18 +23,34 @@ public class UndoHandler {
     private static Stack<Command> redoStack = new Stack<Command>();
     private static State currentState = State.STATE_UNDEFINED;
 
+    /**
+     * @return the undoHandler instance
+     */
     public static UndoHandler getInstance() {
         return undoHandler;
     }
 
+    /**
+     * Do not allow user to create new instance
+     */
     private UndoHandler() {
 
     }
 
+    /**
+     * Check if there is anything to undo
+     * 
+     * @return if there is anything to undo
+     */
     public static boolean canUndo() {
         return undoStack.size() > 0;
     }
 
+    /**
+     * Check if there is anything to redo
+     * 
+     * @return if there is anything to redo
+     */
     public static boolean canRedo() {
         return redoStack.size() > 0;
     }

@@ -12,8 +12,11 @@ import logic.utility.Task;
  */
 public class TaskDescriptionFieldSetter implements TaskFieldSetter {
 
-    /* (non-Javadoc)
-     * @see logic.taskParser.taskFieldSetter.TaskFieldSetter#set(logic.Task, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see logic.taskParser.taskFieldSetter.TaskFieldSetter#set(logic.Task,
+     * java.lang.String)
      */
     @Override
     public String set(Task task, String arguments) {

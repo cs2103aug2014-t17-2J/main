@@ -22,10 +22,12 @@ public class EditCommand extends Command {
     private int index = NOT_SET;
     private Task source;
 
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#execute()
+     */
     public void execute() throws InvalidCommandException {
 
-        System.out.println("Editing");
-
+        final String ERROR_MESSAGE = "Edit failed, invalid index";
         if (index == NOT_SET) {
             String indexString = StringHandler.getIntegerFromFirstSlot(task
                     .getDescription());
@@ -36,7 +38,7 @@ public class EditCommand extends Command {
             index = getIndex(indexString);
 
             if (!dataHandler.indexValid(index)) {
-                throw new InvalidCommandException("Edit failed, invalid index");
+                throw new InvalidCommandException(ERROR_MESSAGE);
             }
 
             task.setDescription(StringHandler.removeFirstMatched(
@@ -47,7 +49,7 @@ public class EditCommand extends Command {
         }
 
         if (!dataHandler.indexValid(index)) {
-            throw new InvalidCommandException("Edit failed, invalid index");
+            throw new InvalidCommandException(ERROR_MESSAGE);
         }
 
         task = editSpecifiedField(source, task);
@@ -80,10 +82,20 @@ public class EditCommand extends Command {
         return editedTask;
     }
 
+    /**
+     * Set complete status for the task
+     * @param source from the task that will be edited
+     * @param editedTask the task that contains what to edit
+     */
     private void setCompleteStatus(Task source, Task editedTask) {
         editedTask.setCompleted(source.getCompleted());
     }
 
+    /**
+     * Set date for the task
+     * @param source from the task that will be edited
+     * @param editedTask the task that contains what to edit
+     */
     private void setDateTimeBasedOnSpecified(Task source, Task toEditTask,
             Task editedTask) {
         if (toEditTask.getEndDate() == null
@@ -115,6 +127,11 @@ public class EditCommand extends Command {
         }
     }
 
+    /**
+     * Set priority status for the task
+     * @param source from the task that will be edited
+     * @param editedTask the task that contains what to edit
+     */
     private void setPriorityBasedOnSpecified(Task source, Task toEditTask,
             Task editedTask) {
         if (toEditTask.getPriority() == null
@@ -125,6 +142,11 @@ public class EditCommand extends Command {
         }
     }
 
+    /**
+     * Set description for the task
+     * @param source from the task that will be edited
+     * @param editedTask the task that contains what to edit
+     */
     private void setDescriptionBasedOnSpecified(Task source, Task toEditTask,
             Task editedTask) {
         if (toEditTask.getDescription() == null
@@ -135,6 +157,11 @@ public class EditCommand extends Command {
         }
     }
 
+    /**
+     * Parse integer from the string
+     * @param indexString the string which contains the index
+     * @return the integer parsed from the string
+     */
     private int getIndex(String indexString) {
         final int ARRAY_OFFSET = -1;
         return StringHandler.parseStringToInteger(indexString) + ARRAY_OFFSET;
@@ -161,30 +188,6 @@ public class EditCommand extends Command {
         return parseFlags.size() > MAX_VALID_FLAG;
     }
 
-    //
-    //
-    // /**
-    // * <p>
-    // * Determine whether the parse occurred was valid by matching it with
-    // * VALID_PARSE which contains compulsory parse result(s) for add command
-    // required
-    // * <p>
-    // *
-    // * @param parseFlags the set of ParserFlag to be tested
-    // * @return if it contains all of the VALID_PARSE flag
-    // */
-    // public boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
-    //
-    // final EnumSet<ParserFlags> VALID_PARSE = EnumSet.of(
-    // ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
-    //
-    //
-    // if (parseFlags.containsAll(VALID_PARSE)) {
-    // return true;
-    // } else {
-    // return false;
-    // }
-    // }
 
     /*
      * (non-Javadoc)
@@ -193,7 +196,8 @@ public class EditCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Edit";
+        final String COMMAND_NAME = "Edit";
+        return COMMAND_NAME;
     }
 
     /*

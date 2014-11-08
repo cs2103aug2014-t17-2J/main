@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-//@author A0112887X -unused
+//@author A0112887X 
 /**
  *
  */

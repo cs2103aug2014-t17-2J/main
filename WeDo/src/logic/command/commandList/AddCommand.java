@@ -16,18 +16,15 @@ import logic.parser.ParserFlags;
 
 public class AddCommand extends Command {
 
-    /**
-     * @param task
-     * @param processor
-     * @throws InvalidCommandException
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#execute()
      */
-
     public void execute() throws InvalidCommandException {
-        System.out.println("adding");
+        final String ERROR_MESSAGE = "Adding failed";
         if (dataHandler.addTask(task)) {
             undoHandler.addUndo(this);
         } else {
-            throw new InvalidCommandException("Adding failed");
+            throw new InvalidCommandException(ERROR_MESSAGE);
         }
     }
 
@@ -83,7 +80,8 @@ public class AddCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Add";
+        final String COMMAND_NAME = "Add";
+        return COMMAND_NAME;
     }
 
     /*

@@ -13,7 +13,7 @@ import logic.command.commandList.Command;
 import logic.command.commandList.DeleteCommand;
 import logic.command.commandList.EditCommand;
 import logic.command.commandList.ExitCommand;
-import logic.command.commandList.UncompleteCommand;
+import logic.command.commandList.IncompleteCommand;
 import logic.command.commandList.RedoCommand;
 import logic.command.commandList.SearchCommand;
 import logic.command.commandList.UndoCommand;
@@ -26,23 +26,24 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
 
-/**
 //@author A0112887X
+/**
  *
  */
 public class CommandParser {
-    
+
     private Command command;
     private String wordUsed;
     private String wordRemaining;
     private boolean lastWordUsed;
-  
-    
 
     /**
-     * <p> The source will be parsed to see if it contains date.
-     * @param source the String to be parsed
-     * @return if source contains valid command 
+     * <p>
+     * The source will be parsed to see if it contains date.
+     * 
+     * @param source
+     *            the String to be parsed
+     * @return if source contains valid command
      */
     public boolean tryParse(String source) {
         if (source == null) {
@@ -51,113 +52,97 @@ public class CommandParser {
 
         source = source.trim();
 
-        if (source.isEmpty()) 
-        {
-            return false;    
+        if (source.isEmpty()) {
+            return false;
         }
-        
-        String firstWord = StringHandler.getFirstWord(source);               
+
+        String firstWord = StringHandler.getFirstWord(source);
         String lastWord = StringHandler.getLastWord(source);
-        
+
         command = getCommand(firstWord);
-        if(command != null)
-        {
+        if (command != null) {
             wordUsed = firstWord;
             source = handleEditCommandforFirstWord(source);
-            setWordRemaining(StringHandler.removeFirstMatched(source,wordUsed));
+            setWordRemaining(StringHandler.removeFirstMatched(source, wordUsed));
             return true;
         }
- 
-       command = getCommand(lastWord);
-       if(command != null)
-       {
-           wordUsed = lastWord;
-           source = handleEditCommandForLastWord(source);
-           setWordRemaining(StringHandler.removeLastMatch(source,wordUsed));
-           lastWordUsed = true;
-           return true;
-       }
-       
+
+        command = getCommand(lastWord);
+        if (command != null) {
+            wordUsed = lastWord;
+            source = handleEditCommandForLastWord(source);
+            setWordRemaining(StringHandler.removeLastMatch(source, wordUsed));
+            lastWordUsed = true;
+            return true;
+        }
+
         return false;
     }
-    
+
     /**
-     * Remove the index for edit and append it to the front if valid
-     * return source if invalid
+     * Remove the index for edit and append it to the front if valid return
+     * source if invalid
+     * 
      * @param source
      * @return
      */
-    private String handleEditCommandforFirstWord(String source)
-    {
-        String index = StringHandler.getDigitAfterFirstWord(source);    
-        if(handleFlexibleEditCommand(source,index))
-        {
+    private String handleEditCommandforFirstWord(String source) {
+        String index = StringHandler.getDigitAfterFirstWord(source);
+        if (handleFlexibleEditCommand(source, index)) {
             source = StringHandler.removeDigitAfterFirstWord(source);
-            return  index + " " + source ;
+            return index + " " + source;
 
-        }
-        else
-        {
+        } else {
             return source;
         }
 
     }
-    
+
     /**
-     * Remove the index for edit and append it to the front if valid
-     * return source if invalid
+     * Remove the index for edit and append it to the front if valid return
+     * source if invalid
+     * 
      * @param source
      * @return
      */
-    private String handleEditCommandForLastWord(String source)
-    {
-        String index = StringHandler.getDigitAfterLastWord(source);  
-        if(handleFlexibleEditCommand(source,index))
-        {
+    private String handleEditCommandForLastWord(String source) {
+        String index = StringHandler.getDigitAfterLastWord(source);
+        if (handleFlexibleEditCommand(source, index)) {
             source = StringHandler.removeDigitAfterLastWord(source);
-            return  index + " " + source ;
-        }
-        else
-        {
+            return index + " " + source;
+        } else {
             return source;
         }
 
     }
-
 
     /**
      * determine is action needed to be done
+     * 
      * @param source
      * @param index
      * @return true if there's a valid index and command is EditCommand
      */
     private boolean handleFlexibleEditCommand(String source, String index) {
-        if(command instanceof EditCommand)
-        {
-            if(index != null)
-            {
+        if (command instanceof EditCommand) {
+            if (index != null) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
     private Command getCommand(String firstWord) {
-       return MultiMapMatcher.getMatchedKey(KeyWordMappingList.getCommandMultiMap(), firstWord);
+        return MultiMapMatcher.getMatchedKey(
+                KeyWordMappingList.getCommandMultiMap(), firstWord);
     }
-    
-    public Command getCommand()
-    {
+
+    public Command getCommand() {
         return command;
     }
-    
 
     /**
      * This function create a map of commands and add them to the multi map. The
@@ -169,7 +154,7 @@ public class CommandParser {
 
         Command addCommand = new AddCommand();
         Command completeCommand = new CompleteCommand();
-        Command uncompleteCommand = new UncompleteCommand();
+        Command uncompleteCommand = new IncompleteCommand();
         Command deleteCommand = new DeleteCommand();
         Command exitCommand = new ExitCommand();
         Command searchCommand = new SearchCommand();
@@ -182,12 +167,13 @@ public class CommandParser {
                 .<Command, Collection<String>> of(addCommand,
                         Arrays.asList("add", "new", "create", "cre8"));
         final Map<Command, Collection<String>> completeActions = ImmutableMap
-                .<Command, Collection<String>> of(completeCommand, Arrays.asList(
-                        "complete", "done", "finish", "tick"));
+                .<Command, Collection<String>> of(completeCommand,
+                        Arrays.asList("complete", "done", "finish", "tick"));
         final Map<Command, Collection<String>> uncompleteActions = ImmutableMap
-                .<Command, Collection<String>> of(uncompleteCommand, Arrays.asList(
-                        "incomplete", "undone", "cancel", "uncomplete", "decomplete", "untick"));
-     
+                .<Command, Collection<String>> of(uncompleteCommand, Arrays
+                        .asList("incomplete", "undone", "cancel", "uncomplete",
+                                "decomplete", "untick"));
+
         final Map<Command, Collection<String>> deleteActions = ImmutableMap
                 .<Command, Collection<String>> of(deleteCommand, Arrays.asList(
                         "delete", "d", "delete", "remove", "remove"));
@@ -203,7 +189,8 @@ public class CommandParser {
                         "edit", "edit", "e", "modify", "m", "modify"));
         final Map<Command, Collection<String>> viewActions = ImmutableMap
                 .<Command, Collection<String>> of(viewCommand, Arrays.asList(
-                        "view", "viewed", "viewing", "read", "reading", "see", "saw", "get"));
+                        "view", "viewed", "viewing", "read", "reading", "see",
+                        "saw", "get"));
         final Map<Command, Collection<String>> undoActions = ImmutableMap
                 .<Command, Collection<String>> of(undoCommand,
                         Arrays.asList("undo", "undo"));
@@ -225,7 +212,8 @@ public class CommandParser {
         return availableActions;
     }
 
-    private static void addMapToMultiMap(final Map<Command, Collection<String>> map,
+    private static void addMapToMultiMap(
+            final Map<Command, Collection<String>> map,
             Multimap<Command, String> availableActions) {
         for (Command key : map.keySet()) {
             availableActions.putAll(key, map.get(key));
@@ -240,7 +228,8 @@ public class CommandParser {
     }
 
     /**
-     * @param wordRemaining the wordRemaining to set
+     * @param wordRemaining
+     *            the wordRemaining to set
      */
     public void setWordRemaining(String wordRemaining) {
         this.wordRemaining = wordRemaining;
@@ -254,7 +243,8 @@ public class CommandParser {
     }
 
     /**
-     * @param wordUsed the wordUsed to set
+     * @param wordUsed
+     *            the wordUsed to set
      */
     public void setWordUsed(String wordUsed) {
         this.wordUsed = wordUsed;
@@ -268,7 +258,8 @@ public class CommandParser {
     }
 
     /**
-     * @param lastWordUsed the lastWordUsed to set
+     * @param lastWordUsed
+     *            the lastWordUsed to set
      */
     public void setLastWordUsed(boolean lastWordUsed) {
         this.lastWordUsed = lastWordUsed;

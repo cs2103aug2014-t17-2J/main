@@ -24,8 +24,7 @@ public class CompleteCommand extends Command {
 
     public void execute() throws InvalidCommandException {
 
-        System.out.println("complete");
-
+        
         final int ARRAY_OFFSET = 1;
         final String NO_INTEGER_EXTRACTED = "No integer extracted";
         final String INVALID_LOWEST_INDEX = "Invalid lowest index";
@@ -99,12 +98,12 @@ public class CompleteCommand extends Command {
 
         TreeSet<Integer> extractedDigitList = new TreeSet<Integer>();
 
-        String regex = "(-{0,1}[0-9]+)\\s*(?:to|-)\\s*(-{0,1}[0-9]+)|(-{0,1}[0-9]+)";
+        String digitPatterns = "(-{0,1}[0-9]+)\\s*(?:to|-)\\s*(-{0,1}[0-9]+)|(-{0,1}[0-9]+)";
         final int START_RANGE_GROUP = 1;
         final int END_RANGE_GROUP = 2;
         final int INDIVIDUAL_DIGIT_GROUP = 3;
 
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(digitPatterns);
         Matcher matcher = pattern.matcher(source);
 
         while (matcher.find()) {
@@ -176,7 +175,8 @@ public class CompleteCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Completed";
+        final String COMMAND_NAME = "Completed";
+        return COMMAND_NAME;
     }
 
     /*

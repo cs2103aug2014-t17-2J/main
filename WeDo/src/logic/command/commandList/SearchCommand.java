@@ -22,8 +22,6 @@ public class SearchCommand extends Command {
 
     public void execute() throws InvalidCommandException {
 
-        System.out.println("searching");
-
         SearchEngine searchEngine = new SearchEngine(
                 (BasicDataHandler) dataHandler);
         ArrayList<Task> searchList = searchEngine.search(task);
@@ -89,7 +87,8 @@ public class SearchCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Search";
+        final String COMMAND_NAME = "Search";
+        return COMMAND_NAME;
     }
 
     /*

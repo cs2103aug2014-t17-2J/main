@@ -16,10 +16,7 @@ import logic.parser.ParserFlags;
 public class RedoCommand extends Command {
 
     public void execute() throws InvalidCommandException {
-        System.out.println("redo");
-
         undoHandler.redo();
-
     }
 
     /*
@@ -53,7 +50,8 @@ public class RedoCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Redo";
+        final String COMMAND_NAME = "Redo";
+        return COMMAND_NAME;
     }
 
     /*

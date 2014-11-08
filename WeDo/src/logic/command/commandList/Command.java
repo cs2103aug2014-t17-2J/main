@@ -23,20 +23,23 @@ public abstract class Command {
         this.task = task;
     }
 
+    /**
+     * Set the dataHandler for the command
+     * @param dataHandler the dataHandler to set
+     */
     public void setDataHandler(DataHandler dataHandler) {
         this.dataHandler = dataHandler;
     }
 
     /**
-     * This method execute the commands such as add, display, clear etc.
-     * 
-     * @return TaskFeedBack to display if the command is valid
-     * @throws InvalidCommandException
-     *             TODO
+     * Execute the command such as add, view etc.
+     * @throws InvalidCommandException when command is invalid
      */
-
     public abstract void execute() throws InvalidCommandException;
 
+    /**
+     * undo the command executed
+     */
     public abstract void undo();
 
     /**
@@ -89,6 +92,9 @@ public abstract class Command {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     public abstract String toString();
 
 }

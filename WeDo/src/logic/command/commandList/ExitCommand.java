@@ -15,8 +15,10 @@ import logic.parser.ParserFlags;
  */
 public class ExitCommand extends Command {
 
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#execute()
+     */
     public void execute() throws InvalidCommandException {
-        System.out.println("exit");
         System.exit(0);
     }
 
@@ -50,7 +52,8 @@ public class ExitCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Exit";
+        final String COMMAND_NAME = "Exit";
+        return COMMAND_NAME;
     }
 
     /*
