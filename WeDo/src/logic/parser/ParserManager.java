@@ -240,7 +240,7 @@ public class ParserManager {
         if (descriptionParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.DESCRIPTION_FLAG);
 
-            if (isDescriptionSeparated(dateParser, commandParser)) {
+            if (descriptionParser.isDescriptionSeparated(dateParser.getSeparatedWordRemainings(), commandParser.getWordUsed())) {
                 parseResult.setFailedMessage(DESCRIPTION_SEPARATED_ERROR);
             } else {
                 userInput = descriptionParser.getWordRemaining();
@@ -302,11 +302,6 @@ public class ParserManager {
         return parseFlags;
     }
 
-    private boolean isDescriptionSeparated(DateParser dateParser,
-            CommandParser commandParser) {
-        return dateParser.isWordRemainingSeparated()
-                && !commandParser.isLastWordUsed();
-    }
 
     /**
      * <p>

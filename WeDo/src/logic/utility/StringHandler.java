@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 //@author A0112887X
 /**
  *
@@ -89,9 +91,8 @@ public class StringHandler {
         }
     }
 
-    public static boolean isWordUsedInTheMiddle(String source, String word) {
-        final int EXPECTED_TOKEN = 1;
-        return source.split(word).length > EXPECTED_TOKEN;
+    public static String[] getSeparatedWord(String source, String word) {
+        return source.split(word);
     }
 
     /**

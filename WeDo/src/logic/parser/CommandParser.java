@@ -19,8 +19,7 @@ public class CommandParser {
     private Command command;
     private String wordUsed;
     private String wordRemaining;
-    private boolean lastWordUsed;
-
+    
     /**
      * <p>
      * The source will be parsed to see if it contains date.
@@ -56,7 +55,6 @@ public class CommandParser {
             wordUsed = lastWord;
             source = handleEditCommandForLastWord(source);
             setWordRemaining(StringHandler.removeLastMatch(source, wordUsed));
-            lastWordUsed = true;
             return true;
         }
 
@@ -169,20 +167,4 @@ public class CommandParser {
     public void setWordUsed(String wordUsed) {
         this.wordUsed = wordUsed;
     }
-
-    /**
-     * @return the lastWordUsed
-     */
-    public boolean isLastWordUsed() {
-        return lastWordUsed;
-    }
-
-    /**
-     * @param lastWordUsed
-     *            the lastWordUsed to set
-     */
-    public void setLastWordUsed(boolean lastWordUsed) {
-        this.lastWordUsed = lastWordUsed;
-    }
-
 }

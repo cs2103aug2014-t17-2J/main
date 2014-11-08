@@ -35,7 +35,7 @@ public class DateParser {
     private String errorMessage;
     private List<Date> dateList;
     private boolean timeSet;
-    private boolean wordRemainingSeparated;
+    private String[] separatedWordRemainings;
 
     /**
      * <p>
@@ -105,7 +105,7 @@ public class DateParser {
                 dateWordUsed);
         wordUsed = dateConnector + dateWordUsed;
 
-        wordRemainingSeparated = StringHandler.isWordUsedInTheMiddle(source,
+        separatedWordRemainings = StringHandler.getSeparatedWord(source,
                 wordUsed);
         wordRemaining = StringHandler.removeFirstMatched(source, wordUsed);
         return dateWordUsed;
@@ -403,20 +403,6 @@ public class DateParser {
         return wordRemaining;
     }
 
-    /**
-     * @return the wordRemainingSeparated
-     */
-    public boolean isWordRemainingSeparated() {
-        return wordRemainingSeparated;
-    }
-
-    /**
-     * @param wordRemainingSeparated
-     *            the wordRemainingSeparated to set
-     */
-    public void setWordRemainingSeparated(boolean wordRemainingSeparated) {
-        this.wordRemainingSeparated = wordRemainingSeparated;
-    }
 
     /**
      * @return the warningMessage
@@ -431,6 +417,20 @@ public class DateParser {
      */
     public void setErrorMessage(String warningMessage) {
         this.errorMessage = warningMessage;
+    }
+
+    /**
+     * @return the separatedWordRemainings
+     */
+    public String[] getSeparatedWordRemainings() {
+        return separatedWordRemainings;
+    }
+
+    /**
+     * @param separatedWordRemainings the separatedWordRemainings to set
+     */
+    public void setSeparatedWordRemainings(String[] separatedWordRemainings) {
+        this.separatedWordRemainings = separatedWordRemainings;
     }
 
 }
