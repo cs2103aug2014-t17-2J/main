@@ -188,11 +188,17 @@ public class Task {
         final String EMPTY_STRING = "";
         final String TIME_CONNECTOR = " at ";
         final String DATE_CONNECTOR = " to ";
+        final LocalDate CORRECT_YEAR_FORMAT = LocalDate.of(1, 1, 1);
+        DateTimeFormatter dateFormatter;
 
         String dateString = EMPTY_STRING;
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter
-                .ofPattern("dd/MM/yyyy");
+        if (startDate.isAfter(CORRECT_YEAR_FORMAT) && endDate.isAfter(CORRECT_YEAR_FORMAT))  {
+            dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        } else {
+            dateFormatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
+        }
+        
         DateTimeFormatter timeFormatter = DateTimeFormatter
                 .ofPattern("hh:mm a");
 
