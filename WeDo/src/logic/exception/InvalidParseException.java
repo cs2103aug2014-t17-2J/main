@@ -5,7 +5,7 @@ package logic.exception;
 
 //@author A0112887X
 /**
- *
+ * Exception for Invalid parse
  */
 @SuppressWarnings("serial")
 public class InvalidParseException extends Exception 

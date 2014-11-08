@@ -72,8 +72,7 @@ public class TaskParserBasic implements TaskParser {
         }
         taskAttribute.set(task, arguments);
 
-        System.out.println("Opeartion :" + operation + "  arguments : "
-                + arguments);
+
     }
 
     /**

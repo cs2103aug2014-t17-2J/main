@@ -5,7 +5,7 @@ package logic.exception;
 
 //@author A0112887X
 /**
- *
+ * Exception for invalid command
  */
 @SuppressWarnings("serial")
 public class InvalidCommandException extends Exception 

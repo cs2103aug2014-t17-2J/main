@@ -38,15 +38,12 @@ public class TaskParserPlus implements TaskParser {
         userInput = MultiMapMatcher.replaceMatchedWithKey(
                 createFakeMultiMapForShortForm(), userInput);
 
-        System.out.println("to date parser " + userInput);
 
         wordsUsed = parseDate(task, userInput);
-        System.out.println("wordUsed is " + wordsUsed);
         userInput = userInput.replaceFirst(wordsUsed, "");
         userInput = replaceDateKeyWords(userInput.trim());
         userInput = removeDelimiters(userInput);
 
-        System.out.println("to other parser " + userInput);
 
         wordsUsed = parsePriority(userInput, task);
         userInput = userInput.replaceFirst(wordsUsed, "");
@@ -221,20 +218,11 @@ public class TaskParserPlus implements TaskParser {
      *         invalid.
      */
     private String parseDate(Task task, String source) {
-        // if(invalidDateString(source))
-        // return "";
 
         TaskFieldSetter taskAttribute = new TaskDateFieldSetter();
         String wordsUsed = taskAttribute.set(task, source);
         return wordsUsed;
     }
 
-    // /**
-    // * @param source
-    // * @return true if source consist of less than minimalDateLength of words
-    // */
-    // private boolean invalidDateString(String source) {
-    // final int minimalDateLength = 3;
-    // return source.split("\\s+").length < minimalDateLength;
-    // }
+
 }
