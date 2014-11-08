@@ -39,6 +39,11 @@ public class DescriptionParser {
         return true;
     }
 
+    /**
+     * @param separatedWordsRemaining
+     * @param commandWordUsed
+     * @return is description separated
+     */
     public boolean isDescriptionSeparated(String[] separatedWordsRemaining,
             String commandWordUsed) {
         final int SEPARTED_LENGTH = 3;

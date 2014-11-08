@@ -54,14 +54,23 @@ public class PriorityParser {
 
     }
 
+    /**
+     * @return the priority parsed
+     */
     public Priority getPriority() {
         return priority;
     }
 
+    /**
+     * @return the word used
+     */
     public String getWordUsed() {
         return wordUsed;
     }
 
+    /**
+     * @return the word remaining
+     */
     public String getWordRemaining() {
         return wordRemaining;
     }

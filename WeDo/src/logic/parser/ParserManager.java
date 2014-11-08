@@ -12,6 +12,12 @@ import logic.utility.Task;
  */
 public class ParserManager {
 
+    /**
+     * @param userInput
+     *            the string to be interpreted
+     * @return DynamicParseResult which contains task, command and parserFlags
+     *         (to determine whether parse succeed) and failedMessage.
+     */
     public DynamicParseResult dynamicParsing(String userInput) {
         DynamicParseResult parseResult = new DynamicParseResult();
         DateParser dateParser = new DateParser();
@@ -37,7 +43,7 @@ public class ParserManager {
     /**
      * @param userInput
      *            the string to be interpreted
-     * @return ParseResult which contains task, command, isSuccessful (to
+     * @return ParseResult which contains task, command and parserFlags (to
      *         determine whether parse succeed) and failedMessage.
      */
     public ParseResult interpret(String userInput) {
@@ -240,7 +246,9 @@ public class ParserManager {
         if (descriptionParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.DESCRIPTION_FLAG);
 
-            if (descriptionParser.isDescriptionSeparated(dateParser.getSeparatedWordRemainings(), commandParser.getWordUsed())) {
+            if (descriptionParser.isDescriptionSeparated(
+                    dateParser.getSeparatedWordRemainings(),
+                    commandParser.getWordUsed())) {
                 parseResult.setFailedMessage(DESCRIPTION_SEPARATED_ERROR);
             } else {
                 userInput = descriptionParser.getWordRemaining();
@@ -301,7 +309,6 @@ public class ParserManager {
 
         return parseFlags;
     }
-
 
     /**
      * <p>

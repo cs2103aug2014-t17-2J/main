@@ -73,13 +73,13 @@ public class DateParser {
                 return false;
             }
             String dateWordUsed = setDateWordUsed(source, dateGroups);
-            
+
             try {
                 dateList = parseDateBeforeEpochYear(dateWordUsed, dateList);
             } catch (ParseException e) {
                 return false;
             }
-            
+
             timeSet = isTimeInferred(dateGroups);
             return true;
         } else {
@@ -89,8 +89,11 @@ public class DateParser {
 
     /**
      * Set the date word used
-     * @param source the original message
-     * @param dateGroups the group that contains the date info
+     * 
+     * @param source
+     *            the original message
+     * @param dateGroups
+     *            the group that contains the date info
      * @return
      */
     private String setDateWordUsed(String source, List<DateGroup> dateGroups) {
@@ -113,6 +116,7 @@ public class DateParser {
 
     /**
      * Check if date limit exceeded
+     * 
      * @return if there are more than 2 dates
      */
     private boolean exceededDateListLimit() {
@@ -122,7 +126,9 @@ public class DateParser {
 
     /**
      * Check if it contains zero in formal dae
-     * @param source the original message
+     * 
+     * @param source
+     *            the original message
      * @return if it contains zero in formal date
      */
     private boolean formalDateContainsZero(String source) {
@@ -132,7 +138,9 @@ public class DateParser {
 
     /**
      * Check if it contains negative number in formal date
-     * @param source the original message
+     * 
+     * @param source
+     *            the original message
      * @return if it contains negative number in formal date
      */
     private boolean formalDateContainsNegativeNumber(String source) {
@@ -220,7 +228,9 @@ public class DateParser {
 
     /**
      * Convert local date to date
-     * @param localDate the local date to be converted to date
+     * 
+     * @param localDate
+     *            the local date to be converted to date
      * @return the date inside local date
      */
     private Date convertLocalDateToDate(LocalDateTime localDate) {
@@ -229,6 +239,7 @@ public class DateParser {
 
     /**
      * Get number of dates
+     * 
      * @return number of dates
      */
     public int getNumberOfDates() {
@@ -237,6 +248,7 @@ public class DateParser {
 
     /**
      * Determines if time is set
+     * 
      * @return is time set
      */
     public boolean isTimeSet() {
@@ -250,8 +262,6 @@ public class DateParser {
         final int START_DATE_INDEX = 0;
         return dateToLocalDate(dateList.get(START_DATE_INDEX));
     }
-
-
 
     /**
      * @return get end date
@@ -302,7 +312,8 @@ public class DateParser {
     }
 
     /**
-     * @param dateGroup the group which contains the date list
+     * @param dateGroup
+     *            the group which contains the date list
      * @return the date list
      */
     private List<Date> getDateList(List<DateGroup> dateGroup) {
@@ -315,7 +326,9 @@ public class DateParser {
 
     /**
      * Sort the date list based on which start first.
-     * @param dateList the list to be sorted
+     * 
+     * @param dateList
+     *            the list to be sorted
      */
     private void sortDateList(List<Date> dateList) {
         Collections.sort(dateList);
@@ -323,7 +336,9 @@ public class DateParser {
 
     /**
      * Check if date is available
-     * @param dateGroups the date group which contains the date
+     * 
+     * @param dateGroups
+     *            the date group which contains the date
      * @return is date available
      */
     private boolean dateAvailable(List<DateGroup> dateGroups) {
@@ -332,7 +347,8 @@ public class DateParser {
     }
 
     /**
-     * @param dateGroups the date group which contains the date
+     * @param dateGroups
+     *            the date group which contains the date
      * @return is time inferred
      */
     private boolean isTimeInferred(List<DateGroup> dateGroups) {
@@ -342,8 +358,11 @@ public class DateParser {
 
     /**
      * Get the date word used for parsing
-     * @param source the original message
-     * @param dateGroups the date group which contains the date
+     * 
+     * @param source
+     *            the original message
+     * @param dateGroups
+     *            the date group which contains the date
      * @return the date word used
      */
     private String getDateWordUsed(String source, List<DateGroup> dateGroups) {
@@ -362,7 +381,8 @@ public class DateParser {
     }
 
     /**
-     * @param date to be converted
+     * @param date
+     *            to be converted
      * @return localdate converted from date
      */
     public LocalDate dateToLocalDate(Date date) {
@@ -372,7 +392,8 @@ public class DateParser {
     }
 
     /**
-     * @param time the time to be converted
+     * @param time
+     *            the time to be converted
      * @return localtime converted from time
      */
     public LocalTime dateToLocalTime(Date time) {
@@ -403,7 +424,6 @@ public class DateParser {
         return wordRemaining;
     }
 
-
     /**
      * @return the warningMessage
      */
@@ -427,7 +447,8 @@ public class DateParser {
     }
 
     /**
-     * @param separatedWordRemainings the separatedWordRemainings to set
+     * @param separatedWordRemainings
+     *            the separatedWordRemainings to set
      */
     public void setSeparatedWordRemainings(String[] separatedWordRemainings) {
         this.separatedWordRemainings = separatedWordRemainings;

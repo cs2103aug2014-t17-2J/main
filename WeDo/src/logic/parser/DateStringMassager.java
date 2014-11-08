@@ -36,35 +36,23 @@ public class DateStringMassager {
     public static String massageData(String source) {
 
         source = convertImplicitFormalDate(source);
-        System.out.println("Converted Implicit date " + source);
         source = convertFormalDate(source);
-        System.out.println("Converted Formal date " + source);
-
         source = replaceNonDateDigitWithDelimiter(source);
-
-        // danger ( High risk )
-        source = replacePossibleDateDescriptionWithDelimiter(source);
-        // end danger
-
+        source = replaceDescriptionWithDelimiter(source);
         source = MultiMapMatcher.replaceMatchedWithKey(
                 createFakeMultiMapForShortForm(), source);
-
         source = addDelimiterForIndexSelection(source);
-
         source = addDelimiterForInvalidFormalDate(source);
-
-        System.out.println("before word... is " + source);
-
         source = replaceWordWithDelimiter(source);
-
-        System.out.println("massage date is " + source);
-
         return source;
     }
 
     /**
+     * Add delimiter if it is an index
+     * 
      * @param source
-     * @return
+     *            the original message
+     * @return source with delimiter added for index
      */
     private static String addDelimiterForIndexSelection(String source) {
         final int COMMAND_GRPOUP = 1;
@@ -73,10 +61,9 @@ public class DateStringMassager {
 
         String editKeyWordsRegex = getEditKeyWordsRegex();
 
-        System.out.println("Original String @ index Selection" + source);
-        String regexPattern = "(?i)(^\\s*(?:" + editKeyWordsRegex
+        String indexPattern = "(?i)(^\\s*(?:" + editKeyWordsRegex
                 + ")\\s+)(\\d+)(\\s+|\\$)";
-        Pattern pattern = Pattern.compile(regexPattern);
+        Pattern pattern = Pattern.compile(indexPattern);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
 
@@ -88,13 +75,15 @@ public class DateStringMassager {
 
         matcher.appendTail(result);
 
-        System.out.println("Modified String @ index Selection"
-                + result.toString());
-
         return result.toString();
 
     }
 
+    /**
+     * Get the edit key word regex
+     * 
+     * @return editKeyWords
+     */
     private static String getEditKeyWordsRegex() {
         String editKeyWordsRegex = "";
         ImmutableMap<Command, Collection<String>> editKeyWords = KeyWordMappingList
@@ -124,9 +113,9 @@ public class DateStringMassager {
             String dateWordUsed) {
 
         final int WORD_GROUP = 1;
-        String regexPattern = "(\\w+\\s+)(?=" + Pattern.quote(dateWordUsed)
-                + ")";
-        Pattern pattern = Pattern.compile(regexPattern);
+        String frontDateConnectorPattern = "(\\w+\\s+)(?="
+                + Pattern.quote(dateWordUsed) + ")";
+        Pattern pattern = Pattern.compile(frontDateConnectorPattern);
         Matcher matcher = pattern.matcher(source);
 
         if (matcher.find()) {
@@ -142,34 +131,49 @@ public class DateStringMassager {
         }
     }
 
+    /**
+     * Check if source contains date connector
+     * 
+     * @param source
+     *            the original message
+     * @return if it contains date connector
+     */
     private static boolean matchAvailableDateConnector(String source) {
-        String regexPattern = "(?i)^in |^on |^from |^at |^by |^date ";
-        Pattern pattern = Pattern.compile(regexPattern);
+        String dateConnectorPattern = "(?i)^in |^on |^from |^at |^by |^date ";
+        Pattern pattern = Pattern.compile(dateConnectorPattern);
         Matcher matcher = pattern.matcher(source);
 
         return matcher.find();
 
     }
 
+    /**
+     * Add delimiter for digits that are not date
+     * 
+     * @param source
+     *            the original message
+     * @return source with delimiter added for digit which are not dates
+     */
     private static String replaceNonDateDigitWithDelimiter(String source) {
         source = replaceAllDigitsWithDelimiter(source);
         source = replaceWordDigitAtEndWithDelimiter(source);
-
         source = removeDelimiterForDateDigitByWord(source);
-
         source = removeDelimiterForDateDigitByNextWord(source);
         source = removeDelimiterForDateDigitByPreviousWord(source);
         return source;
     }
 
     /**
+     * Add delimiter for digit at end of word if it is not date
+     * 
      * @param source
-     * @return
+     *            the original message
+     * @return source with delimiter added for non-date digit at the end of word
      */
     private static String replaceWordDigitAtEndWithDelimiter(String source) {
-        final String numRegex = "(?<=[A-z])(\\d+)(?=\\s)";
+        final String endOfWordDigitPattern = "(?<=[A-z])(\\d+)(?=\\s)";
         final int DIGIT_GROUP = 1;
-        Pattern pattern = Pattern.compile(numRegex);
+        Pattern pattern = Pattern.compile(endOfWordDigitPattern);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
 
@@ -182,12 +186,20 @@ public class DateStringMassager {
         return matcher.appendTail(result).toString();
     }
 
+    /**
+     * Remove delimiter for date digit if previous word is a date
+     * 
+     * @param source
+     *            the original message
+     * @return source with delimiter removed for digit if the previous word is
+     *         date
+     */
     private static String removeDelimiterForDateDigitByPreviousWord(
             String source) {
-        final String numRegex = "(\\w+\\s+)(\\{\\[\\d+\\]\\})";
+        final String previousWordWithDigitPattern = "(\\w+\\s+)(\\{\\[\\d+\\]\\})";
         final int WORD_GROUP = 1;
         final int DIGIT_GROUP = 2;
-        Pattern pattern = Pattern.compile(numRegex);
+        Pattern pattern = Pattern.compile(previousWordWithDigitPattern);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
 
@@ -204,6 +216,13 @@ public class DateStringMassager {
         return matcher.appendTail(result).toString();
     }
 
+    /**
+     * Remove all delimiter
+     * 
+     * @param source
+     *            the original message
+     * @return source with all delimiter removed
+     */
     public static String removeDigitDelimiters(String source) {
         source = StringHandler.removeAll(source,
                 Pattern.quote(START_DIGIT_DELIMITER));
@@ -212,11 +231,18 @@ public class DateStringMassager {
         return source;
     }
 
+    /**
+     * Remove delimiter for date digit if it is a date
+     * 
+     * @param source
+     *            the original message
+     * @return source with delimiter removed for digit if it is a date
+     */
     private static String removeDelimiterForDateDigitByWord(String source) {
-        final String numRegex = "(\\{\\[\\d+\\]\\})(\\w+)(?=$|\\s)";
+        final String digitFollowedByWordRegex = "(\\{\\[\\d+\\]\\})(\\w+)(?=$|\\s)";
         final int DIGIT_GROUP = 1;
         final int WORD_GROUP = 2;
-        Pattern pattern = Pattern.compile(numRegex);
+        Pattern pattern = Pattern.compile(digitFollowedByWordRegex);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
 
@@ -233,11 +259,18 @@ public class DateStringMassager {
         return matcher.appendTail(result).toString();
     }
 
+    /**
+     * Remove delimiter for date digit if next word is a date
+     * 
+     * @param source
+     *            the original message
+     * @return source with delimiter removed for digit if the next word is date
+     */
     private static String removeDelimiterForDateDigitByNextWord(String source) {
-        final String numRegex = "(?<=\\s|^)(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
+        final String digitWithNextWord = "(?<=\\s|^)(\\{\\[\\d+\\]\\})(\\s+\\w+|$)";
         final int DIGIT_GROUP = 1;
         final int WORD_GROUP = 2;
-        Pattern pattern = Pattern.compile(numRegex);
+        Pattern pattern = Pattern.compile(digitWithNextWord);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
 
@@ -254,15 +287,19 @@ public class DateStringMassager {
         return matcher.appendTail(result).toString();
     }
 
-    private static String replacePossibleDateDescriptionWithDelimiter(
-            String source) {
+    /**
+     * add delimiter if the word is a description and not a date
+     * 
+     * @param source
+     *            the original message
+     * @return add delimiter if the word is a description and not a date
+     */
+    private static String replaceDescriptionWithDelimiter(String source) {
 
         final String[] POSSIBLE_DATE_DESCRIPTION = { "day", "days", "week",
                 "weeks", "month", "months", "year", "years" };
         String restrictedWordRegex = addRestrictedWordToRegex(POSSIBLE_DATE_DESCRIPTION);
 
-        // String regex = "(?<=[A-z]\\s)("+ restrictedWordRegex
-        // +")(?=$|\\s[A-z])";
         String regex = "(?i)(?<!\\d)\\s+(" + restrictedWordRegex
                 + ")($|\\s+\\w+)($|\\s+\\w+){0,1}";
 
@@ -290,20 +327,21 @@ public class DateStringMassager {
                                 + matcher.group(NEXT_NEXT_WORD_GROUP));
             }
 
-            // matcher.appendReplacement(result, matcher.group(NEXT_WORD_GROUP)
-            // + matcher.group(NEXT_NEXT_WORD_GROUP));
         }
 
         return matcher.appendTail(result).toString();
 
     }
 
-    // What is a date?
-    // Next word is end of string
-    // Next word is a date already
-    // Unsure
-    // Next word is a date connector
-    // Check next next word is date
+    /**
+     * Check if the description is a date
+     * 
+     * @param possibleDateDescription
+     *            that could be describing date
+     * @param nextWord
+     * @param nextNextWord
+     * @return isDateDescription
+     */
     private static boolean isDateDescription(String possibleDateDescription,
             String nextWord, String nextNextWord) {
 
@@ -320,8 +358,11 @@ public class DateStringMassager {
     }
 
     /**
+     * Check if it is priority
+     * 
      * @param string
-     * @return
+     *            the source
+     * @return isPriority
      */
     private static boolean isPriority(String source) {
         PriorityParser priorityParser = new PriorityParser();
@@ -329,8 +370,10 @@ public class DateStringMassager {
     }
 
     /**
+     * Check if it is date connector
+     * 
      * @param nextWord
-     * @return
+     * @return isIntermediateDateConnector
      */
     private static boolean isIntermediateDateConnector(String nextWord) {
         final String[] POSSIBLE_INTERMEDIATE_CONNECTOR = { "after", "before",
@@ -339,15 +382,31 @@ public class DateStringMassager {
                 POSSIBLE_INTERMEDIATE_CONNECTOR);
     }
 
+    /**
+     * Check if nextWord is date
+     * 
+     * @param nextWord
+     * @return is nextWord date
+     */
     private static boolean isDate(String nextWord) {
         DateParser dateParser = new DateParser();
         return dateParser.tryParse(nextWord);
     }
 
+    /**
+     * @param nextWord
+     * @return is nextWord end of String
+     */
     private static boolean isEndOfString(String nextWord) {
         return nextWord == null || nextWord.trim().isEmpty();
     }
 
+    /**
+     * add restricted word to regex
+     * 
+     * @param RESTRICTED_DATE
+     * @return restrictedWordRegex
+     */
     private static String addRestrictedWordToRegex(
             final String[] RESTRICTED_DATE) {
 
@@ -363,21 +422,16 @@ public class DateStringMassager {
         return restrictedWordRegex;
     }
 
+    /**
+     * Add delimiters for all digit
+     * 
+     * @param source
+     *            the original message
+     * @return source with delimiter added for all digit
+     */
     private static String replaceAllDigitsWithDelimiter(String source) {
 
-        final String numRegex = "((?<!/\\d{0,4}|:\\d{0,2})-*\\d+(?=$|\\s|a|p|z|,|-|\\Q.\\E))"; // ignore
-                                                                                               // digit
-                                                                                               // that
-                                                                                               // start
-                                                                                               // with
-                                                                                               // /
-                                                                                               // or
-                                                                                               // :
-
-        // final String numRegex = "((?<!/\\d{0,4}|:\\d{0,2})-*\\d+(?=$|\\s))";
-        // // ignore digit that start with / or :
-        // final String numRegex = "((?<=^|\\s)-*\\d+(?=$|\\s))"; // 1st working
-        // regex
+        final String numRegex = "((?<!/\\d{0,4}|:\\d{0,2})-*\\d+(?=$|\\s|a|p|z|,|-|\\Q.\\E))";
 
         final int digitGroup = 1;
 
@@ -395,6 +449,13 @@ public class DateStringMassager {
 
     }
 
+    /**
+     * Add delimiter for word
+     * 
+     * @param source
+     *            the original message
+     * @return source with delimiter added for word
+     */
     private static String replaceWordWithDelimiter(String source) {
         final String numRegex = "([A-z" + Pattern.quote(WORD_DELIMITER)
                 + "]+(?=\\s))";
@@ -414,11 +475,25 @@ public class DateStringMassager {
 
     }
 
+    /**
+     * Remove word delimiter
+     * 
+     * @param source
+     *            the original message
+     * @return source with word delimiter removed
+     */
     public static String removeWordDelimiter(String source) {
         return StringHandler.removeAll(source, Pattern.quote(WORD_DELIMITER)
                 + "(?=\\s|$)");
     }
 
+    /**
+     * Check if it contains date format
+     * 
+     * @param source
+     *            the original message
+     * @return if it contains date format
+     */
     private static boolean containsDateFormat(String source) {
         DateFormatSymbols dateFormat = new DateFormatSymbols();
         String[] shortWeekdays = dateFormat.getShortWeekdays();
@@ -466,6 +541,11 @@ public class DateStringMassager {
 
     }
 
+    /**
+     * @param source
+     *            the original message
+     * @return the converted date
+     */
     private static String convertImplicitFormalDate(String source) {
         source = convertDateDDMM(source);
         source = convertDateDDMMYY(source);
@@ -489,8 +569,6 @@ public class DateStringMassager {
         final int endGroup = 5;
 
         final String ddmmyyRegex = "([^\\w]|^)+(\\d{1,2})[/](\\d{1,2})[/](\\d\\d)([^\\w]|$)+";
-        // final String ddmmyyRegex =
-        // "([^\\w]|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])[/](\\d\\d)([^\\w]|$)+";
 
         Pattern pattern = Pattern.compile(ddmmyyRegex);
         Matcher matcher = pattern.matcher(source);
@@ -525,8 +603,6 @@ public class DateStringMassager {
 
         final String ddmmyyRegex = "(\\s+|^)+(\\d{1,2})[/](\\d{1,2})(\\s+|$)";
 
-        // final String ddmmyyRegex =
-        // "(\\s+|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])(\\s+|$)";
         Pattern pattern = Pattern.compile(ddmmyyRegex);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
@@ -565,12 +641,26 @@ public class DateStringMassager {
 
     }
 
+    /**
+     * add delimiter for invalid formal date
+     * 
+     * @param source
+     *            the original message
+     * @return delimiter added for invalid formal date
+     */
     private static String addDelimiterForInvalidFormalDate(String source) {
         source = addDelimiterForInvalidDateRange(source);
         source = addDelimiterForInvalidDate(source);
         return source;
     }
 
+    /**
+     * add delimiter for invalid date
+     * 
+     * @param source
+     *            the original message
+     * @return delimiter added for invalid date
+     */
     private static String addDelimiterForInvalidDate(String source) {
 
         final int FORMAL_DATE_GROUP = 1;
@@ -590,9 +680,6 @@ public class DateStringMassager {
                     - STRING_OFFSET);
             String[] digitFromFormalDate = matchedString.split(DATE_SEPARATOR);
 
-            System.out.println("Last char of string is " + lastChar);
-            System.out.println("Testing string is "
-                    + Arrays.toString(digitFromFormalDate));
             if (lastChar.equals(DATE_SEPARATOR)
                     || digitFromFormalDate.length > MAX_SEPARATOR
                     || containsInvalidFormalDateDigit(digitFromFormalDate)) {
@@ -607,6 +694,13 @@ public class DateStringMassager {
 
     }
 
+    /**
+     * check if it contains invalid formal date in the digit
+     * 
+     * @param digitFromFormalDate
+     *            the digits from formal date
+     * @return if it contains invalid formal date in the digit
+     */
     private static boolean containsInvalidFormalDateDigit(
             String[] digitFromFormalDate) {
         final int INVALID_DATE_DIGIT = 3;
@@ -619,6 +713,13 @@ public class DateStringMassager {
         return false;
     }
 
+    /**
+     * Add delimiter for invalid date range
+     * 
+     * @param source
+     *            the original message
+     * @return source with delimiter added for invalid date range
+     */
     @SuppressWarnings("finally")
     private static String addDelimiterForInvalidDateRange(String source) {
         final int YEAR_GROUP = 1;
@@ -627,7 +728,6 @@ public class DateStringMassager {
         final int SECOND_DATE_SEPARATOR = 4;
         final int DAY_GROUP = 5;
         boolean formalDateInvalid = false;
-
         String yyyymmddRegex = "(\\d+)(/)(\\d+)(/)(\\d+)";
 
         Pattern pattern = Pattern.compile(yyyymmddRegex);
@@ -654,20 +754,22 @@ public class DateStringMassager {
             } finally {
                 if (formalDateInvalid) {
                     matcher.appendTail(result);
-                    System.out.println("Invalid Range of Date " + result);
                     return result.toString();
 
                 } else {
-                    System.out.println("Valid Range of Date " + source);
                     return source;
                 }
             }
-
         }
-
         return source;
     }
 
+    /**
+     * @param year
+     * @param month
+     * @param day
+     * @return is date invalid
+     */
     private static boolean isDateInvalid(int year, int month, int day) {
         boolean invalidYear = isYearInvalid(year);
         boolean invalidMonth = isMonthInvalid(month);
@@ -675,13 +777,17 @@ public class DateStringMassager {
         return invalidYear || invalidMonth || isDayInvalid;
     }
 
+    /**
+     * @param year
+     * @return is year invalid
+     */
     private static boolean isYearInvalid(int year) {
         return yearContains3Digit(year) || yearContainsMoreThan4Digit(year);
     }
 
     /**
      * @param year
-     * @return
+     * @return if year contains 3 digit
      */
     private static boolean yearContains3Digit(int year) {
         final int digitCheck = 3;
@@ -689,14 +795,18 @@ public class DateStringMassager {
 
     }
 
+    /**
+     * @param day
+     * @param month
+     * @param year
+     * @return invalid day
+     */
     private static boolean isDayInvalid(int day, int month, int year) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("y/M/d");
-
+        final String DATE_SEPARATOR = "/";
         year = setValidYearToTest(year);
 
-        String date = year + "/" + month + "/" + day;
-
-        System.out.println("Checking day invalid = " + date);
+        String date = year + DATE_SEPARATOR + month + DATE_SEPARATOR + day;
 
         try {
             LocalDate parsedDate = LocalDate.parse(date, formatter);
@@ -708,6 +818,10 @@ public class DateStringMassager {
 
     }
 
+    /**
+     * @param year
+     * @return 1 if year is invalid, year if valid
+     */
     private static int setValidYearToTest(int year) {
         final int INVALID_YEAR = 0;
         final int VALID_YEAR = 1;
@@ -719,11 +833,19 @@ public class DateStringMassager {
         return year;
     }
 
+    /**
+     * @param month
+     * @return is month invalid
+     */
     private static boolean isMonthInvalid(int month) {
         final int MAX_MONTH = 12;
         return month > MAX_MONTH;
     }
 
+    /**
+     * @param year
+     * @return if year contains more than 4 digit
+     */
     private static boolean yearContainsMoreThan4Digit(int year) {
         final int DIGIT_LIMIT = 4;
         return ((Integer) year).toString().length() > DIGIT_LIMIT;
