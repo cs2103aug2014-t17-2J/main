@@ -8,22 +8,19 @@ import java.util.EnumSet;
 import logic.command.commandList.Command;
 import logic.utility.Task;
 
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
-public class DynamicParseResult 
-{
+public class DynamicParseResult {
     private Command command;
     private Task task;
     private EnumSet<ParserFlags> parseFlags;
-    
+
     private String dateWordUsed;
     private String priorityWordUsed;
     private String commandWordUsed;
     private String descriptionWordUsed;
-    
-
 
     /**
      * @return the command
@@ -32,14 +29,13 @@ public class DynamicParseResult
         return command;
     }
 
-
     /**
-     * @param command the command to set
+     * @param command
+     *            the command to set
      */
     public void setCommand(Command command) {
         this.command = command;
     }
-
 
     /**
      * @return the task
@@ -48,14 +44,13 @@ public class DynamicParseResult
         return task;
     }
 
-
     /**
-     * @param task the task to set
+     * @param task
+     *            the task to set
      */
     public void setTask(Task task) {
         this.task = task;
     }
-
 
     /**
      * @return the dateWordUsed
@@ -64,14 +59,13 @@ public class DynamicParseResult
         return dateWordUsed;
     }
 
-
     /**
-     * @param dateWordUsed the dateWordUsed to set
+     * @param dateWordUsed
+     *            the dateWordUsed to set
      */
     public void setDateWordUsed(String dateWordUsed) {
         this.dateWordUsed = dateWordUsed;
     }
-
 
     /**
      * @return the priorityWordUsed
@@ -80,14 +74,13 @@ public class DynamicParseResult
         return priorityWordUsed;
     }
 
-
     /**
-     * @param priorityWordUsed the priorityWordUsed to set
+     * @param priorityWordUsed
+     *            the priorityWordUsed to set
      */
     public void setPriorityWordUsed(String priorityWordUsed) {
         this.priorityWordUsed = priorityWordUsed;
     }
-
 
     /**
      * @return the commandWordUsed
@@ -96,14 +89,13 @@ public class DynamicParseResult
         return commandWordUsed;
     }
 
-
     /**
-     * @param commandWordUsed the commandWordUsed to set
+     * @param commandWordUsed
+     *            the commandWordUsed to set
      */
     public void setCommandWordUsed(String commandWordUsed) {
         this.commandWordUsed = commandWordUsed;
     }
-
 
     /**
      * @return the descriptionWordUsed
@@ -112,14 +104,13 @@ public class DynamicParseResult
         return descriptionWordUsed;
     }
 
-
     /**
-     * @param descriptionWordUsed the descriptionWordUsed to set
+     * @param descriptionWordUsed
+     *            the descriptionWordUsed to set
      */
     public void setDescriptionWordUsed(String descriptionWordUsed) {
         this.descriptionWordUsed = descriptionWordUsed;
     }
-
 
     /**
      * @return the parseFlags
@@ -128,16 +119,17 @@ public class DynamicParseResult
         return parseFlags;
     }
 
-
     /**
-     * @param parseFlags the parseFlags to set
+     * @param parseFlags
+     *            the parseFlags to set
      */
     public void setParseFlags(EnumSet<ParserFlags> parseFlags) {
         this.parseFlags = parseFlags;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -149,9 +141,9 @@ public class DynamicParseResult
                 + ", descriptionWordUsed=" + descriptionWordUsed + "]";
     }
 
-
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -201,7 +193,4 @@ public class DynamicParseResult
         return true;
     }
 
-    
-
-    
 }

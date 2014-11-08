@@ -10,9 +10,10 @@ import logic.exception.InvalidCommandException;
 import logic.parser.ParserFlags;
 import logic.utility.Task;
 
+//@author A0112887X
 /**
- * @author TienLong This class makes use of the Command interface to implement
- *         execute function for InvalidTask
+ * This class makes use of the Command interface to implement execute function
+ * for InvalidTask
  */
 public class ViewCommand extends Command {
 
@@ -64,9 +65,9 @@ public class ViewCommand extends Command {
         final EnumSet<ParserFlags> VALID_VIEW_PRIORITY_PARSE = EnumSet.of(
                 ParserFlags.PRIORITY_FLAG, ParserFlags.COMMAND_FLAG);
 
-        return (ParserFlags.containsOnly(parseFlags, VALID_VIEW_CATEGORY_PARSE) || ParserFlags
-                .containsOnly(parseFlags, VALID_VIEW_DATE_PARSE) || ParserFlags
-                .containsOnly(parseFlags, VALID_VIEW_PRIORITY_PARSE));
+        return (ParserFlags.containsOnly(parseFlags, VALID_VIEW_CATEGORY_PARSE)
+                || ParserFlags.containsOnly(parseFlags, VALID_VIEW_DATE_PARSE) || ParserFlags
+                    .containsOnly(parseFlags, VALID_VIEW_PRIORITY_PARSE));
 
     }
 

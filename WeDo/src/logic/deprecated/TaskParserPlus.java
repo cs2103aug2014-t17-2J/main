@@ -14,6 +14,7 @@ import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 
+//@author A0112887X - unused
 /**
  * @author Kuan Tien Long
  *
@@ -22,24 +23,21 @@ public class TaskParserPlus implements TaskParser {
 
     private final String startDelimiter = "{[";
     private final String endDelimiter = "]}";
-   
 
     public Task buildTask(StringBuilder userInputBuilder) {
         String userInput = userInputBuilder.toString();
         String wordsUsed;
         Task task = new Task();
-        
-        
+
         userInput = StringHandler.convertImplicitFormalDate(userInput);
         userInput = StringHandler.convertFormalDate(userInput);
-        
 
         userInput = findDateFormat(userInput); // replace non date with
                                                // delimiter
 
-       userInput = MultiMapMatcher.replaceMatchedWithKey(createFakeMultiMapForShortForm(), userInput);
-        
-        
+        userInput = MultiMapMatcher.replaceMatchedWithKey(
+                createFakeMultiMapForShortForm(), userInput);
+
         System.out.println("to date parser " + userInput);
 
         wordsUsed = parseDate(task, userInput);
@@ -64,18 +62,18 @@ public class TaskParserPlus implements TaskParser {
     }
 
     private TaskFieldSetter determineAttribute(String operation) {
-        return MultiMapMatcher.getMatchedKey(createFakeMultiMapForPriority(), operation);
+        return MultiMapMatcher.getMatchedKey(createFakeMultiMapForPriority(),
+                operation);
 
     }
 
     private String replaceDateKeyWords(String source) {
-        
-        return source.replaceAll(
-                "(?i) in$| on$| from$| at$| by$| date$|^in |^on |^from |^at |^by |^date ",
-                "");
-    }
-    
 
+        return source
+                .replaceAll(
+                        "(?i) in$| on$| from$| at$| by$| date$|^in |^on |^from |^at |^by |^date ",
+                        "");
+    }
 
     private String findDateFormat(String source) {
         source = replaceDigits(source);

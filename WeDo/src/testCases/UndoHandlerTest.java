@@ -22,9 +22,9 @@ import logic.exception.InvalidCommandException;
 
 import org.junit.Test;
 
+//@author A0112887X
 //@formatter:off
 /**
- * @author A0112887X
  *  UndoHandler contains 3 methods
  *  1. addUndo
  *  2. undo

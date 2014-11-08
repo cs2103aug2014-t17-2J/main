@@ -11,9 +11,9 @@ import logic.parser.DateParser;
 
 import org.junit.Test;
 
+//@author A0112887X 
 //@formatter:off
 /**
- * @author A0112887X
  * 
  * Possible format for formal dates are
  * Date range [1..31]

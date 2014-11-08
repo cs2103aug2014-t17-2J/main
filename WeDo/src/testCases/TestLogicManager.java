@@ -23,8 +23,8 @@ import dataStorage.BasicDataHandler;
 import dataStorage.ObservableList;
 import definedEnumeration.Priority;
 
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
 public class TestLogicManager {

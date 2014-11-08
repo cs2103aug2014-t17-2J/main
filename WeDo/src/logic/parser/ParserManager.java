@@ -4,21 +4,15 @@
 package logic.parser;
 
 import java.util.EnumSet;
-
-import dataStorage.BasicDataHandler;
-import logic.command.commandList.EditCommand;
-import logic.utility.StringHandler;
 import logic.utility.Task;
 
-
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
 public class ParserManager {
 
-    public DynamicParseResult dynamicParsing(String userInput) 
-    {
+    public DynamicParseResult dynamicParsing(String userInput) {
         DynamicParseResult parseResult = new DynamicParseResult();
         DateParser dateParser = new DateParser();
         PriorityParser priorityParser = new PriorityParser();
@@ -26,59 +20,54 @@ public class ParserManager {
         CommandParser commandParser = new CommandParser();
         EnumSet<ParserFlags> parseFlags = tryParse(userInput, dateParser,
                 priorityParser, descriptionParser, commandParser);
-        
 
-        
         parseResult.setCommand(commandParser.getCommand());
-        parseResult.setTask(buildTask(parseFlags, dateParser,
-                priorityParser, descriptionParser));
+        parseResult.setTask(buildTask(parseFlags, dateParser, priorityParser,
+                descriptionParser));
         parseResult.setParseFlags(parseFlags);
         parseResult.setDateWordUsed(dateParser.getWordUsed());
         parseResult.setPriorityWordUsed(priorityParser.getWordUsed());
         parseResult.setCommandWordUsed(commandParser.getWordUsed());
         parseResult.setDescriptionWordUsed(descriptionParser.getWordUsed());
-        
+
         System.out.println(parseResult);
         return parseResult;
     }
 
-
-
     /**
      * @param userInput
      *            the string to be interpreted
-     * @return ParseResult which contains task, command, isSuccessful (to determine whether parse succeed) and failedMessage.
+     * @return ParseResult which contains task, command, isSuccessful (to
+     *         determine whether parse succeed) and failedMessage.
      */
     public ParseResult interpret(String userInput) {
 
         final String COMMAND_PARSE_FAILED = "No such command";
-        
+
         ParseResult parseResult = new ParseResult();
         DateParser dateParser = new DateParser();
         PriorityParser priorityParser = new PriorityParser();
         DescriptionParser descriptionParser = new DescriptionParser();
         CommandParser commandParser = new CommandParser();
-        
+
         EnumSet<ParserFlags> parseFlags = tryParse(userInput, dateParser,
                 priorityParser, descriptionParser, commandParser, parseResult);
 
-         if (!isCommandParsed(parseFlags)) {
+        if (!isCommandParsed(parseFlags)) {
             parseResult.setSuccessful(false);
             parseResult.setFailedMessage(COMMAND_PARSE_FAILED);
             return parseResult;
         } else {
-            if (!commandParser.getCommand().validate(parseFlags)) 
-            {
+            if (!commandParser.getCommand().validate(parseFlags)) {
                 parseResult.setSuccessful(false);
-                parseResult.setFailedMessage(commandParser.getCommand().getValidateErrorMessage());
+                parseResult.setFailedMessage(commandParser.getCommand()
+                        .getValidateErrorMessage());
                 return parseResult;
             } else {
-                if(parseResult.getFailedMessage() == null || parseResult.getFailedMessage().isEmpty())
-                {    
+                if (parseResult.getFailedMessage() == null
+                        || parseResult.getFailedMessage().isEmpty()) {
                     parseResult.setSuccessful(true);
-                }
-                else
-                {
+                } else {
                     parseResult.setSuccessful(false);
                 }
                 parseResult.setCommand(commandParser.getCommand());
@@ -217,15 +206,16 @@ public class ParserManager {
      *            the parser which could parse description.
      * @param commandParser
      *            the parser which could parse command.
-     * @param parseResult 
+     * @param parseResult
      * @return parseFlags which consist of successful parses
      */
     public EnumSet<ParserFlags> tryParse(String userInput,
             DateParser dateParser, PriorityParser priorityParser,
-            DescriptionParser descriptionParser, CommandParser commandParser, ParseResult parseResult) {
+            DescriptionParser descriptionParser, CommandParser commandParser,
+            ParseResult parseResult) {
         EnumSet<ParserFlags> parseFlags = EnumSet.noneOf(ParserFlags.class);
         final String DESCRIPTION_SEPARATED_ERROR = "Description Should not be separeted";
-        
+
         System.out.println("to priority parser is " + userInput);
 
         if (priorityParser.tryParse(userInput)) {
@@ -238,36 +228,29 @@ public class ParserManager {
             parseFlags.add(ParserFlags.DATE_FLAG);
             userInput = dateParser.getWordRemaining();
         }
-                
+
         System.out.println("to command parser is " + userInput);
         if (commandParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.COMMAND_FLAG);
             userInput = commandParser.getWordRemaining();
         }
-        
+
         System.out.println("to description parser is " + userInput);
 
-        if (descriptionParser.tryParse(userInput)) 
-        {
+        if (descriptionParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.DESCRIPTION_FLAG);
 
-            if(isDescriptionSeparated(dateParser, commandParser))
-            {
+            if (isDescriptionSeparated(dateParser, commandParser)) {
                 parseResult.setFailedMessage(DESCRIPTION_SEPARATED_ERROR);
-            }
-            else
-            {
+            } else {
                 userInput = descriptionParser.getWordRemaining();
             }
-            
+
         }
-
-
 
         return parseFlags;
     }
-    
-    
+
     /**
      * This function try to parse the userInput with the available parser(s).<br>
      * Parse(s) which are successful are added to the parseFlags. <br>
@@ -282,15 +265,14 @@ public class ParserManager {
      *            the parser which could parse description.
      * @param commandParser
      *            the parser which could parse command.
-     * @param parseResult 
+     * @param parseResult
      * @return parseFlags which consist of successful parses
      */
     public EnumSet<ParserFlags> tryParse(String userInput,
             DateParser dateParser, PriorityParser priorityParser,
             DescriptionParser descriptionParser, CommandParser commandParser) {
         EnumSet<ParserFlags> parseFlags = EnumSet.noneOf(ParserFlags.class);
-        final String DESCRIPTION_SEPARATED_ERROR = "Description Should not be separeted";
-        
+
         System.out.println("to priority parser is " + userInput);
 
         if (priorityParser.tryParse(userInput)) {
@@ -303,31 +285,27 @@ public class ParserManager {
             parseFlags.add(ParserFlags.DATE_FLAG);
             userInput = dateParser.getWordRemaining();
         }
-                
+
         System.out.println("to command parser is " + userInput);
         if (commandParser.tryParse(userInput)) {
             parseFlags.add(ParserFlags.COMMAND_FLAG);
             userInput = commandParser.getWordRemaining();
         }
-        
+
         System.out.println("to description parser is " + userInput);
 
-        if (descriptionParser.tryParse(userInput)) 
-        {
-            parseFlags.add(ParserFlags.DESCRIPTION_FLAG);           
+        if (descriptionParser.tryParse(userInput)) {
+            parseFlags.add(ParserFlags.DESCRIPTION_FLAG);
             userInput = descriptionParser.getWordRemaining();
         }
-
-
 
         return parseFlags;
     }
 
-
-
     private boolean isDescriptionSeparated(DateParser dateParser,
             CommandParser commandParser) {
-        return dateParser.isWordRemainingSeparated() && !commandParser.isLastWordUsed();
+        return dateParser.isWordRemainingSeparated()
+                && !commandParser.isLastWordUsed();
     }
 
     /**

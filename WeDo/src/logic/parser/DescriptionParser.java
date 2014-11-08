@@ -3,42 +3,39 @@
  */
 package logic.parser;
 
-import logic.utility.StringHandler;
-
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
-public class DescriptionParser 
-{
+public class DescriptionParser {
     private String wordUsed;
     private String wordRemaining;
     private String description;
-    
+
     /**
-     * <p> The source will be parsed to see if it contains date.
-     * @param source the String to be parsed
-     * @return if source contains valid description 
+     * <p>
+     * The source will be parsed to see if it contains date.
+     * 
+     * @param source
+     *            the String to be parsed
+     * @return if source contains valid description
      */
-    public boolean tryParse(String source)
-    {
+    public boolean tryParse(String source) {
         if (source == null) {
             return false;
         }
 
         source = source.trim();
 
-        if (source.isEmpty()) 
-        {
+        if (source.isEmpty()) {
             return false;
         }
-        
+
         wordUsed = description = source;
         wordRemaining = "";
 
-        
         return true;
-        
+
     }
 
     /**
@@ -54,7 +51,7 @@ public class DescriptionParser
     public String getWordUsed() {
         return wordUsed;
     }
-    
+
     /**
      * @return the description
      */
@@ -63,11 +60,11 @@ public class DescriptionParser
     }
 
     /**
-     * @param description the description to set
+     * @param description
+     *            the description to set
      */
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
+
 }

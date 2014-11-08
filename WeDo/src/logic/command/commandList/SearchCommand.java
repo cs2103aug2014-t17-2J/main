@@ -12,9 +12,10 @@ import logic.parser.ParserFlags;
 import logic.utility.SearchEngine;
 import logic.utility.Task;
 
+//@author A0112887X
 /**
- * @author TienLong This class makes use of the Command interface to implement
- *         execute function for searchTask
+ * This class makes use of the Command interface to implement execute function
+ * for searchTask
  */
 public class SearchCommand extends Command {
     private ArrayList<Task> displayedTask;

@@ -14,9 +14,10 @@ import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 
+//@author A0112887X
 /**
- * @author TienLong This class makes use of the Command interface to implement
- *         execute function for DeleteTask
+ * This class makes use of the Command interface to implement execute function
+ * for DeleteTask
  */
 public class DeleteCommand extends Command {
 
@@ -54,7 +55,9 @@ public class DeleteCommand extends Command {
 
     /**
      * Delete all the task at deleteTaskList
-     * @param deleteTaskList the list of task to delete
+     * 
+     * @param deleteTaskList
+     *            the list of task to delete
      */
     private void removeTasks(ArrayList<Task> deleteTaskList) {
         for (Task deleteThisTask : deleteTaskList) {
@@ -64,14 +67,16 @@ public class DeleteCommand extends Command {
 
     /**
      * Get all task to be deleted
-     * @param ARRAY_OFFSET the offset for array
-     * @param digitList which contains of all the index to delete
+     * 
+     * @param ARRAY_OFFSET
+     *            the offset for array
+     * @param digitList
+     *            which contains of all the index to delete
      * @return the list of task to delete
      */
     private ArrayList<Task> getTasksToDelete(final int ARRAY_OFFSET,
             TreeSet<Integer> digitList) {
 
-        
         ArrayList<Task> deleteTaskList = new ArrayList<Task>();
 
         for (int index : digitList) {
@@ -132,13 +137,13 @@ public class DeleteCommand extends Command {
     @Override
     public void undo() {
         addRemovedTasks(deleteTaskList);
-        }
+    }
 
-    
-    
     /**
      * Add the previously removed task back
-     * @param deleteTaskList the list of task that was deleted
+     * 
+     * @param deleteTaskList
+     *            the list of task that was deleted
      */
     private void addRemovedTasks(ArrayList<Task> deleteTaskList) {
         for (Task taskToReAdd : deleteTaskList) {
@@ -146,7 +151,6 @@ public class DeleteCommand extends Command {
         }
     }
 
-    
     /*
      * (non-Javadoc)
      * 
@@ -156,8 +160,7 @@ public class DeleteCommand extends Command {
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
         final EnumSet<ParserFlags> VALID_DELETE_PARSE = EnumSet.of(
                 ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
-   
-                
+
         return ParserFlags.containsOnly(parseFlags, VALID_DELETE_PARSE);
     }
 
@@ -171,7 +174,9 @@ public class DeleteCommand extends Command {
         return "Delete";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#getValidateErrorMessage()
      */
     @Override

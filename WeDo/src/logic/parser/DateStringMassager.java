@@ -23,8 +23,8 @@ import logic.utility.KeyWordMappingList;
 import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
 public class DateStringMassager {
@@ -34,7 +34,7 @@ public class DateStringMassager {
     private static final String WORD_DELIMITER = ".";
 
     public static String massageData(String source) {
-        
+
         source = convertImplicitFormalDate(source);
         System.out.println("Converted Implicit date " + source);
         source = convertFormalDate(source);
@@ -53,7 +53,6 @@ public class DateStringMassager {
 
         source = addDelimiterForInvalidFormalDate(source);
 
-        
         System.out.println("before word... is " + source);
 
         source = replaceWordWithDelimiter(source);
@@ -96,8 +95,6 @@ public class DateStringMassager {
 
     }
 
-    
-    
     private static String getEditKeyWordsRegex() {
         String editKeyWordsRegex = "";
         ImmutableMap<Command, Collection<String>> editKeyWords = KeyWordMappingList
@@ -490,9 +487,10 @@ public class DateStringMassager {
         final int monthGroup = 3;
         final int yearGroup = 4;
         final int endGroup = 5;
-  
+
         final String ddmmyyRegex = "([^\\w]|^)+(\\d{1,2})[/](\\d{1,2})[/](\\d\\d)([^\\w]|$)+";
-//        final String ddmmyyRegex = "([^\\w]|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])[/](\\d\\d)([^\\w]|$)+";
+        // final String ddmmyyRegex =
+        // "([^\\w]|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])[/](\\d\\d)([^\\w]|$)+";
 
         Pattern pattern = Pattern.compile(ddmmyyRegex);
         Matcher matcher = pattern.matcher(source);
@@ -522,12 +520,13 @@ public class DateStringMassager {
         final int inferredYear = LocalDateTime.now().getYear();
         final int startGroup = 1;
         final int dayGroup = 2;
-        final int monthGroup = 3;   
+        final int monthGroup = 3;
         final int endGroup = 4;
 
         final String ddmmyyRegex = "(\\s+|^)+(\\d{1,2})[/](\\d{1,2})(\\s+|$)";
 
-//        final String ddmmyyRegex = "(\\s+|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])(\\s+|$)";
+        // final String ddmmyyRegex =
+        // "(\\s+|^)+([012]?[0-9]|3[01])[/](0?[1-9]|1[012])(\\s+|$)";
         Pattern pattern = Pattern.compile(ddmmyyRegex);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
@@ -571,59 +570,55 @@ public class DateStringMassager {
         source = addDelimiterForInvalidDate(source);
         return source;
     }
-    
+
     private static String addDelimiterForInvalidDate(String source) {
 
         final int FORMAL_DATE_GROUP = 1;
         final String DATE_SEPARATOR = "/";
         final int MAX_SEPARATOR = 3;
         final int STRING_OFFSET = 1;
-        
+
         String formalDatePattern = "((?:\\d+/)+\\d*)";
 
         Pattern pattern = Pattern.compile(formalDatePattern);
         Matcher matcher = pattern.matcher(source);
         StringBuffer result = new StringBuffer();
 
-        while (matcher.find()) 
-        {
+        while (matcher.find()) {
             String matchedString = matcher.group(FORMAL_DATE_GROUP);
-            int lastIndex = matchedString.length() - STRING_OFFSET;
-            String lastChar = matchedString.substring(matchedString.length() - STRING_OFFSET);
+            String lastChar = matchedString.substring(matchedString.length()
+                    - STRING_OFFSET);
             String[] digitFromFormalDate = matchedString.split(DATE_SEPARATOR);
-            
+
             System.out.println("Last char of string is " + lastChar);
-            System.out.println("Testing string is " +Arrays.toString(digitFromFormalDate));
-           // System.out.println("Splittign string " +separator.length);
-            if(lastChar.equals(DATE_SEPARATOR) || digitFromFormalDate.length > MAX_SEPARATOR || containsInvalidFormalDateDigit(digitFromFormalDate))
-            {
-                matcher.appendReplacement(result, START_DIGIT_DELIMITER + matchedString + END_DIGIT_DELIMITER);
-            }
-            else
-            {
+            System.out.println("Testing string is "
+                    + Arrays.toString(digitFromFormalDate));
+            if (lastChar.equals(DATE_SEPARATOR)
+                    || digitFromFormalDate.length > MAX_SEPARATOR
+                    || containsInvalidFormalDateDigit(digitFromFormalDate)) {
+                matcher.appendReplacement(result, START_DIGIT_DELIMITER
+                        + matchedString + END_DIGIT_DELIMITER);
+            } else {
                 matcher.appendReplacement(result, matchedString);
             }
         }
-        
+
         return matcher.appendTail(result).toString();
 
     }
-    
 
-    private static boolean containsInvalidFormalDateDigit(String[] digitFromFormalDate)
-    {
+    private static boolean containsInvalidFormalDateDigit(
+            String[] digitFromFormalDate) {
         final int INVALID_DATE_DIGIT = 3;
         final int MAX_DATE_DIGIT = 4;
-        
-        for(String digit : digitFromFormalDate)
-        {
+
+        for (String digit : digitFromFormalDate) {
             return (digit.length() == INVALID_DATE_DIGIT || digit.length() > MAX_DATE_DIGIT);
         }
-        
+
         return false;
     }
-    
-    
+
     @SuppressWarnings("finally")
     private static String addDelimiterForInvalidDateRange(String source) {
         final int YEAR_GROUP = 1;
@@ -653,12 +648,11 @@ public class DateStringMassager {
                 int month = Integer.parseInt(matcher.group(MONTH_GROUP));
                 int day = Integer.parseInt(matcher.group(DAY_GROUP));
                 formalDateInvalid = isDateInvalid(year, month, day);
- 
+
             } catch (NumberFormatException numberTooBig) {
                 formalDateInvalid = true;
             } finally {
-                if (formalDateInvalid) 
-                {
+                if (formalDateInvalid) {
                     matcher.appendTail(result);
                     System.out.println("Invalid Range of Date " + result);
                     return result.toString();
@@ -678,8 +672,7 @@ public class DateStringMassager {
         boolean invalidYear = isYearInvalid(year);
         boolean invalidMonth = isMonthInvalid(month);
         boolean isDayInvalid = isDayInvalid(day, month, year);
-        return invalidYear || invalidMonth
-                || isDayInvalid;
+        return invalidYear || invalidMonth || isDayInvalid;
     }
 
     private static boolean isYearInvalid(int year) {
@@ -698,33 +691,31 @@ public class DateStringMassager {
 
     private static boolean isDayInvalid(int day, int month, int year) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("y/M/d");
-        
+
         year = setValidYearToTest(year);
 
         String date = year + "/" + month + "/" + day;
-        
+
         System.out.println("Checking day invalid = " + date);
-        
+
         try {
-                LocalDate parsedDate = LocalDate.parse(date, formatter);
-                return (parsedDate.getDayOfMonth() != day);
-                
+            LocalDate parsedDate = LocalDate.parse(date, formatter);
+            return (parsedDate.getDayOfMonth() != day);
+
         } catch (DateTimeParseException pe) {
             return true;
         }
 
-        
     }
 
     private static int setValidYearToTest(int year) {
         final int INVALID_YEAR = 0;
         final int VALID_YEAR = 1;
-        
-        if(year == INVALID_YEAR)
-        {
+
+        if (year == INVALID_YEAR) {
             year = VALID_YEAR;
         }
-        
+
         return year;
     }
 

@@ -3,8 +3,8 @@
  */
 package logic.exception;
 
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
 @SuppressWarnings("serial")

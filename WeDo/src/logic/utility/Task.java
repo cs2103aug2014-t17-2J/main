@@ -9,20 +9,18 @@ import java.time.format.DateTimeFormatter;
 
 import definedEnumeration.Priority;
 
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
-public class Task 
-{
+public class Task {
     public static final LocalTime TIME_NOT_SET = LocalTime.MAX;
     public static final LocalDate DATE_NOT_SET = LocalDate.MAX;
     public static final Priority PRIORITY_NOT_SET = Priority.PRIORITY_UNDEFINED;
     public static final boolean DEFAULT_COMPLETE_STATUS = false;
-    
+
     private static final int INITIAL_ID = 0;
-    
-    
+
     private static int createID = INITIAL_ID;
     private int uniqueID = createID;
     private String description;
@@ -32,28 +30,27 @@ public class Task
     private LocalDate endDate;
     private LocalTime endTime;
     private boolean isCompleted;
-   
-    
+
     /**
      * Copy Constructor
-     * @param task to be copied
+     * 
+     * @param task
+     *            to be copied
      */
-    public Task(Task task)
-    {
-        this(task.uniqueID, task.description, task.priority, task.startDate, task.startTime, task.endDate, task.endTime, task.isCompleted);
+    public Task(Task task) {
+        this(task.uniqueID, task.description, task.priority, task.startDate,
+                task.startTime, task.endDate, task.endTime, task.isCompleted);
     }
-    
+
     // blank task constructor
-    public Task()
-    {
+    public Task() {
         createID++;
-   
+
         this.priority = PRIORITY_NOT_SET;
         this.startDate = this.endDate = DATE_NOT_SET;
         this.startTime = this.endTime = TIME_NOT_SET;
         this.isCompleted = DEFAULT_COMPLETE_STATUS;
     }
-    
 
     /**
      * Constructor for <b>timed</b> task without completed status
@@ -67,21 +64,20 @@ public class Task
      */
     public Task(String description, Priority priority, LocalDate startDate,
             LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-       
+
         createID++;
-        
+
         this.description = description;
         this.priority = priority;
         this.startDate = startDate;
         this.startTime = startTime;
         this.endDate = endDate;
         this.endTime = endTime;
-        isCompleted =DEFAULT_COMPLETE_STATUS;
+        isCompleted = DEFAULT_COMPLETE_STATUS;
     }
-    
 
     /**
-     * Constructor for <b>timed</b> task with completed status 
+     * Constructor for <b>timed</b> task with completed status
      * 
      * @param description
      * @param priority
@@ -94,9 +90,9 @@ public class Task
     public Task(String description, Priority priority, LocalDate startDate,
             LocalTime startTime, LocalDate endDate, LocalTime endTime,
             boolean isCompleted) {
-        
+
         createID++;
-        
+
         this.description = description;
         this.priority = priority;
         this.startDate = startDate;
@@ -105,11 +101,10 @@ public class Task
         this.endTime = endTime;
         this.isCompleted = isCompleted;
     }
-    
-    
-   
+
     /**
      * Constructor for <b>deadline</b> task without completed status
+     * 
      * @param description
      * @param priority
      * @param endDate
@@ -119,7 +114,7 @@ public class Task
             LocalTime endTime) {
 
         createID++;
-        
+
         this.description = description;
         this.priority = priority;
         this.endDate = endDate;
@@ -128,10 +123,10 @@ public class Task
         this.startTime = TIME_NOT_SET;
         this.isCompleted = DEFAULT_COMPLETE_STATUS;
     }
-    
-    
+
     /**
      * Constructor for <b>deadline</b> task with completed status
+     * 
      * @param description
      * @param priority
      * @param endDate
@@ -142,7 +137,7 @@ public class Task
             LocalTime endTime, boolean isCompleted) {
 
         createID++;
-        
+
         this.description = description;
         this.priority = priority;
         this.endDate = endDate;
@@ -152,18 +147,16 @@ public class Task
         this.startTime = TIME_NOT_SET;
     }
 
-
-
-
     /**
      * Constructor for <b>floating</b> task without completed status
+     * 
      * @param description
      * @param priority
      */
     public Task(String description, Priority priority) {
 
         createID++;
-        
+
         this.description = description;
         this.priority = priority;
 
@@ -172,9 +165,9 @@ public class Task
         this.isCompleted = DEFAULT_COMPLETE_STATUS;
     }
 
-
     /**
      * Constructor for <b>deadline</b> task with completed status
+     * 
      * @param description
      * @param priority
      * @param isCompleted
@@ -182,7 +175,7 @@ public class Task
     public Task(String description, Priority priority, boolean isCompleted) {
 
         createID++;
-        
+
         this.description = description;
         this.priority = priority;
         this.isCompleted = isCompleted;
@@ -191,66 +184,50 @@ public class Task
         this.startTime = this.endTime = TIME_NOT_SET;
     }
 
-
-
-    public String getDateTimeString()
-    {
+    public String getDateTimeString() {
         final String EMPTY_STRING = "";
         final String TIME_CONNECTOR = " at ";
         final String DATE_CONNECTOR = " to ";
-        
+
         String dateString = EMPTY_STRING;
-        
+
         DateTimeFormatter dateFormatter = DateTimeFormatter
                 .ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter
                 .ofPattern("hh:mm a");
-        
-        if(startDate.equals(DATE_NOT_SET))
-        {
-            if(endDate.equals(DATE_NOT_SET))
-            {
+
+        if (startDate.equals(DATE_NOT_SET)) {
+            if (endDate.equals(DATE_NOT_SET)) {
                 return dateString;
-            }
-            else
-            {
+            } else {
                 dateString += endDate.format(dateFormatter);
-                if(!endTime.equals(TIME_NOT_SET))
-                {
-                    dateString +=  TIME_CONNECTOR + endTime.format(timeFormatter);
+                if (!endTime.equals(TIME_NOT_SET)) {
+                    dateString += TIME_CONNECTOR
+                            + endTime.format(timeFormatter);
                 }
                 return dateString;
             }
-        }
-        else
-        {
+        } else {
             dateString += startDate.format(dateFormatter);
         }
-        
-        if(!startTime.equals(TIME_NOT_SET))
-        {
-            dateString +=  TIME_CONNECTOR + startTime.format(timeFormatter);
+
+        if (!startTime.equals(TIME_NOT_SET)) {
+            dateString += TIME_CONNECTOR + startTime.format(timeFormatter);
         }
-        
-        if(endDate.equals(DATE_NOT_SET))
-        {
+
+        if (endDate.equals(DATE_NOT_SET)) {
             return dateString;
-        }
-        else
-        {
+        } else {
             dateString += DATE_CONNECTOR + endDate.format(dateFormatter);
         }
-        
-        if(!endTime.equals(TIME_NOT_SET))
-        {
-            dateString +=  TIME_CONNECTOR + endTime.format(timeFormatter);
+
+        if (!endTime.equals(TIME_NOT_SET)) {
+            dateString += TIME_CONNECTOR + endTime.format(timeFormatter);
         }
-        
+
         return dateString;
-        
+
     }
-
-
 
     /**
      * @param uniqueID
@@ -277,12 +254,13 @@ public class Task
     }
 
     @Override
-    public String toString()
-    {
-        return "description:[" + description + "],startDate:[" + startDate +","+ startTime + "],endDate:[" + endDate +","+ endTime + "],Priority:[" + priority +"]" + "uniqueID:" + "[" + uniqueID + "]";
-        
+    public String toString() {
+        return "description:[" + description + "],startDate:[" + startDate
+                + "," + startTime + "],endDate:[" + endDate + "," + endTime
+                + "],Priority:[" + priority + "]" + "uniqueID:" + "["
+                + uniqueID + "]";
+
     }
-    
 
     /**
      * @return the iD
@@ -290,98 +268,104 @@ public class Task
     public int getUniqueID() {
         return uniqueID;
     }
-    
-    public static int getCreateID()
-    {
+
+    public static int getCreateID() {
         return createID;
     }
+
     /**
-     * @param iD the iD to set
+     * @param iD
+     *            the iD to set
      */
     public void setUniqueID(int iD) {
         uniqueID = iD;
     }
+
     /**
      * @return the priority
      */
     public Priority getPriority() {
-        if(priority == null)
-        {
+        if (priority == null) {
             return PRIORITY_NOT_SET;
-        }
-        else
-        {
+        } else {
             return priority;
-        }    
-      }
+        }
+    }
+
     /**
-     * @param priority the priority to set
+     * @param priority
+     *            the priority to set
      */
     public void setPriority(Priority priority) {
         this.priority = priority;
     }
-    
+
     /**
      * @return the start
      */
     public LocalDate getStartDate() {
-        if(startDate == null)
-        {
+        if (startDate == null) {
             return DATE_NOT_SET;
-        }
-        else
-        {
+        } else {
             return startDate;
-        }   
-        
+        }
+
     }
+
     /**
-     * @param start the start to set
+     * @param start
+     *            the start to set
      */
     public void setStartDate(LocalDate start) {
         this.startDate = start;
     }
+
     /**
      * @return the end
      */
     public LocalDate getEndDate() {
-        if(endDate == null)
-        {
+        if (endDate == null) {
             return DATE_NOT_SET;
-        }
-        else
-        {
+        } else {
             return endDate;
-        }   
-        
+        }
+
     }
+
     /**
-     * @param end the end to set
+     * @param end
+     *            the end to set
      */
     public void setEndDate(LocalDate end) {
         this.endDate = end;
     }
+
     /**
      * @return the isCompleted
      */
     public boolean getCompleted() {
-            return isCompleted;
+        return isCompleted;
 
     }
+
     /**
-     * @param isCompleted the isCompleted to set
+     * @param isCompleted
+     *            the isCompleted to set
      */
     public void setCompleted(boolean isComplete) {
         this.isCompleted = isComplete;
     }
+
     /**
      * @return the description
      */
     public String getDescription() {
         return description;
     }
+
     /**
-     * @param description the description to set
+     * @param description
+     *            the description to set
      */
     public void setDescription(String description) {
         this.description = description;
@@ -391,47 +375,47 @@ public class Task
      * @return the startTime
      */
     public LocalTime getStartTime() {
-        if(startTime == null)
-        {
+        if (startTime == null) {
             return TIME_NOT_SET;
-        }
-        else
-        {
+        } else {
             return startTime;
         }
     }
+
     /**
-     * @param startTime the startTime to set
+     * @param startTime
+     *            the startTime to set
      */
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
+
     /**
      * @return the endTime
      */
     public LocalTime getEndTime() {
-        if(endTime == null)
-        {
+        if (endTime == null) {
             return TIME_NOT_SET;
-        }
-        else
-        {
+        } else {
             return endTime;
         }
     }
+
     /**
-     * @param endTime the endTime to set
+     * @param endTime
+     *            the endTime to set
      */
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
+
     /**
      * @return the testPriority
      */
 
-
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

@@ -1,13 +1,13 @@
 /**
  * 
  */
-package logic.utility;
+package logic.deprecated;
 
 import definedEnumeration.Priority;
 
 
 /**
- * @author A0112887X
+//@author A0112887X
  *
  */
 public class FloatingTask extends AbstractTask {

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+//@author A0112887X
 /**
- * @author A0112887X
  * 
  * This class consist the observable list which update it's observers whenever a
  * modification occurs The possible modification includes : <li>add <li>delete
@@ -38,26 +38,24 @@ public class ObservableList<T> extends Observable {
         return observedList.isEmpty();
     }
 
-
-    
     /**
-     * This function add the argument to the specified index of the 
-     * list and update the observer(s)
-     * with the argument
+     * This function add the argument to the specified index of the list and
+     * update the observer(s) with the argument
      * 
      * @param argument
      *            to be added to the list
      * @return boolean if the operation is successful
      */
-    public boolean add(int index,T argument) {
+    public boolean add(int index, T argument) {
         if (isNull()) {
             return false;
         }
-        observedList.add(index,argument);
+        observedList.add(index, argument);
         setChanged();
         notifyObservers(argument);
         return true;
     }
+
     /**
      * This function add the argument to the list and update the observer(s)
      * with the argument
@@ -76,7 +74,6 @@ public class ObservableList<T> extends Observable {
         return true;
     }
 
-    
     /**
      * This function delete the specified index of the list and update the
      * observer(s) about with the deleted argument
@@ -109,9 +106,9 @@ public class ObservableList<T> extends Observable {
      * @return boolean if the operation is successful
      */
     public boolean remove(T argument) {
-      
+
         boolean succeed;
-     
+
         if (isNull() || isEmpty()) {
             return false;
         }
@@ -147,8 +144,7 @@ public class ObservableList<T> extends Observable {
         notifyObservers(argument);
         return true;
     }
-    
-    
+
     /**
      * This function edit the task inside the list <br>
      * In addition, it also updates the observer(s) about with the edited
@@ -158,25 +154,23 @@ public class ObservableList<T> extends Observable {
      *            that will be replacing the initial information
      * @return boolean if the operation is successful
      */
-    public boolean edit(T argument)
-    {
+    public boolean edit(T argument) {
         try {
             int index = observedList.indexOf(argument);
             edit(index, argument);
         } catch (IndexOutOfBoundsException exception) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * @param argument
      * @return
      */
-    public int indexOf(T argument)
-    {
-        assert(observedList != null);
+    public int indexOf(T argument) {
+        assert (observedList != null);
         return observedList.indexOf(argument);
     }
 
@@ -210,12 +204,11 @@ public class ObservableList<T> extends Observable {
         }
         return result;
     }
-    
+
     /**
      * Remove all elements in the list
      */
-    public void clearList()
-    {
+    public void clearList() {
         observedList.clear();
     }
 
@@ -238,9 +231,9 @@ public class ObservableList<T> extends Observable {
         this.addObserver(observer);
     }
 
-
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -260,7 +253,9 @@ public class ObservableList<T> extends Observable {
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

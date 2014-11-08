@@ -26,8 +26,8 @@ import com.google.common.collect.Multimap;
 
 import definedEnumeration.Priority;
 
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
 public class KeyWordMappingList {

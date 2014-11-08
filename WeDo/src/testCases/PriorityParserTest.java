@@ -11,9 +11,10 @@ import org.junit.Test;
 
 import definedEnumeration.Priority;
 
+//@author A0112887X 
 //@formatter:off
 /**
- * @author A0112887X
+//@author A0112887X
  *
  * Priority Parser works by testing the first two words or the last two words of the String.
  * If either the first two words or the last two words contain the priority key words, tryParse function will return true. 
@@ -45,36 +46,31 @@ import definedEnumeration.Priority;
 public class PriorityParserTest {
 
     @Test
-    public void test() 
-    {
+    public void test() {
         parseValidPriorityWithTwoWords("pri urgent");
         parseValidPriorityWithMoreThanTwoWords("hey priority ignore");
-        
+
         parseInvalidPriorityWithTwoWords("sec high");
         parseInvalidPriorityWithLessThanTwoWords("high");
     }
 
-    private void parseInvalidPriorityWithLessThanTwoWords(String source) 
-    {
-        PriorityParser priorityParser = new PriorityParser();
-        assertFalse(priorityParser.tryParse(source));
-    }
-    
-    private void parseInvalidPriorityWithTwoWords(String source) 
-    {
+    private void parseInvalidPriorityWithLessThanTwoWords(String source) {
         PriorityParser priorityParser = new PriorityParser();
         assertFalse(priorityParser.tryParse(source));
     }
 
-    private void parseValidPriorityWithMoreThanTwoWords(String source) 
-    {
+    private void parseInvalidPriorityWithTwoWords(String source) {
+        PriorityParser priorityParser = new PriorityParser();
+        assertFalse(priorityParser.tryParse(source));
+    }
+
+    private void parseValidPriorityWithMoreThanTwoWords(String source) {
         PriorityParser priorityParser = new PriorityParser();
         assertTrue(priorityParser.tryParse(source));
         assertEquals(priorityParser.getPriority(), Priority.PRIORITY_LOW);
     }
-    
-    private void parseValidPriorityWithTwoWords(String source) 
-    {
+
+    private void parseValidPriorityWithTwoWords(String source) {
         PriorityParser priorityParser = new PriorityParser();
         assertTrue(priorityParser.tryParse(source));
         assertEquals(priorityParser.getPriority(), Priority.PRIORITY_HIGH);

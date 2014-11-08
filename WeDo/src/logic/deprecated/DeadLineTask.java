@@ -1,16 +1,15 @@
 /**
  * 
  */
-package logic.utility;
+package logic.deprecated;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import definedEnumeration.Priority;
 
-
+//@author A0112887X - unused
 /**
- * @author A0112887X
  *
  */
 public class DeadLineTask extends AbstractTask {

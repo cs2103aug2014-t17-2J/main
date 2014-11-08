@@ -4,12 +4,10 @@ import junit.framework.Assert;
 import logic.command.commandList.Command;
 import logic.exception.InvalidCommandException;
 import logic.utility.Task;
-import dataStorage.BasicDataHandler;
 import dataStorage.DataHandler;
 
-/** 
- * @author A0112887X
- * 
+//@author A0112887X
+/**
  * This class handle all the commands passed in by the user
  * 
  */
@@ -27,18 +25,20 @@ public class CommandExecutor {
         this.dataHandler = dataHandler;
     }
 
-
     /**
-     * @param command the command to execute
-     * @param task the task to execute
-     * @return 
-     * @throws InvalidCommandException 
+     * @param command
+     *            the command to execute
+     * @param task
+     *            the task to execute
+     * @return
+     * @throws InvalidCommandException
      */
-    public void execute(Command command, Task task) throws InvalidCommandException {
+    public void execute(Command command, Task task)
+            throws InvalidCommandException {
 
         Assert.assertNotNull(command);
         Assert.assertNotNull(task);
-        
+
         command.setDataHandler(dataHandler);
         command.setTask(task);
         System.out.println(task);

@@ -19,9 +19,8 @@ import org.junit.Test;
 
 import definedEnumeration.Priority;
 
-
+//@author A0112887X 
 /**
- * @author A0112887X
  *
  */
 public class ParserManagerTest {
