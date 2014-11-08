@@ -184,26 +184,7 @@ public class UserInterfaceMain {
 		ParseResult parseResult = UserIntSwing.logicManager.processCommand(userInput);
 
 		if (parseResult.isSuccessful()) {
-			try {
-				UserIntSwing.textField.setText(null);
-				UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
-				UserIntSwing.logicManager.executeCommand(parseResult);
-				
-				if((parseResult.getCommand() instanceof AddCommand) || (parseResult.getCommand() instanceof ViewCommand)
-						|| (parseResult.getCommand() instanceof SearchCommand && 
-								parseResult.getTask().getEndDate() != Task.DATE_NOT_SET))
-				{
-					UserIntSwing.lblViewTask.setText(viewDateTask(parseResult.getTask()));
-				}
-			} 
-			catch (InvalidCommandException exception) {
-				UserIntSwing.textField.setText(null);
-				FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
-				// Log this error.
-				//exception.printStackTrace();
-				return;
-			}
-			FeedbackHandler.successfulOperation();
+			successfulTextfieldOperation(parseResult);
 		} 
 		else if(UserIntSwing.textField.getText().isEmpty()) {
 			FeedbackHandler.emptyStringOperation();
@@ -215,6 +196,33 @@ public class UserInterfaceMain {
 			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
 		}
 		UserIntSwing.textField.setText(null);
+	}
+	
+	/**
+	 * Handle this operation when command entered is correctly input
+	 * @param parseResult determine what command by taking the user input String
+	 */
+	private static void successfulTextfieldOperation(ParseResult parseResult) {
+		try {
+			UserIntSwing.textField.setText(null);
+			UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
+			UserIntSwing.logicManager.executeCommand(parseResult);
+			
+			if((parseResult.getCommand() instanceof AddCommand) || (parseResult.getCommand() instanceof ViewCommand)
+					|| (parseResult.getCommand() instanceof SearchCommand && 
+							parseResult.getTask().getEndDate() != Task.DATE_NOT_SET))
+			{
+				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult.getTask()));
+			}
+		} 
+		catch (InvalidCommandException exception) {
+			UserIntSwing.textField.setText(null);
+			FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
+			// Log this error.
+			//exception.printStackTrace();
+			return;
+		}
+		FeedbackHandler.successfulOperation();
 	}
 	
 	/**
@@ -417,7 +425,7 @@ public class UserInterfaceMain {
 	 */
 	private static void processLblPriority() {
 		if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {
-			UserIntSwing.lblPriorityProcess.setBackground(Color.magenta);
+			UserIntSwing.lblPriorityProcess.setBackground(Color.orange);
 		} else if (UserIntSwing.lblPriorityProcess.getText().matches("Low")) {
 			UserIntSwing.lblPriorityProcess.setBackground(Color.green);
 		} else {
