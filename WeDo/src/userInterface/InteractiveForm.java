@@ -33,6 +33,7 @@ import logic.exception.InvalidCommandException;
 import logic.utility.Task;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
+//@author A0112675H
 @SuppressWarnings("serial")
 public class InteractiveForm extends JPanel {
 
@@ -107,18 +108,15 @@ public class InteractiveForm extends JPanel {
 
 		done.setMinWidth(80);
 		done.setPreferredWidth(80);
-		// done.setMaxWidth(80);
 		done.setCellRenderer(new BooleanCellRenderer());
 
 		priority.setMinWidth(80);
 		priority.setPreferredWidth(80);
-		// priority.setMaxWidth(80);
 
 		TableColumn description = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_DESCRIPTION);
-		// description.setMinWidth(200);
+
 		description.setPreferredWidth(200);
-		// description.setMaxWidth(200);
 
 		TableColumn startTime = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_STARTTIME);
@@ -138,30 +136,20 @@ public class InteractiveForm extends JPanel {
 		endDate = table.getColumnModel().getColumn(
 				InteractiveTableModel.INDEX_ENDDATE);
 
-		// startTime.setMaxWidth(columnWidth);
 		startTime.setPreferredWidth(columnWidth);
 		startTime.setMinWidth(columnWidth);
 
-		// endTime.setMaxWidth(columnWidth);
 		endTime.setPreferredWidth(columnWidth);
 		endTime.setMinWidth(columnWidth);
 
-		// startDate.setMaxWidth(columnWidth);
 		startDate.setPreferredWidth(columnWidth);
 		startDate.setMinWidth(columnWidth);
-		// endDate.setMaxWidth(columnWidth);
+
 		endDate.setPreferredWidth(columnWidth);
 		endDate.setMinWidth(columnWidth);
 
 		setLayout(new BorderLayout());
 		add(scroller, BorderLayout.CENTER);
-
-		// ListSelectionModel cellSelectionModel = table.getSelectionModel();
-		// cellSelectionModel
-		// .setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		//
-		// cellSelectionModel.addListSelectionListener(new
-		// CellSelectionListener());
 
 		setNoHighLightSelectionColor();
 
@@ -190,11 +178,6 @@ public class InteractiveForm extends JPanel {
 		table.getColumnModel()
 				.getColumn(InteractiveTableModel.INDEX_DESCRIPTION)
 				.setCellRenderer(new LineWrapCellRenderer(tableModel));
-
-		 TableRowSorter sorter = new TableRowSorter(tableModel);
-		// table.setRowSorter(sorter);
-		table.setAutoCreateRowSorter(true);
-		//sorter.addRowSorterListener(table);
 	}
 
 	public void highlightLastRow(int row) {
@@ -429,13 +412,11 @@ public class InteractiveForm extends JPanel {
 					System.exit(0);
 				}
 			});
-			// frame.getContentPane().add(new InteractiveForm());
-			// set the position of the table (10,60) and the size of the table
-			// (560,200)
+
 			this.setBounds(10, 60, 600, 200);
 
 			frame.getContentPane().add(this);
-			frame.pack(); // the window is minimised
+			frame.pack();
 			frame.setVisible(true);
 			frame.setOpacity(1.0f);
 

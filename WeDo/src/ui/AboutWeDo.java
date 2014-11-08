@@ -73,7 +73,7 @@ public class AboutWeDo {
 		message.append("Andy Hsu Wei Qiang" + HTML_BREAK);
 		message.append("Kuan Tien Long" + HTML_BREAK);
 		message.append("Wai Min" + HTML_BREAK);
-		message.append("Sitti Marya Binte Rashid Ridza" + HTML_BREAK);
+		message.append("Sitti Maryam Binte Rashid Ridza" + HTML_BREAK);
 		message.append(HTML_BREAK + HTML_BREAK);
 		message.append("<b> Acknowledements: </b>" + HTML_BREAK);
 		message.append("BalloonTip dependency - https://balloontip.java.net/");
