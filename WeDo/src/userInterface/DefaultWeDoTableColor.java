@@ -47,7 +47,7 @@ public class DefaultWeDoTableColor {
 			int selectedRow) {
 	    
 	    final Color BORDER_COLOR = Color.BLUE;
-	    final int BORDER_THICKNESS = 2;
+	    final int BORDER_THICKNESS = 3;
 	    final int NO_BORDER = 0;
 	    
         JComponent jComponent = (JComponent) component;
@@ -89,7 +89,7 @@ public class DefaultWeDoTableColor {
 	 *            the row to check which color to set
 	 */
 	private static void setPriorityHighBackGroundColour(Component component) {
-		final Color PRIORITY_HIGH_COLOR = Color.MAGENTA;
+		final Color PRIORITY_HIGH_COLOR = Color.getHSBColor(0.099f, 1f,1f);
 
 		component.setBackground(PRIORITY_HIGH_COLOR);
 		
@@ -162,7 +162,7 @@ public class DefaultWeDoTableColor {
 	private static void setDoneBackGroundColor(Component component, int row,
 			int column, Object checkBox) {
 
-		final Color color = Color.CYAN;
+		final Color color = Color.getHSBColor(0.5861f,0.7f , 1f);
 
 		if (!(checkBox instanceof Boolean)) {
 			return;
