@@ -243,7 +243,7 @@ public class ListenerHandler {
 	
 	public static void addBtnCloseListener() {
 		BalloonTip closeBalloonTip = new BalloonTip(UserIntSwing.btnClose, new JLabel(
-				"Press to quit application"), edgedLook, Orientation.RIGHT_BELOW,
+				"Close Application"), edgedLook, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		closeBalloonTip.setVisible(false);
 		
