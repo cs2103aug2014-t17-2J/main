@@ -52,7 +52,7 @@ public class DescriptionParser {
         }
 
         for (String word : separatedWordsRemaining) {
-            String removedWord = StringHandler.removeFirstMatched(word,
+            String removedWord = StringHandler.removeFirstMatchedWord(word,
                     commandWordUsed);
             removedWord = removedWord.trim();
             word = word.trim();

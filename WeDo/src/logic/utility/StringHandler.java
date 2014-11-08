@@ -115,6 +115,30 @@ public class StringHandler {
 
         return source;
     }
+    
+    /**
+     * @param source
+     *            the source that require a particular word to be removed
+     * @param toRemove
+     *            the String that is to be removed
+     * @return the new source without the toRemove word
+     *         <p>
+     *         This function remove the first word that matches with the
+     *         toRemove word
+     *         <p>
+     */
+    public static String removeFirstMatchedWord(String source, String toRemove) {
+        if (source != null && toRemove != null) {
+            final String SPACE = " ";
+            source = SPACE + source + SPACE;
+            toRemove = SPACE + toRemove + SPACE;
+            
+            String newWord = source.replaceFirst(toRemove, "");
+            return newWord.trim();
+        }
+
+        return source;
+    }
 
     /**
      * @param source
