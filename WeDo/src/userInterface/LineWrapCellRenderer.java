@@ -1,18 +1,17 @@
 /**
  * This class enables the wrap-text function of the table.
  */
-
+//@author A0112675H
 package userInterface;
 
 import java.awt.Component;
-import java.awt.Dimension;
 
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
 
-//@author A0112675H
+
+@SuppressWarnings("serial")
 public class LineWrapCellRenderer extends JTextArea implements
 		TableCellRenderer {
 
@@ -29,8 +28,8 @@ public class LineWrapCellRenderer extends JTextArea implements
 			boolean isSelected, boolean hasFocus, int row, int column) {
 
 		this.setOpaque(true);
-		
-		// for setting of colours in the table
+
+		// sets the column colour 
 		DefaultWeDoTableColor.setDefaultBackGroundColour(this, row, column,
 				table.getSelectedRow(), tableModel.getValueAt(row,
 						InteractiveTableModel.INDEX_PRIORITY), tableModel
@@ -44,7 +43,7 @@ public class LineWrapCellRenderer extends JTextArea implements
 		if (table.getRowHeight(row) != getPreferredSize().height) {
 			table.setRowHeight(row, getPreferredSize().height);
 		}
-		
+
 		return this;
 	}
 }
