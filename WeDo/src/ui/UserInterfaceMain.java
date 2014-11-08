@@ -417,7 +417,7 @@ public class UserInterfaceMain {
 	 */
 	private static void processLblPriority() {
 		if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {
-			UserIntSwing.lblPriorityProcess.setBackground(Color.magenta);
+			UserIntSwing.lblPriorityProcess.setBackground(Color.orange);
 		} else if (UserIntSwing.lblPriorityProcess.getText().matches("Low")) {
 			UserIntSwing.lblPriorityProcess.setBackground(Color.green);
 		} else {

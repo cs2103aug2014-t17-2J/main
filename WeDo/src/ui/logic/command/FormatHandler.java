@@ -3,10 +3,18 @@ package ui.logic.command;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import net.java.balloontip.BalloonTip;
+import net.java.balloontip.BalloonTip.AttachLocation;
+import net.java.balloontip.BalloonTip.Orientation;
+import net.java.balloontip.styles.BalloonTipStyle;
+import net.java.balloontip.styles.EdgedBalloonStyle;
 import userInterface.UserIntSwing;
 
 /**
@@ -96,7 +104,22 @@ public class FormatHandler {
 		UserIntSwing.lblDateProcess.setForeground(new Color(0, 128, 0));
 		UserIntSwing.lblDateProcess.setOpaque(false);  
 		UserIntSwing.lblDateProcess.setBounds(176, 359, 132, 14);
-		
+		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
+//		BalloonTip DateProcessBalloonTip = new BalloonTip(UserIntSwing.lblDateProcess, new JLabel(
+//				UserIntSwing.lblDateProcess.getText()), edgedLook, Orientation.RIGHT_BELOW,
+//				AttachLocation.ALIGNED, 40, 20, false);
+//		DateProcessBalloonTip.setVisible(false);
+//		UserIntSwing.lblDateProcess.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseEntered(MouseEvent arg0) {
+//				DateProcessBalloonTip.setVisible(true);
+//			}
+//			@Override
+//			public void mouseExited(MouseEvent arg1) {
+//				DateProcessBalloonTip.setVisible(false);
+//			}
+//		});
+//		
 		UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.ITALIC, 12));
 		UserIntSwing.lblPriorityProcess.setOpaque(false);
 		UserIntSwing.lblPriorityProcess.setHorizontalAlignment(SwingConstants.CENTER);
