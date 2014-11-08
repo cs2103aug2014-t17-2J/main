@@ -40,9 +40,10 @@ public class InteractiveForm extends JPanel {
 			"start date", "end date", "start time", "end time", "priority",
 			"done", "" };
 
-	private static final int COLUMN_WIDTH_TASK = 25;
-	private static final int COLUMN_WIDTH_DESCRIPTION = 180;
+	private static final int COLUMN_WIDTH_TASK = 30;
+	private static final int COLUMN_WIDTH_DESCRIPTION = 210;
 	private static final int COLUMN_WIDTH_SMALLER = 70;
+	private static final int COLUMN_WIDTH_BOX = 35;
 	private static final int COLUMN_WIDTH_STANDARD = 80;
 
 	protected JTable table;
@@ -137,8 +138,8 @@ public class InteractiveForm extends JPanel {
 		priority.setMaxWidth(COLUMN_WIDTH_SMALLER);
 		priority.setPreferredWidth(COLUMN_WIDTH_SMALLER);
 
-		done.setMaxWidth(COLUMN_WIDTH_SMALLER);
-		done.setPreferredWidth(COLUMN_WIDTH_SMALLER);
+		done.setMaxWidth(COLUMN_WIDTH_BOX);
+		done.setPreferredWidth(COLUMN_WIDTH_BOX);
 		done.setCellRenderer(new BooleanCellRenderer());
 
 		setLayout(new BorderLayout());
@@ -160,7 +161,7 @@ public class InteractiveForm extends JPanel {
 						UserIntSwing.logicManager.setComplete(row + 1,
 								isComplete);
 					} catch (InvalidCommandException error) {
-						error.printStackTrace();
+						// log to file
 					}
 				}
 			}
@@ -355,7 +356,7 @@ public class InteractiveForm extends JPanel {
 									selectedRow[i] + 1, isComplete);
 						} catch (InvalidCommandException error) {
 
-							error.printStackTrace();
+    							//log to file
 						}
 					}
 				}
@@ -382,7 +383,7 @@ public class InteractiveForm extends JPanel {
 		try {
 			UIManager.setLookAndFeel(UIManager
 					.getCrossPlatformLookAndFeelClassName());
-
+			
 			frame.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent evt) {
 					System.exit(0);

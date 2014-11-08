@@ -62,7 +62,7 @@ public class UserIntSwing extends JPanel implements Observer {
 				try {
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					// log to file
 				}
 			}
 		});
