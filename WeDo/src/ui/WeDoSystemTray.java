@@ -36,7 +36,7 @@ public class WeDoSystemTray {
 	public static void Minimise(WindowEvent arg) {
 		
 		Image image = Toolkit.getDefaultToolkit().getImage(
-				UserIntSwing.class.getResource("/ui/icon/Wedo_Logo.png"));
+				UserIntSwing.class.getClass().getResource("/ui/icon/Wedo_Logo.png"));
 		PopupMenu popup = new PopupMenu();
 		trayIcon = new TrayIcon(image, MAIN_FRAME_NAME, popup);
 		trayIcon.setImageAutoSize(true);
@@ -126,7 +126,6 @@ public class WeDoSystemTray {
 		UserIntSwing.frame.setVisible(true);
 		UserIntSwing.frame.setExtendedState(JFrame.NORMAL);
 		tray.remove(trayIcon);
-		UserIntSwing.frame.setVisible(true);
 		System.out.println("Tray icon removed");
 	}
 	

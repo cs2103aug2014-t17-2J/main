@@ -14,7 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.Toolkit;
 
 /**
- * @author Andy Hsu Wei Qiang 
+ * @author A0112636M
  * This class creates the Help Menu when 
  * user hotkey <F1> is pressed on the main form
  * 
@@ -45,6 +45,8 @@ public class HelpMenu {
         	}
         });
         
+        frame.setFocusable(true);
+        
         //Disable Resize
         frame.setResizable(false);
         
@@ -59,7 +61,7 @@ public class HelpMenu {
         frame.setSize(350, 378);
         frame.setVisible(true);
         
-        //Set the location of the Help Menu beside the main window
+        //Set the location of the Help Menu on the top right corner
         frame.setLocation(Xcoordinate, Ycoordinate);
         
         //Set the focus to the main frame
