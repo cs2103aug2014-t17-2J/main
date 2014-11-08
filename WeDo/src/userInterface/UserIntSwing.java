@@ -101,7 +101,9 @@ public class UserIntSwing extends JPanel implements Observer {
 		interactiveForm.setBounds(0, 0, 750, 227);
 		panel.add(interactiveForm);
 		interactiveForm.setLayout(null);
-
+		interactiveForm.updateTable(taskList);
+		
+		
 		/* A0112636M - Initialize all components */
 		FormatHandler.addtoContentPane();
 
