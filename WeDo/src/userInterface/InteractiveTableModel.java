@@ -173,6 +173,7 @@ public class InteractiveTableModel extends AbstractTableModel {
 			}
 		}
 
+		//sort the table in alphabetical order
 		Collections.sort(taskList, new Comparator<Task>() {
 			public int compare(Task t1, Task t2) {
 				return t1.getDescription().compareToIgnoreCase(

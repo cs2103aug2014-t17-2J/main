@@ -21,6 +21,7 @@ import ui.guide.FeedbackGuide;
 import ui.logic.command.FormatHandler;
 import dataStorage.ObservableList;
 
+//@author A0112675H
 @SuppressWarnings("serial")
 public class UserIntSwing extends JPanel implements Observer {
 
@@ -63,12 +64,13 @@ public class UserIntSwing extends JPanel implements Observer {
 				try {
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					// log to file
 				}
 			}
 		});
 	}
 
+	//@author A0112675H
 	/**
 	 * Create the application.
 	 */
