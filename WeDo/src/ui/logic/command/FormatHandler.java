@@ -104,7 +104,7 @@ public class FormatHandler {
 		UserIntSwing.lblDateProcess.setForeground(new Color(0, 128, 0));
 		UserIntSwing.lblDateProcess.setOpaque(false);  
 		UserIntSwing.lblDateProcess.setBounds(176, 359, 132, 14);
-		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
+//		BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
 //		BalloonTip DateProcessBalloonTip = new BalloonTip(UserIntSwing.lblDateProcess, new JLabel(
 //				UserIntSwing.lblDateProcess.getText()), edgedLook, Orientation.RIGHT_BELOW,
 //				AttachLocation.ALIGNED, 40, 20, false);
