@@ -74,6 +74,7 @@ public class UserInterfaceMain {
 		ListenerHandler.addTextfieldKeyListener();
 		ListenerHandler.addTextFieldActionListener();
 		ListenerHandler.addBtnEnterActionListener();
+		ListenerHandler.setDateDesBalloonTipVisibleFalse();
 	}
 
 	/**This operation display the date range of the table
@@ -185,6 +186,7 @@ public class UserInterfaceMain {
 
 		if (parseResult.isSuccessful()) {
 			successfulTextfieldOperation(parseResult);
+			ListenerHandler.setDateDesBalloonTipVisibleFalse();
 		} 
 		else if(UserIntSwing.textField.getText().isEmpty()) {
 			FeedbackHandler.emptyStringOperation();
@@ -194,6 +196,7 @@ public class UserInterfaceMain {
 		} 
 		else {
 			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
+			ListenerHandler.setDateDesBalloonTipVisibleFalse();
 		}
 		UserIntSwing.textField.setText(null);
 	}
@@ -219,7 +222,7 @@ public class UserInterfaceMain {
 			UserIntSwing.textField.setText(null);
 			FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
 			// Log this error.
-			//exception.printStackTrace();
+			// exception.printStackTrace();
 			return;
 		}
 		FeedbackHandler.successfulOperation();
@@ -351,21 +354,20 @@ public class UserInterfaceMain {
 		for (ParserFlags parseFlag : parseResult.getParseFlags()) {
 			switch (parseFlag) {
 			case COMMAND_FLAG:
-				UserIntSwing.lblCommandProcess.setText(parseResult
-						.getCommandWordUsed());
+				UserIntSwing.lblCommandProcess.setText(parseResult.getCommandWordUsed());
 				break;
 			case DATE_FLAG:
 				UserIntSwing.lblDateProcess.setText(task.getDateTimeString());
+				ListenerHandler.addLblDateProcessListener();
 				break;
 			case DESCRIPTION_FLAG:
 				if (!task.getDescription().isEmpty())
-					UserIntSwing.lblDescriptionProcess.setText(task
-							.getDescription());
+					UserIntSwing.lblDescriptionProcess.setText(task.getDescription());
+				ListenerHandler.addLblDescriptionProcessListener();
 				break;
 			case PRIORITY_FLAG:
 				UserIntSwing.lblPriorityProcess.setOpaque(true);
-				UserIntSwing.lblPriorityProcess.setText(task.getPriority()
-						.toString());
+				UserIntSwing.lblPriorityProcess.setText(task.getPriority().toString());
 				processLblPriority();
 				break;
 			default:
