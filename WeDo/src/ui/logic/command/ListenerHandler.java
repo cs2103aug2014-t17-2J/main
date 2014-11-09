@@ -33,8 +33,8 @@ import userInterface.UserIntSwing;
   * This class process all the Listeners
   */
 public class ListenerHandler {
-	private static final BalloonTipStyle edgedLookBtn = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
-	private static final BalloonTipStyle edgedLookLblDate = new EdgedBalloonStyle(Color.WHITE, Color.green);
+	private static final BalloonTipStyle edgedLookBtn = new EdgedBalloonStyle(Color.WHITE, Color.yellow);
+	private static final BalloonTipStyle edgedLookLblDate = new EdgedBalloonStyle(Color.green, Color.green);
 	private static final BalloonTipStyle edgedLookLblDes = new EdgedBalloonStyle(Color.WHITE, Color.black);
 	private static final BalloonTip dateProcessBalloonTip = new BalloonTip(UserIntSwing.lblDateProcess, 
 			new JLabel(""), edgedLookLblDate, Orientation.RIGHT_BELOW,AttachLocation.ALIGNED, 40, 10, false);
@@ -320,7 +320,7 @@ public class ListenerHandler {
 	 * is too long for the user to view
 	 */
 	public static void addLblDescriptionProcessListener() {
-		if(UserIntSwing.lblDescriptionProcess.getText().length() > 20) {
+		if(UserIntSwing.lblDescriptionProcess.getText().length() > 40) {
 			desProcessBalloonTip.setTextContents(
 					UserIntSwing.lblDescriptionProcess.getText());
 			desProcessBalloonTip.setVisible(true);
