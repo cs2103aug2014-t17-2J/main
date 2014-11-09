@@ -1,5 +1,3 @@
-
-
 package dataStorage;
 
 import java.time.LocalDate;
@@ -32,39 +30,33 @@ public class BasicDataHandler implements DataHandler {
 
 	private static Task currentView;
 
-	private String currentList;
-
 	FileHandler fileHandler;
 
 	ObservableList<Task> observableList;
-	Multimap<String, Task> mainList;
-	Multimap<LocalDate, Task> mainList2;
-	Task currentRange;
+	Multimap<LocalDate, Task> mainList;
 
-	//@author A0112862L
+	// @author A0112862L
 	public BasicDataHandler() {
 		fileHandler = new FileHandler();
 		populateLists();
 		observableList = new ObservableList<Task>(new ArrayList<Task>());
 		showToday();
-		System.out.println("DateHandler initialized");
-		fileHandler.writeLog(LocalTime.now() + " : DataHandler initialized");
+		fileHandler.log(LocalTime.now() + " : DataHandler initialized");
 
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	public void showToday() {
-		ArrayList<Task> today = new ArrayList<Task>(mainList2.get(LocalDate
+		ArrayList<Task> today = new ArrayList<Task>(mainList.get(LocalDate
 				.now()));
 		observableList.replaceList(today);
-		currentList = DEADLINE;
 		currentView.setEndDate(LocalDate.now());
 	}
 
 	public ArrayList<Task> getCompleted() {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 
-		for (Task t : mainList2.values()) {
+		for (Task t : mainList.values()) {
 			if (t.getCompleted() == true) {
 				tmp.add(t);
 			}
@@ -73,11 +65,11 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	public ArrayList<Task> getUncompleted() {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 
-		for (Task t : mainList2.values()) {
+		for (Task t : mainList.values()) {
 			if (t.getCompleted() == false) {
 				tmp.add(t);
 			}
@@ -86,7 +78,7 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	public boolean withinRange(LocalDate startDate, LocalDate endDate, Task task) {
 
 		while (startDate.isBefore(endDate) || startDate.equals(endDate)) {
@@ -102,33 +94,19 @@ public class BasicDataHandler implements DataHandler {
 		return false;
 	}
 
-	//@author A0112862L
-	public ArrayList<Task> sort(ArrayList<Task> tasks) {
-
-		Collections.sort(tasks, new Comparator<Task>() {
-			@Override
-			public int compare(Task t1, Task t2) {
-				return t1.getEndDate().compareTo(t2.getEndDate());
-			}
-		});
-
-		return tasks;
-	}
-
-	
 	public ObservableList<Task> getObservableList() {
 
-		fileHandler.writeLog(LocalTime.now() + " : ObservableList retrieved!");
+		fileHandler.log(LocalTime.now() + " : ObservableList retrieved!");
 		return observableList;
 	}
 
 	public void addObserver(Observer observer) {
 		observableList.addObserver(observer);
-		fileHandler.writeLog(LocalTime.now() + " : Added observer "
+		fileHandler.log(LocalTime.now() + " : Added observer "
 				+ observer.toString());
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	/**
 	 * This function add all the lists into a Multimap according to list type
 	 * 
@@ -136,52 +114,21 @@ public class BasicDataHandler implements DataHandler {
 	 */
 	public boolean populateLists() {
 
-		mainList2 = ArrayListMultimap.create();
+		mainList = ArrayListMultimap.create();
 		currentView = new Task();
-		currentRange = new Task();
-		mainList2 = fileHandler.getAllTasks();
+		mainList = fileHandler.getAllTasks();
 
 		return false;
 	}
 
-	/**
-	 * This function put the Arraylist of tasks into a specific key of the
-	 * Multimap
-	 */
-	public Multimap<LocalDate, Task> addToMultimap(ArrayList<Task> tasks) {
-
-		Multimap<LocalDate, Task> tmp = ArrayListMultimap.create();
-
-		for (Task t : tasks) {
-			tmp.put(t.getEndDate(), t);
-		}
-
-		return tmp;
-
-	}
-
-	/**
-	 * This function retrieve a specific list from main list
-	 * 
-	 * @param list
-	 *            name to be displayed
-	 * @return list of the tasks to be displayed
-	 */
-	public ArrayList<Task> getListFromMain(String name) {
-		ArrayList<Task> tmp = new ArrayList<Task>(mainList.get(name));
-
-		return tmp;
-
-	}
-
-	//@author A0112862L
+	// @author A0112862L
 	public ArrayList<Task> getAllTasks() {
-		ArrayList<Task> tmp = new ArrayList<Task>(mainList2.values());
+		ArrayList<Task> tmp = new ArrayList<Task>(mainList.values());
 
 		return tmp;
 	}
-	
-	//@author A0112862L
+
+	// @author A0112862L
 	public boolean addTask(Task task) throws InvalidCommandException {
 		addThenView(task);
 
@@ -189,20 +136,19 @@ public class BasicDataHandler implements DataHandler {
 		addTask(index, task);
 		return true;
 	}
-	
-	//@author A0112862L
+
+	// @author A0112862L
 	public boolean addTask(int index, Task task) {
 
-		String taskType = determineTaskType(task);
+		String display = currentView.getDescription();
+		mainList.put(task.getEndDate(), task);
 
-		mainList2.put(task.getEndDate(), task);
-
-		if (currentList.equals(TIMED)) {
-			if (withinRange(currentRange.getStartDate(),
-					currentRange.getEndDate(), task)) {
+		if (display.equals(TIMED)) {
+			if (withinRange(currentView.getStartDate(),
+					currentView.getEndDate(), task)) {
 				observableList.add(index, task);
 			}
-		} else if (currentList.equals(ALL)
+		} else if (display.equals(ALL)
 				|| currentView.getEndDate().equals(task.getEndDate())) {
 
 			observableList.add(index, task);
@@ -212,21 +158,21 @@ public class BasicDataHandler implements DataHandler {
 		System.out.println(task.getUniqueID() + " is added");
 
 		// fileHandler.read("deadLine");
-		fileHandler.writeLog(LocalTime.now() + " : Added Task "
+		fileHandler.log(LocalTime.now() + " : Added Task "
 				+ task.getUniqueID());
 		return true;
 	}
-	
-	//@author A0112862L
+
+	// @author A0112862L
 	public String save() {
 
 		fileHandler.clear();
-		fileHandler.writeToFile(new ArrayList<Task>(mainList2.values()));
-		fileHandler.writeLog(LocalTime.now() + " : Saved!");
+		fileHandler.writeToFile(new ArrayList<Task>(mainList.values()));
+		fileHandler.log(LocalTime.now() + " : Saved!");
 		return null;
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	/**
 	 * Check if the task should be added to or removed from both main list and
 	 * observable list
@@ -247,11 +193,6 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
-	public boolean clearTask(LocalDate starDate, LocalDate endDate) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public ArrayList<Task> getDisplayedTasks(LocalDate startDate,
 			LocalDate endDate) {
 		return observableList.getList();
@@ -259,11 +200,11 @@ public class BasicDataHandler implements DataHandler {
 
 	public void setDisplayedTasks(ArrayList<Task> displayedTask) {
 		observableList.replaceList(displayedTask);
-		fileHandler.writeLog(LocalTime.now() + " : changed displayed list ");
+		fileHandler.log(LocalTime.now() + " : changed displayed list ");
 
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -278,40 +219,23 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	public ArrayList<Task> getList(LocalDate startDate, LocalDate endDate) {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 
 		while (startDate.isBefore(endDate) || startDate.equals(endDate)) {
-			tmp.addAll(mainList2.get(startDate));
+			tmp.addAll(mainList.get(startDate));
 			startDate = startDate.plusDays(1);
 		}
 
 		return tmp;
 	}
 
-	//@author A0112862L
-	public boolean removeTask(int index) {
-		if (indexValid(index)) {
+	// @author A0112862L
+	public boolean editTask(Task source, Task replacement)
+			throws InvalidCommandException {
 
-			fileHandler.writeLog(LocalTime.now() + " : deleted "
-
-			+ observableList.get(index));
-
-			System.out.println("deleted " + observableList.get(index));
-			mainList2.remove(getTask(index).getEndDate(), getTask(index));
-
-			observableList.remove(index);
-			save();
-			return true;
-		}
-		return false;
-	}
-
-	//@author A0112862L
-	public boolean editTask(Task source, Task replacement) throws InvalidCommandException {
-
-		fileHandler.writeLog(LocalTime.now() + " : edited "
+		FileHandler.log(LocalTime.now() + " : edited "
 				+ source.getUniqueID());
 		int index;
 		removeTask(source);
@@ -322,30 +246,23 @@ public class BasicDataHandler implements DataHandler {
 		return true;
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	public Task getTask(int index) {
 
 		return observableList.get(index);
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	public boolean removeTask(Task task) {
 
-		System.out.println(determineTaskType(task));
 
 		observableList.remove(task);
-		mainList2.remove(task.getEndDate(), task);
+		mainList.remove(task.getEndDate(), task);
 		save();
 		return true;
 	}
 
-	//@author A0112862L
-	public Multimap<String, Task> getMainList() {
-		// TODO Auto-generated method stub
-		return mainList;
-	}
-
-	//@author A0112862L
+	// @author A0112862L
 	public void addThenView(Task task) throws InvalidCommandException {
 		String type = determineTaskType(task);
 
@@ -358,12 +275,12 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	private ArrayList<Task> getPriTasks(Priority pri) {
 
 		ArrayList<Task> tmp = new ArrayList<Task>();
 
-		for (Task t : mainList2.values()) {
+		for (Task t : mainList.values()) {
 			if (t.getPriority().equals(pri)) {
 				tmp.add(t);
 			}
@@ -377,15 +294,11 @@ public class BasicDataHandler implements DataHandler {
 				KeyWordMappingList.getCompletedUnCompleteMultiMap(), firstWord);
 	}
 
-	//@author A0112862L
-	public void view(Task task) throws InvalidCommandException{
+	// @author A0112862L
+	public void view(Task task) throws InvalidCommandException {
 
-		System.out.println(task.getStartDate().toString());
-		System.out.println(task.getEndDate().toString());
-		System.out.println(task.getDescription());
 		ArrayList<Task> tmp = new ArrayList<Task>();
 		String type = determineTaskType(task);
-		currentList = type;
 		currentView.setDescription(task.getDescription());
 		currentView.setStartDate(task.getStartDate());
 		currentView.setEndDate(task.getEndDate());
@@ -393,38 +306,25 @@ public class BasicDataHandler implements DataHandler {
 		Command cmd = getCommand(task.getDescription());
 
 		if (type.equals(DEADLINE)) {
-
-			tmp.addAll(mainList2.get(task.getEndDate()));
-			observableList.replaceList(tmp);
-
+			tmp.addAll(mainList.get(task.getEndDate()));
 		} else if (type.equals(TIMED)) {
-			currentRange.setStartDate(task.getStartDate());
-			currentRange.setEndDate(task.getEndDate());
 			tmp.addAll(getList(task.getStartDate(), task.getEndDate()));
-			observableList.replaceList(tmp);
-
 		} else if (cmd instanceof CompleteCommand) {
 			tmp.addAll(getCompleted());
-			observableList.replaceList(tmp);
 		} else if (cmd instanceof IncompleteCommand) {
 			tmp.addAll(getUncompleted());
-			observableList.replaceList(tmp);
-		} else if (task.getPriority() != null && !task.getPriority().equals(Task.PRIORITY_NOT_SET)) {
+		} else if (task.getPriority() != null
+				&& !task.getPriority().equals(Task.PRIORITY_NOT_SET)) {
 			tmp = getPriTasks(task.getPriority());
-			observableList.replaceList(tmp);
-		}
-
-		else if (task.getDescription().equalsIgnoreCase(ALL)) {
-			currentList = ALL;
-			tmp.addAll(mainList2.values());
-			observableList.replaceList(tmp);
+		} else if (task.getDescription().equalsIgnoreCase(ALL)) {
+			tmp.addAll(mainList.values());
 		} else if (task.getDescription().equals(SOMEDAY)) {
-			tmp.addAll(mainList2.get(LocalDate.MAX));
-			observableList.replaceList(tmp);
-
-		}else {
+			tmp.addAll(mainList.get(LocalDate.MAX));
+		} else {
 			throw new InvalidCommandException("No Such View");
 		}
+
+		observableList.replaceList(tmp);
 
 	}
 

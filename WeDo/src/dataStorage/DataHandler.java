@@ -14,16 +14,11 @@ public interface DataHandler {
     
     
 
-    public abstract Multimap <String,Task> getMainList();
     
     public boolean setCompleteTask(Task task, boolean isComplete);
        
     public abstract boolean addTask(Task task) throws InvalidCommandException;
 
-    /* (non-Javadoc)
-     * @see dataStorage.BasicDataHandler#clearTask(java.time.LocalDate, java.time.LocalDate)
-     */
-    public abstract boolean clearTask(LocalDate starDate, LocalDate endDate);
 
     /**
      * @return
