@@ -7,6 +7,7 @@ import java.util.Observer;
 
 import com.google.common.collect.Multimap;
 
+import logic.exception.InvalidCommandException;
 import logic.utility.Task;
 
 public interface DataHandler {
@@ -17,7 +18,7 @@ public interface DataHandler {
     
     public boolean setCompleteTask(Task task, boolean isComplete);
        
-    public abstract boolean addTask(Task task);
+    public abstract boolean addTask(Task task) throws InvalidCommandException;
 
     /* (non-Javadoc)
      * @see dataStorage.BasicDataHandler#clearTask(java.time.LocalDate, java.time.LocalDate)
@@ -38,7 +39,7 @@ public interface DataHandler {
      * @see dataStorage.BasicDataHandler#remove(int)
      */
     
-    public abstract boolean editTask(Task source,Task replacement);
+    public abstract boolean editTask(Task source,Task replacement) throws InvalidCommandException;
     
     public ObservableList<Task> getObservableList();
 
@@ -52,7 +53,7 @@ public interface DataHandler {
 
     // temp add...
     
-    public abstract void view(Task task);
+    public abstract void view(Task task) throws InvalidCommandException;
 
 
 

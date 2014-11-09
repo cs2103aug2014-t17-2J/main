@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import logic.exception.InvalidCommandException;
 import logic.utility.Task;
 
 import org.junit.Before;
@@ -16,7 +17,7 @@ public class BasicDataHandlerTest {
 	
 	BasicDataHandler datahandler;
 	ArrayList<Task> mainList,displayList;
-	static int taskNum = 0;
+	int taskNum = 0;
 	
 	
 	@Before
@@ -56,7 +57,7 @@ public class BasicDataHandlerTest {
 		return task;
 	}
 	@Test
-	public void testAddTaskTask() {
+	public void testAddTaskTask() throws InvalidCommandException {
 		
 		
 		
