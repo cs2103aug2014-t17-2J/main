@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import logic.LogicManager;
@@ -18,6 +19,7 @@ import logic.exception.InvalidCommandException;
 import logic.parser.DynamicParseResult;
 import logic.parser.ParseResult;
 import logic.parser.ParserFlags;
+import logic.utility.KeyWordMappingList;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 import ui.guide.CommandGuide;
@@ -74,10 +76,11 @@ public class UserInterfaceMain {
 		ListenerHandler.addTextfieldKeyListener();
 		ListenerHandler.addTextFieldActionListener();
 		ListenerHandler.addBtnEnterActionListener();
-		ListenerHandler.setDateDesBalloonTipVisibleFalse();
+		ListenerHandler.setBalloonTipVisibleFalse();
 	}
 
 	/**This operation display the date range of the table
+	 * 
 	 * @return dateDisplay the date in String
 	 */
 	private static String setTodayDate() {	
@@ -86,7 +89,7 @@ public class UserInterfaceMain {
 		String date = sdf_first.format(new Date());
 		String dayOfWeekString;
 
-		switch (dayOfWeekInt){
+		switch (dayOfWeekInt) {
 			case Calendar.MONDAY: dayOfWeekString = "Monday";
 				break;
 			case Calendar.TUESDAY: dayOfWeekString = "Tuesday";
@@ -107,14 +110,18 @@ public class UserInterfaceMain {
 		return dateDisplay;
 	}
 
-	/**Process lblViewTask to view tasks that the user is 
-	 * currently viewing
+	/**Process lblViewTask to view tasks that the user is currently viewing
+	 * 
 	 * @param parseResult 
 	 * @return String telling the user what date is he viewing
 	 */
 	public static String viewDateTask(Task task) {
 		String getDateStr = task.getDateTimeString();
-
+		
+		if(getDateStr.isEmpty() && task.getDateTimeString() != null) {
+			return FeedbackGuide.formatViewAllTask(task.getDescription());
+		}
+		
 		if(getDateStr.matches(dateToday())) {
 			return FeedbackGuide.formatViewTodayTask();
 		}
@@ -127,7 +134,9 @@ public class UserInterfaceMain {
 		else if(task.getEndDate() == Task.DATE_NOT_SET) {
 			return FeedbackGuide.formatViewSomedayTask(VIEW_TASKS_SOMEDAY_STRING);
 		}
-		return FeedbackGuide.formatViewDateTask(getDateStr);
+		else{
+			return FeedbackGuide.formatViewDateTask(getDateStr);
+		}
 	}
 
 	/**
@@ -186,7 +195,7 @@ public class UserInterfaceMain {
 
 		if (parseResult.isSuccessful()) {
 			successfulTextfieldOperation(parseResult);
-			ListenerHandler.setDateDesBalloonTipVisibleFalse();
+			ListenerHandler.setBalloonTipVisibleFalse();
 		} 
 		else if(UserIntSwing.textField.getText().isEmpty()) {
 			FeedbackHandler.emptyStringOperation();
@@ -196,13 +205,14 @@ public class UserInterfaceMain {
 		} 
 		else {
 			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
-			ListenerHandler.setDateDesBalloonTipVisibleFalse();
+			ListenerHandler.setBalloonTipVisibleFalse();
 		}
 		UserIntSwing.textField.setText(null);
 	}
 	
 	/**
 	 * Handle this operation when command entered is correctly input
+	 * 
 	 * @param parseResult determine what command by taking the user input String
 	 */
 	private static void successfulTextfieldOperation(ParseResult parseResult) {
@@ -211,8 +221,7 @@ public class UserInterfaceMain {
 			UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
 			UserIntSwing.logicManager.executeCommand(parseResult);
 			
-			if(correctCommandExtracted(parseResult))
-			{
+			if(correctCommandExtracted(parseResult)) {
 				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult.getTask()));
 			}
 		} 
@@ -220,7 +229,6 @@ public class UserInterfaceMain {
 			UserIntSwing.textField.setText(null);
 			FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
 			// Log this error.
-			// exception.printStackTrace();
 			return;
 		}
 		FeedbackHandler.successfulOperation();
@@ -228,6 +236,7 @@ public class UserInterfaceMain {
 	
 	/**
 	 * If the correct command is extracted for the task currently viewing
+	 * 
 	 * @param parseResult Command extracted
 	 * @return boolean if correct command is extracted
 	 */
@@ -240,6 +249,7 @@ public class UserInterfaceMain {
 	
 	/**
 	 * Enter Key Listener process
+	 * 
 	 * @param arg1 KeyEvent Enter from the textfield
 	 */
 	public static void processEnterkey(KeyEvent arg1) {
@@ -248,7 +258,8 @@ public class UserInterfaceMain {
 	}
 	
 	/**
-	 * Textfield processes
+	 * Textfield processeses
+	 * 
 	 * @param arg1 KeyEvent from the textfield
 	 * @param userInput Input that the user entered from the textfield
 	 * @throws InvalidCommandException 
@@ -261,12 +272,12 @@ public class UserInterfaceMain {
 	
 	/**
 	 * Process the textField when key is released
+	 * 
 	 * @param arg1 Keyevent code from keyboard
 	 */
 	public static void processTextfieldKeyReleased(KeyEvent arg1) {
 		processTextfield(arg1);
-		DynamicParseResult parseResult = 
-				processUserParse(arg1, UserIntSwing.logicManager);
+		DynamicParseResult parseResult = processUserParse(arg1, UserIntSwing.logicManager);
 		Task task = parseResult.getTask();
 		clearDynamicParseLabels();
 		handleDynamicEdit(parseResult, task);
@@ -275,10 +286,11 @@ public class UserInterfaceMain {
 
 	/**
 	 * This operation process the hotkeys shortcut function
+	 * 
 	 * @param key KeyEvent keylistener from the textfield
 	 * @throws InvalidCommandException 
 	 */
-	public static void processHotKeys(KeyEvent key) throws InvalidCommandException {
+	public static void processHotKeys(KeyEvent key) {
 		if (key.getKeyCode() == VK.help()) {
 			HelpMenu.main(null);
 		} else if (key.getKeyCode() == VK.add()) {
@@ -300,13 +312,12 @@ public class UserInterfaceMain {
 		HotkeyHandler.redo();
 		HotkeyHandler.minimise();
 		HotkeyHandler.scrollUpTable();
-		ListenerHandler.setDateDesBalloonTipVisibleFalse();
+		ListenerHandler.setBalloonTipVisibleFalse();
 	}
 	
 	public static void handleDynamicEdit(DynamicParseResult parseResult,
 			Task task) {
-		if (containsValidEditCommand(parseResult)) 
-		{
+		if (containsValidEditCommand(parseResult)) {
 			String indexString = getIndexString(task);
 			int index = getTaskToBeEditedIndex(indexString);
 			Task taskToBeEdited = UserIntSwing.logicManager.getTaskToBeEdited(index);
@@ -314,6 +325,7 @@ public class UserInterfaceMain {
 			{
 				task.setDescription(StringHandler.removeFirstMatched(
 						task.getDescription(), indexString));
+				parseResult = handleSomeDayEdit(parseResult, indexString);
 				showTaskToBeEdited(taskToBeEdited);
 				UserIntSwing.interactiveForm.selectRow(index);
 			}else {
@@ -323,7 +335,97 @@ public class UserInterfaceMain {
 	}
 	
 	/**
+	 * Help remove the date and someday description if it is in the description
+	 * 
+	 * @param parseResult the parse result
+	 * @param indexString the index in string
+	 * @return dynamic parse result with someday removed if there is
+	 */
+	private static DynamicParseResult handleSomeDayEdit(DynamicParseResult parseResult, String indexString) {
+        boolean somedaySpecified;
+
+        Collection<String> someDayCollection = KeyWordMappingList.getSomeDayKeyWord().
+        		get(Task.DATE_NOT_SET);
+        String[] someDayKeyWords = (String[]) someDayCollection.toArray();
+
+        somedaySpecified = isSomeDaySpecified(
+                parseResult.getDescriptionWordUsed(), someDayKeyWords);
+
+        if (somedaySpecified) {
+            String newDescription =removeSomeDayKeyWord(parseResult.getDescriptionWordUsed(), someDayKeyWords);
+            newDescription = StringHandler.removeFirstMatched(newDescription, indexString).trim();
+            if(!(newDescription.isEmpty()))
+            {
+                parseResult.getParseFlags().add(ParserFlags.DESCRIPTION_FLAG);
+                parseResult.setDescriptionWordUsed(" " + newDescription + " ");
+                parseResult.getTask().setDescription(" " + newDescription + " ");
+            }
+            else {
+                parseResult.getParseFlags().remove(ParserFlags.DESCRIPTION_FLAG);
+            }
+            if(somedaySpecified) {
+                parseResult.getParseFlags().add(ParserFlags.DATE_FLAG);
+                parseResult.setTask(setSomeday(parseResult.getTask()));
+            }
+        }
+        return parseResult;
+	}
+	
+	  /**
+     * Set the task to someday
+     * 
+     * @param editedTask the task to be set to someday    
+     * @return the task to be shown with someday set.
+     */
+    private static Task setSomeday(Task taskToBeShown) {
+        taskToBeShown.setEndDate(Task.DATE_NOT_SET);
+        taskToBeShown.setStartDate(Task.DATE_NOT_SET);
+        taskToBeShown.setEndTime(Task.TIME_NOT_SET);
+        taskToBeShown.setStartTime(Task.TIME_NOT_SET);
+        return taskToBeShown;
+    }
+
+    /**
+     * Remove the some day keyword from the description
+     * 
+     * @param description the description of the task parsed
+     * @param someDayKeyWords the keywords for someday        
+     * @return String, the new description with some day removed
+     */
+    private static String removeSomeDayKeyWord(String description, String[] someDayKeyWords) {
+        String matchedWord = StringHandler.getContainsWord(
+                description, someDayKeyWords);
+        String newDescription = StringHandler.removeFirstMatchedWord(
+                description, matchedWord);
+        
+        return newDescription;
+    }
+
+    /**
+     * Check if someday is specified
+     * 
+     * @param description the description of the parsed task
+     * @param someDayKeyWords the keywords for someday
+     * @return if someday is specified
+     */
+    private static boolean isSomeDaySpecified(String description, String[] someDayKeyWords) {
+        boolean somedaySpecified;
+
+        if (description != null) {
+            if (StringHandler.containsWord(description,
+                    someDayKeyWords)) {
+                somedaySpecified = true;
+            } else
+                somedaySpecified = false;
+        } else {
+            somedaySpecified = false;
+        }
+        return somedaySpecified;
+    }
+	
+	/**
 	 * Show the user error message when error command is pressed
+	 * 
 	 * @param task Determine what task it it
 	 */
 	private static void showInvalidIndexMessage(Task task) {
@@ -358,6 +460,7 @@ public class UserInterfaceMain {
 
 	/**
 	 * Show the parse result to the user
+	 * 
 	 * @param parseResult the result that was parse
 	 * @param task the task that was parse
 	 */
@@ -372,9 +475,10 @@ public class UserInterfaceMain {
 				ListenerHandler.addLblDateProcessListener();
 				break;
 			case DESCRIPTION_FLAG:
-				if (!task.getDescription().isEmpty())
+				if (!task.getDescription().isEmpty()) {
 					UserIntSwing.lblDescriptionProcess.setText(task.getDescription());
-				ListenerHandler.addLblDescriptionProcessListener();
+					ListenerHandler.addLblDescriptionProcessListener();
+				}
 				break;
 			case PRIORITY_FLAG:
 				UserIntSwing.lblPriorityProcess.setOpaque(true);
@@ -389,6 +493,7 @@ public class UserInterfaceMain {
 
 	/**
 	 * get the string which contains the index at the first word
+	 * 
 	 * @param task the new task that will edit the old task
 	 * @return the string which contains the index
 	 */
@@ -400,6 +505,7 @@ public class UserInterfaceMain {
 
 	/**
 	 * Help determines if the parse result contains valid edit command
+	 * 
 	 * @param parseResult the parse result
 	 * @return if it contains valid edit command
 	 */
@@ -412,6 +518,7 @@ public class UserInterfaceMain {
 
 	/**
 	 * Show the task that is to be edited on the GUI
+	 * 
 	 * @param taskToBeEdited the task to be edited
 	 */
 	private static void showTaskToBeEdited(Task taskToBeEdited) {
@@ -424,6 +531,7 @@ public class UserInterfaceMain {
 
 	/**
 	 * Convert string to integer
+	 * 
 	 * @param indexString the string which contains the index to extract
 	 * @return the index in integer form
 	 */
@@ -433,8 +541,7 @@ public class UserInterfaceMain {
 	}
 
 	/**
-	 * This operation process the priority label Red: High; orange: Medium; Green:
-	 * Low
+	 * This operation process the priority label Red: High; Orange: Medium; Green: Low
 	 */
 	private static void processLblPriority() {
 		if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {

@@ -20,7 +20,7 @@ public class FeedbackGuide {
 	private static final String feedbackTextfield = "Enter your command here...";
 	
 	private static final String VIEW_STRING = "You are viewing: ";
-	private static final String VIEW_STRING_APPEND = "'s tasks.";
+	private static final String VIEW_STRING_APPEND = "'s task(s).";
 	private static final String VIEW_STRING_TODAY = "Today";
 	private static final String VIEW_STRING_TOMORROW = "Tomorrow";
 	private static final String VIEW_STRING_YESTERDAY = "Yesterday";
@@ -28,7 +28,6 @@ public class FeedbackGuide {
 	private static final String HTML_OPEN = "<html>";
 	private static final String HTML_CLOSE = "</html>";
 	private static final String TAG_WRAP_STRING = "%s%s%s";
-	private static final String HTML_FONTCOLORGREY_OPEN = "<font color=#B0B0B0>"; //grey
 	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=#00CC66>"; //green
 	private static final String HTML_FONTCOLORRED_OPEN = "<font color=#FF0000>"; //red
 	private static final String HTML_FONT_CLOSE = "</font>";
@@ -70,12 +69,9 @@ public class FeedbackGuide {
 	}
 	
 	public static String textfieldFeedback() {
-		StringBuilder str = new StringBuilder();
-		
-		str.append(fontColorGrey(feedbackTextfield));
-		
-		return wrapWithHtmlTag(str.toString());
+		return feedbackTextfield;
 	}
+	
 	
 	private static String formatValidCommand(String text) {
 		StringBuilder str = new StringBuilder();
@@ -136,7 +132,7 @@ public class FeedbackGuide {
 		str.append(VIEW_STRING);
 		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
 				text, HTML_FONT_CLOSE));
-		str.append(" tasks.");
+		str.append(" task(s).");
 		
 		return wrapWithHtmlTag(str.toString());
 	}
@@ -147,17 +143,12 @@ public class FeedbackGuide {
 		str.append(VIEW_STRING);
 		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
 				text, HTML_FONT_CLOSE));
-		str.append(" tasks.");
+		str.append(" task(s).");
 		
 		return wrapWithHtmlTag(str.toString());
 	}
 	
 	private static String wrapWithHtmlTag(String text) {
 		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
-	}
-	
-	private static String fontColorGrey(String text) {
-		return String.format(TAG_WRAP_STRING, HTML_FONTCOLORGREY_OPEN, 
-				text, HTML_FONT_CLOSE);
 	}
 }

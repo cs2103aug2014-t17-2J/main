@@ -3,6 +3,7 @@
  */
 package logic.utility;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -97,7 +98,7 @@ public class KeyWordMappingList {
     public static ImmutableMap<Command, Collection<String>> getCompleteCommandMap() {
         Command completeCommand = new CompleteCommand();
         return ImmutableMap.<Command, Collection<String>> of(completeCommand,
-                Arrays.asList("complete", "completed", "done", "finish", "finished", "tick", "ticked"));
+                Arrays.asList("complete", "done", "finish", "tick"));
     }
 
     /**
@@ -107,7 +108,7 @@ public class KeyWordMappingList {
         Command uncompleteCommand = new IncompleteCommand();
         return ImmutableMap.<Command, Collection<String>> of(uncompleteCommand,
                 Arrays.asList("incomplete", "undone", "cancel", "uncomplete",
-                        "decomplete", "untick"));
+                        "untick"));
     }
 
     /**
@@ -116,8 +117,7 @@ public class KeyWordMappingList {
     public static ImmutableMap<Command, Collection<String>> getDeleteCommandMap() {
         Command deleteCommand = new DeleteCommand();
         return ImmutableMap.<Command, Collection<String>> of(deleteCommand,
-                Arrays.asList("delete", "d", "del", "delete", "remove", "r",
-                        "rm", "remove"));
+                Arrays.asList("delete", "del", "remove"));
     }
 
     /**
@@ -126,7 +126,7 @@ public class KeyWordMappingList {
     public static ImmutableMap<Command, Collection<String>> getExitCommandMap() {
         Command exitCommand = new ExitCommand();
         return ImmutableMap.<Command, Collection<String>> of(exitCommand,
-                Arrays.asList("exit", "quit", "quit", "leave", "leave", "bye"));
+                Arrays.asList("exit", "quit"));
     }
 
     /**
@@ -135,8 +135,7 @@ public class KeyWordMappingList {
     public static ImmutableMap<Command, Collection<String>> getSearchCommandMap() {
         Command searchCommand = new SearchCommand();
         return ImmutableMap.<Command, Collection<String>> of(searchCommand,
-                Arrays.asList("search", "searching", "s", "find", "f", "found",
-                        "finding", "locate"));
+                Arrays.asList("search", "find", "locate"));
     }
 
     /**
@@ -145,8 +144,7 @@ public class KeyWordMappingList {
     public static ImmutableMap<Command, Collection<String>> getEditCommandMap() {
         Command editCommand = new EditCommand();
         return ImmutableMap.<Command, Collection<String>> of(editCommand,
-                Arrays.asList("edit", "editing", "e", "modify", "m",
-                        "modifying"));
+                Arrays.asList("edit", "modify", "change"));
     }
 
     /**
@@ -155,8 +153,8 @@ public class KeyWordMappingList {
     public static ImmutableMap<Command, Collection<String>> getViewCommandMap() {
         Command viewCommand = new ViewCommand();
         return ImmutableMap.<Command, Collection<String>> of(viewCommand,
-                Arrays.asList("view", "viewed", "viewing", "read", "reading",
-                        "see", "saw", "get"));
+                Arrays.asList("view", "viewing", "read", "reading", "see",
+                        "get"));
     }
 
     /**
@@ -238,6 +236,16 @@ public class KeyWordMappingList {
         return ImmutableMap.<Priority, Collection<String>> of(
                 Priority.PRIORITY_LOW,
                 getPermutation(PRIORITY_WORD, KEYWORDS_FOR_LOW));
+    }
+
+    /**
+     * @return ImmutableMap containing keywords for someday
+     */
+    public static ImmutableMap<LocalDate, Collection<String>> getSomeDayKeyWord() {
+
+        return ImmutableMap.<LocalDate, Collection<String>> of(
+                Task.DATE_NOT_SET,
+                Arrays.asList("someday", "no date", "no day", "some day"));
     }
 
     /**

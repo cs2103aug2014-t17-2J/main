@@ -14,6 +14,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 
+import userInterface.UserIntSwing;
+
 /**
  // @author A0112636M
   * This window shows the authors of WeDo Task Manager and
@@ -21,7 +23,7 @@ import javax.swing.ImageIcon;
  */
 public class AboutWeDo {
 
-	private JDialog frame;
+	private static JDialog frame;
 	private static final int Xcoordinate = 5;
 	private static final int Ycoordinate = 5;
 	private static final String TAG_WRAP_STRING = "%s%s%s";
@@ -32,11 +34,15 @@ public class AboutWeDo {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private AboutWeDo() {
+	private static void AboutWeDoGUI() {
 		frame = new JDialog();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(AboutWeDo.class.getResource("/ui/icon/Wedo_logo.png")));
+		/* If export as Executable Jar file use "/WeDo_logo.png" 
+		  * and put the logo in the same root*/
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+				UserIntSwing.class.getResource("/ui/icon/WeDo_logo.png")));
 		frame.setBounds(100, 100, 334, 300);
 		frame.getContentPane().setLayout(null);
+		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.setLocation(Xcoordinate, Ycoordinate);
 		
@@ -56,6 +62,8 @@ public class AboutWeDo {
 		});
 		
 		JLabel lblIcon = new JLabel("lblIcon");
+		/* If export as Executable Jar file use "/WeDo_logo.png" 
+		  * and put the logo in the same root*/
 		lblIcon.setIcon(new ImageIcon(AboutWeDo.class.getResource("/ui/icon/Wedo_logo.png")));
 		lblIcon.setBounds(199, 11, 103, 98);
 		frame.getContentPane().add(lblIcon);
@@ -97,8 +105,7 @@ public class AboutWeDo {
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	AboutWeDo window = new AboutWeDo();
-				window.frame.setVisible(true);
+            	AboutWeDoGUI();
             }
         });
     }
