@@ -45,7 +45,7 @@ public class LogicManager {
         } else {
             Command = "Complete " + index;
         }
-        ParseResult parseResult = processCommand(Command);
+        ParseResult parseResult = interpret(Command);
         executeCommand(parseResult);
     }
 
@@ -55,12 +55,17 @@ public class LogicManager {
      *            task and command
      * @throws InvalidCommandException
      */
-    public ParseResult processCommand(String userInput) {
+    public ParseResult interpret(String userInput) {
 
         ParserManager parserManager = new ParserManager();
         return parserManager.interpret(userInput);
     }
 
+    /**
+     * Execute the command based on parseResult
+     * @param parseResult the result parsed
+     * @throws InvalidCommandException
+     */
     public void executeCommand(ParseResult parseResult)
             throws InvalidCommandException {
         commandExecutor

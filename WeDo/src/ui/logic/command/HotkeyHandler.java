@@ -64,7 +64,7 @@ public class HotkeyHandler {
 	 * using InputMap and ActionMap
 	 */
 	public static void undo() {
-		 ParseResult getUndoCommand = UserIntSwing.logicManager.processCommand("undo");
+		 ParseResult getUndoCommand = UserIntSwing.logicManager.interpret("undo");
 		im.put(KeyStroke.getKeyStroke(VK.undo_Zkey(), InputEvent.CTRL_MASK), 
 				"listenCtrlzKey");
 		am.put("listenCtrlzKey", new AbstractAction() {
@@ -93,7 +93,7 @@ public class HotkeyHandler {
 	 * using InputMap and ActionMap
 	 */
 	public static void redo() {	
-		ParseResult getRedoCommand = UserIntSwing.logicManager.processCommand("redo");
+		ParseResult getRedoCommand = UserIntSwing.logicManager.interpret("redo");
 		im.put(KeyStroke.getKeyStroke(VK.redo_Ykey(), InputEvent.CTRL_MASK), 
 				"listenCtrlyKey");
 		am.put("listenCtrlyKey", new AbstractAction(){

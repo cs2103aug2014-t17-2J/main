@@ -84,7 +84,7 @@ public class TestLogicManager {
             index = index - ARRAY_OFFSET;
             expectedList.remove(index);
         }
-        ParseResult parseResult = logicManager.processCommand(command);
+        ParseResult parseResult = logicManager.interpret(command);
         logicManager.executeCommand(parseResult);
         assertEquals(expectedList, dataHandler.getObservableList());
     }
@@ -94,7 +94,7 @@ public class TestLogicManager {
         final int ARRAY_OFFSET = 1;
         index = index - ARRAY_OFFSET;
         expectedList.remove(index);
-        ParseResult parseResult = logicManager.processCommand(command);
+        ParseResult parseResult = logicManager.interpret(command);
         logicManager.executeCommand(parseResult);
         assertEquals(expectedList, dataHandler.getObservableList());
     }
@@ -104,7 +104,7 @@ public class TestLogicManager {
 
         expectedTask = setNextUniqueID(expectedTask);
         expectedList.add(expectedTask);
-        ParseResult parseResult = logicManager.processCommand(command);
+        ParseResult parseResult = logicManager.interpret(command);
         logicManager.executeCommand(parseResult);
         assertEquals(expectedList, dataHandler.getObservableList());
     }
