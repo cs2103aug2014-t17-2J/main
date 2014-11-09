@@ -5,6 +5,8 @@ package testCases;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Stack;
 
 import logic.command.UndoHandler;
@@ -19,8 +21,13 @@ import logic.command.commandList.SearchCommand;
 import logic.command.commandList.UndoCommand;
 import logic.command.commandList.ViewCommand;
 import logic.exception.InvalidCommandException;
+import logic.utility.Task;
 
 import org.junit.Test;
+
+import dataStorage.BasicDataHandler;
+import dataStorage.DataHandler;
+import definedEnumeration.Priority;
 
 //@author A0112887X
 //@formatter:off
@@ -59,24 +66,25 @@ public class UndoHandlerTest {
     public void test() {
         UndoHandler undoHandler = UndoHandler.getInstance();
         Stack<Command> expectedStack = new Stack<Command>();
+        DataHandler dataHandler = new BasicDataHandler();
 
-        addUndoValidWithAddCommand(undoHandler, expectedStack);
-        addUndoValidWithDeleteCommand(undoHandler, expectedStack);
-        addUndoValidWithViewCommand(undoHandler, expectedStack);
-        addUndoValidWithClearCommand(undoHandler, expectedStack);
-        addUndoValidWithEditCommand(undoHandler, expectedStack);
-        addUndoValidWithSearchCommand(undoHandler, expectedStack);
+        addUndoValidWithAddCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithDeleteCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithViewCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithCompleteCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithEditCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithSearchCommand(dataHandler, undoHandler, expectedStack);
         addUndoValidWithExitCommand(undoHandler, expectedStack);
         addUndoInvalidWithNull(undoHandler);
         addUndoInvalidWithRedoCommand(undoHandler);
         addUndoInvalidWithUndoCommand(undoHandler);
-        // undoValidWithExitCommand(undoHandler, expectedStack);
-        // undoValidWithSearchCommand(undoHandler, expectedStack);
-        // undoValidWithEditCommand(undoHandler, expectedStack);
-        // undoValidWithClearCommand(undoHandler, expectedStack);
-        // undoValidWithViewCommand(undoHandler, expectedStack);
-        // undoValidWithDeleteCommand(undoHandler, expectedStack);
-        // undoValidWithAddCommand(undoHandler, expectedStack);
+        undoValidWithExitCommand(undoHandler, expectedStack);
+        undoValidWithSearchCommand(undoHandler, expectedStack);
+        undoValidWithEditCommand(undoHandler, expectedStack);
+        undoValidWithCompleteCommand(undoHandler, expectedStack);
+        undoValidWithViewCommand(undoHandler, expectedStack);
+        undoValidWithDeleteCommand(undoHandler, expectedStack);
+        undoValidWithAddCommand(undoHandler, expectedStack);
 
     }
 
@@ -122,7 +130,7 @@ public class UndoHandlerTest {
         }
     }
 
-    private void undoValidWithClearCommand(UndoHandler undoHandler,
+    private void undoValidWithCompleteCommand(UndoHandler undoHandler,
             Stack<Command> expectedStack) {
         final String FAIL_MSG = "Exception should not happen";
         Command undoCommand;
@@ -196,25 +204,39 @@ public class UndoHandlerTest {
         addUndoInvalidWithCommand(null, EXPECTED_ERROR_MSG, undoHandler);
     }
 
-    private void addUndoValidWithDeleteCommand(UndoHandler undoHandler,
-            Stack<Command> expectedStack) {
-        addUndoValidWithCommand(new DeleteCommand(), undoHandler, expectedStack);
+    private void addUndoValidWithDeleteCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        Command command = new DeleteCommand();
+        command.setDataHandler(dataHandler);
+        addUndoValidWithCommand(command, undoHandler, expectedStack);
     }
 
-    private void addUndoValidWithClearCommand(UndoHandler undoHandler,
-            Stack<Command> expectedStack) {
-        addUndoValidWithCommand(new CompleteCommand(), undoHandler,
-                expectedStack);
+    private void addUndoValidWithCompleteCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        Command command = new CompleteCommand();
+        command.setDataHandler(dataHandler);
+        addUndoValidWithCommand(command, undoHandler, expectedStack);
     }
 
-    private void addUndoValidWithEditCommand(UndoHandler undoHandler,
-            Stack<Command> expectedStack) {
-        addUndoValidWithCommand(new EditCommand(), undoHandler, expectedStack);
+    private void addUndoValidWithEditCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        EditCommand command = new EditCommand();
+        Task task = new Task("edit 1 Random Task", Priority.PRIORITY_MEDIUM,
+                LocalDate.of(2014, 9, 18), LocalTime.of(14, 0), LocalDate.of(
+                        2014, 9, 22), LocalTime.of(2, 0));
+
+        command.setTask(task);
+        command.setSource(task);
+        command.setDataHandler(dataHandler);
+
+        addUndoValidWithCommand(command, undoHandler, expectedStack);
     }
 
-    private void addUndoValidWithSearchCommand(UndoHandler undoHandler,
-            Stack<Command> expectedStack) {
-        addUndoValidWithCommand(new SearchCommand(), undoHandler, expectedStack);
+    private void addUndoValidWithSearchCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        SearchCommand searchCommand = new SearchCommand();
+        searchCommand.setDataHandler(dataHandler);
+        addUndoValidWithCommand(searchCommand, undoHandler, expectedStack);
     }
 
     private void addUndoValidWithExitCommand(UndoHandler undoHandler,
@@ -222,14 +244,23 @@ public class UndoHandlerTest {
         addUndoValidWithCommand(new ExitCommand(), undoHandler, expectedStack);
     }
 
-    private void addUndoValidWithViewCommand(UndoHandler undoHandler,
-            Stack<Command> expectedStack) {
-        addUndoValidWithCommand(new ViewCommand(), undoHandler, expectedStack);
+    private void addUndoValidWithViewCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        Command command = new ViewCommand();
+        command.setDataHandler(dataHandler);
+        addUndoValidWithCommand(command, undoHandler, expectedStack);
     }
 
-    private void addUndoValidWithAddCommand(UndoHandler undoHandler,
-            Stack<Command> expectedStack) {
-        addUndoValidWithCommand(new AddCommand(), undoHandler, expectedStack);
+    private void addUndoValidWithAddCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        Command command = new AddCommand();
+        Task task = new Task("Random Task", Priority.PRIORITY_MEDIUM,
+                LocalDate.of(2014, 9, 18), LocalTime.of(14, 0), LocalDate.of(
+                        2014, 9, 22), LocalTime.of(2, 0));
+
+        command.setDataHandler(dataHandler);
+        command.setTask(task);
+        addUndoValidWithCommand(command, undoHandler, expectedStack);
     }
 
     private void addUndoValidWithCommand(Command command,

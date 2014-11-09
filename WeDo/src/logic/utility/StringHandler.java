@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 //@author A0112887X
 /**

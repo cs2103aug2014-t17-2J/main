@@ -3,6 +3,7 @@ package userInterface;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -109,7 +110,7 @@ public class UserIntSwing extends JPanel implements Observer {
 		panel.add(interactiveForm);
 		interactiveForm.setLayout(null);
 		interactiveForm.updateTable(taskList);
-		
+
 		
 		/* A0112636M - Initialize all components */
 		FormatHandler.addtoContentPane();

@@ -26,6 +26,8 @@ public class EditCommand extends Command {
      * @see logic.command.commandList.Command#execute()
      */
     public void execute() throws InvalidCommandException {
+        
+        assert(dataHandler != null);
 
         final String ERROR_MESSAGE = "Edit failed, invalid index";
         if (index == NOT_SET) {
@@ -173,7 +175,9 @@ public class EditCommand extends Command {
      * @see logic.Command#undo()
      */
     @Override
-    public void undo() {
+    public void undo() throws InvalidCommandException {
+        assert(dataHandler != null);
+        
         dataHandler.editTask(task, source);
     }
 
@@ -209,5 +213,12 @@ public class EditCommand extends Command {
     public String getValidateErrorMessage() {
         final String ERROR_MESSAGE = "Format of edit should consist at least 1 field to edit";
         return ERROR_MESSAGE;
+    }
+
+    /**
+     * @param source the source to set
+     */
+    public void setSource(Task source) {
+        this.source = source;
     }
 }

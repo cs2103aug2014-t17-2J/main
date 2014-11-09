@@ -11,6 +11,7 @@ import java.util.Observer;
 import logic.command.commandList.Command;
 import logic.command.commandList.CompleteCommand;
 import logic.command.commandList.IncompleteCommand;
+import logic.exception.InvalidCommandException;
 import logic.utility.KeyWordMappingList;
 import logic.utility.MultiMapMatcher;
 import logic.utility.Task;
@@ -181,7 +182,7 @@ public class BasicDataHandler implements DataHandler {
 	}
 	
 	//@author A0112862L
-	public boolean addTask(Task task) {
+	public boolean addTask(Task task) throws InvalidCommandException {
 		addThenView(task);
 
 		int index = observableList.getList().size();
@@ -213,7 +214,6 @@ public class BasicDataHandler implements DataHandler {
 		// fileHandler.read("deadLine");
 		fileHandler.writeLog(LocalTime.now() + " : Added Task "
 				+ task.getUniqueID());
-
 		return true;
 	}
 	
@@ -309,7 +309,7 @@ public class BasicDataHandler implements DataHandler {
 	}
 
 	//@author A0112862L
-	public boolean editTask(Task source, Task replacement) {
+	public boolean editTask(Task source, Task replacement) throws InvalidCommandException {
 
 		fileHandler.writeLog(LocalTime.now() + " : edited "
 				+ source.getUniqueID());
@@ -346,7 +346,7 @@ public class BasicDataHandler implements DataHandler {
 	}
 
 	//@author A0112862L
-	public void addThenView(Task task) {
+	public void addThenView(Task task) throws InvalidCommandException {
 		String type = determineTaskType(task);
 
 		if (type.equals(DEADLINE) || type.equals(TIMED)) {
@@ -378,7 +378,7 @@ public class BasicDataHandler implements DataHandler {
 	}
 
 	//@author A0112862L
-	public void view(Task task) {
+	public void view(Task task) throws InvalidCommandException{
 
 		System.out.println(task.getStartDate().toString());
 		System.out.println(task.getEndDate().toString());
@@ -423,6 +423,8 @@ public class BasicDataHandler implements DataHandler {
 			tmp.addAll(mainList2.get(LocalDate.MAX));
 			observableList.replaceList(tmp);
 
+		}else {
+			throw new InvalidCommandException("No Such View");
 		}
 
 	}

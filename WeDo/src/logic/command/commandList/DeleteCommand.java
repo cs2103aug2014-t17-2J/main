@@ -28,6 +28,8 @@ public class DeleteCommand extends Command {
      */
     public void execute() throws InvalidCommandException {
 
+        assert(dataHandler != null);
+       
         final int ARRAY_OFFSET = 1;
         final String NO_INTEGER_EXTRACTED = "No integer extracted";
         final String INVALID_LOWEST_INDEX = "Invalid lowest index";
@@ -61,6 +63,9 @@ public class DeleteCommand extends Command {
      *            the list of task to delete
      */
     private void removeTasks(ArrayList<Task> deleteTaskList) {
+        
+        assert(dataHandler != null);
+        
         for (Task deleteThisTask : deleteTaskList) {
             dataHandler.removeTask(deleteThisTask);
         }
@@ -79,6 +84,9 @@ public class DeleteCommand extends Command {
             TreeSet<Integer> digitList) {
 
         ArrayList<Task> deleteTaskList = new ArrayList<Task>();
+        
+        assert(dataHandler != null);
+        
 
         for (int index : digitList) {
             Task taskToDelete = dataHandler.getTask(index - ARRAY_OFFSET);
@@ -136,7 +144,7 @@ public class DeleteCommand extends Command {
      * @see logic.Command#undo()
      */
     @Override
-    public void undo() {
+    public void undo() throws InvalidCommandException {
         addRemovedTasks(deleteTaskList);
     }
 
@@ -145,8 +153,11 @@ public class DeleteCommand extends Command {
      * 
      * @param deleteTaskList
      *            the list of task that was deleted
+     * @throws InvalidCommandException 
      */
-    private void addRemovedTasks(ArrayList<Task> deleteTaskList) {
+    private void addRemovedTasks(ArrayList<Task> deleteTaskList) throws InvalidCommandException {
+        assert(dataHandler != null);
+        
         for (Task taskToReAdd : deleteTaskList) {
             dataHandler.addTask(taskToReAdd);
         }

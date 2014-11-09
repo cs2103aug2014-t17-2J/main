@@ -24,6 +24,7 @@ public class CompleteCommand extends Command {
 
     public void execute() throws InvalidCommandException {
 
+        assert(dataHandler != null);
         
         final int ARRAY_OFFSET = 1;
         final String NO_INTEGER_EXTRACTED = "No integer extracted";
@@ -59,7 +60,9 @@ public class CompleteCommand extends Command {
      */
     private void completeTask(ArrayList<Task> editTaskList) {
         final boolean COMPLETE = true;
-
+        
+        assert(dataHandler != null);
+        
         for (Task task : editTaskList) {
             dataHandler.setCompleteTask(task, COMPLETE);
         }
@@ -78,7 +81,8 @@ public class CompleteCommand extends Command {
             TreeSet<Integer> digitList) {
 
         ArrayList<Task> completeTaskList = new ArrayList<Task>();
-
+        assert(dataHandler != null);
+        
         for (int index : digitList) {
             Task taskToDelete = dataHandler.getTask(index - ARRAY_OFFSET);
             completeTaskList.add(taskToDelete);
@@ -148,7 +152,8 @@ public class CompleteCommand extends Command {
      */
     private void setIncomplete(ArrayList<Task> undoTaskList) {
         final boolean COMPLETE = false;
-
+        assert(dataHandler != null);
+        
         for (Task task : editTaskList) {
             dataHandler.setCompleteTask(task, COMPLETE);
         }

@@ -41,9 +41,9 @@ public class InteractiveForm extends JPanel {
 			"done", "" };
 
 	private static final int COLUMN_WIDTH_TASK = 30;
-	private static final int COLUMN_WIDTH_DESCRIPTION = 210;
-	private static final int COLUMN_WIDTH_SMALLER = 70;
-	private static final int COLUMN_WIDTH_BOX = 35;
+	private static final int COLUMN_WIDTH_DESCRIPTION = 200;
+	private static final int COLUMN_WIDTH_PRIORITY = 70;
+	private static final int COLUMN_WIDTH_DONE = 40;
 	private static final int COLUMN_WIDTH_STANDARD = 80;
 
 	protected JTable table;
@@ -135,11 +135,11 @@ public class InteractiveForm extends JPanel {
 		endDate.setPreferredWidth(COLUMN_WIDTH_STANDARD);
 		endDate.setMinWidth(COLUMN_WIDTH_STANDARD);
 
-		priority.setMaxWidth(COLUMN_WIDTH_SMALLER);
-		priority.setPreferredWidth(COLUMN_WIDTH_SMALLER);
+		priority.setMaxWidth(COLUMN_WIDTH_PRIORITY);
+		priority.setPreferredWidth(COLUMN_WIDTH_PRIORITY);
 
-		done.setMaxWidth(COLUMN_WIDTH_BOX);
-		done.setPreferredWidth(COLUMN_WIDTH_BOX);
+		done.setMaxWidth(COLUMN_WIDTH_DONE);
+		done.setPreferredWidth(COLUMN_WIDTH_DONE);
 		done.setCellRenderer(new BooleanCellRenderer());
 
 		setLayout(new BorderLayout());

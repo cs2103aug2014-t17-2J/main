@@ -214,7 +214,27 @@ public class FileHandler {
 		return null;
 
 	}
+	
+	
+	//@author A0112862L
+	public static void log(String log) {
 
+		try {
+			FileWriter fstream = new FileWriter("Log.txt", true);
+			BufferedWriter bw = new BufferedWriter(fstream);
+
+			bw.write(log);
+			bw.newLine();
+			bw.close();
+
+		} catch (IOException e) {
+
+			log(e.toString());
+		}
+
+	}
+	
+	
 	//@author A0112862L
 	public String writeLog(String log) {
 
