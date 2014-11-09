@@ -74,7 +74,7 @@ public class UserInterfaceMain {
 		ListenerHandler.addTextfieldKeyListener();
 		ListenerHandler.addTextFieldActionListener();
 		ListenerHandler.addBtnEnterActionListener();
-		ListenerHandler.setDateDesBalloonTipVisibleFalse();
+		ListenerHandler.setBalloonTipVisibleFalse();
 	}
 
 	/**This operation display the date range of the table
@@ -114,7 +114,10 @@ public class UserInterfaceMain {
 	 */
 	public static String viewDateTask(Task task) {
 		String getDateStr = task.getDateTimeString();
-
+//		userInput = UserIntSwing.textField.getText();
+//		ParseResult parseResult = UserIntSwing.logicManager.processCommand(userInput);
+//		boolean completeTask = parseResult.getCommand() instanceof CompleteCommand;
+		
 		if(getDateStr.matches(dateToday())) {
 			return FeedbackGuide.formatViewTodayTask();
 		}
@@ -127,7 +130,9 @@ public class UserInterfaceMain {
 		else if(task.getEndDate() == Task.DATE_NOT_SET) {
 			return FeedbackGuide.formatViewSomedayTask(VIEW_TASKS_SOMEDAY_STRING);
 		}
-		return FeedbackGuide.formatViewDateTask(getDateStr);
+		else{
+			return FeedbackGuide.formatViewDateTask(getDateStr);
+		}
 	}
 
 	/**
@@ -186,7 +191,7 @@ public class UserInterfaceMain {
 
 		if (parseResult.isSuccessful()) {
 			successfulTextfieldOperation(parseResult);
-			ListenerHandler.setDateDesBalloonTipVisibleFalse();
+			ListenerHandler.setBalloonTipVisibleFalse();
 		} 
 		else if(UserIntSwing.textField.getText().isEmpty()) {
 			FeedbackHandler.emptyStringOperation();
@@ -196,7 +201,7 @@ public class UserInterfaceMain {
 		} 
 		else {
 			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
-			ListenerHandler.setDateDesBalloonTipVisibleFalse();
+			ListenerHandler.setBalloonTipVisibleFalse();
 		}
 		UserIntSwing.textField.setText(null);
 	}
@@ -300,7 +305,7 @@ public class UserInterfaceMain {
 		HotkeyHandler.redo();
 		HotkeyHandler.minimise();
 		HotkeyHandler.scrollUpTable();
-		ListenerHandler.setDateDesBalloonTipVisibleFalse();
+		ListenerHandler.setBalloonTipVisibleFalse();
 	}
 	
 	public static void handleDynamicEdit(DynamicParseResult parseResult,
@@ -372,9 +377,10 @@ public class UserInterfaceMain {
 				ListenerHandler.addLblDateProcessListener();
 				break;
 			case DESCRIPTION_FLAG:
-				if (!task.getDescription().isEmpty())
+				if (!task.getDescription().isEmpty()) {
 					UserIntSwing.lblDescriptionProcess.setText(task.getDescription());
-				ListenerHandler.addLblDescriptionProcessListener();
+					ListenerHandler.addLblDescriptionProcessListener();
+				}
 				break;
 			case PRIORITY_FLAG:
 				UserIntSwing.lblPriorityProcess.setOpaque(true);

@@ -26,6 +26,7 @@ import net.java.balloontip.styles.EdgedBalloonStyle;
 import ui.HelpMenu;
 import ui.WeDoSystemTray;
 import ui.UserInterfaceMain;
+import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
@@ -36,10 +37,11 @@ public class ListenerHandler {
 	private static final BalloonTipStyle edgedLookBtn = new EdgedBalloonStyle(Color.WHITE, Color.yellow);
 	private static final BalloonTipStyle edgedLookLblDate = new EdgedBalloonStyle(Color.green, Color.green);
 	private static final BalloonTipStyle edgedLookLblDes = new EdgedBalloonStyle(Color.WHITE, Color.black);
+	
 	private static final BalloonTip dateProcessBalloonTip = new BalloonTip(UserIntSwing.lblDateProcess, 
-			new JLabel(""), edgedLookLblDate, Orientation.RIGHT_BELOW,AttachLocation.ALIGNED, 40, 10, false);
+			new JLabel(""), edgedLookLblDate, Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 10, false);
 	private static final BalloonTip desProcessBalloonTip = new BalloonTip(UserIntSwing.lblDescriptionProcess, 
-			new JLabel(""), edgedLookLblDes, Orientation.RIGHT_BELOW,AttachLocation.ALIGNED, 40, 10, false);
+			new JLabel(""), edgedLookLblDes, Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 10, false);
 	
 	private static Point mouseDownCompCoords = null;
 	
@@ -320,7 +322,7 @@ public class ListenerHandler {
 	 * is too long for the user to view
 	 */
 	public static void addLblDescriptionProcessListener() {
-		if(UserIntSwing.lblDescriptionProcess.getText().length() > 40) {
+		if(UserIntSwing.lblDescriptionProcess.getText().length() > 35) {
 			desProcessBalloonTip.setTextContents(
 					UserIntSwing.lblDescriptionProcess.getText());
 			desProcessBalloonTip.setVisible(true);
@@ -333,7 +335,7 @@ public class ListenerHandler {
 	 * This set the Date and Description Balloon Tip Visible
 	 * to false
 	 */
-	public static void setDateDesBalloonTipVisibleFalse() {
+	public static void setBalloonTipVisibleFalse() {
 		dateProcessBalloonTip.setVisible(false);
 		desProcessBalloonTip.setVisible(false);
 	}
@@ -369,6 +371,9 @@ public class ListenerHandler {
 				focusTextfield();
 			}
 			public void windowLostFocus(WindowEvent arg0) {
+				UserIntSwing.textField.setText(FeedbackGuide.textfieldFeedback());
+				UserIntSwing.textField.selectAll();
+				UserIntSwing.lblDescriptionProcess.setText(null);
 			}
 		});
 	}

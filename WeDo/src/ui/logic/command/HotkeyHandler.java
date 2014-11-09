@@ -28,24 +28,35 @@ public class HotkeyHandler {
 	private static final InputMap im = UserIntSwing.textField.getInputMap(JComponent.WHEN_FOCUSED);
 	private static final ActionMap am = UserIntSwing.textField.getActionMap();
 	
+	private static final String ADD_COMMAND_SUGGESTION_STRING = " meeting today pri high";
+	private static final String VIEW_COMMAND_SUGGESTION_STRING = " today";
+	private static final String EDIT_COMMAND_SUGGESTION_STRING = " 1 tmr";
+	private static final String DELETE_COMMAND_SUGGESTION_STRING = " 1 to 3";
+	private static final String SEARCH_COMMAND_SUGGESTION_STRING = " work";
+	
 	public static void add() {
-        UserIntSwing.textField.setText(getAddCommand);
+        UserIntSwing.textField.setText(getAddCommand + ADD_COMMAND_SUGGESTION_STRING);
+        UserIntSwing.textField.setSelectionStart(4);
     }
     
     public static void view() {
-    	UserIntSwing.textField.setText(getViewCommand);
+    	UserIntSwing.textField.setText(getViewCommand + VIEW_COMMAND_SUGGESTION_STRING);
+    	UserIntSwing.textField.setSelectionStart(5);
     }
     
     public static void edit() { 	
-        UserIntSwing.textField.setText(getEditCommand);
+        UserIntSwing.textField.setText(getEditCommand + EDIT_COMMAND_SUGGESTION_STRING);
+        UserIntSwing.textField.setSelectionStart(5);
     }
     
     public static void delete() {
-        UserIntSwing.textField.setText(getDeleteCommand);
+        UserIntSwing.textField.setText(getDeleteCommand + DELETE_COMMAND_SUGGESTION_STRING);
+        UserIntSwing.textField.setSelectionStart(7);
     }
     
     public static void search() {
-        UserIntSwing.textField.setText(getSearchCommand);
+        UserIntSwing.textField.setText(getSearchCommand + SEARCH_COMMAND_SUGGESTION_STRING);
+        UserIntSwing.textField.setSelectionStart(7);
     }
     
 	/**
@@ -134,7 +145,6 @@ public class HotkeyHandler {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("HEREEEEEEEEEEEEEEEEE UP KEY");
 			}
 		});
 	}

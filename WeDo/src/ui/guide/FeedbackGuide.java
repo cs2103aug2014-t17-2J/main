@@ -70,12 +70,9 @@ public class FeedbackGuide {
 	}
 	
 	public static String textfieldFeedback() {
-		StringBuilder str = new StringBuilder();
-		
-		str.append(fontColorGrey(feedbackTextfield));
-		
-		return wrapWithHtmlTag(str.toString());
+		return feedbackTextfield;
 	}
+	
 	
 	private static String formatValidCommand(String text) {
 		StringBuilder str = new StringBuilder();
@@ -154,10 +151,5 @@ public class FeedbackGuide {
 	
 	private static String wrapWithHtmlTag(String text) {
 		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
-	}
-	
-	private static String fontColorGrey(String text) {
-		return String.format(TAG_WRAP_STRING, HTML_FONTCOLORGREY_OPEN, 
-				text, HTML_FONT_CLOSE);
 	}
 }

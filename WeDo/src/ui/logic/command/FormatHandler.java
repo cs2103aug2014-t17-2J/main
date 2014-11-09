@@ -106,6 +106,7 @@ public class FormatHandler {
 		UserIntSwing.lblDescriptionProcess.setBounds(501, 359, 256, 14);
 		
 		UserIntSwing.textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+		UserIntSwing.textField.setSelectedTextColor(Color.red);
 		UserIntSwing.textField.setBounds(10, 408, 639, 26);
 		UserIntSwing.textField.setColumns(10);
 	}
