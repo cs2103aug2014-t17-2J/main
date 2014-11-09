@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import logic.exception.InvalidCommandException;
+
 import com.google.common.collect.Multimap;
 
 import dataStorage.BasicDataHandler;
@@ -75,7 +77,7 @@ public class SearchEngine {
     }
 
     // @author A0112862L
-    public ArrayList<Task> search(Task task) {
+    public ArrayList<Task> search(Task task) throws InvalidCommandException {
         if (task.getDescription() != null) {
             return searchWagnerList(task.getDescription());
 
