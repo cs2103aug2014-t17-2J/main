@@ -21,6 +21,7 @@ public class SearchCommand extends Command {
     private ArrayList<Task> displayedTask;
 
     public void execute() throws InvalidCommandException {
+        assert(dataHandler != null);
 
         SearchEngine searchEngine = new SearchEngine(
                 (BasicDataHandler) dataHandler);
@@ -43,6 +44,8 @@ public class SearchCommand extends Command {
      */
     @Override
     public void undo() {
+        assert(dataHandler != null);
+        
         dataHandler.setDisplayedTasks(displayedTask);
     }
 

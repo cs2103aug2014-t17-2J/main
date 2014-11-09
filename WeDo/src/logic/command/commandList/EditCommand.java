@@ -214,4 +214,11 @@ public class EditCommand extends Command {
         final String ERROR_MESSAGE = "Format of edit should consist at least 1 field to edit";
         return ERROR_MESSAGE;
     }
+
+    /**
+     * @param source the source to set
+     */
+    public void setSource(Task source) {
+        this.source = source;
+    }
 }
