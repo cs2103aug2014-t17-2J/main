@@ -97,7 +97,7 @@ public class KeyWordMappingList {
     public static ImmutableMap<Command, Collection<String>> getCompleteCommandMap() {
         Command completeCommand = new CompleteCommand();
         return ImmutableMap.<Command, Collection<String>> of(completeCommand,
-                Arrays.asList("complete", "done", "finish", "tick"));
+                Arrays.asList("complete", "completed", "done", "finish", "finished", "tick", "ticked"));
     }
 
     /**
