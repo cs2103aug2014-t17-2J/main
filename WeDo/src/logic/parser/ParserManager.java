@@ -3,7 +3,12 @@
  */
 package logic.parser;
 
+import java.util.Collection;
 import java.util.EnumSet;
+
+import logic.command.commandList.EditCommand;
+import logic.utility.KeyWordMappingList;
+import logic.utility.StringHandler;
 import logic.utility.Task;
 
 //@author A0112887X
@@ -36,9 +41,91 @@ public class ParserManager {
         parseResult.setCommandWordUsed(commandParser.getWordUsed());
         parseResult.setDescriptionWordUsed(descriptionParser.getWordUsed());
 
+        
+        if (parseResult.getCommand() instanceof EditCommand) {
+            boolean somedaySpecified;
+
+            Collection<String> someDayCollection = KeyWordMappingList
+                    .getSomeDayKeyWord().get(Task.DATE_NOT_SET);
+            String[] someDayKeyWords = (String[]) someDayCollection.toArray();
+
+            somedaySpecified = isSomeDaySpecified(
+                    parseResult.getDescriptionWordUsed(), someDayKeyWords);
+
+            if (somedaySpecified) {
+                parseResult =removeSomeDayKeyWord(parseResult, someDayKeyWords);
+
+                if (somedaySpecified) {
+                    parseResult= setSomeday(parseResult);
+                }
+            }
+
+        }
+
         System.out.println(parseResult);
         return parseResult;
     }
+
+    /**
+     * Check if someday is specified
+     * 
+     * @param description
+     *            the description to check
+     * @param someDayKeyWords
+     *            the keywords for someday
+     * @return if someday is specified
+     */
+    private boolean isSomeDaySpecified(String description,
+            String[] someDayKeyWords) {
+        boolean somedaySpecified;
+
+        if (description != null) {
+            if (StringHandler.containsWord(description, someDayKeyWords)) {
+                somedaySpecified = true;
+
+            } else
+                somedaySpecified = false;
+        } else {
+            somedaySpecified = false;
+        }
+
+        return somedaySpecified;
+    }
+
+    /**
+     * Remove the some day keyword from the description
+     * 
+     * @param parseResult
+     *            the result to edit
+     * @param someDayKeyWords
+     *            the keywords for someday
+     */
+    private DynamicParseResult removeSomeDayKeyWord(DynamicParseResult parseResult, String[] someDayKeyWords) {
+        String matchedWord = StringHandler.getContainsWord(
+                parseResult.getDescriptionWordUsed(), someDayKeyWords);
+        String newDescription = StringHandler.removeFirstMatchedWord(
+                parseResult.getDescriptionWordUsed(), matchedWord);
+
+        parseResult.setDescriptionWordUsed(newDescription);
+        parseResult.getTask().setDescription(newDescription);
+        return parseResult;
+    }
+    
+    /**
+     * Set the parseResult to someday
+     * 
+     * @param parseResult
+     *            the result to be set to someday
+     */
+    private DynamicParseResult setSomeday(DynamicParseResult parseResult) {
+        parseResult.setDateWordUsed("");
+        parseResult.getTask().setEndDate(Task.DATE_NOT_SET);
+        parseResult.getTask().setStartDate(Task.DATE_NOT_SET);
+        parseResult.getTask().setStartTime(Task.TIME_NOT_SET);
+        parseResult.getTask().setEndTime(Task.TIME_NOT_SET);
+        return parseResult;
+    }
+
 
     /**
      * @param userInput
