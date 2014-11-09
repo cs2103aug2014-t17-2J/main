@@ -18,7 +18,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import logic.exception.InvalidCommandException;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.AttachLocation;
 import net.java.balloontip.BalloonTip.Orientation;
@@ -425,11 +424,7 @@ public class ListenerHandler {
 				if(arg1.getKeyCode() == VK.enter()) {
 					UserInterfaceMain.processEnterkey(arg1);
 				}
-				try {
-					UserInterfaceMain.processHotKeys(arg1);
-				} catch (InvalidCommandException e) {
-					e.printStackTrace();
-				}
+				UserInterfaceMain.processHotKeys(arg1);
 			}
 			@Override
 			public void keyReleased(KeyEvent arg1) {
