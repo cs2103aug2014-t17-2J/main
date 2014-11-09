@@ -26,6 +26,8 @@ public class EditCommand extends Command {
      * @see logic.command.commandList.Command#execute()
      */
     public void execute() throws InvalidCommandException {
+        
+        assert(dataHandler != null);
 
         final String ERROR_MESSAGE = "Edit failed, invalid index";
         if (index == NOT_SET) {
@@ -174,6 +176,8 @@ public class EditCommand extends Command {
      */
     @Override
     public void undo() {
+        assert(dataHandler != null);
+        
         dataHandler.editTask(task, source);
     }
 

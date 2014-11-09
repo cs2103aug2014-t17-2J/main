@@ -20,6 +20,8 @@ public class ViewCommand extends Command {
     ArrayList<Task> previousView;
 
     public void execute() throws InvalidCommandException {
+        assert(dataHandler != null);
+        
         previousView = dataHandler.getObservableList().getList();
         dataHandler.view(task);
         undoHandler.addUndo(this);
@@ -32,6 +34,8 @@ public class ViewCommand extends Command {
      */
     @Override
     public void undo() {
+        assert(dataHandler != null);
+       
         dataHandler.setDisplayedTasks(previousView);
     }
 
