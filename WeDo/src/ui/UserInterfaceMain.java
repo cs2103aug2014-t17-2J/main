@@ -211,9 +211,7 @@ public class UserInterfaceMain {
 			UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
 			UserIntSwing.logicManager.executeCommand(parseResult);
 			
-			if((parseResult.getCommand() instanceof AddCommand) || (parseResult.getCommand() instanceof ViewCommand)
-					|| (parseResult.getCommand() instanceof SearchCommand && 
-							parseResult.getTask().getEndDate() != Task.DATE_NOT_SET))
+			if(correctCommandExtracted(parseResult))
 			{
 				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult.getTask()));
 			}
@@ -226,6 +224,18 @@ public class UserInterfaceMain {
 			return;
 		}
 		FeedbackHandler.successfulOperation();
+	}
+	
+	/**
+	 * If the correct command is extracted for the task currently viewing
+	 * @param parseResult Command extracted
+	 * @return boolean if correct command is extracted
+	 */
+	private static boolean correctCommandExtracted(ParseResult parseResult) {
+		return (parseResult.getCommand() instanceof AddCommand) 
+				|| (parseResult.getCommand() instanceof ViewCommand)
+				|| (parseResult.getCommand() instanceof SearchCommand && 
+						parseResult.getTask().getEndDate() != Task.DATE_NOT_SET);
 	}
 	
 	/**
@@ -290,6 +300,7 @@ public class UserInterfaceMain {
 		HotkeyHandler.redo();
 		HotkeyHandler.minimise();
 		HotkeyHandler.scrollUpTable();
+		ListenerHandler.setDateDesBalloonTipVisibleFalse();
 	}
 	
 	public static void handleDynamicEdit(DynamicParseResult parseResult,
