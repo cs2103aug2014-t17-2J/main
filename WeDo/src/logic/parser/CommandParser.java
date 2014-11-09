@@ -9,7 +9,6 @@ import logic.utility.KeyWordMappingList;
 import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 
-
 //@author A0112887X
 /**
  * Parse the command based on the source
@@ -19,7 +18,7 @@ public class CommandParser {
     private Command command;
     private String wordUsed;
     private String wordRemaining;
-    
+
     /**
      * <p>
      * The source will be parsed to see if it contains date.

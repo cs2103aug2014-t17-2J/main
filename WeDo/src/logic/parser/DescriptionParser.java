@@ -47,8 +47,8 @@ public class DescriptionParser {
     public boolean isDescriptionSeparated(String[] separatedWordsRemaining,
             String commandWordUsed) {
         final int SEPARTED_LENGTH = 3;
-
-        if (separatedWordsRemaining == null || commandWordUsed == null) {
+        final int NOT_SEPARATED = 1;
+        if (separatedWordsRemaining == null || commandWordUsed == null || separatedWordsRemaining.length == NOT_SEPARATED) {
             return false; 
         }
 
