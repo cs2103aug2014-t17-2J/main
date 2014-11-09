@@ -28,7 +28,6 @@ public class FeedbackGuide {
 	private static final String HTML_OPEN = "<html>";
 	private static final String HTML_CLOSE = "</html>";
 	private static final String TAG_WRAP_STRING = "%s%s%s";
-	private static final String HTML_FONTCOLORGREY_OPEN = "<font color=#B0B0B0>"; //grey
 	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=#00CC66>"; //green
 	private static final String HTML_FONTCOLORRED_OPEN = "<font color=#FF0000>"; //red
 	private static final String HTML_FONT_CLOSE = "</font>";

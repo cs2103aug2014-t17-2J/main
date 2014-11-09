@@ -289,7 +289,7 @@ public class ListenerHandler {
 	 */
 	public static void addBtnMinimizeListener() {
 		BalloonTip minimizeBalloonTip = new BalloonTip(UserIntSwing.btnMinimize, new JLabel(
-				"Minimize to Tray"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				"Minimize to Tray [Ctrl-m]"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		minimizeBalloonTip.setVisible(false);
 
