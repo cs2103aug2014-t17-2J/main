@@ -57,7 +57,7 @@ public final class Keywords {
         ImmutableMap<Command, Collection<String>> undoCommandMap = KeyWordMappingList.getUndoCommandMap();
         ImmutableMap<Command, Collection<String>> redoCommandMap = KeyWordMappingList.getRedoCommandMap();
         ImmutableMap<Command, Collection<String>> completedCommandMap = KeyWordMappingList.getCompleteCommandMap();
-        ImmutableMap<Command, Collection<String>> uncompletedCommandMap = KeyWordMappingList.getUncompleteCommandMap();
+        ImmutableMap<Command, Collection<String>> uncompletedCommandMap = KeyWordMappingList.getIncompleteCommandMap();
         ImmutableMap<Command, Collection<String>> exitCommandMap =KeyWordMappingList. getExitCommandMap();
         
 		addToMapCommandAdd(map, addCommandMap, Action.ADD);

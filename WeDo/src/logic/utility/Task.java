@@ -193,12 +193,13 @@ public class Task {
 
         String dateString = EMPTY_STRING;
 
-        if (startDate.isAfter(CORRECT_YEAR_FORMAT) && endDate.isAfter(CORRECT_YEAR_FORMAT))  {
+        if (startDate.isAfter(CORRECT_YEAR_FORMAT)
+                && endDate.isAfter(CORRECT_YEAR_FORMAT)) {
             dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         } else {
             dateFormatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
         }
-        
+
         DateTimeFormatter timeFormatter = DateTimeFormatter
                 .ofPattern("hh:mm a");
 
