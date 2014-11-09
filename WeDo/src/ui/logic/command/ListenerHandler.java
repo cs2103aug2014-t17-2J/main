@@ -30,7 +30,7 @@ import userInterface.UserIntSwing;
 
 /**
  // @author A0112636M 
-  * This class process all the Listeners
+  * This class process ALL the Listeners
   */
 public class ListenerHandler {
 	private static final BalloonTipStyle edgedLookBtn = new EdgedBalloonStyle(Color.WHITE, Color.yellow);
@@ -68,7 +68,7 @@ public class ListenerHandler {
             }
         });
 		/* Set the frame to the location when the Point
-		 * of the frame is calculated*/
+		 * of the frame is calculated */
 		UserIntSwing.frame.addMouseMotionListener(new MouseMotionListener(){
 			public void mouseMoved(MouseEvent e) {
             }
@@ -185,7 +185,7 @@ public class ListenerHandler {
 
 	public static void addBtnDeleteListener() {
 		BalloonTip delBalloonTip = new BalloonTip(UserIntSwing.btnDelete, new JLabel(
-				"Press F5 to delete"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				"Press F5 to Delete"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		delBalloonTip.setVisible(false);
 
@@ -211,7 +211,7 @@ public class ListenerHandler {
 
 	public static void addBtnSearchListener() {
 		BalloonTip searchBalloonTip = new BalloonTip(UserIntSwing.btnSearch, new JLabel(
-				"Press F6 to search"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				"Press F6 to Search"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		searchBalloonTip.setVisible(false);
 
@@ -366,7 +366,7 @@ public class ListenerHandler {
 	public static void addFrameWindowFocusListener() {
 		UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
-				UserIntSwing.textField.requestFocusInWindow();
+				focusTextfield();
 			}
 			public void windowLostFocus(WindowEvent arg0) {
 			}
