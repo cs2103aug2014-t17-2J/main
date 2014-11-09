@@ -3,7 +3,6 @@ package dataStorage;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Observer;
 
 import logic.command.commandList.Command;
@@ -18,7 +17,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import definedEnumeration.Priority;
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class BasicDataHandler implements DataHandler {
 
@@ -37,11 +35,30 @@ public class BasicDataHandler implements DataHandler {
 
 	// @author A0112862L
 	public BasicDataHandler() {
-		fileHandler = new FileHandler();
+		initialize();
 		populateLists();
-		observableList = new ObservableList<Task>(new ArrayList<Task>());
 		showToday();
-		fileHandler.log(LocalTime.now() + " : DataHandler initialized");
+		FileHandler.log(LocalTime.now() + " : DataHandler initialized");
+
+	}
+	
+	private void initialize() {
+		fileHandler = new FileHandler();
+		observableList = new ObservableList<Task>(new ArrayList<Task>());
+
+	}
+	
+	// @author A0112862L
+	/**
+	 * This function add all the lists into a Multimap according to list type
+	 * 
+	 * @return whether the operation is successful.
+	 */
+	public void populateLists() {
+
+		mainList = ArrayListMultimap.create();
+		mainList = fileHandler.getAllTasks();
+		currentView = new Task();
 
 	}
 
@@ -96,30 +113,17 @@ public class BasicDataHandler implements DataHandler {
 
 	public ObservableList<Task> getObservableList() {
 
-		fileHandler.log(LocalTime.now() + " : ObservableList retrieved!");
+		FileHandler.log(LocalTime.now() + " : ObservableList retrieved!");
 		return observableList;
 	}
 
 	public void addObserver(Observer observer) {
 		observableList.addObserver(observer);
-		fileHandler.log(LocalTime.now() + " : Added observer "
+		FileHandler.log(LocalTime.now() + " : Added observer "
 				+ observer.toString());
 	}
 
-	// @author A0112862L
-	/**
-	 * This function add all the lists into a Multimap according to list type
-	 * 
-	 * @return whether the operation is successful.
-	 */
-	public boolean populateLists() {
 
-		mainList = ArrayListMultimap.create();
-		currentView = new Task();
-		mainList = fileHandler.getAllTasks();
-
-		return false;
-	}
 
 	// @author A0112862L
 	public ArrayList<Task> getAllTasks() {
@@ -158,7 +162,7 @@ public class BasicDataHandler implements DataHandler {
 		System.out.println(task.getUniqueID() + " is added");
 
 		// fileHandler.read("deadLine");
-		fileHandler.log(LocalTime.now() + " : Added Task "
+		FileHandler.log(LocalTime.now() + " : Added Task "
 				+ task.getUniqueID());
 		return true;
 	}
@@ -168,7 +172,7 @@ public class BasicDataHandler implements DataHandler {
 
 		fileHandler.clear();
 		fileHandler.writeToFile(new ArrayList<Task>(mainList.values()));
-		fileHandler.log(LocalTime.now() + " : Saved!");
+		FileHandler.log(LocalTime.now() + " : Saved!");
 		return null;
 	}
 
@@ -200,7 +204,7 @@ public class BasicDataHandler implements DataHandler {
 
 	public void setDisplayedTasks(ArrayList<Task> displayedTask) {
 		observableList.replaceList(displayedTask);
-		fileHandler.log(LocalTime.now() + " : changed displayed list ");
+		FileHandler.log(LocalTime.now() + " : changed displayed list ");
 
 	}
 
@@ -321,6 +325,7 @@ public class BasicDataHandler implements DataHandler {
 		} else if (task.getDescription().equals(SOMEDAY)) {
 			tmp.addAll(mainList.get(LocalDate.MAX));
 		} else {
+			FileHandler.log("No Such View");
 			throw new InvalidCommandException("No Such View");
 		}
 
