@@ -36,9 +36,9 @@ public class HelpGuide {
 		
 		str.append("-You can use these commands: ");
 		str.append(underline("add") + spaceOr + underline("create") 
-				+ spaceOr + underline("cre8") + " to");
+				+ spaceOr + underline("cre8") + spaceOr + underline("new"));
 		str.append(HTML_BREAK);
-		str.append(" create a task.");
+		str.append(" to create a task.");
 		
 		str.append(HTML_BREAK);
 		str.append("1. " + bold("Normal Task."));
@@ -143,11 +143,20 @@ public class HelpGuide {
 		str.append(" edit a specific task.");
 		
 		str.append(HTML_BREAK);
-		str.append("1. " + bold("Edit a specific task."));
+		str.append("1. " + bold("Edit a specific task (Changing the date)."));
 		str.append(HTML_BREAK);
 		str.append(makeExample("E.g. \"edit 1 21/10/2014\""));
 		str.append(HTML_BREAK);
 		str.append("This will edit the task with ID 1 changing the date to the");
+		str.append(HTML_BREAK);
+		str.append("one specified in the command.");
+		
+		str.append(HTML_BREAK);
+		str.append("2. " + bold("Edit a specific task (Changing the description)."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"edit 2 meeting\""));
+		str.append(HTML_BREAK);
+		str.append("This will edit the task with ID 2 the initial description to");
 		str.append(HTML_BREAK);
 		str.append("one specified in the command.");
 		
@@ -210,8 +219,8 @@ public class HelpGuide {
 		str.append(HTML_BREAK);
 		
 		str.append("-You can use these commands: ");
-		str.append(underline("search") + spaceOr + underline("s") 
-				+ spaceOr + underline("find") + spaceOr + underline("f"));
+		str.append(underline("search") + spaceOr + underline("locate") 
+				+ spaceOr + underline("find"));
 		str.append(HTML_BREAK);
 		str.append(" to search for a keyword.");
 		

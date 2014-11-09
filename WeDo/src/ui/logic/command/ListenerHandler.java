@@ -16,6 +16,7 @@ import java.awt.event.WindowStateListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import logic.exception.InvalidCommandException;
 import net.java.balloontip.BalloonTip;
@@ -31,20 +32,20 @@ import userInterface.UserIntSwing;
 
 /**
  // @author A0112636M 
-  * This class process ALL the Listeners
-  */
+ * This class process ALL the Listeners
+ */
 public class ListenerHandler {
 	private static final BalloonTipStyle edgedLookBtn = new EdgedBalloonStyle(Color.WHITE, Color.yellow);
 	private static final BalloonTipStyle edgedLookLblDate = new EdgedBalloonStyle(Color.green, Color.green);
 	private static final BalloonTipStyle edgedLookLblDes = new EdgedBalloonStyle(Color.WHITE, Color.black);
-	
+
 	private static final BalloonTip dateProcessBalloonTip = new BalloonTip(UserIntSwing.lblDateProcess, 
 			new JLabel(""), edgedLookLblDate, Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 10, false);
 	private static final BalloonTip desProcessBalloonTip = new BalloonTip(UserIntSwing.lblDescriptionProcess, 
 			new JLabel(""), edgedLookLblDes, Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 10, false);
-	
+
 	private static Point mouseDownCompCoords = null;
-	
+
 	/**
 	 * Buttons Listener - Help, Add, View, Edit, Delete, Search, 
 	 * Enter, Close, Minimize.
@@ -56,32 +57,32 @@ public class ListenerHandler {
 		/* calculate the axis of the frame when mouse is pressed
 		 * on the frame*/
 		UserIntSwing.frame.addMouseListener(new MouseListener() {
-            public void mouseReleased(MouseEvent e) {
-                mouseDownCompCoords = null;
-            }
-            public void mousePressed(MouseEvent e) {
-                mouseDownCompCoords = e.getPoint();
-            }
-            public void mouseExited(MouseEvent e) {
-            }
-            public void mouseEntered(MouseEvent e) {
-            }
-            public void mouseClicked(MouseEvent e) {
-            }
-        });
+			public void mouseReleased(MouseEvent e) {
+				mouseDownCompCoords = null;
+			}
+			public void mousePressed(MouseEvent e) {
+				mouseDownCompCoords = e.getPoint();
+			}
+			public void mouseExited(MouseEvent e) {
+			}
+			public void mouseEntered(MouseEvent e) {
+			}
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		/* Set the frame to the location when the Point
 		 * of the frame is calculated */
 		UserIntSwing.frame.addMouseMotionListener(new MouseMotionListener(){
 			public void mouseMoved(MouseEvent e) {
-            }
-            public void mouseDragged(MouseEvent e) {
-                Point currCoords = e.getLocationOnScreen();
-                UserIntSwing.frame.setLocation(currCoords.x - mouseDownCompCoords.x, 
-                		currCoords.y - mouseDownCompCoords.y);
-            }
-	    });
+			}
+			public void mouseDragged(MouseEvent e) {
+				Point currCoords = e.getLocationOnScreen();
+				UserIntSwing.frame.setLocation(currCoords.x - mouseDownCompCoords.x, 
+						currCoords.y - mouseDownCompCoords.y);
+			}
+		});
 	}
-	
+
 	public static void addBtnHelpListener() {
 		BalloonTip helpBalloonTip = new BalloonTip(UserIntSwing.btnHelp, new JLabel(
 				"Press F1 for Help"), edgedLookBtn, Orientation.RIGHT_BELOW,
@@ -92,7 +93,7 @@ public class ListenerHandler {
 				HelpMenu.main(null);
 			}
 		});
-		
+
 		UserIntSwing.btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -236,7 +237,7 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	public static void addBtnEnterListener() {
 		UserIntSwing.btnEnter.addMouseListener(new MouseAdapter() {
 			@Override
@@ -249,7 +250,7 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	/**
 	 * The btnClose process listener that close the application
 	 */
@@ -258,13 +259,19 @@ public class ListenerHandler {
 				"Close Application"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		closeBalloonTip.setVisible(false);
-		
+
 		UserIntSwing.btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				UserIntSwing.frame.dispose();
+				int confirmed = JOptionPane.showConfirmDialog(null, 
+						"Are you sure you want to exit WeDo?", "Exit Program Message Box",
+						JOptionPane.YES_NO_OPTION);
+
+				if (confirmed == JOptionPane.YES_OPTION) {
+					UserIntSwing.frame.dispose();
+				}
 			}
 		});
-		
+
 		UserIntSwing.btnClose.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -276,7 +283,7 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	/**
 	 * The btnMinimize process listener that minimizes the application
 	 */
@@ -285,7 +292,7 @@ public class ListenerHandler {
 				"Minimize to Tray"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		minimizeBalloonTip.setVisible(false);
-		
+
 		UserIntSwing.btnMinimize.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -302,7 +309,7 @@ public class ListenerHandler {
 			}
 		});
 	}
-	
+
 	/**
 	 * This process pop out a Balloon Tip when the Dynamic Date Label
 	 * is too long for the user to view
@@ -330,16 +337,16 @@ public class ListenerHandler {
 			desProcessBalloonTip.setVisible(false);
 		}
 	}
-	
+
 	/**
-	 * This set the Date and Description Balloon Tip Visible
+	 * This sets the Date and Description Balloon Tip Visible
 	 * to false
 	 */
 	public static void setBalloonTipVisibleFalse() {
 		dateProcessBalloonTip.setVisible(false);
 		desProcessBalloonTip.setVisible(false);
 	}
-	
+
 	/**
 	 * This focus on the Textfield
 	 */

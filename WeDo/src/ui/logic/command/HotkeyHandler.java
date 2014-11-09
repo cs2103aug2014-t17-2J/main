@@ -138,9 +138,9 @@ public class HotkeyHandler {
 	 * This operation process the scrolling up of the table
 	 */
 	public static void scrollUpTable() {	
-		im.put(KeyStroke.getKeyStroke(VK.scrollUp_UpKey(), InputEvent.CTRL_MASK), 
-				"listenCtrlUpKey");
-		am.put("listenCtrlUpKey", new AbstractAction() {
+		im.put(KeyStroke.getKeyStroke(VK.scrollUp_UpKey(), InputEvent.SHIFT_DOWN_MASK), 
+				"listenShiftUpKey");
+		am.put("listenShiftUpKey", new AbstractAction() {
 
 			private static final long serialVersionUID = 1L;
 			@Override

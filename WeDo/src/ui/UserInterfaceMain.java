@@ -114,9 +114,10 @@ public class UserInterfaceMain {
 	 */
 	public static String viewDateTask(Task task) {
 		String getDateStr = task.getDateTimeString();
-//		userInput = UserIntSwing.textField.getText();
-//		ParseResult parseResult = UserIntSwing.logicManager.processCommand(userInput);
-//		boolean completeTask = parseResult.getCommand() instanceof CompleteCommand;
+		
+		if(getDateStr.isEmpty() && task.getDateTimeString() != null) {
+			return FeedbackGuide.formatViewAllTask(task.getDescription());
+		}
 		
 		if(getDateStr.matches(dateToday())) {
 			return FeedbackGuide.formatViewTodayTask();

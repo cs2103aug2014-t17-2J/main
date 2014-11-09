@@ -35,8 +35,10 @@ public class WeDoSystemTray {
 	
 	public static void Minimise(WindowEvent arg) {
 		
+		 /* If export as Executable Jar file use "/WeDo_logo.png" 
+		  * and put the logo in the same root*/
 		Image image = Toolkit.getDefaultToolkit().getImage(
-				UserIntSwing.class.getClass().getResource("/ui/icon/Wedo_Logo.png"));
+				UserIntSwing.class.getClass().getResource("/ui/icon/WeDo_logo.png"));
 		PopupMenu popup = new PopupMenu();
 		trayIcon = new TrayIcon(image, MAIN_FRAME_NAME, popup);
 		trayIcon.setImageAutoSize(true);
