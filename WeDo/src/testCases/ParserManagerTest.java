@@ -20,7 +20,7 @@ import org.junit.Test;
 import definedEnumeration.Priority;
 
 //@author A0112887X 
-
+//@formatter:off
 /**
  * For Flexible command testing:
  * 
@@ -110,6 +110,7 @@ import definedEnumeration.Priority;
  * | description | command     |
  * +-------------+-------------+
  */
+//@formatter:on
 
 public class ParserManagerTest {
 
@@ -122,86 +123,141 @@ public class ParserManagerTest {
 
     }
 
-    private void parseFlexibleOrdering() 
-    {
+    private void parseFlexibleOrdering() {
         String expectedDescription = "eat rice";
         LocalDate expectedEndDate = LocalDate.now();
         LocalTime expectedEndTime = LocalTime.of(15, 0);
         Priority expectedPriority = Priority.PRIORITY_HIGH;
-        Task expectedTaskfor4Words= new Task(expectedDescription, expectedPriority,
-                expectedEndDate, expectedEndTime);
-        Task expectedTaskfor3WordsWithDate= new Task(expectedDescription, Task.PRIORITY_NOT_SET,
-                expectedEndDate, expectedEndTime);
-        Task expectedTaskfor3WordsWithPriority= new Task(expectedDescription, expectedPriority);
-        Task expectedTaskfor2Words= new Task(expectedDescription, Task.PRIORITY_NOT_SET);
 
-        
+        Task expectedTaskfor4Words = new Task(expectedDescription,
+                expectedPriority, expectedEndDate, expectedEndTime);
+        Task expectedTaskfor3WordsWithDate = new Task(expectedDescription,
+                Task.PRIORITY_NOT_SET, expectedEndDate, expectedEndTime);
+        Task expectedTaskfor3WordsWithPriority = new Task(expectedDescription,
+                expectedPriority);
+        Task expectedTaskfor2Words = new Task(expectedDescription,
+                Task.PRIORITY_NOT_SET);
+
         String command = "add";
         String description = "eat rice";
         String date = "today 3pm";
         String priority = "pri high";
-        
-        // Testing for permutation of flexible command (refer to initial comments)
-        parseFlexibleAdd(expectedTaskfor4Words, command, description, date, priority);
-        parseFlexibleAdd(expectedTaskfor4Words, command, description, priority, date);
-        parseFlexibleAdd(expectedTaskfor4Words, command, date, description, priority);
-        parseFlexibleAdd(expectedTaskfor4Words, command, date, priority, description);
-        parseFlexibleAdd(expectedTaskfor4Words, command, priority, description, date);
-        parseFlexibleAdd(expectedTaskfor4Words, command, priority, date, description);
-        parseFlexibleAdd(expectedTaskfor4Words, description, command, priority, date);
-        parseFlexibleAdd(expectedTaskfor4Words, description, command, date, priority);
-        parseFlexibleAdd(expectedTaskfor4Words, description, date, priority, command);
-        parseFlexibleAdd(expectedTaskfor4Words, description, date, command, priority);
-        parseFlexibleAdd(expectedTaskfor4Words, description, priority, date, command);
-        parseFlexibleAdd(expectedTaskfor4Words, description, priority, command, date);
-        parseFlexibleAdd(expectedTaskfor4Words, date, command, description, priority);
-        parseFlexibleAdd(expectedTaskfor4Words, date, command, priority, description);
-        parseFlexibleAdd(expectedTaskfor4Words, date, description, command, priority);
-        parseFlexibleAdd(expectedTaskfor4Words, date, description, priority, command);
-        parseFlexibleAdd(expectedTaskfor4Words, date, priority, command, description);
-        parseFlexibleAdd(expectedTaskfor4Words, date, priority, description, command);
-        parseFlexibleAdd(expectedTaskfor4Words, priority, command, date, description);
-        parseFlexibleAdd(expectedTaskfor4Words, priority, command, description, date);
-        parseFlexibleAdd(expectedTaskfor4Words, priority, description, date, command);
-        parseFlexibleAdd(expectedTaskfor4Words, priority, description, command, date);
-        parseFlexibleAdd(expectedTaskfor4Words, priority, date, description, command);
-        parseFlexibleAdd(expectedTaskfor4Words, priority, date, command, description);
-        
-        parseFlexibleAdd(expectedTaskfor3WordsWithDate, command, date, description);
-        parseFlexibleAdd(expectedTaskfor3WordsWithDate, command, description, date);
-        parseFlexibleAdd(expectedTaskfor3WordsWithDate, description, date, command);
-        parseFlexibleAdd(expectedTaskfor3WordsWithDate, description, command, date);
-        parseFlexibleAdd(expectedTaskfor3WordsWithDate, date, description, command);
-        parseFlexibleAdd(expectedTaskfor3WordsWithDate, date, command, description);
-        
-        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, command, priority, description);
-        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, command, description, priority);
-        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, description, priority, command);
-        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, description, command, priority);
-        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, priority, description, command);
-        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, priority, command, description);
-        
+
+        // Testing for permutation of flexible command (refer to initial
+        // comments)
+        parseFlexibleAdd(expectedTaskfor4Words, command, description, date,
+                priority);
+        parseFlexibleAdd(expectedTaskfor4Words, command, description, priority,
+                date);
+        parseFlexibleAdd(expectedTaskfor4Words, command, date, description,
+                priority);
+        parseFlexibleAdd(expectedTaskfor4Words, command, date, priority,
+                description);
+        parseFlexibleAdd(expectedTaskfor4Words, command, priority, description,
+                date);
+        parseFlexibleAdd(expectedTaskfor4Words, command, priority, date,
+                description);
+        parseFlexibleAdd(expectedTaskfor4Words, description, command, priority,
+                date);
+        parseFlexibleAdd(expectedTaskfor4Words, description, command, date,
+                priority);
+        parseFlexibleAdd(expectedTaskfor4Words, description, date, priority,
+                command);
+        parseFlexibleAdd(expectedTaskfor4Words, description, date, command,
+                priority);
+        parseFlexibleAdd(expectedTaskfor4Words, description, priority, date,
+                command);
+        parseFlexibleAdd(expectedTaskfor4Words, description, priority, command,
+                date);
+        parseFlexibleAdd(expectedTaskfor4Words, date, command, description,
+                priority);
+        parseFlexibleAdd(expectedTaskfor4Words, date, command, priority,
+                description);
+        parseFlexibleAdd(expectedTaskfor4Words, date, description, command,
+                priority);
+        parseFlexibleAdd(expectedTaskfor4Words, date, description, priority,
+                command);
+        parseFlexibleAdd(expectedTaskfor4Words, date, priority, command,
+                description);
+        parseFlexibleAdd(expectedTaskfor4Words, date, priority, description,
+                command);
+        parseFlexibleAdd(expectedTaskfor4Words, priority, command, date,
+                description);
+        parseFlexibleAdd(expectedTaskfor4Words, priority, command, description,
+                date);
+        parseFlexibleAdd(expectedTaskfor4Words, priority, description, date,
+                command);
+        parseFlexibleAdd(expectedTaskfor4Words, priority, description, command,
+                date);
+        parseFlexibleAdd(expectedTaskfor4Words, priority, date, description,
+                command);
+        parseFlexibleAdd(expectedTaskfor4Words, priority, date, command,
+                description);
+
+        parseFlexibleAdd(expectedTaskfor3WordsWithDate, command, date,
+                description);
+        parseFlexibleAdd(expectedTaskfor3WordsWithDate, command, description,
+                date);
+        parseFlexibleAdd(expectedTaskfor3WordsWithDate, description, date,
+                command);
+        parseFlexibleAdd(expectedTaskfor3WordsWithDate, description, command,
+                date);
+        parseFlexibleAdd(expectedTaskfor3WordsWithDate, date, description,
+                command);
+        parseFlexibleAdd(expectedTaskfor3WordsWithDate, date, command,
+                description);
+
+        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, command, priority,
+                description);
+        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, command,
+                description, priority);
+        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, description,
+                priority, command);
+        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, description,
+                command, priority);
+        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, priority,
+                description, command);
+        parseFlexibleAdd(expectedTaskfor3WordsWithPriority, priority, command,
+                description);
+
         parseFlexibleAdd(expectedTaskfor2Words, command, description);
         parseFlexibleAdd(expectedTaskfor2Words, description, command);
         
+
     }
     
-    private void parseFlexibleAdd(Task expectedTask, String... flexibleOrdering) 
-    {
+    private void parseSplitDescription(String... flexibleOrdering) {
+//        parseSplitDescription(command, description, date ,description);
+
         String input = "";
-        
-        for(String set : flexibleOrdering)
-        {
+
+        for (String set : flexibleOrdering) {
             input += (" " + set);
         }
-        
+
+       
+        assertFailedMessage(input);
+
+    }
+
+    private void assertFailedMessage(String input) {
+        final String FAILED_MESSAGE = "Description Should not be separeted";
+        ParserManager parserManager = new ParserManager();
+        assertEquals(FAILED_MESSAGE, parserManager.interpret(input).getFailedMessage());
+    }
+
+    private void parseFlexibleAdd(Task expectedTask, String... flexibleOrdering) {
+        String input = "";
+
+        for (String set : flexibleOrdering) {
+            input += (" " + set);
+        }
+
         Command expectedCommand = new AddCommand();
         ParseResult expectedResult = new ParseResult(expectedCommand,
                 expectedTask);
 
-        assertValidParse(
-                input,
-                expectedResult);
+        assertValidParse(input, expectedResult);
 
     }
 
@@ -465,7 +521,6 @@ public class ParserManagerTest {
         assertValidParse("add floating task", expectedResult);
     }
 
-    
     private void assertValidParse(String input, ParseResult expectedResult) {
         ParserManager parserManager = new ParserManager();
         getNextUniqueID(expectedResult);
