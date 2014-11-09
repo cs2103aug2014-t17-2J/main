@@ -128,6 +128,8 @@ public class StringHandler {
      */
     public static String removeFirstMatchedWord(String source, String toRemove) {
         if (source != null && toRemove != null) {
+            source = source.trim();
+            toRemove = toRemove.trim();
             final String SPACE = " ";
             source = SPACE + source + SPACE;
             toRemove = SPACE + toRemove + SPACE;
@@ -428,7 +430,7 @@ public class StringHandler {
      *            the string that is to be searched
      * @param keyArrays
      *            the string arrays which have the keys to search for
-     * @return
+     * @return if it contains word
      */
     public static boolean containsWord(String source, String[]... keyArrays) {
         source = " " + source.toLowerCase() + " ";
@@ -445,6 +447,33 @@ public class StringHandler {
         }
         return false;
     }
+    
+    
+    /**
+     * This function search for words that matches with values at keyArrays
+     * 
+     * @param source
+     *            the string that is to be searched
+     * @param keyArrays
+     *            the string arrays which have the keys to search for
+     * @return the containing word
+     */
+    public static String getContainsWord(String source, String[]... keyArrays) {
+        source = " " + source.toLowerCase() + " ";
+
+        for (String[] keyArray : keyArrays) {
+            for (String key : keyArray) {
+                if (!key.isEmpty()) {
+                    key = " " + key.toLowerCase() + " ";
+                    if (source.contains(key)) {
+                        return key;
+                    }
+                }
+            }
+        }
+        return "";
+    }
+    
 
     /**
      * @param source
