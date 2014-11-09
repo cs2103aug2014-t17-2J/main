@@ -11,24 +11,22 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import logic.utility.AbstractTask;
 import logic.utility.StringHandler;
+import logic.utility.Task;
 
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
+//@author A0112887X
 /**
- * @author A0112887X
- * 
- * This class help filter our the date for natty parser.
+ * Parse the date with the help of local date parser and natty parser
  */
 public class DateParser {
 
@@ -37,274 +35,240 @@ public class DateParser {
     private String errorMessage;
     private List<Date> dateList;
     private boolean timeSet;
-    private boolean wordRemainingSeparated;
+    private String[] separatedWordRemainings;
 
     /**
-     * <p> The source will be parsed to see if it contains date.
-     * @param source the String to be parsed
-     * @return if source contains valid date 
+     * <p>
+     * The source will be parsed to see if it contains date.
+     * 
+     * @param source
+     *            the String to be parsed
+     * @return if source contains valid date
      */
     public boolean tryParse(String source) {
 
         final String EXCEEDED_DATE_PARSE_LIMIT = "Input contains more than 2 dates to parse";
 
-        
         if (source == null) {
             return false;
         }
 
         source = source.trim();
 
-        if (source.isEmpty()) {
+        if (source.isEmpty() || formalDateContainsNegativeNumber(source)
+                || formalDateContainsZero(source)) {
             return false;
         }
 
-        if(formalDateContainsNegativeNumber(source))
-        {
-            return false;
-        }
-        
         source = DateStringMassager.massageData(source);
-        
-        if(formalDateContainsZero(source) || formalDateContainsInvalidRange(source))
-        {
-            return false;
-        }
-        
 
         Parser nattyParser = new Parser();
+
         List<DateGroup> dateGroups = nattyParser.parse(source);
 
         if (dateAvailable(dateGroups)) {
-            
             dateList = getDateList(dateGroups);
-
-            if(exceededDateListLimit())
-            {
+            if (exceededDateListLimit()) {
                 setErrorMessage(EXCEEDED_DATE_PARSE_LIMIT);
                 return false;
             }
-            
-            String dateWordUsed = getDateWordUsed(source, dateGroups);
-            dateWordUsed = DateStringMassager.removeWordDelimiter(dateWordUsed);
-            dateWordUsed = DateStringMassager.removeDigitDelimiters(dateWordUsed);
+            String dateWordUsed = setDateWordUsed(source, dateGroups);
 
-            source = DateStringMassager.removeDigitDelimiters(source);
-            source = DateStringMassager.removeWordDelimiter(source);
-            
-            String dateConnector = DateStringMassager.getFrontDateConnector(source, dateWordUsed);
-            wordUsed =  dateConnector + dateWordUsed;
-            
-            System.out.println("Total wordUsed = " + wordUsed);
-
-            wordRemainingSeparated = StringHandler.isWordUsedInTheMiddle(source, wordUsed);
-            wordRemaining = StringHandler.removeFirstMatched(source, wordUsed);
-            
-            
             try {
                 dateList = parseDateBeforeEpochYear(dateWordUsed, dateList);
             } catch (ParseException e) {
                 return false;
-                }
-         
-            
+            }
+
             timeSet = isTimeInferred(dateGroups);
             return true;
-        }
-        else 
-        {
+        } else {
             return false;
         }
     }
 
-    private boolean exceededDateListLimit() 
-    {
+    /**
+     * Set the date word used
+     * 
+     * @param source
+     *            the original message
+     * @param dateGroups
+     *            the group that contains the date info
+     * @return
+     */
+    private String setDateWordUsed(String source, List<DateGroup> dateGroups) {
+        String dateWordUsed = getDateWordUsed(source, dateGroups);
+        dateWordUsed = DateStringMassager.removeWordDelimiter(dateWordUsed);
+        dateWordUsed = DateStringMassager.removeDigitDelimiters(dateWordUsed);
+
+        source = DateStringMassager.removeDigitDelimiters(source);
+        source = DateStringMassager.removeWordDelimiter(source);
+
+        String dateConnector = DateStringMassager.getFrontDateConnector(source,
+                dateWordUsed);
+        wordUsed = dateConnector + dateWordUsed;
+
+        separatedWordRemainings = StringHandler.getSeparatedWord(source,
+                wordUsed);
+        wordRemaining = StringHandler.removeFirstMatched(source, wordUsed);
+        return dateWordUsed;
+    }
+
+    /**
+     * Check if date limit exceeded
+     * 
+     * @return if there are more than 2 dates
+     */
+    private boolean exceededDateListLimit() {
         final int MAX_DATE_PARSE = 2;
         return dateList.size() > MAX_DATE_PARSE;
     }
 
-    private boolean formalDateContainsZero(String source) {
-        return source.matches(".*\\d\\d\\d\\d/0+/|\\d\\d\\d\\d/\\d+/0+|\\d+/0+/.*");
-    }
-
-    private boolean formalDateContainsNegativeNumber(String source) {
-        return source.matches(".*-\\d+/|/-\\d+.*");
-    }
-    
-    private boolean formalDateContainsInvalidRange(String source) 
-    {
-        final int yearGroup = 1;
-        final int monthGroup = 2;
-        final int dayGroup = 3;
-                
-        String yyyymmddRegex = "(\\d+)/(\\d+)/(\\d+)";
-        
-         
-        Pattern pattern = Pattern.compile(yyyymmddRegex);
-        Matcher matcher = pattern.matcher(source);
-        
-        
-        while (matcher.find()) 
-        {
-            int year, month, day;
-            try
-            {
-                year = Integer.parseInt(matcher.group(yearGroup));
-                month = Integer.parseInt(matcher.group(monthGroup));
-                day = Integer.parseInt(matcher.group(dayGroup));
-            }
-            catch(NumberFormatException numberTooBig)
-            {
-                return false;
-            }
-            
-            if(isYearInvalid(year))
-            {
-                return true;
-            }
-            
-            if(monthIsInvalid(month))
-            {
-                return true;
-            }
-            
-            if(dayIsInvalid(day))
-            {
-                return true;
-            }
-
-               
-        }
-        
-        
-        return false;
-    }
-
-    private boolean isYearInvalid(int year) {
-        return yearContains3Digit(year) | yearContainsMoreThan4Digit(year);
-    }
-
-
-    private boolean dayIsInvalid(int day) 
-    {
-        final int MAX_DAY = 31;
-        return day > MAX_DAY;
-    }
-
-    private boolean monthIsInvalid(int month) {
-        final int MAX_MONTH = 12;
-        return month > MAX_MONTH;
-    }
-    private boolean yearContainsMoreThan4Digit(int year) {
-        final int MAX_4DIGIT_YEAR = 9999;
-        return year > MAX_4DIGIT_YEAR;
-    }
-
-    private boolean yearContains3Digit(int year) 
-    {
-        final int MAX_2DIGIT_YEAR = 99;
-        final int MIN_4DIGIT_YEAR = 1000;
-        return year > MAX_2DIGIT_YEAR && year < MIN_4DIGIT_YEAR;
-    }
-    
     /**
-     * Handles parsing of year before epoch start year (1970), year is parsed by utilizing LocalDateTime parser
-     * @param source the String which consist of the date to parse
-     * @throws ParseException if source consist of invalid input
+     * Check if it contains zero in formal dae
+     * 
+     * @param source
+     *            the original message
+     * @return if it contains zero in formal date
+     */
+    private boolean formalDateContainsZero(String source) {
+        String dateWithZeroPattern = ".*\\d\\d\\d\\d/0+/|\\d\\d\\d\\d/\\d+/0+|\\d+/0+/.*";
+        return source.matches(dateWithZeroPattern);
+    }
+
+    /**
+     * Check if it contains negative number in formal date
+     * 
+     * @param source
+     *            the original message
+     * @return if it contains negative number in formal date
+     */
+    private boolean formalDateContainsNegativeNumber(String source) {
+        String dateWithNegativePattern = ".*-\\d+/|/-\\d+.*";
+        return source.matches(dateWithNegativePattern);
+    }
+
+    /**
+     * Handles parsing of year before epoch start year (1970), year is parsed by
+     * utilizing LocalDateTime parser
+     * 
+     * @param source
+     *            the String which consist of the date to parse
+     * @throws ParseException
+     *             if source consist of invalid input
      * @return List<Date> which contains all the date information
      */
-    private List<Date> parseDateBeforeEpochYear(String source, List<Date> dateList) throws ParseException
-    {
+    private List<Date> parseDateBeforeEpochYear(String source,
+            List<Date> dateList) throws ParseException {
         final int INITIAL_INDEX = 0;
         final int EPOCH_START_YEAR = 1970;
         final int yearGroup = 1;
         final int monthGroup = 2;
         final int dayGroup = 3;
-        
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("u/M/d"); 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("u/M/d");
         String yyyymmddRegex = "(\\d\\d\\d\\d)[/-](0?[1-9]|1[012])[/-](3[01]|[012]?[0-9])";
-        
-         
+
         Pattern pattern = Pattern.compile(yyyymmddRegex);
         Matcher matcher = pattern.matcher(source);
         int dateIndex = INITIAL_INDEX;
-        
-        
-        while (matcher.find()) 
-        {
-                int year = Integer.parseInt(matcher.group(1));
-                if(year >= EPOCH_START_YEAR)
-                {
-                    continue;
-                }
-                
-                Calendar calendar = convertDateToCalendar(dateList.get(dateIndex));
-            
-                LocalDate localDate = LocalDate.parse(matcher.group(yearGroup) + "/" + matcher.group(monthGroup) + "/" + matcher.group(dayGroup), formatter);
-                LocalTime localTime = getLocalTime(calendar);
-                LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
-                
-                Date parseResult = convertLocalDateToDate(localDateTime);
-                dateList.remove(dateIndex);
-                dateList.add(dateIndex, parseResult);
-                dateIndex++;
- 
+
+        while (matcher.find()) {
+            int year = Integer.parseInt(matcher.group(1));
+            if (year >= EPOCH_START_YEAR) {
+                continue;
+            }
+
+            Calendar calendar = convertDateToCalendar(dateList.get(dateIndex));
+
+            LocalDate localDate = LocalDate.parse(
+                    matcher.group(yearGroup) + "/" + matcher.group(monthGroup)
+                            + "/" + matcher.group(dayGroup), formatter);
+            LocalTime localTime = getLocalTime(calendar);
+            LocalDateTime localDateTime = LocalDateTime
+                    .of(localDate, localTime);
+
+            Date parseResult = convertLocalDateToDate(localDateTime);
+            dateList.remove(dateIndex);
+            dateList.add(dateIndex, parseResult);
+            dateIndex++;
+
         }
-        
-        sortDateList(dateList);  
-        
+
+        sortDateList(dateList);
+
         return dateList;
     }
 
     /**
      * Convert Calendar timing to LocalTime
-     * @param calendar the calendar which stores the time 
+     * 
+     * @param calendar
+     *            the calendar which stores the time
      * @return LocalTime which consist of HH:MM:SS
      */
     private LocalTime getLocalTime(Calendar calendar) {
-        return LocalTime.of(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND));
+        return LocalTime.of(calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND),
+                calendar.get(Calendar.MILLISECOND));
     }
 
     /**
      * Convert java.util.date to calendar
-     * @param date the date to be converted to calendar
+     * 
+     * @param date
+     *            the date to be converted to calendar
      * @return calendar which consist of the date converted
      */
-    private Calendar convertDateToCalendar(Date date)
-    {
-        Calendar calendar = GregorianCalendar.getInstance(); 
-        calendar.setTime(date);   
+    private Calendar convertDateToCalendar(Date date) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(date);
         return calendar;
     }
-    
 
-    
-    private Date convertLocalDateToDate(LocalDateTime localDate)
-    {
+    /**
+     * Convert local date to date
+     * 
+     * @param localDate
+     *            the local date to be converted to date
+     * @return the date inside local date
+     */
+    private Date convertLocalDateToDate(LocalDateTime localDate) {
         return Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
-          // return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
-    
+
+    /**
+     * Get number of dates
+     * 
+     * @return number of dates
+     */
     public int getNumberOfDates() {
         return dateList.size();
     }
 
+    /**
+     * Determines if time is set
+     * 
+     * @return is time set
+     */
     public boolean isTimeSet() {
         return timeSet;
     }
 
+    /**
+     * @return the start date
+     */
     public LocalDate getStartDate() {
         final int START_DATE_INDEX = 0;
         return dateToLocalDate(dateList.get(START_DATE_INDEX));
     }
-    
-    public Date getMydate() 
-    {
-        return dateList.get(0);
-    }
 
+    /**
+     * @return get end date
+     */
     public LocalDate getEndDate() {
-        final int END_DATE_INDEX = dateList.size() - 1;
+        final int LIST_OFFSET = 1;
+        final int END_DATE_INDEX = dateList.size() - LIST_OFFSET;
         final int START_DATE_INDEX = 0;
 
         if (END_DATE_INDEX == START_DATE_INDEX) {
@@ -315,22 +279,27 @@ public class DateParser {
         }
     }
 
+    /**
+     * @return start time
+     */
     public LocalTime getStartTime() {
         final int START_TIME_INDEX = 0;
 
         if (timeSet) {
             return dateToLocalTime(dateList.get(START_TIME_INDEX));
         } else {
-            return AbstractTask.TIME_NOT_SET;
+            return Task.TIME_NOT_SET;
         }
 
     }
 
+    /**
+     * @return end time
+     */
     public LocalTime getEndTime() {
         final int END_TIME_INDEX = dateList.size() - 1;
         final int START_TIME_INDEX = 0;
 
-        
         if (END_TIME_INDEX == START_TIME_INDEX) {
             return getStartTime();
         }
@@ -338,10 +307,15 @@ public class DateParser {
         if (timeSet) {
             return dateToLocalTime(dateList.get(END_TIME_INDEX));
         } else {
-            return AbstractTask.TIME_NOT_SET;
+            return Task.TIME_NOT_SET;
         }
     }
 
+    /**
+     * @param dateGroup
+     *            the group which contains the date list
+     * @return the date list
+     */
     private List<Date> getDateList(List<DateGroup> dateGroup) {
 
         final int START_INDEX = 0;
@@ -349,20 +323,48 @@ public class DateParser {
         sortDateList(dateList);
         return dateList;
     }
-    
-    private void sortDateList(List<Date> dateList)
-    {
+
+    /**
+     * Sort the date list based on which start first.
+     * 
+     * @param dateList
+     *            the list to be sorted
+     */
+    private void sortDateList(List<Date> dateList) {
         Collections.sort(dateList);
     }
 
+    /**
+     * Check if date is available
+     * 
+     * @param dateGroups
+     *            the date group which contains the date
+     * @return is date available
+     */
     private boolean dateAvailable(List<DateGroup> dateGroups) {
-        return dateGroups.size() > 0;
+        final int NOT_AVAILABLE = 0;
+        return dateGroups.size() > NOT_AVAILABLE;
     }
 
+    /**
+     * @param dateGroups
+     *            the date group which contains the date
+     * @return is time inferred
+     */
     private boolean isTimeInferred(List<DateGroup> dateGroups) {
-        return !dateGroups.get(0).isTimeInferred();
+        final int INITIAL_GROUP = 0;
+        return !dateGroups.get(INITIAL_GROUP).isTimeInferred();
     }
 
+    /**
+     * Get the date word used for parsing
+     * 
+     * @param source
+     *            the original message
+     * @param dateGroups
+     *            the date group which contains the date
+     * @return the date word used
+     */
     private String getDateWordUsed(String source, List<DateGroup> dateGroups) {
         int startPosition = source.length();
         int endPosition = 0;
@@ -375,16 +377,25 @@ public class DateParser {
 
         String dateText = source.substring(startPosition, endPosition);
 
-        System.out.println("wordUsed for date = " + dateText);
         return dateText;
     }
 
+    /**
+     * @param date
+     *            to be converted
+     * @return localdate converted from date
+     */
     public LocalDate dateToLocalDate(Date date) {
         Instant instant = Instant.ofEpochMilli(date.getTime());
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
                 .toLocalDate();
     }
 
+    /**
+     * @param time
+     *            the time to be converted
+     * @return localtime converted from time
+     */
     public LocalTime dateToLocalTime(Date time) {
         Instant instant = Instant.ofEpochMilli(time.getTime());
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
@@ -414,20 +425,6 @@ public class DateParser {
     }
 
     /**
-     * @return the wordRemainingSeparated
-     */
-    public boolean isWordRemainingSeparated() {
-        return wordRemainingSeparated;
-    }
-
-    /**
-     * @param wordRemainingSeparated the wordRemainingSeparated to set
-     */
-    public void setWordRemainingSeparated(boolean wordRemainingSeparated) {
-        this.wordRemainingSeparated = wordRemainingSeparated;
-    }
-
-    /**
      * @return the warningMessage
      */
     public String getErrorMessage() {
@@ -435,10 +432,26 @@ public class DateParser {
     }
 
     /**
-     * @param warningMessage the warningMessage to set
+     * @param warningMessage
+     *            the warningMessage to set
      */
     public void setErrorMessage(String warningMessage) {
         this.errorMessage = warningMessage;
+    }
+
+    /**
+     * @return the separatedWordRemainings
+     */
+    public String[] getSeparatedWordRemainings() {
+        return separatedWordRemainings;
+    }
+
+    /**
+     * @param separatedWordRemainings
+     *            the separatedWordRemainings to set
+     */
+    public void setSeparatedWordRemainings(String[] separatedWordRemainings) {
+        this.separatedWordRemainings = separatedWordRemainings;
     }
 
 }

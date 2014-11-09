@@ -13,8 +13,8 @@ import logic.parser.ParserFlags;
 
 import org.junit.Test;
 
+//@author A0112887X 
 /**
- * @author A0112887X
  *
  */
 public class CommandValidateTest {

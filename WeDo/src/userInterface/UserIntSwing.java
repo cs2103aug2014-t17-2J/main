@@ -3,7 +3,7 @@ package userInterface;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.TrayIcon;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -91,6 +91,9 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setUndecorated(true);
 		frame.setBounds(100, 100, 767, 550); // windowSize
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+				UserIntSwing.class.getResource("/ui/icon/WeDo_logo.png")));
+
 
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 121, 750, 227);

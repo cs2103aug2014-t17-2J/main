@@ -8,8 +8,9 @@ import logic.parser.ParserFlags;
 import logic.utility.Task;
 import dataStorage.DataHandler;
 
+//@author A0112887X
 /**
- * @author Kuan Tien Long
+ * Abstract class that all commands must extend
  *
  */
 public abstract class Command {
@@ -18,44 +19,50 @@ public abstract class Command {
     protected DataHandler dataHandler;
     protected UndoHandler undoHandler = UndoHandler.getInstance();
 
-
-
     public void setTask(Task task) {
         this.task = task;
     }
 
+    /**
+     * Set the dataHandler for the command
+     * @param dataHandler the dataHandler to set
+     */
     public void setDataHandler(DataHandler dataHandler) {
         this.dataHandler = dataHandler;
     }
-    
-    /**
-     * This method execute the commands such as add, display, clear etc.
-     * 
-     * @return TaskFeedBack to display if the command is valid
-     * @throws InvalidCommandException TODO
-     */
 
+    /**
+     * Execute the command such as add, view etc.
+     * @throws InvalidCommandException when command is invalid
+     */
     public abstract void execute() throws InvalidCommandException;
 
+    /**
+     * undo the command executed
+     */
     public abstract void undo();
-    
+
     /**
      * <p>
-     * Determine whether the parse occurred was valid 
+     * Determine whether the parse occurred was valid
      * <p>
      * 
-     * @param parseFlags the set of ParserFlag to be tested
+     * @param parseFlags
+     *            the set of ParserFlag to be tested
      * @return if what is parsed is valid for the command
      */
     public abstract boolean validate(EnumSet<ParserFlags> parseFlags);
 
     /**
      * Get validation error message from the command
+     * 
      * @return Error Message
      */
     public abstract String getValidateErrorMessage();
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -85,6 +92,9 @@ public abstract class Command {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     public abstract String toString();
 
 }

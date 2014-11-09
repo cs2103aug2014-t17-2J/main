@@ -10,9 +10,10 @@ import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 
+//@author A0112887X
 /**
- * @author TienLong This class makes use of the Command interface to implement
- *         execute function for edit
+ * TienLong This class makes use of the Command interface to implement execute
+ * function for edit
  */
 public class EditCommand extends Command {
 
@@ -21,10 +22,12 @@ public class EditCommand extends Command {
     private int index = NOT_SET;
     private Task source;
 
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#execute()
+     */
     public void execute() throws InvalidCommandException {
 
-        System.out.println("Editing");
-
+        final String ERROR_MESSAGE = "Edit failed, invalid index";
         if (index == NOT_SET) {
             String indexString = StringHandler.getIntegerFromFirstSlot(task
                     .getDescription());
@@ -35,7 +38,7 @@ public class EditCommand extends Command {
             index = getIndex(indexString);
 
             if (!dataHandler.indexValid(index)) {
-                throw new InvalidCommandException("Edit failed, invalid index");
+                throw new InvalidCommandException(ERROR_MESSAGE);
             }
 
             task.setDescription(StringHandler.removeFirstMatched(
@@ -46,108 +49,119 @@ public class EditCommand extends Command {
         }
 
         if (!dataHandler.indexValid(index)) {
-            throw new InvalidCommandException("Edit failed, invalid index");
+            throw new InvalidCommandException(ERROR_MESSAGE);
         }
-        
-            task = editSpecifiedField(source, task); 
-            
-            dataHandler.editTask(source, task);
-            undoHandler.addUndo(this);
-        
+
+        task = editSpecifiedField(source, task);
+
+        dataHandler.editTask(source, task);
+        undoHandler.addUndo(this);
+
     }
-    
-    
+
     /**
      * Edit the source task based on specified field that the user enter
-     * @param source the task that the user wanted to edit
-     * @param toEditTask the task that the user enter
+     * 
+     * @param source
+     *            the task that the user wanted to edit
+     * @param toEditTask
+     *            the task that the user enter
      * @return editedTask based on what user had specified
      */
-    private Task editSpecifiedField(Task source, Task toEditTask)
-    {
+    private Task editSpecifiedField(Task source, Task toEditTask) {
         Task editedTask = new Task();
-        
+
         setDescriptionBasedOnSpecified(source, toEditTask, editedTask);
-        
+
         setPriorityBasedOnSpecified(source, toEditTask, editedTask);
 
         setDateTimeBasedOnSpecified(source, toEditTask, editedTask);
-        
+
         setCompleteStatus(source, editedTask);
-        
+
         return editedTask;
     }
 
-    private void setCompleteStatus(Task source,
-            Task editedTask)
-    {
+    /**
+     * Set complete status for the task
+     * @param source from the task that will be edited
+     * @param editedTask the task that contains what to edit
+     */
+    private void setCompleteStatus(Task source, Task editedTask) {
         editedTask.setCompleted(source.getCompleted());
     }
 
-
+    /**
+     * Set date for the task
+     * @param source from the task that will be edited
+     * @param editedTask the task that contains what to edit
+     */
     private void setDateTimeBasedOnSpecified(Task source, Task toEditTask,
             Task editedTask) {
-        if(toEditTask.getEndDate() == null || toEditTask.getEndDate() == Task.DATE_NOT_SET)
-        {
+        if (toEditTask.getEndDate() == null
+                || toEditTask.getEndDate() == Task.DATE_NOT_SET) {
             editedTask.setEndDate(source.getEndDate());
-        }
-        else
-        {
+        } else {
             editedTask.setEndDate(toEditTask.getEndDate());
         }
-        
-        if(toEditTask.getStartDate() == null || toEditTask.getStartDate() == Task.DATE_NOT_SET)
-        {
+
+        if (toEditTask.getStartDate() == null
+                || toEditTask.getStartDate() == Task.DATE_NOT_SET) {
             editedTask.setStartDate(source.getStartDate());
-        }
-        else
-        {
+        } else {
             editedTask.setStartDate(toEditTask.getStartDate());
         }
-        
-        if(toEditTask.getStartTime() == null || toEditTask.getStartTime() == Task.TIME_NOT_SET)
-        {
+
+        if (toEditTask.getStartTime() == null
+                || toEditTask.getStartTime() == Task.TIME_NOT_SET) {
             editedTask.setStartTime(source.getStartTime());
-        }
-        else
-        {
+        } else {
             editedTask.setStartTime(toEditTask.getStartTime());
         }
-        
-        if(toEditTask.getEndTime() == null || toEditTask.getEndTime() == Task.TIME_NOT_SET)
-        {
+
+        if (toEditTask.getEndTime() == null
+                || toEditTask.getEndTime() == Task.TIME_NOT_SET) {
             editedTask.setEndTime(source.getEndTime());
-        }
-        else
-        {
+        } else {
             editedTask.setEndTime(toEditTask.getEndTime());
         }
     }
 
+    /**
+     * Set priority status for the task
+     * @param source from the task that will be edited
+     * @param editedTask the task that contains what to edit
+     */
     private void setPriorityBasedOnSpecified(Task source, Task toEditTask,
             Task editedTask) {
-        if(toEditTask.getPriority() == null || toEditTask.getPriority() == Task.PRIORITY_NOT_SET)
-        {
+        if (toEditTask.getPriority() == null
+                || toEditTask.getPriority() == Task.PRIORITY_NOT_SET) {
             editedTask.setPriority(source.getPriority());
-        }
-        else
-        {
+        } else {
             editedTask.setPriority(toEditTask.getPriority());
         }
     }
 
+    /**
+     * Set description for the task
+     * @param source from the task that will be edited
+     * @param editedTask the task that contains what to edit
+     */
     private void setDescriptionBasedOnSpecified(Task source, Task toEditTask,
             Task editedTask) {
-        if(toEditTask.getDescription() == null || toEditTask.getDescription().isEmpty())
-        {
+        if (toEditTask.getDescription() == null
+                || toEditTask.getDescription().isEmpty()) {
             editedTask.setDescription(source.getDescription());
-        }
-        else
-        {
+        } else {
             editedTask.setDescription(toEditTask.getDescription());
         }
     }
 
+    /**
+     * Parse integer from the string
+     * @param indexString the string which contains the index
+     * @return the integer parsed from the string
+     */
     private int getIndex(String indexString) {
         final int ARRAY_OFFSET = -1;
         return StringHandler.parseStringToInteger(indexString) + ARRAY_OFFSET;
@@ -162,7 +176,7 @@ public class EditCommand extends Command {
     public void undo() {
         dataHandler.editTask(task, source);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -173,40 +187,22 @@ public class EditCommand extends Command {
         final int MAX_VALID_FLAG = 1;
         return parseFlags.size() > MAX_VALID_FLAG;
     }
-//
-//    
-//    /**
-//     * <p>
-//     * Determine whether the parse occurred was valid by matching it with
-//     * VALID_PARSE which contains compulsory parse result(s) for add command required
-//     * <p>
-//     * 
-//     * @param parseFlags the set of ParserFlag to be tested
-//     * @return if it contains all of the VALID_PARSE flag
-//     */
-//    public  boolean isCommandValid(EnumSet<ParserFlags> parseFlags) {
-//        
-//        final EnumSet<ParserFlags> VALID_PARSE = EnumSet.of(
-//                ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
-//   
-//        
-//        if (parseFlags.containsAll(VALID_PARSE)) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-    
-    /* (non-Javadoc)
+
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#toString()
      */
     @Override
     public String toString() {
-            return "Edit";
+        final String COMMAND_NAME = "Edit";
+        return COMMAND_NAME;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#getValidateErrorMessage()
      */
     @Override

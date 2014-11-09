@@ -30,10 +30,17 @@ import userInterface.UserIntSwing;
 
 /**
  // @author A0112636M 
-  * This class process all the Listeners
+  * This class process ALL the Listeners
   */
 public class ListenerHandler {
-	private static final BalloonTipStyle edgedLook = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
+	private static final BalloonTipStyle edgedLookBtn = new EdgedBalloonStyle(Color.WHITE, Color.yellow);
+	private static final BalloonTipStyle edgedLookLblDate = new EdgedBalloonStyle(Color.green, Color.green);
+	private static final BalloonTipStyle edgedLookLblDes = new EdgedBalloonStyle(Color.WHITE, Color.black);
+	private static final BalloonTip dateProcessBalloonTip = new BalloonTip(UserIntSwing.lblDateProcess, 
+			new JLabel(""), edgedLookLblDate, Orientation.RIGHT_BELOW,AttachLocation.ALIGNED, 40, 10, false);
+	private static final BalloonTip desProcessBalloonTip = new BalloonTip(UserIntSwing.lblDescriptionProcess, 
+			new JLabel(""), edgedLookLblDes, Orientation.RIGHT_BELOW,AttachLocation.ALIGNED, 40, 10, false);
+	
 	private static Point mouseDownCompCoords = null;
 	
 	/**
@@ -61,7 +68,7 @@ public class ListenerHandler {
             }
         });
 		/* Set the frame to the location when the Point
-		 * of the frame is calculated*/
+		 * of the frame is calculated */
 		UserIntSwing.frame.addMouseMotionListener(new MouseMotionListener(){
 			public void mouseMoved(MouseEvent e) {
             }
@@ -75,7 +82,7 @@ public class ListenerHandler {
 	
 	public static void addBtnHelpListener() {
 		BalloonTip helpBalloonTip = new BalloonTip(UserIntSwing.btnHelp, new JLabel(
-				"Press F1 for Help"), edgedLook, Orientation.RIGHT_BELOW,
+				"Press F1 for Help"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		helpBalloonTip.setVisible(false);
 		UserIntSwing.btnHelp.addActionListener(new ActionListener() {
@@ -100,7 +107,7 @@ public class ListenerHandler {
 
 	public static void addBtnAddListener() {
 		BalloonTip addBalloonTip = new BalloonTip(UserIntSwing.btnAdd, new JLabel(
-				"Press F2 to Add"), edgedLook, Orientation.RIGHT_BELOW,
+				"Press F2 to Add"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		addBalloonTip.setVisible(false);
 		UserIntSwing.btnAdd.addActionListener(new ActionListener() {
@@ -126,7 +133,7 @@ public class ListenerHandler {
 
 	public static void addBtnViewListener() {
 		BalloonTip viewBalloonTip = new BalloonTip(UserIntSwing.btnView, new JLabel(
-				"Press F3 to View"), edgedLook, Orientation.RIGHT_BELOW,
+				"Press F3 to View"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		viewBalloonTip.setVisible(false);
 
@@ -152,7 +159,7 @@ public class ListenerHandler {
 
 	public static void addBtnEditListener() {
 		BalloonTip editBalloonTip = new BalloonTip(UserIntSwing.btnEdit, new JLabel(
-				"Press F4 to Edit"), edgedLook, Orientation.RIGHT_BELOW,
+				"Press F4 to Edit"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		editBalloonTip.setVisible(false);
 
@@ -178,7 +185,7 @@ public class ListenerHandler {
 
 	public static void addBtnDeleteListener() {
 		BalloonTip delBalloonTip = new BalloonTip(UserIntSwing.btnDelete, new JLabel(
-				"Press F5 to delete"), edgedLook, Orientation.RIGHT_BELOW,
+				"Press F5 to Delete"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		delBalloonTip.setVisible(false);
 
@@ -204,7 +211,7 @@ public class ListenerHandler {
 
 	public static void addBtnSearchListener() {
 		BalloonTip searchBalloonTip = new BalloonTip(UserIntSwing.btnSearch, new JLabel(
-				"Press F6 to search"), edgedLook, Orientation.RIGHT_BELOW,
+				"Press F6 to Search"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		searchBalloonTip.setVisible(false);
 
@@ -241,9 +248,12 @@ public class ListenerHandler {
 		});
 	}
 	
+	/**
+	 * The btnClose process listener that close the application
+	 */
 	public static void addBtnCloseListener() {
 		BalloonTip closeBalloonTip = new BalloonTip(UserIntSwing.btnClose, new JLabel(
-				"Close Application"), edgedLook, Orientation.RIGHT_BELOW,
+				"Close Application"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		closeBalloonTip.setVisible(false);
 		
@@ -265,9 +275,12 @@ public class ListenerHandler {
 		});
 	}
 	
+	/**
+	 * The btnMinimize process listener that minimizes the application
+	 */
 	public static void addBtnMinimizeListener() {
 		BalloonTip minimizeBalloonTip = new BalloonTip(UserIntSwing.btnMinimize, new JLabel(
-				"Minimize to Tray"), edgedLook, Orientation.RIGHT_BELOW,
+				"Minimize to Tray"), edgedLookBtn, Orientation.RIGHT_BELOW,
 				AttachLocation.ALIGNED, 40, 20, false);
 		minimizeBalloonTip.setVisible(false);
 		
@@ -288,6 +301,46 @@ public class ListenerHandler {
 		});
 	}
 	
+	/**
+	 * This process pop out a Balloon Tip when the Dynamic Date Label
+	 * is too long for the user to view
+	 */
+	public static void addLblDateProcessListener() {	
+		if(UserIntSwing.lblDateProcess.getText().length() > 15) {
+			dateProcessBalloonTip.setTextContents(
+					UserIntSwing.lblDateProcess.getText());
+			dateProcessBalloonTip.setVisible(true);
+		}else{
+			dateProcessBalloonTip.setVisible(false);
+		}
+	}
+
+	/**
+	 * This process pop out a Balloon Tip when the Dynamic Description label
+	 * is too long for the user to view
+	 */
+	public static void addLblDescriptionProcessListener() {
+		if(UserIntSwing.lblDescriptionProcess.getText().length() > 40) {
+			desProcessBalloonTip.setTextContents(
+					UserIntSwing.lblDescriptionProcess.getText());
+			desProcessBalloonTip.setVisible(true);
+		}else{
+			desProcessBalloonTip.setVisible(false);
+		}
+	}
+	
+	/**
+	 * This set the Date and Description Balloon Tip Visible
+	 * to false
+	 */
+	public static void setDateDesBalloonTipVisibleFalse() {
+		dateProcessBalloonTip.setVisible(false);
+		desProcessBalloonTip.setVisible(false);
+	}
+	
+	/**
+	 * This focus on the Textfield
+	 */
 	public static void focusTextfield() {
 		UserIntSwing.textField.requestFocusInWindow();
 	}
@@ -313,7 +366,7 @@ public class ListenerHandler {
 	public static void addFrameWindowFocusListener() {
 		UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent arg0) {
-				UserIntSwing.textField.requestFocusInWindow();
+				focusTextfield();
 			}
 			public void windowLostFocus(WindowEvent arg0) {
 			}

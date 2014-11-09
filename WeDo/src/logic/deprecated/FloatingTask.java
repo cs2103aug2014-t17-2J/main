@@ -1,13 +1,12 @@
 /**
  * 
  */
-package logic.utility;
+package logic.deprecated;
 
 import definedEnumeration.Priority;
 
-
+//@author A0112887X - unused
 /**
- * @author A0112887X
  *
  */
 public class FloatingTask extends AbstractTask {
@@ -27,7 +26,9 @@ public class FloatingTask extends AbstractTask {
         // TODO Auto-generated constructor stub
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

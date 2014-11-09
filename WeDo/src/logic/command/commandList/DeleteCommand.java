@@ -14,17 +14,19 @@ import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 
+//@author A0112887X
 /**
- * @author TienLong This class makes use of the Command interface to implement
- *         execute function for DeleteTask
+ * This class makes use of the Command interface to implement execute function
+ * for DeleteTask
  */
 public class DeleteCommand extends Command {
 
     ArrayList<Task> deleteTaskList = new ArrayList<Task>();
 
+    /* (non-Javadoc)
+     * @see logic.command.commandList.Command#execute()
+     */
     public void execute() throws InvalidCommandException {
-
-        System.out.println("delete");
 
         final int ARRAY_OFFSET = 1;
         final String NO_INTEGER_EXTRACTED = "No integer extracted";
@@ -54,7 +56,9 @@ public class DeleteCommand extends Command {
 
     /**
      * Delete all the task at deleteTaskList
-     * @param deleteTaskList the list of task to delete
+     * 
+     * @param deleteTaskList
+     *            the list of task to delete
      */
     private void removeTasks(ArrayList<Task> deleteTaskList) {
         for (Task deleteThisTask : deleteTaskList) {
@@ -64,14 +68,16 @@ public class DeleteCommand extends Command {
 
     /**
      * Get all task to be deleted
-     * @param ARRAY_OFFSET the offset for array
-     * @param digitList which contains of all the index to delete
+     * 
+     * @param ARRAY_OFFSET
+     *            the offset for array
+     * @param digitList
+     *            which contains of all the index to delete
      * @return the list of task to delete
      */
     private ArrayList<Task> getTasksToDelete(final int ARRAY_OFFSET,
             TreeSet<Integer> digitList) {
 
-        
         ArrayList<Task> deleteTaskList = new ArrayList<Task>();
 
         for (int index : digitList) {
@@ -93,12 +99,12 @@ public class DeleteCommand extends Command {
 
         TreeSet<Integer> extractedDigitList = new TreeSet<Integer>();
 
-        String regex = "(-{0,1}[0-9]+)\\s*(?:to|-)\\s*(-{0,1}[0-9]+)|(-{0,1}[0-9]+)";
+        String digitRegex = "(-{0,1}[0-9]+)\\s*(?:to|-)\\s*(-{0,1}[0-9]+)|(-{0,1}[0-9]+)";
         final int START_RANGE_GROUP = 1;
         final int END_RANGE_GROUP = 2;
         final int INDIVIDUAL_DIGIT_GROUP = 3;
 
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(digitRegex);
         Matcher matcher = pattern.matcher(source);
 
         while (matcher.find()) {
@@ -132,13 +138,13 @@ public class DeleteCommand extends Command {
     @Override
     public void undo() {
         addRemovedTasks(deleteTaskList);
-        }
+    }
 
-    
-    
     /**
      * Add the previously removed task back
-     * @param deleteTaskList the list of task that was deleted
+     * 
+     * @param deleteTaskList
+     *            the list of task that was deleted
      */
     private void addRemovedTasks(ArrayList<Task> deleteTaskList) {
         for (Task taskToReAdd : deleteTaskList) {
@@ -146,7 +152,6 @@ public class DeleteCommand extends Command {
         }
     }
 
-    
     /*
      * (non-Javadoc)
      * 
@@ -156,8 +161,7 @@ public class DeleteCommand extends Command {
     public boolean validate(EnumSet<ParserFlags> parseFlags) {
         final EnumSet<ParserFlags> VALID_DELETE_PARSE = EnumSet.of(
                 ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
-   
-                
+
         return ParserFlags.containsOnly(parseFlags, VALID_DELETE_PARSE);
     }
 
@@ -168,10 +172,13 @@ public class DeleteCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Delete";
+        final String COMMAND_NAME = "Delete";
+        return COMMAND_NAME;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#getValidateErrorMessage()
      */
     @Override

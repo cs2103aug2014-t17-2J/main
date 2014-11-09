@@ -14,16 +14,15 @@ import logic.parser.ParserFlags;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 
+//@author A0112887X
 /**
- * @author TienLong This class makes use of the Command interface to implement
- *         execute function for ClearTask
+ * This class makes use of the Command interface to implement execute function
+ * for ClearTask
  */
-public class UncompleteCommand extends Command {
+public class IncompleteCommand extends Command {
     ArrayList<Task> editTaskList = new ArrayList<Task>();
 
     public void execute() throws InvalidCommandException {
-
-        System.out.println("incomplete");
 
         final int ARRAY_OFFSET = 1;
         final String NO_INTEGER_EXTRACTED = "No integer extracted";
@@ -53,28 +52,30 @@ public class UncompleteCommand extends Command {
 
     /**
      * Incomplete all the task at completeTaskList
-     * @param editTaskList the list of task to delete
+     * 
+     * @param editTaskList
+     *            the list of task to delete
      */
-    private void inCompleteTask(ArrayList<Task> editTaskList) 
-    {
+    private void inCompleteTask(ArrayList<Task> editTaskList) {
         final boolean COMPLETE = false;
-    
-        for (Task task : editTaskList) 
-        {
-                dataHandler.setCompleteTask(task, COMPLETE);
+
+        for (Task task : editTaskList) {
+            dataHandler.setCompleteTask(task, COMPLETE);
         }
     }
 
     /**
      * Get all task to be completed
-     * @param ARRAY_OFFSET the offset for array
-     * @param digitList which contains of all the index to delete
+     * 
+     * @param ARRAY_OFFSET
+     *            the offset for array
+     * @param digitList
+     *            which contains of all the index to delete
      * @return the list of task to delete
      */
     private ArrayList<Task> getTasksToComplete(final int ARRAY_OFFSET,
             TreeSet<Integer> digitList) {
 
-        
         ArrayList<Task> completeTaskList = new ArrayList<Task>();
 
         for (int index : digitList) {
@@ -96,12 +97,12 @@ public class UncompleteCommand extends Command {
 
         TreeSet<Integer> extractedDigitList = new TreeSet<Integer>();
 
-        String regex = "(-{0,1}[0-9]+)\\s*(?:to|-)\\s*(-{0,1}[0-9]+)|(-{0,1}[0-9]+)";
+        String digitPattern = "(-{0,1}[0-9]+)\\s*(?:to|-)\\s*(-{0,1}[0-9]+)|(-{0,1}[0-9]+)";
         final int START_RANGE_GROUP = 1;
         final int END_RANGE_GROUP = 2;
         final int INDIVIDUAL_DIGIT_GROUP = 3;
 
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(digitPattern);
         Matcher matcher = pattern.matcher(source);
 
         while (matcher.find()) {
@@ -133,29 +134,25 @@ public class UncompleteCommand extends Command {
      * @see logic.Command#undo()
      */
     @Override
-    public void undo() 
-    {
+    public void undo() {
         setComplete(editTaskList);
-        
+
     }
 
-    
-    
     /**
      * Add the previously removed task back
-     * @param undoTaskList the list of task that was deleted
+     * 
+     * @param undoTaskList
+     *            the list of task that was deleted
      */
-    private void setComplete(ArrayList<Task> undoTaskList) 
-    {
+    private void setComplete(ArrayList<Task> undoTaskList) {
         final boolean COMPLETE = true;
-        
-        for (Task task : editTaskList) 
-        {
-                dataHandler.setCompleteTask(task, COMPLETE);
+
+        for (Task task : editTaskList) {
+            dataHandler.setCompleteTask(task, COMPLETE);
         }
     }
 
-    
     /*
      * (non-Javadoc)
      * 
@@ -166,8 +163,7 @@ public class UncompleteCommand extends Command {
 
         final EnumSet<ParserFlags> VALID_UNCOMPLETE_PARSE = EnumSet.of(
                 ParserFlags.DESCRIPTION_FLAG, ParserFlags.COMMAND_FLAG);
-   
-                
+
         return ParserFlags.containsOnly(parseFlags, VALID_UNCOMPLETE_PARSE);
     }
 
@@ -178,10 +174,13 @@ public class UncompleteCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Completed";
+        String COMMAND_NAME = "Completed";
+        return COMMAND_NAME;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see logic.command.commandList.Command#getValidateErrorMessage()
      */
     @Override

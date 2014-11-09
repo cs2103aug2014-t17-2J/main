@@ -74,6 +74,7 @@ public class UserInterfaceMain {
 		ListenerHandler.addTextfieldKeyListener();
 		ListenerHandler.addTextFieldActionListener();
 		ListenerHandler.addBtnEnterActionListener();
+		ListenerHandler.setDateDesBalloonTipVisibleFalse();
 	}
 
 	/**This operation display the date range of the table
@@ -185,6 +186,7 @@ public class UserInterfaceMain {
 
 		if (parseResult.isSuccessful()) {
 			successfulTextfieldOperation(parseResult);
+			ListenerHandler.setDateDesBalloonTipVisibleFalse();
 		} 
 		else if(UserIntSwing.textField.getText().isEmpty()) {
 			FeedbackHandler.emptyStringOperation();
@@ -194,6 +196,7 @@ public class UserInterfaceMain {
 		} 
 		else {
 			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
+			ListenerHandler.setDateDesBalloonTipVisibleFalse();
 		}
 		UserIntSwing.textField.setText(null);
 	}
@@ -208,9 +211,7 @@ public class UserInterfaceMain {
 			UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
 			UserIntSwing.logicManager.executeCommand(parseResult);
 			
-			if((parseResult.getCommand() instanceof AddCommand) || (parseResult.getCommand() instanceof ViewCommand)
-					|| (parseResult.getCommand() instanceof SearchCommand && 
-							parseResult.getTask().getEndDate() != Task.DATE_NOT_SET))
+			if(correctCommandExtracted(parseResult))
 			{
 				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult.getTask()));
 			}
@@ -219,10 +220,22 @@ public class UserInterfaceMain {
 			UserIntSwing.textField.setText(null);
 			FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
 			// Log this error.
-			//exception.printStackTrace();
+			// exception.printStackTrace();
 			return;
 		}
 		FeedbackHandler.successfulOperation();
+	}
+	
+	/**
+	 * If the correct command is extracted for the task currently viewing
+	 * @param parseResult Command extracted
+	 * @return boolean if correct command is extracted
+	 */
+	private static boolean correctCommandExtracted(ParseResult parseResult) {
+		return (parseResult.getCommand() instanceof AddCommand) 
+				|| (parseResult.getCommand() instanceof ViewCommand)
+				|| (parseResult.getCommand() instanceof SearchCommand && 
+						parseResult.getTask().getEndDate() != Task.DATE_NOT_SET);
 	}
 	
 	/**
@@ -287,6 +300,7 @@ public class UserInterfaceMain {
 		HotkeyHandler.redo();
 		HotkeyHandler.minimise();
 		HotkeyHandler.scrollUpTable();
+		ListenerHandler.setDateDesBalloonTipVisibleFalse();
 	}
 	
 	public static void handleDynamicEdit(DynamicParseResult parseResult,
@@ -351,21 +365,20 @@ public class UserInterfaceMain {
 		for (ParserFlags parseFlag : parseResult.getParseFlags()) {
 			switch (parseFlag) {
 			case COMMAND_FLAG:
-				UserIntSwing.lblCommandProcess.setText(parseResult
-						.getCommandWordUsed());
+				UserIntSwing.lblCommandProcess.setText(parseResult.getCommandWordUsed());
 				break;
 			case DATE_FLAG:
 				UserIntSwing.lblDateProcess.setText(task.getDateTimeString());
+				ListenerHandler.addLblDateProcessListener();
 				break;
 			case DESCRIPTION_FLAG:
 				if (!task.getDescription().isEmpty())
-					UserIntSwing.lblDescriptionProcess.setText(task
-							.getDescription());
+					UserIntSwing.lblDescriptionProcess.setText(task.getDescription());
+				ListenerHandler.addLblDescriptionProcessListener();
 				break;
 			case PRIORITY_FLAG:
 				UserIntSwing.lblPriorityProcess.setOpaque(true);
-				UserIntSwing.lblPriorityProcess.setText(task.getPriority()
-						.toString());
+				UserIntSwing.lblPriorityProcess.setText(task.getPriority().toString());
 				processLblPriority();
 				break;
 			default:

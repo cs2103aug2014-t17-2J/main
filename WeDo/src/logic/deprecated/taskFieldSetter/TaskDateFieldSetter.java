@@ -17,72 +17,66 @@ import com.joestelmach.natty.Parser;
 import edu.emory.mathcs.backport.java.util.Collections;
 import logic.utility.Task;
 
+//@author A0112887X - unused
 /**
  * @author Kuan Tien Long
  *
  */
 public class TaskDateFieldSetter implements TaskFieldSetter {
 
-    /* (non-Javadoc)4
-     * @see logic.taskParser.taskFieldSetter.TaskFieldSetter#set(logic.Task, java.lang.String)
+    /*
+     * (non-Javadoc)4
+     * 
+     * @see logic.taskParser.taskFieldSetter.TaskFieldSetter#set(logic.Task,
+     * java.lang.String)
      */
     @Override
     public String set(Task task, String source) {
 
-       
         Parser nattyParser = new Parser();
-         
+
         List<DateGroup> dateGroups = nattyParser.parse(source);
-        if (dateAvailable(dateGroups))
-        {
+        if (dateAvailable(dateGroups)) {
             setDate(task, dateGroups);
             return getDateText(source, dateGroups);
         }
         return "";
     }
-    
 
     /**
      * 
      */
-    private String getDateText(String source, List<DateGroup> dateGroups) 
-    {
+    private String getDateText(String source, List<DateGroup> dateGroups) {
         int startPosition = source.length();
         int endPosition = 0;
         for (DateGroup dateGroup : dateGroups) {
-        int position = dateGroup.getPosition();
-        int length = dateGroup.getText().length();
-        startPosition = Math.min(startPosition, position);
-        endPosition = Math.max(position + length, endPosition);
+            int position = dateGroup.getPosition();
+            int length = dateGroup.getText().length();
+            startPosition = Math.min(startPosition, position);
+            endPosition = Math.max(position + length, endPosition);
         }
-        
+
         String dateText = source.substring(startPosition, endPosition);
         return dateText;
     }
 
-
-    private void setDate(Task task, List<DateGroup> dateGroups) 
-    {
+    private void setDate(Task task, List<DateGroup> dateGroups) {
         final int START_INDEX = 0;
         final int LIST_OFFSET = 1;
-        
-            List<Date> dateList = getDateList(START_INDEX, dateGroups);
-            
 
+        List<Date> dateList = getDateList(START_INDEX, dateGroups);
 
-            int noOfDates = dateList.size();
-            
-            if (noOfDates > 1) {
-                setEndDateTime(task, isTimeSpecified(dateGroups),
-                        dateList.get(noOfDates - LIST_OFFSET));
-                setStartDateTime(task, isTimeSpecified(dateGroups),
-                        dateList.get(START_INDEX));
-            }
-            else
-            {
-                setEndDateTime(task, isTimeSpecified(dateGroups),
-                        dateList.get(START_INDEX));
-            }
+        int noOfDates = dateList.size();
+
+        if (noOfDates > 1) {
+            setEndDateTime(task, isTimeSpecified(dateGroups),
+                    dateList.get(noOfDates - LIST_OFFSET));
+            setStartDateTime(task, isTimeSpecified(dateGroups),
+                    dateList.get(START_INDEX));
+        } else {
+            setEndDateTime(task, isTimeSpecified(dateGroups),
+                    dateList.get(START_INDEX));
+        }
     }
 
     private boolean dateAvailable(List<DateGroup> dateGroups) {
@@ -104,7 +98,8 @@ public class TaskDateFieldSetter implements TaskFieldSetter {
         }
     }
 
-    private void setEndDateTime(Task task, final boolean isTimeSpecified, final Date endDate) {
+    private void setEndDateTime(Task task, final boolean isTimeSpecified,
+            final Date endDate) {
         task.setEndDate(dateToLocalDate(endDate));
         if (isTimeSpecified) {
             task.setEndTime(dateToLocalTime(endDate));

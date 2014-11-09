@@ -16,7 +16,7 @@ import logic.command.commandList.EditCommand;
 import logic.command.commandList.ExitCommand;
 import logic.command.commandList.RedoCommand;
 import logic.command.commandList.SearchCommand;
-import logic.command.commandList.UncompleteCommand;
+import logic.command.commandList.IncompleteCommand;
 import logic.command.commandList.UndoCommand;
 import logic.command.commandList.ViewCommand;
 
@@ -26,12 +26,19 @@ import com.google.common.collect.Multimap;
 
 import definedEnumeration.Priority;
 
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
 public class KeyWordMappingList {
 
+    /**
+     * Create multimap based on <T>
+     * 
+     * @param commandMaps
+     *            which consist of keywords mapping
+     * @return multimap with key = <T>, value = key word
+     */
     @SafeVarargs
     private static <T> Multimap<T, String> createMultiMap(
             final Map<T, Collection<String>>... commandMaps) {
@@ -46,7 +53,16 @@ public class KeyWordMappingList {
         return multiMap;
     }
 
-    private static ArrayList<String> getPermuntation(String priorityWords[],
+    /**
+     * Get all permutation based on priority words and key words
+     * 
+     * @param priorityWords
+     *            the words for priority
+     * @param keyWords
+     *            the words for keywords
+     * @return ArrayList containing the permutation
+     */
+    private static ArrayList<String> getPermutation(String priorityWords[],
             String keyWords[]) {
         ArrayList<String> list = new ArrayList<String>();
 
@@ -66,25 +82,37 @@ public class KeyWordMappingList {
 
     }
 
+    /**
+     * @return ImmutableMap containing keywords for add
+     */
     public static ImmutableMap<Command, Collection<String>> getAddCommandMap() {
         Command addCommand = new AddCommand();
         return ImmutableMap.<Command, Collection<String>> of(addCommand,
                 Arrays.asList("add", "new", "create", "cre8"));
     }
 
+    /**
+     * @return ImmutableMap containing keywords for complete
+     */
     public static ImmutableMap<Command, Collection<String>> getCompleteCommandMap() {
         Command completeCommand = new CompleteCommand();
         return ImmutableMap.<Command, Collection<String>> of(completeCommand,
                 Arrays.asList("complete", "done", "finish", "tick"));
     }
 
-    public static ImmutableMap<Command, Collection<String>> getUncompleteCommandMap() {
-        Command uncompleteCommand = new UncompleteCommand();
+    /**
+     * @return ImmutableMap containing keywords for incomplete
+     */
+    public static ImmutableMap<Command, Collection<String>> getIncompleteCommandMap() {
+        Command uncompleteCommand = new IncompleteCommand();
         return ImmutableMap.<Command, Collection<String>> of(uncompleteCommand,
                 Arrays.asList("incomplete", "undone", "cancel", "uncomplete",
                         "decomplete", "untick"));
     }
 
+    /**
+     * @return ImmutableMap containing keywords for delete
+     */
     public static ImmutableMap<Command, Collection<String>> getDeleteCommandMap() {
         Command deleteCommand = new DeleteCommand();
         return ImmutableMap.<Command, Collection<String>> of(deleteCommand,
@@ -92,20 +120,28 @@ public class KeyWordMappingList {
                         "rm", "remove"));
     }
 
+    /**
+     * @return ImmutableMap containing keywords for exit
+     */
     public static ImmutableMap<Command, Collection<String>> getExitCommandMap() {
         Command exitCommand = new ExitCommand();
         return ImmutableMap.<Command, Collection<String>> of(exitCommand,
-                Arrays.asList("exit", "quit", "quit", "leave",
-                        "leave", "bye"));
+                Arrays.asList("exit", "quit", "quit", "leave", "leave", "bye"));
     }
 
+    /**
+     * @return ImmutableMap containing keywords for search
+     */
     public static ImmutableMap<Command, Collection<String>> getSearchCommandMap() {
         Command searchCommand = new SearchCommand();
         return ImmutableMap.<Command, Collection<String>> of(searchCommand,
                 Arrays.asList("search", "searching", "s", "find", "f", "found",
-                        "finding" , "locate"));
+                        "finding", "locate"));
     }
 
+    /**
+     * @return ImmutableMap containing keywords for edit
+     */
     public static ImmutableMap<Command, Collection<String>> getEditCommandMap() {
         Command editCommand = new EditCommand();
         return ImmutableMap.<Command, Collection<String>> of(editCommand,
@@ -113,6 +149,9 @@ public class KeyWordMappingList {
                         "modifying"));
     }
 
+    /**
+     * @return ImmutableMap containing keywords for view
+     */
     public static ImmutableMap<Command, Collection<String>> getViewCommandMap() {
         Command viewCommand = new ViewCommand();
         return ImmutableMap.<Command, Collection<String>> of(viewCommand,
@@ -120,12 +159,18 @@ public class KeyWordMappingList {
                         "see", "saw", "get"));
     }
 
+    /**
+     * @return ImmutableMap containing keywords for undo
+     */
     public static ImmutableMap<Command, Collection<String>> getUndoCommandMap() {
         Command undoCommand = new UndoCommand();
         return ImmutableMap.<Command, Collection<String>> of(undoCommand,
                 Arrays.asList("undo"));
     }
 
+    /**
+     * @return ImmutableMap containing keywords for redo
+     */
     public static ImmutableMap<Command, Collection<String>> getRedoCommandMap() {
         Command redoCommand = new RedoCommand();
         return ImmutableMap.<Command, Collection<String>> of(redoCommand,
@@ -141,7 +186,7 @@ public class KeyWordMappingList {
     public static Multimap<Command, String> getCommandMultiMap() {
         ImmutableMap<Command, Collection<String>> addCommandMap = getAddCommandMap();
         ImmutableMap<Command, Collection<String>> completedCommandMap = getCompleteCommandMap();
-        ImmutableMap<Command, Collection<String>> uncompletedCommandMap = getUncompleteCommandMap();
+        ImmutableMap<Command, Collection<String>> uncompletedCommandMap = getIncompleteCommandMap();
         ImmutableMap<Command, Collection<String>> deleteCommandMap = getDeleteCommandMap();
         ImmutableMap<Command, Collection<String>> exitCommandMap = getExitCommandMap();
         ImmutableMap<Command, Collection<String>> searchCommandMap = getSearchCommandMap();
@@ -156,6 +201,9 @@ public class KeyWordMappingList {
                 undoCommandMap, redoCommandMap);
     }
 
+    /**
+     * @return ImmutableMap containing keywords for high priority
+     */
     public static ImmutableMap<Priority, Collection<String>> getHighPriority() {
         final String PRIORITY_WORD[] = { "priority", "pri" };
         final String KEYWORDS_FOR_HIGH[] = { "high", "urgent", "top",
@@ -163,9 +211,12 @@ public class KeyWordMappingList {
 
         return ImmutableMap.<Priority, Collection<String>> of(
                 Priority.PRIORITY_HIGH,
-                getPermuntation(PRIORITY_WORD, KEYWORDS_FOR_HIGH));
+                getPermutation(PRIORITY_WORD, KEYWORDS_FOR_HIGH));
     }
 
+    /**
+     * @return ImmutableMap containing keywords for medium priority
+     */
     public static ImmutableMap<Priority, Collection<String>> getMediumPriority() {
         final String PRIORITY_WORD[] = { "priority", "pri" };
         final String KEYWORDS_FOR_MEDIUM[] = { "medium", "med", "normal",
@@ -173,9 +224,12 @@ public class KeyWordMappingList {
 
         return ImmutableMap.<Priority, Collection<String>> of(
                 Priority.PRIORITY_MEDIUM,
-                getPermuntation(PRIORITY_WORD, KEYWORDS_FOR_MEDIUM));
+                getPermutation(PRIORITY_WORD, KEYWORDS_FOR_MEDIUM));
     }
 
+    /**
+     * @return ImmutableMap containing keywords for low priority
+     */
     public static ImmutableMap<Priority, Collection<String>> getLowPriority() {
         final String PRIORITY_WORD[] = { "priority", "pri" };
         final String KEYWORDS_FOR_LOW[] = { "low", "none", "never", "no",
@@ -183,13 +237,13 @@ public class KeyWordMappingList {
 
         return ImmutableMap.<Priority, Collection<String>> of(
                 Priority.PRIORITY_LOW,
-                getPermuntation(PRIORITY_WORD, KEYWORDS_FOR_LOW));
+                getPermutation(PRIORITY_WORD, KEYWORDS_FOR_LOW));
     }
-    
+
     /**
      * This function create a map of commands and add them to the multi map. It
-     * contains the Priority and String pair, where the string is the keyword for
-     * command. In future implementation, the multi map will be generated by
+     * contains the Priority and String pair, where the string is the keyword
+     * for command. In future implementation, the multi map will be generated by
      * reading from a file
      */
     public static Multimap<Priority, String> getPriorityMultiMap() {
@@ -197,12 +251,10 @@ public class KeyWordMappingList {
         ImmutableMap<Priority, Collection<String>> MediumPriorityMap = getMediumPriority();
         ImmutableMap<Priority, Collection<String>> HighPriorityMap = getHighPriority();
 
-
         return createMultiMap(lowPriorityMap, MediumPriorityMap,
                 HighPriorityMap);
     }
 
-    
     /**
      * This function create a map of commands and add them to the multi map. It
      * contains the Command and String pair, where the string is the keyword for
@@ -211,10 +263,9 @@ public class KeyWordMappingList {
      */
     public static Multimap<Command, String> getCompletedUnCompleteMultiMap() {
         ImmutableMap<Command, Collection<String>> completedCommandMap = getCompleteCommandMap();
-        ImmutableMap<Command, Collection<String>> uncompletedCommandMap = getUncompleteCommandMap();
-
+        ImmutableMap<Command, Collection<String>> uncompletedCommandMap = getIncompleteCommandMap();
 
         return createMultiMap(completedCommandMap, uncompletedCommandMap);
     }
-    
+
 }

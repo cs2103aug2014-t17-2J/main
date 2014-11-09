@@ -10,17 +10,16 @@ import logic.exception.InvalidCommandException;
 import logic.parser.ParserFlags;
 import logic.utility.Task;
 
+//@author A0112887X
 /**
- * @author TienLong This class makes use of the Command interface to implement
- *         execute function for InvalidTask
+ * This class makes use of the Command interface to implement execute function
+ * for InvalidTask
  */
 public class ViewCommand extends Command {
 
     ArrayList<Task> previousView;
 
     public void execute() throws InvalidCommandException {
-        System.out.println("view");
-
         previousView = dataHandler.getObservableList().getList();
         dataHandler.view(task);
         undoHandler.addUndo(this);
@@ -64,9 +63,9 @@ public class ViewCommand extends Command {
         final EnumSet<ParserFlags> VALID_VIEW_PRIORITY_PARSE = EnumSet.of(
                 ParserFlags.PRIORITY_FLAG, ParserFlags.COMMAND_FLAG);
 
-        return (ParserFlags.containsOnly(parseFlags, VALID_VIEW_CATEGORY_PARSE) || ParserFlags
-                .containsOnly(parseFlags, VALID_VIEW_DATE_PARSE) || ParserFlags
-                .containsOnly(parseFlags, VALID_VIEW_PRIORITY_PARSE));
+        return (ParserFlags.containsOnly(parseFlags, VALID_VIEW_CATEGORY_PARSE)
+                || ParserFlags.containsOnly(parseFlags, VALID_VIEW_DATE_PARSE) || ParserFlags
+                    .containsOnly(parseFlags, VALID_VIEW_PRIORITY_PARSE));
 
     }
 
@@ -77,7 +76,8 @@ public class ViewCommand extends Command {
      */
     @Override
     public String toString() {
-        return "View";
+        final String COMMAND_NAME = "View";
+        return COMMAND_NAME;
     }
 
     /*

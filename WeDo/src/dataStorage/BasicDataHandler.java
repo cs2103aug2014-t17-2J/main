@@ -10,7 +10,7 @@ import java.util.Observer;
 
 import logic.command.commandList.Command;
 import logic.command.commandList.CompleteCommand;
-import logic.command.commandList.UncompleteCommand;
+import logic.command.commandList.IncompleteCommand;
 import logic.utility.KeyWordMappingList;
 import logic.utility.MultiMapMatcher;
 import logic.utility.Task;
@@ -406,7 +406,7 @@ public class BasicDataHandler implements DataHandler {
 		} else if (cmd instanceof CompleteCommand) {
 			tmp.addAll(getCompleted());
 			observableList.replaceList(tmp);
-		} else if (cmd instanceof UncompleteCommand) {
+		} else if (cmd instanceof IncompleteCommand) {
 			tmp.addAll(getUncompleted());
 			observableList.replaceList(tmp);
 		} else if (task.getPriority() != null && !task.getPriority().equals(Task.PRIORITY_NOT_SET)) {
