@@ -175,7 +175,7 @@ public class EditCommand extends Command {
      * @see logic.Command#undo()
      */
     @Override
-    public void undo() {
+    public void undo() throws InvalidCommandException {
         assert(dataHandler != null);
         
         dataHandler.editTask(task, source);

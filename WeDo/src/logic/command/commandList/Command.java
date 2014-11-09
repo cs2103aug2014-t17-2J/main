@@ -40,8 +40,9 @@ public abstract class Command {
 
     /**
      * undo the command executed
+     * @throws InvalidCommandException 
      */
-    public abstract void undo();
+    public abstract void undo() throws InvalidCommandException;
 
     /**
      * <p>

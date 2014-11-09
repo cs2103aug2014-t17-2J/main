@@ -144,7 +144,7 @@ public class DeleteCommand extends Command {
      * @see logic.Command#undo()
      */
     @Override
-    public void undo() {
+    public void undo() throws InvalidCommandException {
         addRemovedTasks(deleteTaskList);
     }
 
@@ -153,8 +153,9 @@ public class DeleteCommand extends Command {
      * 
      * @param deleteTaskList
      *            the list of task that was deleted
+     * @throws InvalidCommandException 
      */
-    private void addRemovedTasks(ArrayList<Task> deleteTaskList) {
+    private void addRemovedTasks(ArrayList<Task> deleteTaskList) throws InvalidCommandException {
         assert(dataHandler != null);
         
         for (Task taskToReAdd : deleteTaskList) {
