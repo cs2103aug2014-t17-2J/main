@@ -3,6 +3,7 @@
  */
 package logic.utility;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -152,8 +153,8 @@ public class KeyWordMappingList {
     public static ImmutableMap<Command, Collection<String>> getViewCommandMap() {
         Command viewCommand = new ViewCommand();
         return ImmutableMap.<Command, Collection<String>> of(viewCommand,
-                Arrays.asList("view", "viewing", "read", "reading",
-                        "see", "get"));
+                Arrays.asList("view", "viewing", "read", "reading", "see",
+                        "get"));
     }
 
     /**
@@ -235,6 +236,16 @@ public class KeyWordMappingList {
         return ImmutableMap.<Priority, Collection<String>> of(
                 Priority.PRIORITY_LOW,
                 getPermutation(PRIORITY_WORD, KEYWORDS_FOR_LOW));
+    }
+
+    /**
+     * @return ImmutableMap containing keywords for someday
+     */
+    public static ImmutableMap<LocalDate, Collection<String>> getSomeDayKeyWord() {
+
+        return ImmutableMap.<LocalDate, Collection<String>> of(
+                Task.DATE_NOT_SET,
+                Arrays.asList("someday", "no date", "no day", "some day"));
     }
 
     /**
