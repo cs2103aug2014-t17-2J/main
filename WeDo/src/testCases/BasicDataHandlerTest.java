@@ -21,7 +21,7 @@ import dataStorage.BasicDataHandler;
 public class BasicDataHandlerTest {
 
 	BasicDataHandler datahandler;
-	ArrayList<Task> mainList, displayList;
+	ArrayList<Task> mainList, displayList, deadLine, timed, floating;
 	int taskNum = 0;
 
 	@Before
@@ -29,6 +29,9 @@ public class BasicDataHandlerTest {
 		datahandler = new BasicDataHandler();
 		mainList = new ArrayList<Task>();
 		displayList = new ArrayList<Task>();
+		deadLine = new ArrayList<Task>();
+		timed = new ArrayList<Task>();
+		floating = new ArrayList<Task>();
 
 	}
 
@@ -195,7 +198,83 @@ public class BasicDataHandlerTest {
 	}
 
 	@Test
-	public void testView() {
+	public void testView() throws InvalidCommandException {
+
+		// create 5 deadLine Tasks with deadline today
+		for (int i = 0; i < 5; i++) {
+			Task task = createDeadline(0);
+			deadLine.add(task);
+			datahandler.addTask(task);
+		}
+
+		// create 5 timed tasks
+		for (int i = 0; i < 5; i++) {
+			Task task = createTimed(5 - i, i + 1);
+			timed.add(task);
+			datahandler.addTask(task);
+		}
+
+		// create 5 floating tasks
+		for (int i = 0; i < 5; i++) {
+			Task task = createFloat();
+			floating.add(task);
+			datahandler.addTask(task);
+		}
+
+		Task floatView = new Task();
+		floatView.setDescription("someday");
+		datahandler.view(floatView); // set view to someday view
+		updateLists();
+		for (Task t : floating) {
+			assertTrue(displayList.contains(t)); // the list should contain all
+													// the floating tasks
+		}
+		for (Task t : deadLine) {
+			assertFalse(displayList.contains(t)); // the list should not contain
+													// the deadline tasks
+		}
+		for (Task t : timed) {
+			assertFalse(displayList.contains(t));// the list should not contain
+													// the timed tasks
+		}
+
+		datahandler.view(createDeadline(0)); // set the view to today's
+		updateLists();
+		for (Task t : floating) {
+			assertFalse(displayList.contains(t));// the list should not contain
+													// floating tasks
+		}
+		for (Task t : deadLine) {
+			assertTrue(displayList.contains(t));// the list should contains all
+												// the today tasks
+		}
+
+		datahandler.view(createTimed(5, 5));
+		updateLists();
+
+		for (Task t : floating) {
+			assertFalse(displayList.contains(t));
+		}
+		for (Task t : deadLine) {
+			assertTrue(displayList.contains(t));
+		}
+		for (Task t : timed) {
+			assertTrue(displayList.contains(t));
+		}
+		
+		deleteAll();
+	}
+	
+	private void deleteAll() {
+		for(Task t:deadLine) {
+			datahandler.removeTask(t);
+		}
+		for(Task t:floating) {
+			datahandler.removeTask(t);
+		}
+		for(Task t:timed) {
+			datahandler.removeTask(t);
+		}
 	}
 
 }

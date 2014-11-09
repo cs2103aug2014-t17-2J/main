@@ -417,7 +417,6 @@ public class BasicDataHandler implements DataHandler {
 		else if (task.getDescription().equalsIgnoreCase(ALL)) {
 			currentList = ALL;
 			tmp.addAll(mainList2.values());
-			// tmp = sort(tmp);
 			observableList.replaceList(tmp);
 		} else if (task.getDescription().equals(SOMEDAY)) {
 			tmp.addAll(mainList2.get(LocalDate.MAX));
