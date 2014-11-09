@@ -24,6 +24,8 @@ public class IncompleteCommand extends Command {
 
     public void execute() throws InvalidCommandException {
 
+        assert(dataHandler != null);
+        
         final int ARRAY_OFFSET = 1;
         final String NO_INTEGER_EXTRACTED = "No integer extracted";
         final String INVALID_LOWEST_INDEX = "Invalid lowest index";
@@ -59,6 +61,8 @@ public class IncompleteCommand extends Command {
     private void inCompleteTask(ArrayList<Task> editTaskList) {
         final boolean COMPLETE = false;
 
+        assert(dataHandler != null);
+        
         for (Task task : editTaskList) {
             dataHandler.setCompleteTask(task, COMPLETE);
         }
@@ -76,6 +80,8 @@ public class IncompleteCommand extends Command {
     private ArrayList<Task> getTasksToComplete(final int ARRAY_OFFSET,
             TreeSet<Integer> digitList) {
 
+        assert(dataHandler != null);
+        
         ArrayList<Task> completeTaskList = new ArrayList<Task>();
 
         for (int index : digitList) {
@@ -148,6 +154,8 @@ public class IncompleteCommand extends Command {
     private void setComplete(ArrayList<Task> undoTaskList) {
         final boolean COMPLETE = true;
 
+        assert(dataHandler != null);
+        
         for (Task task : editTaskList) {
             dataHandler.setCompleteTask(task, COMPLETE);
         }

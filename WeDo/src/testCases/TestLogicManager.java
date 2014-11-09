@@ -47,6 +47,7 @@ public class TestLogicManager {
         processValidAdd10Task();
         processValidRemoveCommandForMultipleTask(
                 "remove 1-3 and 8,9 hmm 4 too plus 6", 1, 2, 3, 8, 9, 4, 6);
+        
     }
 
     private void processValidAdd10Task() throws InvalidCommandException {

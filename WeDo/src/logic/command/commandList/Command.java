@@ -18,6 +18,7 @@ public abstract class Command {
     protected Task task;
     protected DataHandler dataHandler;
     protected UndoHandler undoHandler = UndoHandler.getInstance();
+    
 
     public void setTask(Task task) {
         this.task = task;

@@ -21,6 +21,7 @@ public class AddCommand extends Command {
      */
     public void execute() throws InvalidCommandException {
         final String ERROR_MESSAGE = "Adding failed";
+        assert(dataHandler != null);
         if (dataHandler.addTask(task)) {
             undoHandler.addUndo(this);
         } else {
@@ -35,6 +36,7 @@ public class AddCommand extends Command {
      */
     @Override
     public void undo() {
+        assert(dataHandler != null);
         dataHandler.removeTask(task);
 
     }
