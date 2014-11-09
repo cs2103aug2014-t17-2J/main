@@ -214,7 +214,6 @@ public class BasicDataHandler implements DataHandler {
 		// fileHandler.read("deadLine");
 		fileHandler.writeLog(LocalTime.now() + " : Added Task "
 				+ task.getUniqueID());
-
 		return true;
 	}
 	

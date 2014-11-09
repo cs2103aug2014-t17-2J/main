@@ -111,10 +111,6 @@ public class UserIntSwing extends JPanel implements Observer {
 		interactiveForm.setLayout(null);
 		interactiveForm.updateTable(taskList);
 
-		Font font = new Font("ubuntu",Font.PLAIN,14);
-		interactiveForm.table.setFont(font);
-
-
 		
 		/* A0112636M - Initialize all components */
 		FormatHandler.addtoContentPane();
