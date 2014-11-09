@@ -12,16 +12,15 @@ import logic.parser.ParserFlags;
 import logic.utility.SearchEngine;
 import logic.utility.Task;
 
+//@author A0112887X
 /**
- * @author TienLong This class makes use of the Command interface to implement
- *         execute function for searchTask
+ * This class makes use of the Command interface to implement execute function
+ * for searchTask
  */
 public class SearchCommand extends Command {
     private ArrayList<Task> displayedTask;
 
     public void execute() throws InvalidCommandException {
-
-        System.out.println("searching");
 
         SearchEngine searchEngine = new SearchEngine(
                 (BasicDataHandler) dataHandler);
@@ -88,7 +87,8 @@ public class SearchCommand extends Command {
      */
     @Override
     public String toString() {
-        return "Search";
+        final String COMMAND_NAME = "Search";
+        return COMMAND_NAME;
     }
 
     /*

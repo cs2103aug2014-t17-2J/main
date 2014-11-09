@@ -14,6 +14,7 @@ import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 import logic.utility.Task;
 
+//@author A0112887X - unused
 /**
  * @author Kuan Tien Long
  *
@@ -22,33 +23,27 @@ public class TaskParserPlus implements TaskParser {
 
     private final String startDelimiter = "{[";
     private final String endDelimiter = "]}";
-   
 
     public Task buildTask(StringBuilder userInputBuilder) {
         String userInput = userInputBuilder.toString();
         String wordsUsed;
         Task task = new Task();
-        
-        
+
         userInput = StringHandler.convertImplicitFormalDate(userInput);
         userInput = StringHandler.convertFormalDate(userInput);
-        
 
         userInput = findDateFormat(userInput); // replace non date with
                                                // delimiter
 
-       userInput = MultiMapMatcher.replaceMatchedWithKey(createFakeMultiMapForShortForm(), userInput);
-        
-        
-        System.out.println("to date parser " + userInput);
+        userInput = MultiMapMatcher.replaceMatchedWithKey(
+                createFakeMultiMapForShortForm(), userInput);
+
 
         wordsUsed = parseDate(task, userInput);
-        System.out.println("wordUsed is " + wordsUsed);
         userInput = userInput.replaceFirst(wordsUsed, "");
         userInput = replaceDateKeyWords(userInput.trim());
         userInput = removeDelimiters(userInput);
 
-        System.out.println("to other parser " + userInput);
 
         wordsUsed = parsePriority(userInput, task);
         userInput = userInput.replaceFirst(wordsUsed, "");
@@ -64,18 +59,18 @@ public class TaskParserPlus implements TaskParser {
     }
 
     private TaskFieldSetter determineAttribute(String operation) {
-        return MultiMapMatcher.getMatchedKey(createFakeMultiMapForPriority(), operation);
+        return MultiMapMatcher.getMatchedKey(createFakeMultiMapForPriority(),
+                operation);
 
     }
 
     private String replaceDateKeyWords(String source) {
-        
-        return source.replaceAll(
-                "(?i) in$| on$| from$| at$| by$| date$|^in |^on |^from |^at |^by |^date ",
-                "");
-    }
-    
 
+        return source
+                .replaceAll(
+                        "(?i) in$| on$| from$| at$| by$| date$|^in |^on |^from |^at |^by |^date ",
+                        "");
+    }
 
     private String findDateFormat(String source) {
         source = replaceDigits(source);
@@ -223,20 +218,11 @@ public class TaskParserPlus implements TaskParser {
      *         invalid.
      */
     private String parseDate(Task task, String source) {
-        // if(invalidDateString(source))
-        // return "";
 
         TaskFieldSetter taskAttribute = new TaskDateFieldSetter();
         String wordsUsed = taskAttribute.set(task, source);
         return wordsUsed;
     }
 
-    // /**
-    // * @param source
-    // * @return true if source consist of less than minimalDateLength of words
-    // */
-    // private boolean invalidDateString(String source) {
-    // final int minimalDateLength = 3;
-    // return source.split("\\s+").length < minimalDateLength;
-    // }
+
 }

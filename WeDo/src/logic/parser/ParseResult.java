@@ -6,61 +6,64 @@ package logic.parser;
 import logic.command.commandList.Command;
 import logic.utility.Task;
 
-
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
-public class ParseResult 
-{
+public class ParseResult {
     private Task task;
     private Command command;
     private boolean isSuccessful;
     private String failedMessage;
-    
+
     /**
      * 
      */
     public ParseResult() {
     }
+
     /**
      * @param task
      * @param command
      */
-    public ParseResult( Command command, Task task) {
+    public ParseResult(Command command, Task task) {
         this.command = command;
         this.task = task;
     }
 
-    
     /**
      * @return the task
      */
     public Task getTask() {
         return task;
     }
+
     /**
-     * @param task the task to set
+     * @param task
+     *            the task to set
      */
     public void setTask(Task task) {
         this.task = task;
     }
+
     /**
      * @return the command
      */
     public Command getCommand() {
         return command;
     }
+
     /**
-     * @param command the command to set
+     * @param command
+     *            the command to set
      */
     public void setCommand(Command command) {
         this.command = command;
     }
-    
-    
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -84,37 +87,45 @@ public class ParseResult
             return false;
         return true;
     }
+
     /**
      * @return the isSuccessful
      */
     public boolean isSuccessful() {
         return isSuccessful;
     }
+
     /**
-     * @param isSuccessful the isSuccessful to set
+     * @param isSuccessful
+     *            the isSuccessful to set
      */
     public void setSuccessful(boolean isSuccessful) {
         this.isSuccessful = isSuccessful;
     }
+
     /**
      * @return the failedMessage
      */
     public String getFailedMessage() {
         return failedMessage;
     }
+
     /**
-     * @param failedMessage the failedMessage to set
+     * @param failedMessage
+     *            the failedMessage to set
      */
     public void setFailedMessage(String failedMessage) {
         this.failedMessage = failedMessage;
     }
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return "ParseResult [command =" + command +", task=" + task + "]";
+        return "ParseResult [command =" + command + ", task=" + task + "]";
     }
-    
-   
+
 }

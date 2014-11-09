@@ -5,14 +5,18 @@ package logic.deprecated.taskFieldSetter;
 
 import logic.utility.Task;
 
+//@author A0112887X - unused
 /**
  * @author Kuan Tien Long
  *
  */
 public class TaskInvalidFieldSetter implements TaskFieldSetter {
 
-    /* (non-Javadoc)
-     * @see logic.taskParser.taskFieldSetter.TaskFieldSetter#set(logic.Task, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see logic.taskParser.taskFieldSetter.TaskFieldSetter#set(logic.Task,
+     * java.lang.String)
      */
     @Override
     public String set(Task task, String arguments) {

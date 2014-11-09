@@ -19,16 +19,15 @@ import org.junit.Test;
 
 import definedEnumeration.Priority;
 
-
+//@author A0112887X 
 /**
- * @author A0112887X
  *
  */
 public class ParserManagerTest {
 
     @Test
     public void test() {
-  
+
         parseAddCommand();
         parseDeleteCommand();
 
@@ -59,7 +58,6 @@ public class ParserManagerTest {
         parseValidAddWithNumberEndingDescription();
         parseValidAddWithNumberFollowedByDate();
     }
-
 
     private void parseValidDeleteWithNegativeInteger() {
         Task expectedTask = new Task("-10", Task.PRIORITY_NOT_SET);
@@ -96,7 +94,7 @@ public class ParserManagerTest {
 
         assertValidParse("delete 2 to 10", expectedResult);
     }
-    
+
     private void parseValidDeleteWithMultipleInteger() {
         Task expectedTask = new Task("2,3,4,5 and 1,9", Task.PRIORITY_NOT_SET);
         Command expectedCommand = new DeleteCommand();
@@ -105,7 +103,7 @@ public class ParserManagerTest {
 
         assertValidParse("delete 2,3,4,5 and 1,9", expectedResult);
     }
-    
+
     private void parseValidDeleteWithInteger() {
         Task expectedTask = new Task("10", Task.PRIORITY_NOT_SET);
         Command expectedCommand = new DeleteCommand();
@@ -114,7 +112,7 @@ public class ParserManagerTest {
 
         assertValidParse("delete 10", expectedResult);
     }
-    
+
     private void parseValidAddWithNumberFollowedByDate() {
         Task expectedTask = new Task("meeting", Task.PRIORITY_NOT_SET,
                 LocalDate.now(), LocalTime.of(3, 0));

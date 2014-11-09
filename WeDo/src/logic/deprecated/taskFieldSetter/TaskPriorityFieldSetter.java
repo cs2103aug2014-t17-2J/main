@@ -16,6 +16,7 @@ import com.google.common.collect.Multimap;
 
 import definedEnumeration.Priority;
 
+//@author A0112887X - unused
 /**
  * @author Kuan Tien Long
  *
@@ -29,8 +30,8 @@ public class TaskPriorityFieldSetter implements TaskFieldSetter {
      */
     @Override
     public String set(Task task, String arguments) {
-        Priority priority = MultiMapMatcher
-                .getMatchedKey(createFakeMultiMap(), arguments);
+        Priority priority = MultiMapMatcher.getMatchedKey(createFakeMultiMap(),
+                arguments);
         task.setPriority(priority);
         return arguments;
     }

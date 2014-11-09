@@ -3,24 +3,14 @@
  */
 package logic.parser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
-
-import logic.command.commandList.Command;
 import logic.utility.KeyWordMappingList;
 import logic.utility.MultiMapMatcher;
 import logic.utility.StringHandler;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Multimap;
-
 import definedEnumeration.Priority;
 
+//@author A0112887X
 /**
- * @author A0112887X
  *
  */
 public class PriorityParser {
@@ -38,28 +28,23 @@ public class PriorityParser {
      * @return if source contains valid priority
      */
     public boolean tryParse(String source) {
-        
-        
-        priority = MultiMapMatcher.getMatchedKey(KeyWordMappingList.getPriorityMultiMap(),
-                source);
+
+        priority = MultiMapMatcher.getMatchedKey(
+                KeyWordMappingList.getPriorityMultiMap(), source);
         if (isPriorityParsed()) {
-            wordUsed = MultiMapMatcher.getMatchedWord(KeyWordMappingList.getPriorityMultiMap(),
-                    source);
-            
-            assert(wordUsed!= null);
-            assert(!wordUsed.isEmpty());
-            
-            wordRemaining = StringHandler.removeFirstMatched(source,
-                    wordUsed);
+            wordUsed = MultiMapMatcher.getMatchedWord(
+                    KeyWordMappingList.getPriorityMultiMap(), source);
+
+            assert (wordUsed != null);
+            assert (!wordUsed.isEmpty());
+
+            wordRemaining = StringHandler.removeFirstMatched(source, wordUsed);
 
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
-
 
     /**
      * @return if priority is successfully parsed
@@ -69,18 +54,25 @@ public class PriorityParser {
 
     }
 
-
+    /**
+     * @return the priority parsed
+     */
     public Priority getPriority() {
         return priority;
     }
 
+    /**
+     * @return the word used
+     */
     public String getWordUsed() {
         return wordUsed;
     }
 
+    /**
+     * @return the word remaining
+     */
     public String getWordRemaining() {
         return wordRemaining;
     }
-
 
 }

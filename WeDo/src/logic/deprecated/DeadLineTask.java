@@ -1,16 +1,15 @@
 /**
  * 
  */
-package logic.utility;
+package logic.deprecated;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import definedEnumeration.Priority;
 
-
+//@author A0112887X - unused
 /**
- * @author A0112887X
  *
  */
 public class DeadLineTask extends AbstractTask {
@@ -72,19 +71,21 @@ public class DeadLineTask extends AbstractTask {
         this.endTime = endTime;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return "DeadLineTask [endDate=" + endDate + ", endTime=" + endTime
                 + ", getPriority()=" + getPriority() + ", getDescription()="
-                + getDescription() + ", isCompleted()=" + isCompleted()
-                +  "]";
+                + getDescription() + ", isCompleted()=" + isCompleted() + "]";
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

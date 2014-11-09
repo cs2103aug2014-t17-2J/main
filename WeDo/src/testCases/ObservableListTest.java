@@ -13,9 +13,8 @@ import org.junit.Test;
 
 import dataStorage.ObservableList;
 
-
+//@author A0112887X 
 /**
- * @author A0112887X
  *
  */
 public class ObservableListTest {
@@ -27,8 +26,7 @@ public class ObservableListTest {
         private Object storedArg;
 
         @Override
-        public void update(Observable o, Object arg) 
-        {
+        public void update(Observable o, Object arg) {
             setStoredArg(arg);
         }
 

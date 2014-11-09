@@ -50,11 +50,12 @@ public class DefaultWeDoTableColor {
             int column, int selectedRow) {
 
         final Color BORDER_COLOR = Color.BLUE;
+        final Color FOREGROUND_COLOR = Color.BLACK;
         final int BORDER_THICKNESS = 3;
         final int NO_BORDER = 0;
-
+        
         JComponent jComponent = (JComponent) component;
-
+        jComponent.setForeground(FOREGROUND_COLOR);
         if (selectedRow == row) {
             if (column == InteractiveTableModel.INDEX_CHECK) {
                 jComponent.setBorder(new MatteBorder(BORDER_THICKNESS,

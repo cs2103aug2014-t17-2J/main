@@ -3,9 +3,9 @@
  */
 package logic.deprecated.taskFieldSetter;
 
-
 import logic.utility.Task;
 
+//@author A0112887X - unused
 /**
  * @author Kuan Tien Long
  *
@@ -13,5 +13,3 @@ import logic.utility.Task;
 public interface TaskFieldSetter {
     String set(Task task, String arguments);
 }
-
-
