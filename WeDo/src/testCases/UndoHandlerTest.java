@@ -224,11 +224,11 @@ public class UndoHandlerTest {
         Task task = new Task("edit 1 Random Task", Priority.PRIORITY_MEDIUM,
                 LocalDate.of(2014, 9, 18), LocalTime.of(14, 0), LocalDate.of(
                         2014, 9, 22), LocalTime.of(2, 0));
-        
+
         command.setTask(task);
         command.setSource(task);
         command.setDataHandler(dataHandler);
-        
+
         addUndoValidWithCommand(command, undoHandler, expectedStack);
     }
 
@@ -257,7 +257,7 @@ public class UndoHandlerTest {
         Task task = new Task("Random Task", Priority.PRIORITY_MEDIUM,
                 LocalDate.of(2014, 9, 18), LocalTime.of(14, 0), LocalDate.of(
                         2014, 9, 22), LocalTime.of(2, 0));
-        
+
         command.setDataHandler(dataHandler);
         command.setTask(task);
         addUndoValidWithCommand(command, undoHandler, expectedStack);
