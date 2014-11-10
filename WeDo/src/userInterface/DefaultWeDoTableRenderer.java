@@ -1,12 +1,11 @@
-/**
- * 
- */
 package userInterface;
 
 import java.awt.Component;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+
+//@author A0112675H
 
 @SuppressWarnings("serial")
 public class DefaultWeDoTableRenderer extends DefaultTableCellRenderer {

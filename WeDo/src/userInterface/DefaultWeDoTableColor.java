@@ -1,6 +1,3 @@
-/**
- * 
- */
 package userInterface;
 
 import java.awt.Color;
@@ -14,10 +11,9 @@ import javax.swing.border.MatteBorder;
 import ui.logic.command.ListenerHandler;
 import definedEnumeration.Priority;
 
-/**
- * @author Kuan Tien Long
- *
- */
+
+//@author A0112675H
+
 public class DefaultWeDoTableColor {
     /**
      * This function set the default background colour for WeDo table
