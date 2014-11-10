@@ -297,7 +297,7 @@ public class DateStringMassager {
     private static String replaceDescriptionWithDelimiter(String source) {
 
         final String[] POSSIBLE_DATE_DESCRIPTION = { "day", "days", "week",
-                "weeks", "month", "months", "year", "years" };
+                "weeks", "month", "months", "year", "years", "xmas", "christmas", "summer", "spring", "winter", "autumn" };
         String restrictedWordRegex = addRestrictedWordToRegex(POSSIBLE_DATE_DESCRIPTION);
 
         String regex = "(?i)(?<!\\d)\\s+(" + restrictedWordRegex
