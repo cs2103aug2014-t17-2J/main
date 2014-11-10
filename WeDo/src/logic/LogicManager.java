@@ -50,6 +50,7 @@ public class LogicManager {
     }
 
     /**
+     * Interpret what the user had entered
      * @param userInput
      *            the input that the user entered which will be decipher into
      *            task and command
