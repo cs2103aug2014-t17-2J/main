@@ -29,8 +29,7 @@ import dataStorage.BasicDataHandler;
 import dataStorage.DataHandler;
 import definedEnumeration.Priority;
 
-//@author A0112887X
-//@formatter:off
+//@author A0112636M
 /**
  *  UndoHandler contains 3 methods
  *  1. addUndo

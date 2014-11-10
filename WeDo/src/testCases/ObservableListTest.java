@@ -1,6 +1,3 @@
-/**
- * 
- */
 package testCases;
 
 import static org.junit.Assert.*;
@@ -13,15 +10,11 @@ import org.junit.Test;
 
 import dataStorage.ObservableList;
 
-//@author A0112887X 
+//@author A0112636M
 /**
  *
  */
 public class ObservableListTest {
-
-    /**
-     * @author Kuan Tien Long observer class used for testing
-     */
     class MyObserver implements Observer {
         private Object storedArg;
 
@@ -51,7 +44,6 @@ public class ObservableListTest {
         testNullList();
         testValidList();
         testObserver();
-
     }
 
     /**
@@ -64,7 +56,6 @@ public class ObservableListTest {
         testAddNullList(list);
         testReplaceWithNullList(list);
         testReplaceNullList(list);
-
     }
 
     /**
@@ -86,7 +77,6 @@ public class ObservableListTest {
         testReplaceValidList(expectedList, list);
         testAddReplacedList(expectedList, list);
         testRemoveReplacedList(expectedList, list);
-
     }
 
     /**
@@ -106,7 +96,6 @@ public class ObservableListTest {
         testObserverAdd(list, observer1, observer2);
         testObserverRemove(list, observer1, observer2);
         testObserverReplace(newList, list, observer1, observer2);
-
     }
 
     private void testObserverReplace(ArrayList<String> newList,

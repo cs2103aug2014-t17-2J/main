@@ -50,7 +50,7 @@ public class FormatHandler {
 		UserIntSwing.lblTodayDate.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 16));
 		UserIntSwing.lblTodayDate.setHorizontalAlignment(SwingConstants.RIGHT);
 		UserIntSwing.lblTodayDate.setVerticalAlignment(SwingConstants.CENTER);
-		UserIntSwing.lblTodayDate.setBounds(502, 44, 256, 26);
+		UserIntSwing.lblTodayDate.setBounds(552, 44, 200, 25);
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class FormatHandler {
 		UserIntSwing.lblViewTask.setFont(new Font("Calibri", Font.ITALIC, 18));
 		UserIntSwing.lblViewTask.setHorizontalAlignment(SwingConstants.LEFT);
 		UserIntSwing.lblViewTask.setVerticalAlignment(SwingConstants.TOP);
-		UserIntSwing.lblViewTask.setBounds(80, 44, 413, 25);
+		UserIntSwing.lblViewTask.setBounds(80, 44, 500, 25);
 	}
 	
 	/**

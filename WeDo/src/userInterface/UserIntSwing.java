@@ -3,14 +3,12 @@ package userInterface;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,7 +28,6 @@ public class UserIntSwing extends JPanel implements Observer {
 	ArrayList<Task> taskList;
 
 	public static final JFrame frame = new JFrame("WeDo");
-	public static final JDialog frameAboutWeDo = new JDialog();
 	public static final InteractiveForm interactiveForm = new InteractiveForm();
 	public static final JLabel lblBackground = new JLabel();
 	public static final JLabel lblCommandGuide = new JLabel();

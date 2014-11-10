@@ -42,17 +42,16 @@ public class FileHandler {
 	private final String TIMED = "timed";
 	private final String FLOATING = "floating";
 
-	//@author A0112862L
+	// @author A0112862L
 	public FileHandler() {
 
 		fileName = "WeDo.txt";
 		createFile();
-		//System.out.println(writeToString(fileName));
-		
+		// System.out.println(writeToString(fileName));
 
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	public void createFile() {
 
 		try {
@@ -68,7 +67,7 @@ public class FileHandler {
 
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	public void clear() {
 
 		try {
@@ -85,125 +84,111 @@ public class FileHandler {
 
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	private void stringToFile(String str) {
-		
-		if(isFileEmpty()) {
+
+		if (isFileEmpty()) {
 			return;
-		}else {
-		
-		try {
-			FileWriter fstream = new FileWriter(fileName, false);
-			BufferedWriter bw = new BufferedWriter(fstream);
-			
-			bw.write(str);
-			
-			bw.close();
+		} else {
 
-		} catch (IOException e) {
+			try {
+				FileWriter fstream = new FileWriter(fileName, false);
+				BufferedWriter bw = new BufferedWriter(fstream);
 
-			e.printStackTrace();
+				bw.write(str);
+
+				bw.close();
+
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+
 		}
 
-		}
-		
 	}
-	
-	//@author A0112862L
+
+	// @author A0112862L
 	private boolean isFileEmpty() {
-		
+
 		String currentLine;
 		BufferedReader br;
-		
 
-		
 		try {
 			br = new BufferedReader(new FileReader(fileName));
 			currentLine = br.readLine();
 			br.close();
 
-			
-			if (currentLine == null )
-			{
+			if (currentLine == null) {
 				return true;
-			}				
-			
-		
-			
+			}
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-	
-		
+
 		return false;
-	
+
 	}
-	
-	//@author A0112862L
+
+	// @author A0112862L
 	private String writeToString(String fileName) {
-		
-		String currentLine,wholeFile;
+
+		String currentLine, wholeFile;
 		BufferedReader br;
-		
+
 		wholeFile = "";
 
-		
 		try {
 			br = new BufferedReader(new FileReader(fileName));
-			
 
 			while ((currentLine = br.readLine()) != null) {
 				wholeFile += currentLine + "\r\n";
-				
+
 			}
-			
+
 			br.close();
-			
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-	
-		
-		
+
 		return wholeFile;
-	
+
 	}
-	
-	//@author A0112862L
-	private String removeChar(int index,String str) {
+
+	// @author A0112862L
+	private String removeChar(int index, String str) {
 		StringBuilder sb = new StringBuilder(str);
 		sb.deleteCharAt(index);
 		return sb.toString();
 	}
-	
-	
-	//@author A0112862L
+
+	// @author A0112862L
 	public String writeToFile(ArrayList<Task> tasks) {
-	
-		JSONObject jTasks = toJSON("tasks",tasks);
+
+		JSONObject jTasks = toJSON("tasks", tasks);
 
 		try {
 			FileWriter fstream = new FileWriter(fileName, true);
 			BufferedWriter bw = new BufferedWriter(fstream);
-			
+
 			String[] sTasks = jTasks.toString().split(",");
-			
-			for(String s: sTasks) {
+
+			for (String s : sTasks) {
 				bw.write(s);
-				if(s.charAt(s.length()-1) == '}') {
+				if (s.charAt(s.length() - 1) == '}') {
 					bw.newLine();
 				}
 				bw.newLine();
 			}
-			
+
 			bw.close();
 
 		} catch (IOException e) {
@@ -214,9 +199,8 @@ public class FileHandler {
 		return null;
 
 	}
-	
-	
-	//@author A0112862L
+
+	// @author A0112862L
 	public static void log(String log) {
 
 		try {
@@ -233,28 +217,8 @@ public class FileHandler {
 		}
 
 	}
-	
-	
-	//@author A0112862L
-	public String writeLog(String log) {
 
-		try {
-			FileWriter fstream = new FileWriter("LogFile.txt", true);
-			BufferedWriter bw = new BufferedWriter(fstream);
-
-			bw.write(log);
-			bw.newLine();
-			bw.close();
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
-	//@author A0112862L
+	// @author A0112862L
 	private JSONObject toJSON(String type, ArrayList<Task> tasks) {
 
 		JSONObject taskObj = new JSONObject();
@@ -270,7 +234,7 @@ public class FileHandler {
 		return taskObj;
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	private JSONObject taskToJSON(Task task) {
 
 		JSONObject tmp = new JSONObject();
@@ -286,21 +250,21 @@ public class FileHandler {
 
 		return tmp;
 	}
-	
-	//@author A0112862L
+
+	// @author A0112862L
 	public void resetID() {
 		Task task = new Task();
 		task.setUniqueID(0);
 	}
-	
-	//@author A0112862L
-	public Multimap<LocalDate,Task> getAllTasks(){
-		
-		Multimap<LocalDate,Task> tmp;
+
+	// @author A0112862L
+	public Multimap<LocalDate, Task> getAllTasks() {
+
+		Multimap<LocalDate, Task> tmp;
 		tmp = ArrayListMultimap.create();
-		
+
 		resetID();
-		
+
 		JSONParser parser = new JSONParser();
 
 		try {
@@ -316,51 +280,47 @@ public class FileHandler {
 				try {
 					t = jsonToTask(j);
 				} catch (DateTimeParseException dte) {
-					
+
 					System.out.println(dte);
-					
+
 				} catch (NullPointerException n) {
 					System.out.println(n);
 
 				}
-				if(t != null)
+				if (t != null)
 					tmp.put(t.getEndDate(), t);
-				
+
 			}
 
+		} catch (ParseException pe) {
+			// e.printStackTrace();
 
-		} catch (ParseException  pe) {
-			//e.printStackTrace();
-			
 			System.out.println("JSON parsing error" + pe);
-			if(!isFileEmpty()) {
-			stringToFile(removeChar(pe.getPosition(),writeToString(fileName)));
-			tmp = getAllTasks();
-			}else {
+			if (!isFileEmpty()) {
+				stringToFile(removeChar(pe.getPosition(),
+						writeToString(fileName)));
+				tmp = getAllTasks();
+			} else {
 				System.out.println("File is empty");
 			}
 
-			
 		} catch (IOException e) {
 			System.out.println("File Not Found!");
-		} 
-		
+		}
+
 		return tmp;
-		
-		
+
 	}
 
-
-	
-	//@author A0112862L
-	private Task jsonToTask(JSONObject jTask)  {
+	// @author A0112862L
+	private Task jsonToTask(JSONObject jTask) {
 
 		Task task = new Task();
-		
+
 		task.setUniqueID(Integer.parseInt(jTask.get(ID).toString()));
 		task.setDescription(jTask.get(DESCRPTION).toString());
 		task.setStartDate(LocalDate.parse(jTask.get(S_DATE).toString()));
-		
+
 		task.setEndDate(LocalDate.parse(jTask.get(E_DATE).toString()));
 		task.setStartTime(LocalTime.parse(jTask.get(S_TIME).toString()));
 		task.setEndTime(LocalTime.parse(jTask.get(E_TIME).toString()));
@@ -371,7 +331,7 @@ public class FileHandler {
 
 	}
 
-	//@author A0112862L
+	// @author A0112862L
 	private Priority checkPriority(JSONObject jTask) {
 
 		String pri = jTask.get(PRIORITY).toString();
