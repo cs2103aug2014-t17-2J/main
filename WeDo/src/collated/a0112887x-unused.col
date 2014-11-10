@@ -1,0 +1,751 @@
+//@author: a0112887x-unused
+
+
+
+	/**
+	 * origin: logic\deprecated\AbstractTask.java
+	 */
+
+/**
+ *
+ */
+public class AbstractTask {
+
+    public static final LocalTime TIME_NOT_SET = LocalTime.MAX;
+    public static final LocalDate DATE_NOT_SET = LocalDate.MAX;
+    public static final Priority PRIORITY_NOT_SET = Priority.PRIORITY_UNDEFINED;
+    private boolean isCompleted = DEFAULT_COMPLETE_STATUS;
+    protected static final boolean DEFAULT_COMPLETE_STATUS = false;
+
+    private static int uniqueID = 0;
+
+    private Priority priority;
+    private String description;
+
+    public AbstractTask(Priority priority, String description,
+            boolean isComplete) {
+        uniqueID++;
+        this.priority = priority;
+        this.description = description;
+        this.isCompleted = isComplete;
+    }
+
+    public AbstractTask(Priority priority, String description) {
+        uniqueID++;
+        this.priority = priority;
+        this.description = description;
+    }
+
+    /**
+     * @return the uniqueID
+     */
+    public static int getUniqueID() {
+        return uniqueID;
+    }
+
+    /**
+     * @param uniqueID
+     *            the uniqueID to set
+     */
+    public static void setUniqueID(int uniqueID) {
+        AbstractTask.uniqueID = uniqueID;
+    }
+
+    /**
+     * @return the priority
+     */
+    public Priority getPriority() {
+        return priority;
+    }
+
+    /**
+     * @param priority
+     *            the priority to set
+     */
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description
+     *            the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * @return the isCompleted
+     */
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    /**
+     * @param isCompleted
+     *            the isCompleted to set
+     */
+    public void setCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "AbstractTask [priority=" + priority + ", description="
+                + description + ", isCompleted=" + isCompleted + "]";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractTask other = (AbstractTask) obj;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        } else if (!description.equals(other.description))
+            return false;
+        if (isCompleted != other.isCompleted)
+            return false;
+        if (priority != other.priority)
+            return false;
+        return true;
+    }
+
+}
+
+	// End of segment: logic\deprecated\AbstractTask.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\DeadLineTask.java
+	 */
+
+/**
+ *
+ */
+public class DeadLineTask extends AbstractTask {
+
+    private LocalDate endDate;
+    private LocalTime endTime = TIME_NOT_SET;
+
+    /**
+     * @param priority
+     * @param description
+     * @param isComplete
+     */
+    public DeadLineTask(Priority priority, String description,
+            boolean isComplete, LocalDate endDate, LocalTime endTime) {
+
+        super(priority, description, isComplete);
+
+        this.endDate = endDate;
+        this.endTime = endTime;
+    }
+
+    public DeadLineTask(Priority priority, String description,
+            LocalDate endDate, LocalTime endTime) {
+
+        super(priority, description);
+
+        this.endDate = endDate;
+        this.endTime = endTime;
+
+    }
+
+    /**
+     * @return the endDate
+     */
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    /**
+     * @param endDate
+     *            the endDate to set
+     */
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    /**
+     * @return the endTime
+     */
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    /**
+     * @param endTime
+     *            the endTime to set
+     */
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "DeadLineTask [endDate=" + endDate + ", endTime=" + endTime
+                + ", getPriority()=" + getPriority() + ", getDescription()="
+                + getDescription() + ", isCompleted()=" + isCompleted() + "]";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DeadLineTask other = (DeadLineTask) obj;
+        if (endDate == null) {
+            if (other.endDate != null)
+                return false;
+        } else if (!endDate.equals(other.endDate))
+            return false;
+        if (endTime == null) {
+            if (other.endTime != null)
+                return false;
+        } else if (!endTime.equals(other.endTime))
+            return false;
+        return true;
+    }
+}
+
+	// End of segment: logic\deprecated\DeadLineTask.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\FloatingTask.java
+	 */
+
+/**
+ *
+ */
+public class FloatingTask extends AbstractTask {
+
+    /**
+     * @param priority
+     * @param description
+     */
+    public FloatingTask(Priority priority, String description) {
+        super(priority, description);
+        // TODO Auto-generated constructor stub
+    }
+
+    public FloatingTask(Priority priority, String description,
+            boolean isComplete) {
+        super(priority, description, isComplete);
+        // TODO Auto-generated constructor stub
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "FloatingTask [getPriority()=" + getPriority()
+                + ", getDescription()=" + getDescription() + ", isCompleted()="
+                + isCompleted() + "]";
+    }
+}
+
+	// End of segment: logic\deprecated\FloatingTask.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\taskFieldSetter\TaskDateFieldSetter.java
+	 */
+
+/**
+ *
+ */
+public class TaskDateFieldSetter implements TaskFieldSetter {
+
+    /*
+     * (non-Javadoc)4
+     * 
+     * @see logic.taskParser.taskFieldSetter.TaskFieldSetter#set(logic.Task,
+     * java.lang.String)
+     */
+    @Override
+    public String set(Task task, String source) {
+
+        Parser nattyParser = new Parser();
+
+        List<DateGroup> dateGroups = nattyParser.parse(source);
+        if (dateAvailable(dateGroups)) {
+            setDate(task, dateGroups);
+            return getDateText(source, dateGroups);
+        }
+        return "";
+    }
+
+    /**
+     * 
+     */
+    private String getDateText(String source, List<DateGroup> dateGroups) {
+        int startPosition = source.length();
+        int endPosition = 0;
+        for (DateGroup dateGroup : dateGroups) {
+            int position = dateGroup.getPosition();
+            int length = dateGroup.getText().length();
+            startPosition = Math.min(startPosition, position);
+            endPosition = Math.max(position + length, endPosition);
+        }
+
+        String dateText = source.substring(startPosition, endPosition);
+        return dateText;
+    }
+
+    private void setDate(Task task, List<DateGroup> dateGroups) {
+        final int START_INDEX = 0;
+        final int LIST_OFFSET = 1;
+
+        List<Date> dateList = getDateList(START_INDEX, dateGroups);
+
+        int noOfDates = dateList.size();
+
+        if (noOfDates > 1) {
+            setEndDateTime(task, isTimeSpecified(dateGroups),
+                    dateList.get(noOfDates - LIST_OFFSET));
+            setStartDateTime(task, isTimeSpecified(dateGroups),
+                    dateList.get(START_INDEX));
+        } else {
+            setEndDateTime(task, isTimeSpecified(dateGroups),
+                    dateList.get(START_INDEX));
+        }
+    }
+
+    private boolean dateAvailable(List<DateGroup> dateGroups) {
+        return dateGroups.size() > 0;
+    }
+
+    private List<Date> getDateList(final int START_INDEX,
+            List<DateGroup> dateGroup) {
+        List<Date> dateList = dateGroup.get(START_INDEX).getDates();
+        Collections.sort(dateList);
+        return dateList;
+    }
+
+    private void setStartDateTime(Task task, final boolean isTimeSpecified,
+            final Date startDate) {
+        task.setStartDate(dateToLocalDate(startDate));
+        if (isTimeSpecified) {
+            task.setStartTime(dateToLocalTime(startDate));
+        }
+    }
+
+    private void setEndDateTime(Task task, final boolean isTimeSpecified,
+            final Date endDate) {
+        task.setEndDate(dateToLocalDate(endDate));
+        if (isTimeSpecified) {
+            task.setEndTime(dateToLocalTime(endDate));
+        }
+    }
+
+    private boolean isTimeSpecified(List<DateGroup> dateGroups) {
+        return !dateGroups.get(0).isTimeInferred();
+    }
+
+    public LocalDate dateToLocalDate(Date date) {
+        Instant instant = Instant.ofEpochMilli(date.getTime());
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
+    public LocalTime dateToLocalTime(Date time) {
+        Instant instant = Instant.ofEpochMilli(time.getTime());
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+                .toLocalTime();
+    }
+
+}
+
+	// End of segment: logic\deprecated\taskFieldSetter\TaskDateFieldSetter.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\taskFieldSetter\TaskDescriptionFieldSetter.java
+	 */
+
+/**
+	// End of segment: logic\deprecated\taskFieldSetter\TaskDescriptionFieldSetter.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\taskFieldSetter\TaskFieldSetter.java
+	 */
+
+/**
+	// End of segment: logic\deprecated\taskFieldSetter\TaskFieldSetter.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\taskFieldSetter\TaskInvalidFieldSetter.java
+	 */
+
+/**
+	// End of segment: logic\deprecated\taskFieldSetter\TaskInvalidFieldSetter.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\taskFieldSetter\TaskPriorityFieldSetter.java
+	 */
+
+/**
+	// End of segment: logic\deprecated\taskFieldSetter\TaskPriorityFieldSetter.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\TaskParser.java
+	 */
+
+/**
+	// End of segment: logic\deprecated\TaskParser.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\TaskParserBasic.java
+	 */
+
+/**
+	// End of segment: logic\deprecated\TaskParserBasic.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\TaskParserPlus.java
+	 */
+
+/**
+	// End of segment: logic\deprecated\TaskParserPlus.java
+
+
+
+
+
+	/**
+	 * origin: logic\deprecated\TimedTask.java
+	 */
+
+/**
+ *
+ */
+public class TimedTask extends DeadLineTask {
+
+    private LocalDate startDate;
+    private LocalTime startTime = TIME_NOT_SET;
+
+    /**
+     * @param priority
+     * @param description
+     * @param endDate
+     * @param endTime
+     */
+    public TimedTask(Priority priority, String description, LocalDate endDate,
+            LocalTime endTime, LocalDate startDate, LocalTime startTime) {
+
+        super(priority, description, endDate, endTime);
+
+        this.startDate = startDate;
+        this.startTime = startTime;
+    }
+
+    public TimedTask(Priority priority, String description, boolean isComplete,
+            LocalDate endDate, LocalTime endTime, LocalDate startDate,
+            LocalTime startTime) {
+
+        super(priority, description, isComplete, endDate, endTime);
+
+        this.startDate = startDate;
+        this.startTime = startTime;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "TimedTask [startDate=" + startDate + ", startTime=" + startTime
+                + ", getEndDate()=" + getEndDate() + ", getEndTime()="
+                + getEndTime() + ", getPriority()=" + getPriority()
+                + ", getDescription()=" + getDescription() + ", isCompleted()="
+                + isCompleted() + "]";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        TimedTask other = (TimedTask) obj;
+        if (startDate == null) {
+            if (other.startDate != null)
+                return false;
+        } else if (!startDate.equals(other.startDate))
+            return false;
+        if (startTime == null) {
+            if (other.startTime != null)
+                return false;
+        } else if (!startTime.equals(other.startTime))
+            return false;
+        return true;
+    }
+}
+
+	// End of segment: logic\deprecated\TimedTask.java
+
+
+
+
+
+	/**
+	 * origin: testCases\deprecated\TaskParserPlusTest.java
+	 */
+
+/**
+ *
+ */
+public class TaskParserPlusTest {
+
+    @Test
+    public void test() {
+
+        // Scanner sc = new Scanner(System.in);
+        // TaskParserUlti ulti = new TaskParserUlti();
+        // while(true)
+        // {
+        // String input = sc.nextLine();
+        // ulti.buildTask(new StringBuilder(input));
+        //
+        // }
+
+        Task expectedTask = new Task();
+        TaskParserPlus taskParser = new TaskParserPlus();
+
+        expectedTask.setDescription("floating task");
+        assertEquals(expectedTask,
+                taskParser.buildTask(new StringBuilder("-add floating task")));
+
+        expectedTask.setEndDate(LocalDate.of(2014, 9, 12));
+        expectedTask.setDescription("momo");
+        expectedTask.setPriority(Priority.PRIORITY_HIGH);
+        assertEquals(expectedTask, taskParser.buildTask(new StringBuilder(
+                "-add momo on 12 sept priority high")));
+
+        expectedTask.setStartDate(LocalDate.of(2014, 9, 12));
+        expectedTask.setEndDate(LocalDate.of(2014, 9, 18));
+        expectedTask.setDescription("buy for me something");
+        expectedTask.setPriority(Priority.PRIORITY_LOW);
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask(new StringBuilder(
+                                "-add buy for me something date 12 sept to 18 sept priority low")));
+
+        expectedTask.setStartDate(LocalDate.of(2014, 9, 18));
+        expectedTask.setStartTime(LocalTime.of(14, 0));
+        expectedTask.setEndTime(LocalTime.of(2, 0));
+        expectedTask.setEndDate(LocalDate.of(2014, 9, 22));
+        expectedTask.setDescription("buy for me something");
+        expectedTask.setPriority(Priority.PRIORITY_MEDIUM);
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask(new StringBuilder(
+                                "-add buy for me something date 18 sept 2pm to 22 sept 2am med priority")));
+
+        expectedTask = new Task();
+        expectedTask.setEndDate(LocalDate.of(2014, 12, 12));
+        expectedTask.setDescription("i wan to eat this");
+        expectedTask.setPriority(Priority.PRIORITY_LOW);
+        assertEquals(expectedTask, taskParser.buildTask(new StringBuilder(
+                "add i wan to eat this priority low on 12 dec")));
+
+        expectedTask = new Task();
+        expectedTask.setStartDate(LocalDate.of(2014, 9, 18));
+        expectedTask.setStartTime(LocalTime.of(14, 0));
+        expectedTask.setEndTime(LocalTime.of(2, 0));
+        expectedTask.setEndDate(LocalDate.of(2014, 9, 22));
+        expectedTask.setDescription("buy for me something");
+        expectedTask.setPriority(Priority.PRIORITY_MEDIUM);
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask(new StringBuilder(
+                                "-add buy for me something med priority date 18 sept 2pm to 22 sept 2am ")));
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask(new StringBuilder(
+                                "-add buy for me something med priority date 18/09/14 2pm to 22/9/14 2am ")));
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask(new StringBuilder(
+                                "med priority date 18/09/14 2pm to 22/9/14 2am -add buy for me something")));
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask(new StringBuilder(
+                                "18/09/14 14:00 to 22/9/14 2:00 med priority -add buy for me something")));
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask(new StringBuilder(
+                                "date 18/09 2pm to 22/9 2am -add buy for me something priority med")));
+
+        expectedTask = new Task();
+        expectedTask.setStartDate(LocalDate.now());
+        expectedTask.setStartTime(LocalTime.of(20, 0));
+        expectedTask.setEndTime(LocalTime.of(22, 0));
+        expectedTask.setEndDate(LocalDate.now());
+        expectedTask
+                .setDescription("hello page 321 to 232 and pg 23123 to 21321");
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask(new StringBuilder(
+                                "add hello page 321 to 232 and pg 23123 to 21321 at 8pm to 10 pm")));
+
+    }
+
+}
+
+	// End of segment: testCases\deprecated\TaskParserPlusTest.java
+
+
+
+
+
+	/**
+	 * origin: testCases\deprecated\TaskParserTest.java
+	 */
+
+/**
+ *
+ */
+public class TaskParserTest {
+
+    @Test
+    public void test() {
+
+        Task expectedTask = new Task();
+        TaskParserBasic taskParser = new TaskParserBasic();
+
+        expectedTask.setDescription("floating task");
+        assertEquals(expectedTask,
+                taskParser.buildTask(new StringBuilder("-add floating task")));
+
+        expectedTask.setStartDate(LocalDate.of(2014, 9, 12));
+        expectedTask.setDescription("momo");
+        expectedTask.setPriority(Priority.PRIORITY_HIGH);
+        assertEquals(expectedTask, taskParser.buildTask(new StringBuilder(
+                "-add momo -date 12 sept -priority high")));
+
+        expectedTask.setStartDate(LocalDate.of(2014, 9, 12));
+        expectedTask.setEndDate(LocalDate.of(2014, 9, 18));
+        expectedTask.setDescription("buy for me something");
+        expectedTask.setPriority(Priority.PRIORITY_LOW);
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask(new StringBuilder(
+                                "-add buy for me something -date 12 sept to 18 sept -priority low")));
+
+        expectedTask.setStartDate(LocalDate.of(2014, 9, 18));
+        expectedTask.setStartTime(LocalTime.of(14, 0));
+        expectedTask.setEndTime(LocalTime.of(2, 0));
+        expectedTask.setEndDate(LocalDate.of(2014, 9, 22));
+        expectedTask.setDescription("buy for me something");
+        expectedTask.setPriority(Priority.PRIORITY_MEDIUM);
+        assertEquals(
+                expectedTask,
+                taskParser
+                        .buildTask(new StringBuilder(
+                                "-add buy for me something -date 18 sept 2pm to 22 sept 2am -priority med")));
+
+    }
+
+}
+
+	// End of segment: testCases\deprecated\TaskParserTest.java
+
+
+
+
+

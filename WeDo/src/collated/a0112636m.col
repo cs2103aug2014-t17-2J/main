@@ -1,0 +1,3457 @@
+//@author: a0112636m
+
+
+
+	/**
+	 * origin: testCases\ObservableListTest.java
+	 */
+
+/**
+ *
+ */
+public class ObservableListTest {
+    class MyObserver implements Observer {
+        private Object storedArg;
+
+        @Override
+        public void update(Observable o, Object arg) {
+            setStoredArg(arg);
+        }
+
+        /**
+         * @return the storedArg
+         */
+        public Object getStoredArg() {
+            return storedArg;
+        }
+
+        /**
+         * @param storedArg
+         *            the storedArg to set
+         */
+        public void setStoredArg(Object storedArg) {
+            this.storedArg = storedArg;
+        }
+    }
+
+    @Test
+    public void test() {
+        testNullList();
+        testValidList();
+        testObserver();
+    }
+
+    /**
+     * This function tests all the function of observable with a null list
+     */
+    private void testNullList() {
+        ObservableList<String> list = new ObservableList<String>(null);
+        testGetEmptyList(list);
+        testRemoveEmptyList(list);
+        testAddNullList(list);
+        testReplaceWithNullList(list);
+        testReplaceNullList(list);
+    }
+
+    /**
+     * This function tests all the function of observable with a valid list
+     */
+    private void testValidList() {
+        ArrayList<String> expectedList = new ArrayList<String>();
+        ArrayList<String> storedList = new ArrayList<String>();
+        ObservableList<String> list = new ObservableList<String>(storedList);
+
+        testGetEmptyList(list);
+        testRemoveEmptyList(list);
+        testAddValidList(expectedList, list);
+        testRemoveValidIndex(expectedList, list);
+        testRemoveInvalid(expectedList, list);
+        testRemoveNull(expectedList, list);
+        testReplaceWithNullList(list);
+        testReplaceEmptyList(expectedList, list);
+        testReplaceValidList(expectedList, list);
+        testAddReplacedList(expectedList, list);
+        testRemoveReplacedList(expectedList, list);
+    }
+
+    /**
+     * This function will test if the observer received the updated argument
+     */
+    private void testObserver() {
+
+        ArrayList<String> storedList = new ArrayList<String>();
+        ArrayList<String> newList = new ArrayList<String>();
+        ObservableList<String> list = new ObservableList<String>(storedList);
+
+        MyObserver observer1 = new MyObserver();
+        MyObserver observer2 = new MyObserver();
+        list.addObserver(observer1);
+        list.addObserver(observer2);
+
+        testObserverAdd(list, observer1, observer2);
+        testObserverRemove(list, observer1, observer2);
+        testObserverReplace(newList, list, observer1, observer2);
+    }
+
+    private void testObserverReplace(ArrayList<String> newList,
+            ObservableList<String> list, MyObserver observer1,
+            MyObserver observer2) {
+        testReplaceEmptyList(newList, list);
+        assertEquals((Object) newList, observer1.getStoredArg());
+        assertEquals((Object) newList, observer2.getStoredArg());
+
+        newList.add("something");
+        newList.add("your thing");
+        list.replaceList(newList);
+        assertEquals((Object) newList, observer1.getStoredArg());
+        assertEquals((Object) newList, observer2.getStoredArg());
+    }
+
+    private void testObserverRemove(ObservableList<String> list,
+            MyObserver observer1, MyObserver observer2) {
+        assertTrue(list.remove(null));
+        assertEquals((Object) null, observer1.getStoredArg());
+        assertEquals((Object) null, observer2.getStoredArg());
+
+        assertTrue(list.remove(0));
+        assertEquals((Object) "hello", observer1.getStoredArg());
+        assertEquals((Object) "hello", observer2.getStoredArg());
+    }
+
+    private void testObserverAdd(ObservableList<String> list,
+            MyObserver observer1, MyObserver observer2) {
+        assertTrue(list.add("hello"));
+        assertEquals((Object) "hello", observer1.getStoredArg());
+        assertEquals((Object) "hello", observer2.getStoredArg());
+
+        assertTrue(list.add("yo"));
+        assertEquals((Object) "yo", observer1.getStoredArg());
+        assertEquals((Object) "yo", observer2.getStoredArg());
+
+        assertTrue(list.add(null));
+        assertEquals((Object) null, observer1.getStoredArg());
+        assertEquals((Object) null, observer2.getStoredArg());
+    }
+
+    private void testReplaceNullList(ObservableList<String> list) {
+        testReplaceWithEmptyList(list);
+        testReplaceWithValidList(list);
+    }
+
+    private void testReplaceWithValidList(ObservableList<String> list) {
+        ArrayList<String> newList = new ArrayList<String>();
+        ArrayList<String> expectedList = new ArrayList<String>();
+        newList.add("Hello");
+        newList.add("time");
+        expectedList.add("Hello");
+        expectedList.add("time");
+        list.replaceList(newList);
+        assertEquals(expectedList, list.getList());
+    }
+
+    private void testReplaceWithEmptyList(ObservableList<String> list) {
+        list.replaceList(new ArrayList<String>());
+        assertEquals(new ArrayList<String>(), list.getList());
+    }
+
+    private void testAddNullList(ObservableList<String> list) {
+        assertFalse(list.add(null));
+        assertFalse(list.add("What will happen"));
+        assertEquals(null, list.getList());
+    }
+
+    private void testRemoveReplacedList(ArrayList<String> expectedList,
+            ObservableList<String> list) {
+        assertFalse(list.remove("hello"));
+        assertTrue(list.remove("Hello"));
+        expectedList.remove("Hello");
+        assertEquals(expectedList, list.getList());
+    }
+
+    private void testAddReplacedList(ArrayList<String> expectedList,
+            ObservableList<String> list) {
+        assertTrue(list.add("here now"));
+        expectedList.add("here now");
+    }
+
+    private void testReplaceValidList(ArrayList<String> expectedList,
+            ObservableList<String> list) {
+        ArrayList<String> newList = new ArrayList<String>();
+        newList.add("Hello");
+        newList.add("time");
+        expectedList.add("Hello");
+        expectedList.add("time");
+        list.replaceList(newList);
+        assertEquals(expectedList, list.getList());
+    }
+
+    private void testReplaceEmptyList(ArrayList<String> expectedList,
+            ObservableList<String> list) {
+        list.replaceList(new ArrayList<String>());
+        expectedList.clear();
+        assertEquals(new ArrayList<String>(), list.getList());
+    }
+
+    private void testReplaceWithNullList(ObservableList<String> list) {
+        list.replaceList(null);
+        assertEquals(null, list.getList());
+    }
+
+    private void testRemoveNull(ArrayList<String> expectedList,
+            ObservableList<String> list) {
+        assertTrue(list.remove(null));
+        expectedList.remove(null);
+        assertEquals(expectedList, list.getList());
+    }
+
+    private void testRemoveInvalid(ArrayList<String> expectedList,
+            ObservableList<String> list) {
+        assertFalse(list.remove(10));
+        assertFalse(list.remove("ehh"));
+        assertEquals(expectedList, list.getList());
+    }
+
+    private void testRemoveValidIndex(ArrayList<String> expectedList,
+            ObservableList<String> list) {
+        assertTrue(list.remove(1));
+        expectedList.remove(1);
+    }
+
+    private void testAddValidList(ArrayList<String> expectedList,
+            ObservableList<String> list) {
+        assertTrue(list.add(null));
+        assertTrue(list.add("What will happen"));
+        expectedList.add(null);
+        expectedList.add("What will happen");
+        assertEquals(expectedList, list.getList());
+    }
+
+    private void testGetEmptyList(ObservableList<String> list) {
+        assertEquals(null, list.get(3));
+    }
+
+    private void testRemoveEmptyList(ObservableList<String> list) {
+        assertFalse(list.remove(1));
+        assertFalse(list.remove("what"));
+        assertFalse(list.remove(null));
+    }
+
+}
+
+	// End of segment: testCases\ObservableListTest.java
+
+
+
+
+
+	/**
+	 * origin: testCases\UndoHandlerTest.java
+	 */
+
+/**
+ *  UndoHandler contains 3 methods
+ *  1. addUndo
+ *  2. undo
+ *  3. redo
+ *  
+ *  This test case will cover the above mentioned methods.
+ *  
+ *  Below are the valid and invalid parameters for addUndo method
+ *  +---------------+-------------+
+ *  | Valid         | Invalid     |
+ *  +---------------+-------------+
+ *  | AddCommand    | null        |
+ *  +---------------+-------------+
+ *  | DeleteCommand | RedoCommand |
+ *  +---------------+-------------+
+ *  | ViewCommand   | UndoCommand |
+ *  +---------------+-------------+
+ *  | ClearCommand  |             |
+ *  +---------------+-------------+
+ *  | EditCommand   |             |
+ *  +---------------+-------------+
+ *  | SearchCommand |             |
+ *  +---------------+-------------+
+ *  | ExitCommand   |             |
+ *  +---------------+-------------+
+ */
+//@formatter:on
+
+public class UndoHandlerTest {
+
+    @Test
+    public void test() {
+        UndoHandler undoHandler = UndoHandler.getInstance();
+        Stack<Command> expectedStack = new Stack<Command>();
+        DataHandler dataHandler = new BasicDataHandler();
+
+        addUndoValidWithAddCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithDeleteCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithViewCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithCompleteCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithEditCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithSearchCommand(dataHandler, undoHandler, expectedStack);
+        addUndoValidWithExitCommand(undoHandler, expectedStack);
+        addUndoInvalidWithNull(undoHandler);
+        addUndoInvalidWithRedoCommand(undoHandler);
+        addUndoInvalidWithUndoCommand(undoHandler);
+        undoValidWithExitCommand(undoHandler, expectedStack);
+        undoValidWithSearchCommand(undoHandler, expectedStack);
+        undoValidWithEditCommand(undoHandler, expectedStack);
+        undoValidWithCompleteCommand(undoHandler, expectedStack);
+        undoValidWithViewCommand(undoHandler, expectedStack);
+        undoValidWithDeleteCommand(undoHandler, expectedStack);
+        undoValidWithAddCommand(undoHandler, expectedStack);
+
+    }
+
+    private void undoValidWithAddCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+
+        try {
+            assertEquals(expectedStack.pop(),
+                    (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof AddCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithSearchCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+
+        try {
+            assertEquals(expectedStack.pop(),
+                    (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof SearchCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithEditCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+
+        try {
+            assertEquals(expectedStack.pop(),
+                    (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof EditCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithCompleteCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+
+        try {
+            assertEquals(expectedStack.pop(),
+                    (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof CompleteCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithViewCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+
+        try {
+            assertEquals(expectedStack.pop(),
+                    (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof ViewCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithDeleteCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+
+        try {
+            assertEquals(expectedStack.pop(),
+                    (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof DeleteCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void undoValidWithExitCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) {
+        final String FAIL_MSG = "Exception should not happen";
+        Command undoCommand;
+
+        try {
+            assertEquals(expectedStack.pop(),
+                    (undoCommand = undoHandler.undo()));
+            assertTrue(undoCommand instanceof ExitCommand);
+        } catch (InvalidCommandException e) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    private void addUndoInvalidWithRedoCommand(UndoHandler undoHandler) {
+
+        final String EXPECTED_ERROR_MSG = "command must not be RedoCommand for addUndo";
+        addUndoInvalidWithCommand(new RedoCommand(), EXPECTED_ERROR_MSG,
+                undoHandler);
+    }
+
+    private void addUndoInvalidWithUndoCommand(UndoHandler undoHandler) {
+        final String EXPECTED_ERROR_MSG = "command must not be UndoCommand for addUndo";
+        addUndoInvalidWithCommand(new UndoCommand(), EXPECTED_ERROR_MSG,
+                undoHandler);
+    }
+
+    private void addUndoInvalidWithNull(UndoHandler undoHandler) {
+        final String EXPECTED_ERROR_MSG = "command must not be null for addUndo";
+        addUndoInvalidWithCommand(null, EXPECTED_ERROR_MSG, undoHandler);
+    }
+
+    private void addUndoValidWithDeleteCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        Command command = new DeleteCommand();
+        command.setDataHandler(dataHandler);
+        addUndoValidWithCommand(command, undoHandler, expectedStack);
+    }
+
+    private void addUndoValidWithCompleteCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        Command command = new CompleteCommand();
+        command.setDataHandler(dataHandler);
+        addUndoValidWithCommand(command, undoHandler, expectedStack);
+    }
+
+    private void addUndoValidWithEditCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        EditCommand command = new EditCommand();
+        Task task = new Task("edit 1 Random Task", Priority.PRIORITY_MEDIUM,
+                LocalDate.of(2014, 9, 18), LocalTime.of(14, 0), LocalDate.of(
+                        2014, 9, 22), LocalTime.of(2, 0));
+
+        command.setTask(task);
+        command.setSource(task);
+        command.setDataHandler(dataHandler);
+
+        addUndoValidWithCommand(command, undoHandler, expectedStack);
+    }
+
+    private void addUndoValidWithSearchCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        SearchCommand searchCommand = new SearchCommand();
+        searchCommand.setDataHandler(dataHandler);
+        addUndoValidWithCommand(searchCommand, undoHandler, expectedStack);
+    }
+
+    private void addUndoValidWithExitCommand(UndoHandler undoHandler,
+            Stack<Command> expectedStack) {
+        addUndoValidWithCommand(new ExitCommand(), undoHandler, expectedStack);
+    }
+
+    private void addUndoValidWithViewCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        Command command = new ViewCommand();
+        command.setDataHandler(dataHandler);
+        addUndoValidWithCommand(command, undoHandler, expectedStack);
+    }
+
+    private void addUndoValidWithAddCommand(DataHandler dataHandler,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+        Command command = new AddCommand();
+        Task task = new Task("Random Task", Priority.PRIORITY_MEDIUM,
+                LocalDate.of(2014, 9, 18), LocalTime.of(14, 0), LocalDate.of(
+                        2014, 9, 22), LocalTime.of(2, 0));
+
+        command.setDataHandler(dataHandler);
+        command.setTask(task);
+        addUndoValidWithCommand(command, undoHandler, expectedStack);
+    }
+
+    private void addUndoValidWithCommand(Command command,
+            UndoHandler undoHandler, Stack<Command> expectedStack) {
+
+        final String FAIL_MSG = "Exception should not happen";
+        expectedStack.add(command);
+        try {
+            assertEquals(expectedStack, undoHandler.addUndo(command));
+        } catch (InvalidCommandException exception) {
+            fail(FAIL_MSG);
+        }
+    }
+
+    public void addUndoInvalidWithCommand(Command command,
+            final String EXPECTED_ERROR_MSG, UndoHandler undoHandler) {
+        final String FAIL_MSG = "Exception should happen";
+
+        try {
+            undoHandler.addUndo(command);
+            fail(FAIL_MSG);
+        } catch (InvalidCommandException exception) {
+            assertEquals(EXPECTED_ERROR_MSG, exception.getMessage());
+        }
+    }
+
+}
+
+	// End of segment: testCases\UndoHandlerTest.java
+
+
+
+
+
+	/**
+	 * origin: ui\AboutWeDo.java
+	 */
+
+  * This window shows the authors of WeDo Task Manager and
+  * the acknowledements 
+ */
+public class AboutWeDo {
+
+	private static JDialog frame;
+	private static final int Xcoordinate = 5;
+	private static final int Ycoordinate = 5;
+	private static final String TAG_WRAP_STRING = "%s%s%s";
+	private static final String HTML_OPEN = "<html>";
+	private static final String HTML_CLOSE = "</html>";
+	private static final String HTML_BREAK = "<br>";
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private static void AboutWeDoGUI() {
+		frame = new JDialog();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+				UserIntSwing.class.getResource("/ui/icon/WeDo_logo.png")));
+		frame.setBounds(100, 100, 334, 300);
+		frame.getContentPane().setLayout(null);
+		frame.setVisible(true);
+		frame.setResizable(false);
+		frame.setLocation(Xcoordinate, Ycoordinate);
+		
+		JLabel lblAbout = new JLabel(buildAboutMessage());
+		lblAbout.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblAbout.setVerticalAlignment(SwingConstants.TOP);
+		lblAbout.setBounds(10, 11, 308, 249);
+		frame.getContentPane().add(lblAbout);
+		
+		JButton btnClose = new JButton("Okay");
+		btnClose.setBounds(229, 237, 89, 23);
+		frame.getContentPane().add(btnClose);
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+	
+		UserIntSwing.lblIcon.setIcon(new ImageIcon(UserIntSwing.class.getResource("/ui/icon/WeDo_logo.png")));
+		UserIntSwing.lblIcon.setBounds(199, 11, 103, 98);
+		frame.getContentPane().add(UserIntSwing.lblIcon);
+	}
+	
+	/**
+	 *This operation returns message the "About WeDo" menu item
+	 */
+	private static String buildAboutMessage() {
+		StringBuilder message = new StringBuilder();
+
+		message.append("<b> About WeDo Task Manager: </b>" + HTML_BREAK);
+		message.append("(CS2103T   T17/C05   t17-2j)" + HTML_BREAK);
+		message.append("Team Members:" + HTML_BREAK);
+		message.append("Andy Hsu Wei Qiang" + HTML_BREAK);
+		message.append("Kuan Tien Long" + HTML_BREAK);
+		message.append("Wai Min" + HTML_BREAK);
+		message.append("Sitti Maryam Binte Rashid Ridza" + HTML_BREAK);
+		message.append(HTML_BREAK + HTML_BREAK);
+		message.append("<b> Acknowledements: </b>" + HTML_BREAK);
+		message.append("BalloonTip dependency - https://balloontip.java.net/");
+
+		return wrapWithHtmlTag(message.toString());
+	}
+	
+	/**
+	 * @param text String to be wrapped in HTML
+	 * @return String wrapped with HTML format
+	 */
+	private static String wrapWithHtmlTag(String text) {
+		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
+	}
+	
+	/**
+	 * Launch the application.
+	 */
+    public static void main(String[] args) {
+        //Schedule a job for the event-dispatching thread:
+        //creating and showing this application's GUI.
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+            	AboutWeDoGUI();
+            }
+        });
+    }
+}
+
+	// End of segment: ui\AboutWeDo.java
+
+
+
+
+
+	/**
+	 * origin: ui\guide\CommandGuide.java
+	 */
+
+ * This class create the guide String for all commands
+ * All method using the commands will be called here
+ */
+public class CommandGuide {
+	private static final String GENERAL_GUIDE = buildGeneralGuideString();
+	private static final String ADD_GUIDE = buildAddGuideString();
+	private static final String VIEW_GUIDE = buildViewGuideString();
+	private static final String EDIT_GUIDE = buildEditGuideString();
+	private static final String DELETE_GUIDE = buildDeleteGuideString();
+	private static final String SEARCH_GUIDE = buildSearchGuideString();
+	private static final String UNDO_GUIDE = buildUndoGuideString();
+	private static final String REDO_GUIDE = buildRedoGuideString();
+	
+	private static final String HTML_OPEN = "<html>";
+	private static final String HTML_CLOSE = "</html>";
+	private static final String HTML_BREAK = "<br>";
+	private static final String HTML_UNDERLINE_OPEN = "<u>";
+	private static final String HTML_UNDERLINE_CLOSE = "</u>";
+	private static final String TAG_WRAP_STRING = "%s%s%s";
+	private static final String DATE_FORMAT = "dd/MM/yyyy";
+	private static final String WHITESPACE_PATTERN = "\\s+";
+	private static final String IDENTIFIER_PLACEHOLDER = "%1$s";
+	
+	private static final String COMMAND_TODAY = "today";
+	private static final String COMMAND_YESTERDAY = "yesterday";
+	private static final String COMMAND_TOMORROW = "tomorrow";
+	private static final String LABEL_SAMPLE_DATE = "14/10/2014";
+	
+	private static final int MIN_TOKENS_LENGTH = 1;
+	private static final int ACTION_IDENTIFIER_INDEX = 0;
+	/**
+	 * To get the relevant command guide according to command
+	 * @param commandString user input in String format
+	 * @return message the relevant command guide which the
+	 * user input command
+	 */
+	public static String getGuideMessage(String commandString) {
+
+		/* Check that there is at least 1 token */
+		String[] tokens = commandString.split(WHITESPACE_PATTERN);
+		boolean isValidLength = (tokens.length >= MIN_TOKENS_LENGTH);
+
+		if (!isValidLength) {
+			return GENERAL_GUIDE;
+		}
+
+		String identifier = tokens[ACTION_IDENTIFIER_INDEX];
+		String message = buildGuideMessage(identifier);
+
+		return message;
+	}
+
+	/**
+	 * Format the command guide to String format
+	 * @param identifier the command the user input
+	 * @return the command guide in String format
+	 */
+	public static String buildGuideMessage(String identifier) {
+
+		identifier = identifier.toLowerCase();
+		Action action = Keywords.resolveActionIdentifier(identifier);
+
+		switch (action) {
+		case ADD:
+			return String.format(ADD_GUIDE, identifier);
+		case VIEW:
+			return String.format(VIEW_GUIDE, identifier);
+		case EDIT:
+			return String.format(EDIT_GUIDE, identifier);
+		case DELETE:
+			return String.format(DELETE_GUIDE, identifier);
+		case SEARCH:
+			return String.format(SEARCH_GUIDE, identifier);
+		case UNDO:
+			return String.format(UNDO_GUIDE, identifier);
+		case REDO:
+			return String.format(REDO_GUIDE, identifier);
+		default:
+			return GENERAL_GUIDE;
+		}
+	}
+
+	/**
+	 * @return GENERAL Command Guide in String(HTML format)
+	 */
+	public static String buildGeneralGuideString() {
+
+		StringBuilder str = new StringBuilder();
+
+		str.append("Type any of the following to begin:");
+		str.append(HTML_BREAK);
+		str.append(Keywords.getAddTaskIdentifier() + " | ");
+		str.append(Keywords.getViewTaskIdentifier() + " | ");
+		str.append(Keywords.getEditTaskIdentifier() + " | ");
+		str.append(Keywords.getDeleteTaskIdentifier() + " | ");
+		str.append(Keywords.getSearchTaskIdentifier() + " | ");
+		str.append(Keywords.getUndoActionIdentifier() + " | ");
+		str.append(Keywords.getRedoActionIdentifier());
+
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @return ADD Command Guide in String(HTML format)
+	 */
+	public static String buildAddGuideString() {
+
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		String date = sdf.format(new Date());
+		StringBuilder str = new StringBuilder();
+		
+		str.append("To schedule a task, type:");
+		str.append(HTML_BREAK);
+
+		str.append("- Normal Task: ");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " meet Dr Damith ");
+		str.append(underline(Keywords.getDateIdentifier()) + " " + date + " ");
+		str.append(underline(Keywords.getTimeIdentifier()) + " 12pm - 2pm");
+		str.append(HTML_BREAK);
+		
+		str.append("- Deadline Task: ");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " submit assignment ");
+		str.append(underline(Keywords.getDueDateIdentifier()) + " " + date
+				+ " ");
+		str.append(underline(Keywords.getTimeIdentifier()) + " 10pm");
+		str.append(HTML_BREAK);
+
+		str.append("- Floating Task: ");
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " learn programming");
+
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @return VIEW Command Guide in String(HTML format)
+	 */
+	public static String buildViewGuideString(){
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		String date = sdf.format(new Date());
+		StringBuilder str = new StringBuilder();
+
+		str.append("-To view tasks for today, type:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " ");
+		str.append(underline(COMMAND_TODAY));
+		str.append(HTML_BREAK);
+
+		str.append("-To view tasks for a certain day, type:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " " + date + " | ");
+		str.append(underline(COMMAND_YESTERDAY) + " | ");
+		str.append(underline(COMMAND_TOMORROW));
+
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @return EDIT Command Guide in String(HTML format)
+	 */
+	public static String buildEditGuideString(){
+		StringBuilder str = new StringBuilder();
+
+		str.append("To edit a task, ");
+		str.append("select the task number and type:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " 1 ");
+		str.append(LABEL_SAMPLE_DATE);
+
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @return DELETE Command Guide in String(HTML format)
+	 */
+	public static String buildDeleteGuideString(){
+		StringBuilder str = new StringBuilder();
+
+		str.append("To delete a task, ");
+		str.append("select the task number and type:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " 1");
+
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	
+	/**
+	 * @return SEARCH Command Guide in String(HTML format)
+	 */
+	public static String buildSearchGuideString(){
+		StringBuilder str = new StringBuilder();
+
+		str.append("To search for keyword, ");
+		str.append("type the word you want to search:" + HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " meeting");
+
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @return UNDO Command Guide in String(HTML format)
+	 */
+	public static String buildUndoGuideString() {
+
+		StringBuilder str = new StringBuilder();
+
+		str.append("To Undo an action, simply type undo");
+		str.append(HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + [ENTER] ");
+		str.append("or simply use the shortcut key [Ctrl-Z]");
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @return REDO Command Guide in String(HTML format)
+	 */
+	public static String buildRedoGuideString() {
+
+		StringBuilder str = new StringBuilder();
+
+		str.append("To Redo an action, simply type redo");
+		str.append(HTML_BREAK);
+		str.append(underline(IDENTIFIER_PLACEHOLDER) + " + [ENTER] ");
+		str.append("or simply use the shortcut key [Ctrl-Y]");
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+
+	/**
+	 * @param text String to be wrapped in HTML
+	 * @return String wrapped with HTML format
+	 */
+	private static String wrapWithHtmlTag(String text) {
+		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
+	}
+	
+	/**
+	 * @param text String to be wrapped in HTML underline format
+	 * @return String wrapped with HTML underline format
+	 */
+	private static String underline(String text) {
+		return String.format(TAG_WRAP_STRING, HTML_UNDERLINE_OPEN, text,
+				HTML_UNDERLINE_CLOSE);
+	}
+}
+
+	// End of segment: ui\guide\CommandGuide.java
+
+
+
+
+
+	/**
+	 * origin: ui\guide\FeedbackGuide.java
+	 */
+
+ * This class create the guide String for feedback
+ * It return the string to the Feedback Label and
+ * give user appropriate feedbacks.
+ */
+public class FeedbackGuide {
+	
+	private static final String feedbackEmptyString = "The input is blank! Please enter something!";
+	private static final String feedbackInvalidString = "Invalid Command!";
+	private static final String feedbackValidString = "Command Accepted!";
+	private static final String feedbackEmptyHistory = "Nothing typed previously!";
+	private static final String feedbackEmptyInput = "No more input!";
+	private static final String feedbackUndoSucceed = "Undo completed!";
+	private static final String feedbackRedoSucceed = "Redo completed";
+	private static final String feedbackEmptyUndo = "No more input for Undo!";
+	private static final String feedbackEmptyRedo = "No more input for Redo!";
+	private static final String feedbackTextfield = "Enter your command here...";
+	
+	private static final String VIEW_STRING = "You are viewing: ";
+	private static final String VIEW_STRING_APPEND = "'s task(s).";
+	private static final String VIEW_STRING_TODAY = "Today";
+	private static final String VIEW_STRING_TOMORROW = "Tomorrow";
+	private static final String VIEW_STRING_YESTERDAY = "Yesterday";
+	
+	private static final String HTML_OPEN = "<html>";
+	private static final String HTML_CLOSE = "</html>";
+	private static final String TAG_WRAP_STRING = "%s%s%s";
+	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=#00CC66>"; //green
+	private static final String HTML_FONTCOLORRED_OPEN = "<font color=#FF0000>"; //red
+	private static final String HTML_FONT_CLOSE = "</font>";
+	
+	public static String isEmptyString() {
+		return feedbackEmptyString;
+	}
+	
+	public static String isInvalidString() {
+		return feedbackInvalidString;
+	}
+	
+	public static String isValidString() {
+		return formatValidCommand(feedbackValidString);
+	}
+	
+	public static String isEmptyHistoryString() {
+		return feedbackEmptyHistory;
+	}
+	
+	public static String isEmptyInput() {
+		return feedbackEmptyInput;
+	}
+	
+	public static String undoCompleted() {
+		return feedbackUndoSucceed;
+	}
+	
+	public static String isEmptyUndoInput() {
+		return feedbackEmptyUndo;
+	}
+	
+	public static String redoCompleted() {
+		return feedbackRedoSucceed;
+	}
+	
+	public static String isEmptyRedoInput() {
+		return feedbackEmptyRedo;
+	}
+	
+	public static String textfieldFeedback() {
+		return feedbackTextfield;
+	}
+	
+	private static String formatValidCommand(String text) {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORGREEN_OPEN, 
+				text, HTML_FONT_CLOSE));
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewTodayTask() {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				VIEW_STRING_TODAY, HTML_FONT_CLOSE));
+		str.append(VIEW_STRING_APPEND);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewTomorrowTask() {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				VIEW_STRING_TOMORROW, HTML_FONT_CLOSE));
+		str.append(VIEW_STRING_APPEND);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewYesterdayTask() {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				VIEW_STRING_YESTERDAY, HTML_FONT_CLOSE));
+		str.append(VIEW_STRING_APPEND);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewDateTask(String text) {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				text, HTML_FONT_CLOSE));
+		str.append(VIEW_STRING_APPEND);
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewAllTask(String text) {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				text, HTML_FONT_CLOSE));
+		str.append(" task(s).");
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	public static String formatViewSomedayTask(String text) {
+		StringBuilder str = new StringBuilder();
+		
+		str.append(VIEW_STRING);
+		str.append(String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				text, HTML_FONT_CLOSE));
+		str.append(" task(s).");
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	private static String wrapWithHtmlTag(String text) {
+		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
+	}
+}
+
+	// End of segment: ui\guide\FeedbackGuide.java
+
+
+
+
+
+	/**
+	 * origin: ui\guide\HelpGuide.java
+	 */
+
+ * This class create the Help guide String
+ * which is shown on the Help Menu
+ * 
+ */
+public class HelpGuide {
+	private static final String TAG_WRAP_STRING = "%s%s%s";
+	private static final String HTML_BREAK = "<br>";
+	private static final String HTML_OPEN = "<html>";
+	private static final String HTML_CLOSE = "</html>";
+	private static final String HTML_UNDERLINE_OPEN = "<u>";
+	private static final String HTML_UNDERLINE_CLOSE = "</u>";
+	private static final String HTML_BOLD_OPEN = "<b>";
+	private static final String HTML_BOLD_CLOSE = "</b>";
+	private static final String HTML_ITALIC_OPEN = "<i>";
+	private static final String HTML_ITALIC_CLOSE = "</i>";
+	private static final String HTML_FONTSIZE_OPEN = "<font size=+1>";
+	private static final String HTML_FONTCOLORRED_OPEN = "<font color=#C80000 >"; //red
+	private static final String HTML_FONTCOLORGREEN_OPEN = "<font color=green>"; 
+	private static final String HTML_FONT_CLOSE = "</font>";
+	private static final String spaceOr = " | ";
+	
+	/**
+	 * @return Advance help command for "Add" in String
+	 */
+	public static String buildHelpGuideAddString() {
+
+		StringBuilder str = new StringBuilder();
+		
+		str.append(makeTitleStr("Advance help command for "));
+		str.append(makeCommandStr("\"Add\""));
+		str.append(HTML_BREAK);
+		
+		str.append("-You can use these commands: ");
+		str.append(underline("add") + spaceOr + underline("create") 
+				+ spaceOr + underline("cre8") + spaceOr + underline("new"));
+		str.append(HTML_BREAK);
+		str.append(" to create a task.");
+		
+		str.append(HTML_BREAK);
+		str.append("1. " + bold("Normal Task."));
+		str.append(HTML_BREAK);
+		str.append("You can add a task specifying the date and time duration");
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"add Project Meeting 21/10/2014 12pm - 2pm\""));
+		
+		str.append(HTML_BREAK);
+		str.append("2. " + bold("Deadline Task."));
+		str.append(HTML_BREAK);
+		str.append("You can add a task specifying the deadline");
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"create Submit Assignment by 21/10/2014 at 2pm\""));
+		
+		str.append(HTML_BREAK);
+		str.append("3. " + bold("Floating Task."));
+		str.append(HTML_BREAK);
+		str.append("You can add a task WITHOUT any date or time");
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"cre8 Finish Revising Programming\""));
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("Special shortcut keyword can also be used");
+		str.append(HTML_BREAK);
+		str.append("Specifying the date: ");
+		str.append(underline("tomorrow") + spaceOr + underline("tmr") + spaceOr + underline("tml"));
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("---------------------------- END ----------------------------");
+
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @return  Advance help command for "View" in String
+	 */
+	public static String buildHelpGuideViewString() {
+
+		StringBuilder str = new StringBuilder();
+		
+		str.append(makeTitleStr("Advance help command for "));
+		str.append(makeCommandStr("\"View\""));
+		str.append(HTML_BREAK);
+		
+		str.append("-You can use these commands: ");
+		str.append(underline("view") + spaceOr + underline("read") 
+				+ " to view all");
+		str.append(HTML_BREAK);
+		str.append("the tasks on a specific date.");
+		
+		str.append(HTML_BREAK);
+		str.append("1. " + bold("View Tasks Today."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"view today\""));
+		str.append(HTML_BREAK);
+		str.append("All the tasks with today's date will be shown when the");
+		str.append(HTML_BREAK);
+		str.append("above command is entered.");
+		
+		str.append(HTML_BREAK);
+		str.append("2. " + bold("View Tasks on a specific date."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"view 21/10/2014\""));
+		str.append(HTML_BREAK);
+		str.append("You can also use " + underline("yesterday") + spaceOr + underline("tomorrow") 
+				+ " to view all the");
+		str.append(HTML_BREAK);
+		str.append("tasks dated yesterday or tomorrow respectively.");
+		
+		str.append(HTML_BREAK);
+		str.append("3. " + bold("View All tasks / View Completed tasks"));
+		str.append(HTML_BREAK);
+		str.append(bold("/  View Uncompleted tasks."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"view all\"") + spaceOr + makeExample("\"view completed\"") + 
+				spaceOr + makeExample("\"view uncompleted\""));
+		str.append(HTML_BREAK);
+		str.append("respectively...");
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("---------------------------- END ----------------------------");
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @return Advance help command for "Edit" in String
+	 */
+	public static String buildHelpGuideEditString() {
+
+		StringBuilder str = new StringBuilder();
+		
+		str.append(makeTitleStr("Advance help command for "));
+		str.append(makeCommandStr("\"Edit\""));
+		str.append(HTML_BREAK);
+		
+		str.append("-You can use these commands: ");
+		str.append(underline("edit") + spaceOr + underline("modify") 
+				+ spaceOr + underline("update") + " to ");
+		str.append(HTML_BREAK);
+		str.append(" edit a specific task.");
+		
+		str.append(HTML_BREAK);
+		str.append("1. " + bold("Edit a specific task (Changing the date)."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"edit 1 21/10/2014\""));
+		str.append(HTML_BREAK);
+		str.append("This will edit the task with ID 1 changing the date to the");
+		str.append(HTML_BREAK);
+		str.append("one specified in the command.");
+		
+		str.append(HTML_BREAK);
+		str.append("2. " + bold("Edit a specific task (Changing the description)."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"edit 2 meeting\""));
+		str.append(HTML_BREAK);
+		str.append("This will edit the task with ID 2 the initial description to");
+		str.append(HTML_BREAK);
+		str.append("one specified in the command.");
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("---------------------------- END ----------------------------");
+
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @return Advance help command for "Delete" in String
+	 */
+	public static String buildHelpGuideDeleteString() {
+
+		StringBuilder str = new StringBuilder();
+		
+		str.append(makeTitleStr("Advance help command for "));
+		str.append(makeCommandStr("\"Delete\""));
+		str.append(HTML_BREAK);
+		
+		str.append("-You can use these commands: ");
+		str.append(underline("delete") + spaceOr + underline("remove") 
+				+ spaceOr + underline("cancel"));
+		str.append(HTML_BREAK);
+		str.append(" to delete a specific task.");
+		
+		str.append(HTML_BREAK);
+		str.append("1. " + bold("Delete a specific task."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"delete 2\""));
+		str.append(HTML_BREAK);
+		str.append("By specifying the ID of the task, the task with the ID 2 in");
+		str.append(HTML_BREAK);
+		str.append("the above example task will be removed.");
+		str.append(HTML_BREAK);
+		str.append("2. " + bold("Delete multiple tasks."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"delete 1 - 10\"") + spaceOr + 
+				makeExample("\"delete 1 to 10\""));
+		str.append(HTML_BREAK);
+		str.append("By specifying the ID tasks of 1 to 10, the tasks with");
+		str.append(HTML_BREAK);
+		str.append("the ID 1 to 10 will be deleted.");
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("---------------------------- END ----------------------------");
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @return Advance help command for "Search" in String
+	 */
+	public static String buildHelpGuideSearchString() {
+
+		StringBuilder str = new StringBuilder();
+		
+		str.append(makeTitleStr("Advance help command for "));
+		str.append(makeCommandStr("\"Search\""));
+		str.append(HTML_BREAK);
+		
+		str.append("-You can use these commands: ");
+		str.append(underline("search") + spaceOr + underline("locate") 
+				+ spaceOr + underline("find"));
+		str.append(HTML_BREAK);
+		str.append(" to search for a keyword.");
+		
+		str.append(HTML_BREAK);
+		str.append("1. " + bold("Search a specific task."));
+		str.append(HTML_BREAK);
+		str.append(makeExample("E.g. \"search meeting\""));
+		str.append(HTML_BREAK);
+		str.append("By specifying the keyword \"meeting\", all the keywords");
+		str.append(HTML_BREAK);
+		str.append("\"meeting\" will be shown.");
+		
+		str.append(HTML_BREAK + HTML_BREAK);
+		str.append("---------------------------- END ----------------------------");
+		
+		return wrapWithHtmlTag(str.toString());
+	}
+	
+	/**
+	 * @param strMsg Title of the guide in String
+	 * @return text in bold
+	 */
+	private static String makeTitleStr(String strMsg){
+		strMsg = bold(strMsg);
+		strMsg = underline(strMsg);
+		strMsg = upFontSize(strMsg);
+		
+		return strMsg;
+	}
+	
+	/**
+	 * @param strMsg the command in String
+	 * @return text for Command(bold, underline, increase font size,
+	 * italic, font color green)
+	 */
+	private static String makeCommandStr(String strMsg){
+		strMsg = bold(strMsg);
+		strMsg = underline(strMsg);
+		strMsg = upFontSize(strMsg);
+		strMsg = italic(strMsg);
+		strMsg = fontColorGreen(strMsg);
+		
+		return strMsg;
+	}
+	
+	/**
+	 * @param strMsg the example in String
+	 * @return text for example(font color red, italic)
+	 */
+	private static String makeExample(String strMsg){
+		strMsg = fontColorRed(strMsg);
+		strMsg = italic(strMsg);
+		
+		return strMsg;
+	}
+	
+	private static String wrapWithHtmlTag(String text) {
+		return String.format(TAG_WRAP_STRING, HTML_OPEN, text, HTML_CLOSE);
+	}
+	
+	private static String underline(String text) {
+		return String.format(TAG_WRAP_STRING, HTML_UNDERLINE_OPEN, text,
+				HTML_UNDERLINE_CLOSE);
+	}
+	
+	private static String bold(String text) {
+		return String.format(TAG_WRAP_STRING, HTML_BOLD_OPEN, text, 
+				HTML_BOLD_CLOSE);
+	}
+		
+	private static String italic(String text){
+		return String.format(TAG_WRAP_STRING, HTML_ITALIC_OPEN, 
+				text, HTML_ITALIC_CLOSE);
+	}
+	
+	private static String fontColorRed(String text){
+		return String.format(TAG_WRAP_STRING, HTML_FONTCOLORRED_OPEN, 
+				text, HTML_FONT_CLOSE);
+	}
+	
+	private static String fontColorGreen(String text){
+		return String.format(TAG_WRAP_STRING, HTML_FONTCOLORGREEN_OPEN, 
+				text, HTML_FONT_CLOSE);
+	}
+	
+	private static String upFontSize(String text){
+		return String.format(TAG_WRAP_STRING, HTML_FONTSIZE_OPEN, 
+				text, HTML_FONT_CLOSE);
+	}
+}
+
+	// End of segment: ui\guide\HelpGuide.java
+
+
+
+
+
+	/**
+	 * origin: ui\HelpMenu.java
+	 */
+
+ * This class creates the Help Menu when 
+ * user hotkey <F1> is pressed on the main form
+ * 
+ */
+public class HelpMenu {
+    public static JFrame frame;
+	JTextArea output;
+    JScrollPane scrollPane;
+    String newline = "\n";
+    
+	private static final int Xcoordinate = 5;
+	private static final int Ycoordinate = 5;
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+    private static void createAndShowGUI() {
+        //Create and set up the window.
+        JFrame frame = new JFrame("-Help Menu-");
+        frame.setIconImage(
+        		Toolkit.getDefaultToolkit().getImage(UserIntSwing.class.getResource("/ui/icon/HelpMenuIcon.png")));
+        frame.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyPressed(KeyEvent arg0) {
+        		if(arg0.getKeyCode() == VK.help()){
+        			frame.dispose();
+        		}
+        	}
+        });
+        
+        //Disable Resize
+        frame.setResizable(false);
+        
+        //call the method to change the appearance of the frame
+        UserInterfaceHelpMenu.changeAppearance();
+        	
+        //Create and set up the content pane.
+        frame.getContentPane().add(UserInterfaceHelpMenu.createMenuTab(), 
+        		BorderLayout.NORTH);
+        
+        //Display the window.
+        frame.setSize(350, 378);
+        frame.setVisible(true);
+        
+        //Set the location of the Help Menu on the top right corner
+        frame.setLocation(Xcoordinate, Ycoordinate);
+        
+        //Set the focus to the main frame
+        frame.setFocusable(true);
+        frame.getContentPane().setLayout(null);
+        
+        frame.getContentPane().add(UserInterfaceHelpMenu.createExitLabel());
+    }
+	/**
+	 * Launch the application.
+	 */
+    public static void main(String[] args) {
+        //Schedule a job for the event-dispatching thread:
+        //creating and showing this application's GUI.
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createAndShowGUI();
+            }
+        });
+    }
+}
+	// End of segment: ui\HelpMenu.java
+
+
+
+
+
+	/**
+	 * origin: ui\logic\command\Action.java
+	 */
+
+ * This class create the Action emueration which specify
+ * the command action the user entered. 
+ * 
+ */
+public enum Action {
+	
+	ADD                 (true, true),
+	VIEW                (false, false),
+	EDIT                (true, true),
+	DELETE              (true, true),
+	SEARCH				(false, false),
+	UNDO                (false, true),
+	REDO				(false, true),
+	COMPLETED			(true, false),
+	UNCOMPLETED         (false, true),
+	EXIT   				(true, false),
+	INVALID             (false, false);
+	
+	private final boolean isReversible;
+	private final boolean isPersistable;
+	
+	private Action(boolean isReversible, boolean isPersistable) {
+		this.isReversible = isReversible;
+		this.isPersistable = isPersistable;
+	}
+	
+	/**
+	 * Returns true if the effect of this action can be reversed.
+	 * 
+	 * @return	true if the effect of this action can be reversed
+	 */
+	public boolean isReversible() {
+		return isReversible;
+	}
+	
+	/**
+	 * Returns true if the effect of this action should be persisted.
+	 * 
+	 * @return	true if the effect of this action should be persisted
+	 */
+	public boolean isPersistable() {
+		return isPersistable;
+	}
+
+}
+
+	// End of segment: ui\logic\command\Action.java
+
+
+
+
+
+	/**
+	 * origin: ui\logic\command\FeedbackHandler.java
+	 */
+
+ * This class handle all the Feedback to the user
+ */
+public class FeedbackHandler {
+	
+    public static void successfulOperation() {
+		UserIntSwing.lblFeedback.setText(FeedbackGuide.isValidString());
+		feedbackTimerReset();
+    }
+    
+    public static void NotSuccessfulOperation(String exception) {
+    	UserIntSwing.lblFeedback.setText(exception);
+    	feedbackTimerReset();
+    }
+    
+    public static void emptyStringOperation() {
+    	UserIntSwing.lblFeedback.setText(FeedbackGuide.isEmptyString());
+    	feedbackTimerReset();
+    }
+    
+	public static void emptyHistoryStringOperation(){
+		UserIntSwing.lblFeedback.setText(FeedbackGuide.isEmptyHistoryString());
+		feedbackTimerReset();
+	}
+	
+	public static void emptyInputStringOperation(){
+		UserIntSwing.lblFeedback.setText(FeedbackGuide.isEmptyInput());
+		feedbackTimerReset();
+	}
+	
+    /**
+     * @param getText get the user input string
+     * @return boolean true if user input double space
+     * false otherwise
+     */
+    public static boolean isDoubleSpace(String getText) {
+
+        getText = getText.trim().replaceAll("\\s+", " ");
+        if (getText.isEmpty() || getText.matches(" ")) {
+            return true;
+        }
+		return false;
+    }
+    
+	/**
+	* This operation process the timer to clear the Warning Label. It is set at
+	* 2000 milli-seconds.
+	*/
+	public static void feedbackTimerReset() {
+	
+	     Timer timer = new Timer();
+	     timer.schedule(new TimerTask() {
+	         @Override
+	         public void run() {
+	             UserIntSwing.lblFeedback.setText("");
+	         }
+	     }, 2000);
+	 }
+}
+
+	// End of segment: ui\logic\command\FeedbackHandler.java
+
+
+
+
+
+	/**
+	 * origin: ui\logic\command\FormatHandler.java
+	 */
+
+ *This class format all the Swing design of the application
+ */
+public class FormatHandler {
+	
+	public static void formatAll() {
+		setFrameBackground();
+		formatFrameMinSize();
+		formatTodayDateLabel();
+		formatViewTaskLabel();
+		formatCommandGuide();
+		formatFeedbackLabel();
+		formatDynamicParserLabel();
+		formatAllButton();
+	}
+	
+	/**
+	 * Set he Frame Background image. Image is found in ui/icon/WeDo_v2.png
+	 */
+	private static void setFrameBackground() {
+		UserIntSwing.lblBackground.setIcon(new ImageIcon(UserIntSwing.class.getResource("/ui/icon/Wedo_v2.png")));
+		UserIntSwing.lblBackground.setBounds(0, 0, 767, 550);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.lblBackground);
+	}
+	
+	/**
+	 * Set the minimum size for the frame
+	 */
+	private static void formatFrameMinSize() {
+		int frameWidth = UserIntSwing.frame.getWidth();
+		int frameHeight = UserIntSwing.frame.getHeight();
+		UserIntSwing.frame.setMinimumSize(new Dimension(frameWidth, frameHeight));
+	}
+	
+	/**
+	 * Format the label for today's date
+	 */
+	private static void formatTodayDateLabel() {
+		UserIntSwing.lblTodayDate.setFont(new Font("Calibri", Font.BOLD | Font.ITALIC, 16));
+		UserIntSwing.lblTodayDate.setHorizontalAlignment(SwingConstants.RIGHT);
+		UserIntSwing.lblTodayDate.setVerticalAlignment(SwingConstants.CENTER);
+		UserIntSwing.lblTodayDate.setBounds(552, 44, 200, 25);
+	}
+	
+	/**
+	 * Format the label of the task user is currently viewing
+	 */
+	private static void formatViewTaskLabel() {
+		UserIntSwing.lblViewTask.setFont(new Font("Calibri", Font.ITALIC, 18));
+		UserIntSwing.lblViewTask.setHorizontalAlignment(SwingConstants.LEFT);
+		UserIntSwing.lblViewTask.setVerticalAlignment(SwingConstants.TOP);
+		UserIntSwing.lblViewTask.setBounds(80, 44, 519, 25);
+	}
+	
+	/**
+	 * Format the Feedback label
+	 */
+	private static void formatFeedbackLabel() {
+        UserIntSwing.lblFeedback.setFont(new Font("Calibri", Font.ITALIC, 14));
+        UserIntSwing.lblFeedback.setForeground(Color.red);
+        UserIntSwing.lblFeedback.setOpaque(false);
+		UserIntSwing.lblFeedback.setBounds(10, 379, 639, 25);
+	}
+	
+	/**
+	 * Format the Command Guide label
+	 */
+	private static void formatCommandGuide() {
+		UserIntSwing.lblCommandGuide.setVerticalAlignment(SwingConstants.TOP);
+		UserIntSwing.lblCommandGuide.setBounds(10, 468, 639, 71);
+	}
+	
+	/**
+	 * Format the Dynamic Parser Labels
+	 */
+	private static void formatDynamicParserLabel() {
+		UserIntSwing.lblCommandProcess.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		UserIntSwing.lblCommandProcess.setForeground(new Color(255, 0, 0));
+		UserIntSwing.lblCommandProcess.setOpaque(false);
+		UserIntSwing.lblCommandProcess.setHorizontalAlignment(SwingConstants.CENTER);
+		UserIntSwing.lblCommandProcess.setBounds(80, 359, 46, 14);
+		
+		UserIntSwing.lblDateProcess.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		UserIntSwing.lblDateProcess.setForeground(new Color(0, 128, 0));
+		UserIntSwing.lblDateProcess.setOpaque(false);  
+		UserIntSwing.lblDateProcess.setBounds(176, 359, 132, 14);
+		
+		UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		UserIntSwing.lblPriorityProcess.setOpaque(false);
+		UserIntSwing.lblPriorityProcess.setHorizontalAlignment(SwingConstants.CENTER);
+		UserIntSwing.lblPriorityProcess.setBounds(366, 359, 53, 14);
+		
+		UserIntSwing.lblDescriptionProcess.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		UserIntSwing.lblDescriptionProcess.setOpaque(false);
+		UserIntSwing.lblDescriptionProcess.setBounds(501, 359, 256, 14);
+		
+		UserIntSwing.textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+		UserIntSwing.textField.setSelectedTextColor(Color.red);
+		UserIntSwing.textField.setBounds(10, 408, 639, 26);
+		UserIntSwing.textField.setColumns(10);
+	}
+	
+	/**
+	 * Format all the Buttons
+	 */
+	private static void formatAllButton() {
+		UserIntSwing.btnHelp.setContentAreaFilled(false);
+		UserIntSwing.btnHelp.setBorderPainted(false);
+		UserIntSwing.btnHelp.setBounds(15, 80, 111, 27);
+
+		UserIntSwing.btnAdd.setContentAreaFilled(false);
+		UserIntSwing.btnAdd.setBorderPainted(false);
+		UserIntSwing.btnAdd.setBounds(133, 78, 118, 30);
+		
+		UserIntSwing.btnView.setContentAreaFilled(false);
+		UserIntSwing.btnView.setBorderPainted(false);
+		UserIntSwing.btnView.setBounds(254, 78, 118, 32);
+		
+		UserIntSwing.btnEdit.setContentAreaFilled(false);
+		UserIntSwing.btnEdit.setBorderPainted(false);
+		UserIntSwing.btnEdit.setBounds(375, 78, 118, 30);
+	
+		UserIntSwing.btnDelete.setContentAreaFilled(false);
+		UserIntSwing.btnDelete.setBorderPainted(false);
+		UserIntSwing.btnDelete.setBounds(503, 75, 127, 32);
+		
+		UserIntSwing.btnSearch.setContentAreaFilled(false);
+		UserIntSwing.btnSearch.setBorderPainted(false);
+		UserIntSwing.btnSearch.setBounds(635, 75, 122, 32);
+		
+		UserIntSwing.btnEnter.setContentAreaFilled(false);
+		UserIntSwing.btnEnter.setBorderPainted(false);
+		UserIntSwing.btnEnter.setBounds(656, 408, 105, 30);
+		
+		UserIntSwing.btnClose.setContentAreaFilled(false);
+		UserIntSwing.btnClose.setBorderPainted(false);
+		UserIntSwing.btnClose.setBounds(728, 12, 33, 30);
+			
+		UserIntSwing.btnMinimize.setContentAreaFilled(false);
+		UserIntSwing.btnMinimize.setBorderPainted(false);
+		UserIntSwing.btnMinimize.setBounds(693, 12, 33, 30);
+		
+		UserIntSwing.btnSetting.setContentAreaFilled(false);
+		UserIntSwing.btnSetting.setBorderPainted(false);
+		UserIntSwing.btnSetting.setBounds(656, 11, 33, 30);
+	
+	}
+	
+	/**
+	 * Add All components from contentPane to frame
+	 */
+	public static void addtoContentPane() {
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.btnHelp);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.btnAdd);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.btnView);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.btnEdit);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.btnDelete);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.btnSearch);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.btnEnter);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.btnClose);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.btnMinimize);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.btnSetting);
+		
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.lblViewTask);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.lblTodayDate);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.lblFeedback);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.lblCommandGuide);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.lblCommandProcess);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.lblDateProcess);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.lblPriorityProcess);
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.lblDescriptionProcess);
+		
+		UserIntSwing.frame.getContentPane().add(UserIntSwing.textField);
+	}
+}
+
+	// End of segment: ui\logic\command\FormatHandler.java
+
+
+
+
+
+	/**
+	 * origin: ui\logic\command\HotkeyHandler.java
+	 */
+
+ * Handles all the Hotkey Functions
+ */
+public class HotkeyHandler {
+	private static final String getAddCommand = Keywords.getAddTaskIdentifier();
+	private static final String getViewCommand = Keywords.getViewTaskIdentifier();
+	private static final String getEditCommand = Keywords.getEditTaskIdentifier();
+	private static final String getDeleteCommand = Keywords.getDeleteTaskIdentifier();
+	private static final String getSearchCommand = Keywords.getSearchTaskIdentifier();
+	private static final InputMap im = UserIntSwing.textField.getInputMap(JComponent.WHEN_FOCUSED);
+	private static final ActionMap am = UserIntSwing.textField.getActionMap();
+	
+	private static final String ADD_COMMAND_SUGGESTION_STRING = " meeting today pri high";
+	private static final String VIEW_COMMAND_SUGGESTION_STRING = " today";
+	private static final String EDIT_COMMAND_SUGGESTION_STRING = " 1 tmr";
+	private static final String DELETE_COMMAND_SUGGESTION_STRING = " 1 to 3";
+	private static final String SEARCH_COMMAND_SUGGESTION_STRING = " work";
+	
+	public static void add() {
+        UserIntSwing.textField.setText(getAddCommand + ADD_COMMAND_SUGGESTION_STRING);
+        UserIntSwing.textField.setSelectionStart(4);
+    }
+    
+    public static void view() {
+    	UserIntSwing.textField.setText(getViewCommand + VIEW_COMMAND_SUGGESTION_STRING);
+    	UserIntSwing.textField.setSelectionStart(5);
+    }
+    
+    public static void edit() { 	
+        UserIntSwing.textField.setText(getEditCommand + EDIT_COMMAND_SUGGESTION_STRING);
+        UserIntSwing.textField.setSelectionStart(5);
+    }
+    
+    public static void delete() {
+        UserIntSwing.textField.setText(getDeleteCommand + DELETE_COMMAND_SUGGESTION_STRING);
+        UserIntSwing.textField.setSelectionStart(7);
+    }
+    
+    public static void search() {
+        UserIntSwing.textField.setText(getSearchCommand + SEARCH_COMMAND_SUGGESTION_STRING);
+        UserIntSwing.textField.setSelectionStart(7);
+    }
+    
+	/**
+	 * This operation process the undo key function(Ctrl-z) 
+	 * using InputMap and ActionMap
+	 */
+	public static void undo() {
+		 ParseResult getUndoCommand = UserIntSwing.logicManager.interpret("undo");
+		im.put(KeyStroke.getKeyStroke(VK.undo_Zkey(), InputEvent.CTRL_MASK), 
+				"listenCtrlzKey");
+		am.put("listenCtrlzKey", new AbstractAction() {
+
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+		    	if(UndoHandler.canUndo()){
+		    		try {
+						UserIntSwing.logicManager.executeCommand(getUndoCommand);
+						FeedbackGuide.undoCompleted();
+					} catch (InvalidCommandException e) {
+						e.printStackTrace();
+					}
+		    	} else {
+		    		UserIntSwing.lblFeedback.setText(
+		    				FeedbackGuide.isEmptyUndoInput());
+		    		FeedbackHandler.feedbackTimerReset();
+		    	}
+			}
+		});
+	}
+	
+	/**
+	 * This operation process the redo key function(ctrl-y) 
+	 * using InputMap and ActionMap
+	 */
+	public static void redo() {	
+		ParseResult getRedoCommand = UserIntSwing.logicManager.interpret("redo");
+		im.put(KeyStroke.getKeyStroke(VK.redo_Ykey(), InputEvent.CTRL_MASK), 
+				"listenCtrlyKey");
+		am.put("listenCtrlyKey", new AbstractAction(){
+
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+		    	if(UndoHandler.canRedo()){
+		    		try {
+						UserIntSwing.logicManager.executeCommand(getRedoCommand);
+						FeedbackGuide.redoCompleted();
+					} catch (InvalidCommandException e) {
+						e.printStackTrace();
+					}
+		    	} else {
+		    		UserIntSwing.lblFeedback.setText(
+		    				FeedbackGuide.isEmptyRedoInput());
+		    		FeedbackHandler.feedbackTimerReset();
+		    	}
+			}
+		});
+	}
+	
+	/**
+	 * This operation process minimise to SystemTray operation (ctrl-m) 
+	 * using InputMap and ActionMap
+	 */
+	public static void minimise() {	
+		im.put(KeyStroke.getKeyStroke(VK.minimise_Mkey(), InputEvent.CTRL_MASK), 
+				"listenCtrlmKey");
+		am.put("listenCtrlmKey", new AbstractAction() {
+
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				UserIntSwing.frame.setState(Frame.ICONIFIED);
+			}
+		});
+	}
+	
+	/**
+	 * This operation process the scrolling up and down of the table
+	 */
+	public static void scrollTable() {
+		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg1) {
+				if(arg1.getKeyCode() == VK.scroll_UpKey() || 
+						arg1.getKeyCode() == VK.scroll_DownKey()) {
+					InteractiveForm.scroller.requestFocus();
+				}
+			}
+		});
+	}
+}
+
+	// End of segment: ui\logic\command\HotkeyHandler.java
+
+
+
+
+
+	/**
+	 * origin: ui\logic\command\Keywords.java
+	 */
+
+  * The Keywords class contains all command identifier 
+  * constants that the application uses. Any processing of command identifier should 
+  * go through this class and make use of its methods.
+  */
+public final class Keywords {
+
+	private static final String ADD_TASK_IDENTIFIER_1 = "add";
+	private static final String ADD_TASK_IDENTIFIER_2 = "create";
+	private static final String ADD_TASK_IDENTIFIER_3 = "cre8";
+	
+	private static final String VIEW_TASK_IDENTIFIER_1 = "view";
+	private static final String VIEW_TASK_IDENTIFIER_2 = "read";
+
+	private static final String EDIT_TASK_IDENTIFIER_1 = "edit";
+	private static final String EDIT_TASK_IDENTIFIER_2 = "modify";
+	private static final String EDIT_TASK_IDENTIFIER_3 = "update";
+
+	private static final String DELETE_TASK_IDENTIFIER_1 = "delete";
+	private static final String DELETE_TASK_IDENTIFIER_2 = "remove";
+	private static final String DELETE_TASK_IDENTIFIER_3 = "cancel";
+	
+	private static final String SEARCH_TASK_IDENTIFIER_1 = "search";
+	private static final String SEARCH_TASK_IDENTIFIER_2 = "locate";
+	private static final String SEARCH_TASK_IDENTIFIER_3 = "find";
+
+	private static final String DATE_IDENTIFIER = "on";
+	private static final String DUE_DATE_IDENTIFIER = "by";
+	private static final String TIME_IDENTIFIER = "at";
+
+	private static final String UNDO_ACTION_IDENTIFIER = "undo";
+	private static final String REDO_ACTION_IDENTIFIER = "redo";
+
+	private static final Map<String, Action> actionMap = createMap();
+
+	private static Map<String, Action> createMap() {
+
+		Map<String, Action> map = new HashMap<String, Action>();
+		ImmutableMap<Command, Collection<String>> addCommandMap = KeyWordMappingList.getAddCommandMap();
+        ImmutableMap<Command, Collection<String>> viewCommandMap = KeyWordMappingList.getViewCommandMap();
+        ImmutableMap<Command, Collection<String>> editCommandMap = KeyWordMappingList.getEditCommandMap();
+        ImmutableMap<Command, Collection<String>> deleteCommandMap = KeyWordMappingList.getDeleteCommandMap();
+        ImmutableMap<Command, Collection<String>> searchCommandMap = KeyWordMappingList.getSearchCommandMap();
+        ImmutableMap<Command, Collection<String>> undoCommandMap = KeyWordMappingList.getUndoCommandMap();
+        ImmutableMap<Command, Collection<String>> redoCommandMap = KeyWordMappingList.getRedoCommandMap();
+        ImmutableMap<Command, Collection<String>> completedCommandMap = KeyWordMappingList.getCompleteCommandMap();
+        ImmutableMap<Command, Collection<String>> uncompletedCommandMap = KeyWordMappingList.getIncompleteCommandMap();
+        ImmutableMap<Command, Collection<String>> exitCommandMap =KeyWordMappingList. getExitCommandMap();
+        
+		addToMapCommandAdd(map, addCommandMap, Action.ADD);
+		addToMapCommandView(map, viewCommandMap, Action.VIEW);
+		addToMapCommandEdit(map, editCommandMap, Action.EDIT);
+		addToMapCommandDelete(map, deleteCommandMap, Action.DELETE);
+		addToMapCommandSearch(map, searchCommandMap, Action.SEARCH);
+		addToMapCommandUndo(map, undoCommandMap, Action.UNDO);
+		addToMapCommandRedo(map, redoCommandMap, Action.REDO);
+		addToMapCommandCompleted(map, completedCommandMap, Action.COMPLETED);
+		addToMapCommandUncompleted(map, uncompletedCommandMap, Action.UNCOMPLETED);
+		addToMapCommandExit(map, exitCommandMap, Action.EXIT);
+
+		map.put(ADD_TASK_IDENTIFIER_1, Action.ADD);
+		map.put(ADD_TASK_IDENTIFIER_2, Action.ADD);
+		map.put(ADD_TASK_IDENTIFIER_3, Action.ADD);
+		
+		map.put(VIEW_TASK_IDENTIFIER_1, Action.VIEW);
+		map.put(VIEW_TASK_IDENTIFIER_2, Action.VIEW);
+
+		map.put(EDIT_TASK_IDENTIFIER_1, Action.EDIT);
+		map.put(EDIT_TASK_IDENTIFIER_2, Action.EDIT);
+		map.put(EDIT_TASK_IDENTIFIER_3, Action.EDIT);
+
+		map.put(DELETE_TASK_IDENTIFIER_1, Action.DELETE);
+		map.put(DELETE_TASK_IDENTIFIER_2, Action.DELETE);
+		map.put(DELETE_TASK_IDENTIFIER_3, Action.DELETE);
+		
+		map.put(SEARCH_TASK_IDENTIFIER_1, Action.SEARCH);
+		map.put(SEARCH_TASK_IDENTIFIER_2, Action.SEARCH);
+		map.put(SEARCH_TASK_IDENTIFIER_3, Action.SEARCH);
+
+		map.put(UNDO_ACTION_IDENTIFIER, Action.UNDO);
+		map.put(REDO_ACTION_IDENTIFIER, Action.REDO);
+
+		return Collections.unmodifiableMap(map);
+	}
+
+	/**
+	 * @param map Current Map
+	 * @param addCommandMap Additional map for Add Command 
+	 * @param action Add command action
+	 */
+	private static void addToMapCommandAdd(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> addCommandMap, Action action) {
+		for(Command key : addCommandMap.keySet()) {
+			for (String keyWord : addCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandView(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> viewCommandMap, Action action) {
+		for(Command key : viewCommandMap.keySet()) {
+			for (String keyWord : viewCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandEdit(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> editCommandMap, Action action) {
+		for(Command key : editCommandMap.keySet()) {
+			for (String keyWord : editCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandDelete(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> deleteCommandMap, Action action) {
+		for(Command key : deleteCommandMap.keySet()) {
+			for (String keyWord : deleteCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandCompleted(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> completedCommandMap, Action action) {
+		for(Command key : completedCommandMap.keySet()) {
+			for (String keyWord : completedCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandUncompleted(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> uncompletedCommandMap, Action action) {
+		for(Command key : uncompletedCommandMap.keySet()) {
+			for (String keyWord : uncompletedCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandRedo(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> redoCommandMap, Action action) {
+		for(Command key : redoCommandMap.keySet()) {
+			for (String keyWord : redoCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandExit(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> exitCommandMap, Action action) {
+		for(Command key : exitCommandMap.keySet()) {
+			for (String keyWord : exitCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandUndo(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> undoCommandMap, Action action) {
+		for(Command key : undoCommandMap.keySet()) {
+			for (String keyWord : undoCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+	
+	private static void addToMapCommandSearch(Map<String, Action> map,
+			ImmutableMap<Command, Collection<String>> searchCommandMap, Action action) {
+		for(Command key : searchCommandMap.keySet()) {
+			for (String keyWord : searchCommandMap.get(key)) {
+				map.put(keyWord, action);
+			}
+		}
+	}
+
+	/**
+	 * This is used when you need to resolve a string into an Action
+	 * enumeration.
+	 * 
+	 * @param identifier - a String object
+	 * @return an Action enumeration that corresponds with the specified
+	 *         identifier string
+	 */
+	public static Action resolveActionIdentifier(String identifier) {
+
+		identifier = identifier.toLowerCase();
+
+		if (!actionMap.containsKey(identifier)) {
+			return Action.INVALID;
+		}
+
+		return actionMap.get(identifier);
+	}
+
+	public static String getAddTaskIdentifier() {
+		return ADD_TASK_IDENTIFIER_1;
+	}
+	
+	public static String getViewTaskIdentifier() {
+		return VIEW_TASK_IDENTIFIER_1;
+	}
+
+	public static String getEditTaskIdentifier() {
+		return EDIT_TASK_IDENTIFIER_1;
+	}
+
+	public static String getDeleteTaskIdentifier() {
+		return DELETE_TASK_IDENTIFIER_1;
+	}
+	
+	public static String getSearchTaskIdentifier() {
+		return SEARCH_TASK_IDENTIFIER_1;
+	}
+	
+	public static String getDateIdentifier() {
+		return DATE_IDENTIFIER;
+	}
+
+	public static String getDueDateIdentifier() {
+		return DUE_DATE_IDENTIFIER;
+	}
+
+	public static String getTimeIdentifier() {
+		return TIME_IDENTIFIER;
+	}
+	
+	public static String getUndoActionIdentifier() {
+		return UNDO_ACTION_IDENTIFIER;
+	}
+	
+	public static String getRedoActionIdentifier() {
+		return REDO_ACTION_IDENTIFIER;
+	}
+}
+
+	// End of segment: ui\logic\command\Keywords.java
+
+
+
+
+
+	/**
+	 * origin: ui\logic\command\ListenerHandler.java
+	 */
+
+ * This class process ALL the Listeners
+ */
+public class ListenerHandler {
+	private static final BalloonTipStyle edgedLookBtn = new EdgedBalloonStyle(Color.WHITE, Color.yellow);
+	private static final BalloonTipStyle edgedLookLblDate = new EdgedBalloonStyle(Color.green, Color.green);
+	private static final BalloonTipStyle edgedLookLblDes = new EdgedBalloonStyle(Color.WHITE, Color.black);
+
+	private static final BalloonTip dateProcessBalloonTip = new BalloonTip(UserIntSwing.lblDateProcess, 
+			new JLabel(""), edgedLookLblDate, Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 10, false);
+	private static final BalloonTip desProcessBalloonTip = new BalloonTip(UserIntSwing.lblDescriptionProcess, 
+			new JLabel(""), edgedLookLblDes, Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 10, false);
+
+	private static Point mouseDownCompCoords = null;
+
+	/**
+	 * Buttons Listener - Help, Add, View, Edit, Delete, Search, 
+	 * Enter, Close, Minimize.
+	 * Process individual functions of the buttons when Hotkey
+	 * is pressed
+	 * Also process the balloonTip and Mouse Listener
+	 */
+	public static void addFrameLocationListener() {
+		/* calculate the axis of the frame when mouse is pressed
+		 * on the frame*/
+		UserIntSwing.frame.addMouseListener(new MouseListener() {
+			public void mouseReleased(MouseEvent e) {
+				mouseDownCompCoords = null;
+			}
+			public void mousePressed(MouseEvent e) {
+				mouseDownCompCoords = e.getPoint();
+			}
+			public void mouseExited(MouseEvent e) {
+			}
+			public void mouseEntered(MouseEvent e) {
+			}
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		/* Set the frame to the location when the Point
+		 * of the frame is calculated */
+		UserIntSwing.frame.addMouseMotionListener(new MouseMotionListener(){
+			public void mouseMoved(MouseEvent e) {
+			}
+			public void mouseDragged(MouseEvent e) {
+				Point currCoords = e.getLocationOnScreen();
+				UserIntSwing.frame.setLocation(currCoords.x - mouseDownCompCoords.x, 
+						currCoords.y - mouseDownCompCoords.y);
+			}
+		});
+	}
+
+	public static void addBtnHelpListener() {
+		BalloonTip helpBalloonTip = new BalloonTip(UserIntSwing.btnHelp, new JLabel(
+				"Press F1 for Help"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		helpBalloonTip.setVisible(false);
+		UserIntSwing.btnHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				HelpMenu.main(null);
+			}
+		});
+
+		UserIntSwing.btnHelp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				helpBalloonTip.setVisible(true);
+				UserIntSwing.btnHelp.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				helpBalloonTip.setVisible(false);
+				UserIntSwing.btnHelp.setBorderPainted(false);
+			}
+		});
+	}
+
+	public static void addBtnAddListener() {
+		BalloonTip addBalloonTip = new BalloonTip(UserIntSwing.btnAdd, new JLabel(
+				"Press F2 to Add"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		addBalloonTip.setVisible(false);
+		UserIntSwing.btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				HotkeyHandler.add();
+				focusTextfield();
+			}
+		});
+
+		UserIntSwing.btnAdd.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				addBalloonTip.setVisible(true);
+				UserIntSwing.btnAdd.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				addBalloonTip.setVisible(false);
+				UserIntSwing.btnAdd.setBorderPainted(false);
+			}
+		});
+	}
+
+	public static void addBtnViewListener() {
+		BalloonTip viewBalloonTip = new BalloonTip(UserIntSwing.btnView, new JLabel(
+				"Press F3 to View"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		viewBalloonTip.setVisible(false);
+
+		UserIntSwing.btnView.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HotkeyHandler.view();
+				focusTextfield();
+			}
+		});
+		UserIntSwing.btnView.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				viewBalloonTip.setVisible(true);
+				UserIntSwing.btnView.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				viewBalloonTip.setVisible(false);
+				UserIntSwing.btnView.setBorderPainted(false);
+			}
+		});
+	}
+
+	public static void addBtnEditListener() {
+		BalloonTip editBalloonTip = new BalloonTip(UserIntSwing.btnEdit, new JLabel(
+				"Press F4 to Edit"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		editBalloonTip.setVisible(false);
+
+		UserIntSwing.btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HotkeyHandler.edit();
+				focusTextfield();
+			}
+		});
+		UserIntSwing.btnEdit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				editBalloonTip.setVisible(true);
+				UserIntSwing.btnEdit.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				editBalloonTip.setVisible(false);
+				UserIntSwing.btnEdit.setBorderPainted(false);
+			}
+		});
+	}
+
+	public static void addBtnDeleteListener() {
+		BalloonTip delBalloonTip = new BalloonTip(UserIntSwing.btnDelete, new JLabel(
+				"Press F5 to Delete"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		delBalloonTip.setVisible(false);
+
+		UserIntSwing.btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HotkeyHandler.delete();
+				focusTextfield();
+			}
+		});
+		UserIntSwing.btnDelete.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				delBalloonTip.setVisible(true);
+				UserIntSwing.btnDelete.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				delBalloonTip.setVisible(false);
+				UserIntSwing.btnDelete.setBorderPainted(false);
+			}
+		});
+	}
+
+	public static void addBtnSearchListener() {
+		BalloonTip searchBalloonTip = new BalloonTip(UserIntSwing.btnSearch, new JLabel(
+				"Press F6 to Search"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		searchBalloonTip.setVisible(false);
+
+		UserIntSwing.btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HotkeyHandler.search();
+				focusTextfield();
+			}
+		});
+		UserIntSwing.btnSearch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				searchBalloonTip.setVisible(true);
+				UserIntSwing.btnSearch.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				searchBalloonTip.setVisible(false);
+				UserIntSwing.btnSearch.setBorderPainted(false);
+			}
+		});
+	}
+
+	public static void addBtnEnterListener() {
+		UserIntSwing.btnEnter.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				UserIntSwing.btnEnter.setBorderPainted(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				UserIntSwing.btnEnter.setBorderPainted(false);
+			}
+		});
+	}
+
+	/**
+	 * The btnClose process listener that close the application
+	 */
+	public static void addBtnCloseListener() {
+		BalloonTip closeBalloonTip = new BalloonTip(UserIntSwing.btnClose, new JLabel(
+				"Close Application"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		closeBalloonTip.setVisible(false);
+
+		UserIntSwing.btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int confirmed = JOptionPane.showConfirmDialog(null, 
+						"Are you sure you want to exit WeDo?", "Exit Program Message Box",
+						JOptionPane.YES_NO_OPTION);
+				
+				if (confirmed == JOptionPane.YES_OPTION) {
+					/*Close all windows currently open*/
+					System.exit(0);
+				}
+			}
+		});
+
+		UserIntSwing.btnClose.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				closeBalloonTip.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				closeBalloonTip.setVisible(false);
+			}
+		});
+	}
+
+	/**
+	 * The btnMinimize process listener that minimizes the application
+	 */
+	public static void addBtnMinimizeListener() {
+		BalloonTip minimizeBalloonTip = new BalloonTip(UserIntSwing.btnMinimize, new JLabel(
+				"Minimize to Tray [Ctrl-m]"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		minimizeBalloonTip.setVisible(false);
+
+		UserIntSwing.btnMinimize.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				minimizeBalloonTip.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				minimizeBalloonTip.setVisible(false);
+			}
+		});
+		UserIntSwing.btnMinimize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UserIntSwing.frame.setExtendedState(JFrame.ICONIFIED);
+			}
+		});
+	}
+	
+	/**
+	 * The btnSetting process listener for settings (Not implemented)
+	 */
+	public static void addBtnSettingListener() {
+		BalloonTip settingBalloonTip = new BalloonTip(UserIntSwing.btnSetting, new JLabel(
+				"Press for settings"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		settingBalloonTip.setVisible(false);
+
+		UserIntSwing.btnSetting.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				settingBalloonTip.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				settingBalloonTip.setVisible(false);
+			}
+		});
+		UserIntSwing.btnSetting.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "No Settings Currently", "Settings", 
+						JOptionPane.WARNING_MESSAGE);
+			}
+		});
+	}
+
+	/**
+	 * This process pop out a Balloon Tip when the Dynamic Date Label
+	 * is too long for the user to view
+	 */
+	public static void addLblDateProcessListener() {	
+		if(UserIntSwing.lblDateProcess.getText().length() > 15) {
+			dateProcessBalloonTip.setTextContents(
+					UserIntSwing.lblDateProcess.getText());
+			dateProcessBalloonTip.setVisible(true);
+		}else{
+			dateProcessBalloonTip.setVisible(false);
+		}
+	}
+
+	/**
+	 * This process pop out a Balloon Tip when the Dynamic Description label
+	 * is too long for the user to view
+	 */
+	public static void addLblDescriptionProcessListener() {
+		if(UserIntSwing.lblDescriptionProcess.getText().length() > 35) {
+			desProcessBalloonTip.setTextContents(
+					UserIntSwing.lblDescriptionProcess.getText());
+			desProcessBalloonTip.setVisible(true);
+		}else{
+			desProcessBalloonTip.setVisible(false);
+		}
+	}
+
+	/**
+	 * This sets the Date and Description Balloon Tip Visible
+	 * to false
+	 */
+	public static void setBalloonTipVisibleFalse() {
+		dateProcessBalloonTip.setVisible(false);
+		desProcessBalloonTip.setVisible(false);
+	}
+
+	/**
+	 * This focus on the Textfield
+	 */
+	public static void focusTextfield() {
+		UserIntSwing.textField.requestFocusInWindow();
+	}
+
+	/**
+	 * Window State Listener
+	 * This operation process the SystemTray when minimise
+	 * operation is executed
+	 */
+	public static void addSystemTrayWindowStateListener() {
+		UserIntSwing.frame.addWindowStateListener(new WindowStateListener() {
+			public void windowStateChanged(WindowEvent arg) {
+				WeDoSystemTray.Minimise(arg);
+			}
+		});
+	}
+
+	/**
+	 * Window Focus Listener
+	 * This operation puts the focus on the textField for the user to type
+	 * immediately when the program runs
+	 */
+	public static void addFrameWindowFocusListener() {
+		UserIntSwing.frame.addWindowFocusListener(new WindowFocusListener() {
+			public void windowGainedFocus(WindowEvent arg0) {
+				focusTextfield();
+			}
+			public void windowLostFocus(WindowEvent arg0) {
+				UserIntSwing.textField.selectAll();
+				UserIntSwing.lblDescriptionProcess.setText(null);
+			}
+		});
+	}
+
+	/**
+	 * Textfield Action Listener - Process all the text that has
+	 * been parsed in the Textfield when user start typing
+	 */
+	public static void addTextFieldActionListener() {
+		UserIntSwing.textField.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				UserInterfaceMain.processTextfieldString();
+			}
+		});
+	}
+
+	/**
+	 * Button Enter Action Listener - Process all the text has
+	 * been parsed in the Textfield when Enter is clicked
+	 */
+	public static void addBtnEnterActionListener() {
+		UserIntSwing.btnEnter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				UserInterfaceMain.processTextfieldString();
+			}
+		});
+	}
+
+	/**
+	 * Textfield KeyListener
+	 * 1. Set the Command guide Label to the indiviual command guide that the user input
+	 * 2. Process all the HotKeys Functions
+	 * 3. Process the User Typed History
+	 * 4. Enter KeyListener - Process all the feedback labels when the user type 
+	 * an incorrect input
+	 */
+	public static void addTextfieldKeyListener() {
+		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg1) {
+				if(arg1.getKeyCode() == VK.enter()) {
+					UserInterfaceMain.processEnterkey(arg1);
+				}
+				UserInterfaceMain.processHotKeys(arg1);
+			}
+			@Override
+			public void keyReleased(KeyEvent arg1) {
+				UserInterfaceMain.processTextfieldKeyReleased(arg1);
+			}
+		});
+	}
+}
+
+	// End of segment: ui\logic\command\ListenerHandler.java
+
+
+
+
+
+	/**
+	 * origin: ui\logic\command\VK.java
+	 */
+
+ * This class create the Virtual Keyboard keys
+ */
+public class VK {
+    
+    public static int enter() {
+    	return KeyEvent.VK_ENTER;
+    }
+    
+    public static int help() {
+    	return KeyEvent.VK_F1;
+    }
+    
+    public static int add() {
+    	return KeyEvent.VK_F2;
+    }
+    
+    public static int view() {
+    	return KeyEvent.VK_F3;
+    }
+    
+    public static int edit() {
+    	return KeyEvent.VK_F4;
+    }
+    
+    public static int delete() {
+    	return KeyEvent.VK_F5;
+    }
+    
+    public static int search() {
+    	return KeyEvent.VK_F6;
+    }
+  
+    public static int redo_Ykey() {
+    	return KeyEvent.VK_Y;
+    }
+    
+    public static int undo_Zkey() {
+    	return KeyEvent.VK_Z;
+    }
+    
+    public static int minimise_Mkey() {
+    	return KeyEvent.VK_M;
+    }
+    
+    public static int scroll_UpKey() {
+    	return KeyEvent.VK_PAGE_UP;
+    }
+    
+    public static int scroll_DownKey() {
+    	return KeyEvent.VK_PAGE_DOWN;
+    }
+}
+
+	// End of segment: ui\logic\command\VK.java
+
+
+
+
+
+	/**
+	 * origin: ui\TextfieldHistory.java
+	 */
+
+ * This class create 2 Stacks which store the user
+ * input. 
+ * Up Arrow Listener - Display the history of what the user input
+ * Down Arrow Listener - Opposite operation of the Up Arrow Key.
+ */
+public class TextfieldHistory{
+	private static final Stack<String> userInputStack = new Stack<String>();
+	private static final Stack<String> undoStack = new Stack<String>();
+	private static String getText;
+	
+	/**
+	 * This operation checks if "undoStack" is empty. If it is not empty, pushes
+	 * all the items to "userInputStack"
+	 * Tt gets the text from what the user type
+	 * and store it in "userInputStack" 
+	 */
+	public static void getTextfieldString(String getText){
+		
+		if(!getText.isEmpty()){
+			while(!undoStack.isEmpty()) {
+				userInputStack.push(undoStack.pop());
+			}
+			userInputStack.push(getText);
+		}
+	}
+	
+	/**
+	 * This operation has keylistener of up and down arrow keys
+	 * Up arrow keylistener - Pushes the text from the user to "undoStack"
+	 * Down arrow keylistener - Pushes the text previously stored to "userInputStack"  
+	 */
+	public static void showTextfieldHistory(KeyEvent arg1) {
+		if(arg1.getKeyCode() == KeyEvent.VK_UP) {
+			if(!userInputStack.isEmpty()) {
+				pushToUndoStack();
+			}
+			else{
+				FeedbackHandler.emptyHistoryStringOperation();
+			}
+		}
+		else if(arg1.getKeyCode() == KeyEvent.VK_DOWN) {
+			
+			if(!undoStack.isEmpty()) {
+				pushToUserInputStack();
+			}
+			else{
+				FeedbackHandler.emptyInputStringOperation();
+				UserIntSwing.textField.setText(null);
+			}
+		}
+	}
+	
+	private static void pushToUndoStack() {
+		getText = userInputStack.pop();
+		undoStack.push(getText);
+		UserIntSwing.textField.setText(getText);
+	}
+	
+	private static void pushToUserInputStack() {
+		getText = undoStack.pop();
+		userInputStack.push(getText);
+		UserIntSwing.textField.setText(getText);
+	}
+}
+
+	// End of segment: ui\TextfieldHistory.java
+
+
+
+
+
+	/**
+	 * origin: ui\UserInterfaceHelpMenu.java
+	 */
+
+  * This class process all the Help Menu logic
+  * 
+  */
+public class UserInterfaceHelpMenu {
+    /**
+  	 * UIManager.setLookAndFeel() method to set the look and feel
+  	 */
+	public static void changeAppearance(){
+        try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * This class creates the Exit Insruction Label
+	 */
+    public static JLabel createExitLabel(){
+        JLabel lblExit = new JLabel("   Press <F1> again to exit the Help Menu");
+        lblExit.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        lblExit.setBackground(new Color(127, 255, 212));
+        lblExit.setBounds(0, 320, 434, 30);
+        lblExit.setOpaque(true);
+        
+        return lblExit;
+    }
+	
+	/**
+	 * This class creates the Main Tab Menu
+	 */
+    public static JTabbedPane createMenuTab() {
+		JTabbedPane jtp = new JTabbedPane(JTabbedPane.TOP);
+        
+        JPanel jpAdd = new JPanel();
+        JLabel lblAdd = new JLabel();
+        lblAdd.setText(HelpGuide.buildHelpGuideAddString());
+        jpAdd.add(lblAdd);
+        jtp.addTab("<Add>", jpAdd);
+        
+        JPanel jpView = new JPanel();
+        JLabel lblView = new JLabel();
+        lblView.setText(HelpGuide.buildHelpGuideViewString());
+        jpView.add(lblView);
+        jtp.addTab("<View>", jpView);
+        
+        JPanel jpEdit = new JPanel();
+        JLabel lblEdit = new JLabel();
+        lblEdit.setText(HelpGuide.buildHelpGuideEditString());
+        jpEdit.add(lblEdit);
+        jtp.addTab("<Edit>", jpEdit);
+        
+        JPanel jpDelete = new JPanel();
+        JLabel lblDelete = new JLabel();
+        lblDelete.setText(HelpGuide.buildHelpGuideDeleteString());
+        jpDelete.add(lblDelete);
+        jtp.addTab("<Delete>", jpDelete);
+        
+        JPanel jpSearch = new JPanel();
+        JLabel lblSearch = new JLabel();
+        lblSearch.setText(HelpGuide.buildHelpGuideSearchString());
+        jpSearch.add(lblSearch);
+        jtp.addTab("<Search>", jpSearch);
+ 
+        return jtp;
+    }
+}
+
+	// End of segment: ui\UserInterfaceHelpMenu.java
+
+
+
+
+
+	/**
+	 * origin: ui\UserInterfaceMain.java
+	 */
+
+  * This class handles all the GUI logic which the
+  * user execute.
+  */
+public class UserInterfaceMain {
+	private static final String DATE_FORMAT_FIRST = "dd-MMM-yy";
+	private static final String DATE_FORMAT_SECOND = "dd/MM/yyyy";
+	private static final int taskbarHeight = 40;
+
+	private static String userInput = new String();
+	private static String VIEW_TASKS_SOMEDAY_STRING = "Someday";
+	private static final SimpleDateFormat sdf_first = new SimpleDateFormat(DATE_FORMAT_FIRST);
+	private static final SimpleDateFormat sdf_second = new SimpleDateFormat(DATE_FORMAT_SECOND);
+
+	/**
+	 * This operation initialize all the Processes 
+	 */
+	public static void initProcess() {
+		setupFrameLocation();
+		ListenerHandler.addFrameWindowFocusListener();
+		initAllListener();
+		FormatHandler.formatAll();
+		UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
+		UserIntSwing.lblTodayDate.setText(setTodayDate());
+	}
+
+	/**
+	 * This operation initialize all the Listener Processes
+	 */
+	private static void initAllListener() {
+		ListenerHandler.addFrameLocationListener();
+		ListenerHandler.addBtnHelpListener();
+		ListenerHandler.addBtnAddListener();
+		ListenerHandler.addBtnViewListener();
+		ListenerHandler.addBtnEditListener();
+		ListenerHandler.addBtnDeleteListener();
+		ListenerHandler.addBtnSearchListener();
+		ListenerHandler.addBtnEnterListener();
+		ListenerHandler.addBtnMinimizeListener();
+		ListenerHandler.addBtnCloseListener();
+		ListenerHandler.addBtnSettingListener();
+		ListenerHandler.addSystemTrayWindowStateListener();
+		ListenerHandler.addTextfieldKeyListener();
+		ListenerHandler.addTextFieldActionListener();
+		ListenerHandler.addBtnEnterActionListener();
+		ListenerHandler.setBalloonTipVisibleFalse();
+	}
+
+	/**This operation display the date range of the table
+	 * 
+	 * @return dateDisplay the date in String
+	 */
+	private static String setTodayDate() {	
+		Calendar calendar = Calendar.getInstance();
+		int dayOfWeekInt = calendar.get(Calendar.DAY_OF_WEEK);
+		String date = sdf_first.format(new Date());
+		String dayOfWeekString;
+
+		switch (dayOfWeekInt) {
+			case Calendar.MONDAY: dayOfWeekString = "Monday";
+				break;
+			case Calendar.TUESDAY: dayOfWeekString = "Tuesday";
+				break;
+			case Calendar.WEDNESDAY: dayOfWeekString = "Wednesday";
+				break;
+			case Calendar.THURSDAY: dayOfWeekString = "Thursday";
+				break;
+			case Calendar.FRIDAY: dayOfWeekString = "Friday";
+				break;
+			case Calendar.SATURDAY: dayOfWeekString = "Saturday";
+				break;
+			default: dayOfWeekString = "Sunday";
+				break;
+		}
+		String dateDisplay = date + " " + dayOfWeekString;
+
+		return dateDisplay;
+	}
+	
+	/**Process lblViewTask to view tasks that the user is currently viewing
+	 * 
+	 * @param parseResult 
+	 * @return String telling the user what date is he viewing
+	 */
+	public static String viewDateTask(Task task, Command command) {
+		String getDateStr = task.getDateTimeString();
+		
+		if(!(command instanceof AddCommand) && getDateStr.isEmpty() && task.getDateTimeString() != null) {
+			return FeedbackGuide.formatViewAllTask(task.getDescription());
+		}
+		
+		if(getDateStr.matches(dateToday())) {
+			return FeedbackGuide.formatViewTodayTask();
+		}
+		else if(getDateStr.matches(dateTomorrow())) {
+			return FeedbackGuide.formatViewTomorrowTask();
+		}
+		else if(getDateStr.matches(dateYesterday())) {
+			return FeedbackGuide.formatViewYesterdayTask();
+		}
+		else if(task.getEndDate() == Task.DATE_NOT_SET) {
+			return FeedbackGuide.formatViewSomedayTask(VIEW_TASKS_SOMEDAY_STRING);
+		}
+		else{
+			return FeedbackGuide.formatViewDateTask(getDateStr);
+		}
+	}
+
+	/**
+	 * @return todayAsString the date today as String
+	 */
+	private static String dateToday() {
+		Calendar calendar = Calendar.getInstance();
+		Date today = calendar.getTime();
+		String todayAsString = sdf_second.format(today);
+
+		return todayAsString;
+	}
+
+	/**
+	 * @return tomorrowAsString the date tomorrow as String
+	 */
+	private static String dateTomorrow() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, 1);
+		Date tomorrow = calendar.getTime();
+		String tomorrowAsString = sdf_second.format(tomorrow);
+
+		return tomorrowAsString;
+	}
+
+	/**
+	 * @return yesterdayAsString the date yesterday as String
+	 */
+	private static String dateYesterday() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, -1);
+		Date yesterday = calendar.getTime();
+		String yesterdayAsString = sdf_second.format(yesterday);
+
+		return yesterdayAsString;
+	}
+
+	/**
+	 * This operation sets the program at the bottom right hand corner of screen
+	 */
+	public static void setupFrameLocation() {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
+		Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
+		int Xcoordinate = (int) rect.getMaxX() - UserIntSwing.frame.getWidth();
+		int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() - taskbarHeight;
+		UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
+	}
+
+	/**
+	 * Process the parser and Feedback
+	 */
+	public static void processTextfieldString() {
+		userInput = UserIntSwing.textField.getText();
+		ParseResult parseResult = UserIntSwing.logicManager.interpret(userInput);
+
+		if (parseResult.isSuccessful()) {
+			successfulTextfieldOperation(parseResult);
+			ListenerHandler.setBalloonTipVisibleFalse();
+		} 
+		else if(UserIntSwing.textField.getText().isEmpty()) {
+			FeedbackHandler.emptyStringOperation();
+		} 
+		else if (FeedbackHandler.isDoubleSpace(userInput)) {
+			FeedbackHandler.emptyStringOperation();
+		} 
+		else {
+			FeedbackHandler.NotSuccessfulOperation(parseResult.getFailedMessage());
+			ListenerHandler.setBalloonTipVisibleFalse();
+		}
+		UserIntSwing.textField.setText(null);
+	}
+	
+	/**
+	 * Handle this operation when command entered is correctly input
+	 * 
+	 * @param parseResult determine what command by taking the user input String
+	 */
+	private static void successfulTextfieldOperation(ParseResult parseResult) {
+		try {
+			UserIntSwing.textField.setText(null);
+			UserIntSwing.lblCommandGuide.setText(CommandGuide.buildGeneralGuideString());
+			UserIntSwing.logicManager.executeCommand(parseResult);
+			
+			if(correctCommandExtracted(parseResult)) {
+				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult.getTask(), parseResult.getCommand()));
+			}
+		} 
+		catch (InvalidCommandException exception) {
+			UserIntSwing.textField.setText(null);
+			// Log this error.
+			FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
+			return;
+		}
+		FeedbackHandler.successfulOperation();
+	}
+	
+	/**
+	 * If the correct command is extracted for the task currently viewing
+	 * 
+	 * @param parseResult Command extracted
+	 * @return boolean if correct command is extracted
+	 */
+	private static boolean correctCommandExtracted(ParseResult parseResult) {
+		return (parseResult.getCommand() instanceof AddCommand) 
+				|| (parseResult.getCommand() instanceof ViewCommand)
+				|| (parseResult.getCommand() instanceof SearchCommand && 
+						parseResult.getTask().getEndDate() != Task.DATE_NOT_SET);
+	}
+	
+	/**
+	 * Enter Key Listener process
+	 * 
+	 * @param arg1 KeyEvent Enter from the textfield
+	 */
+	public static void processEnterkey(KeyEvent arg1) {
+		userInput = UserIntSwing.textField.getText();
+		TextfieldHistory.getTextfieldString(userInput);
+	}
+	
+	/**
+	 * Textfield processeses
+	 * 
+	 * @param arg1 KeyEvent from the textfield
+	 * @param userInput Input that the user entered from the textfield
+	 * @throws InvalidCommandException 
+	 */
+	public static void processTextfield(KeyEvent arg1) {
+		userInput = UserIntSwing.textField.getText();
+		UserIntSwing.lblCommandGuide.setText(CommandGuide.getGuideMessage(userInput));
+		TextfieldHistory.showTextfieldHistory(arg1);
+	}
+	
+	/**
+	 * Process the textField when key is released
+	 * 
+	 * @param arg1 Keyevent code from keyboard
+	 */
+	public static void processTextfieldKeyReleased(KeyEvent arg1) {
+		processTextfield(arg1);
+		DynamicParseResult parseResult = processUserParse(arg1, UserIntSwing.logicManager);
+		Task task = parseResult.getTask();
+		clearDynamicParseLabels();
+		handleDynamicEdit(parseResult, task);
+		showParseResult(parseResult, task);
+	}
+
+	/**
+	 * This operation process the hotkeys shortcut function
+	 * 
+	 * @param key KeyEvent keylistener from the textfield
+	 * @throws InvalidCommandException 
+	 */
+	public static void processHotKeys(KeyEvent key) {
+		if (key.getKeyCode() == VK.help()) {
+			HelpMenu.main(null);
+		} else if (key.getKeyCode() == VK.add()) {
+			HotkeyHandler.add();
+		} else if (key.getKeyCode() == VK.view()) {
+			HotkeyHandler.view();
+		} else if (key.getKeyCode() == VK.edit()) {
+			HotkeyHandler.edit();
+		} else if (key.getKeyCode() == VK.delete()) {
+			HotkeyHandler.delete();
+		} else if (key.getKeyCode() == VK.search()) {
+			HotkeyHandler.search();
+		} 
+		
+		userInput = UserIntSwing.textField.getText();
+		UserIntSwing.lblCommandGuide.setText(CommandGuide.getGuideMessage(userInput));
+		/*process the rede, undo and minimize using InputMap and ActionMap*/
+		HotkeyHandler.undo(); //Ctrl-z
+		HotkeyHandler.redo(); //Ctrl-y
+		HotkeyHandler.minimise(); //Ctrl-m
+		HotkeyHandler.scrollTable(); //pgup and pgdn
+		ListenerHandler.setBalloonTipVisibleFalse();
+	}
+	
+	public static void handleDynamicEdit(DynamicParseResult parseResult,
+			Task task) {
+		if (containsValidEditCommand(parseResult)) {
+			String indexString = getIndexString(task);
+			int index = getTaskToBeEditedIndex(indexString);
+			Task taskToBeEdited = UserIntSwing.logicManager.getTaskToBeEdited(index);
+			if(taskToBeEdited != null)
+			{
+				task.setDescription(StringHandler.removeFirstMatched(
+						task.getDescription(), indexString));
+				parseResult = handleSomeDayEdit(parseResult, indexString);
+				showTaskToBeEdited(taskToBeEdited);
+				UserIntSwing.interactiveForm.selectRow(index);
+			}else {
+				showInvalidIndexMessage(task);
+			}
+		}
+	}
+	
+	/**
+	 * Help remove the date and someday description if it is in the description
+	 * 
+	 * @param parseResult the parse result
+	 * @param indexString the index in string
+	 * @return dynamic parse result with someday removed if there is
+	 */
+	private static DynamicParseResult handleSomeDayEdit(DynamicParseResult parseResult, String indexString) {
+        boolean somedaySpecified;
+
+        Collection<String> someDayCollection = KeyWordMappingList.getSomeDayKeyWord().
+        		get(Task.DATE_NOT_SET);
+        String[] someDayKeyWords = (String[]) someDayCollection.toArray();
+
+        somedaySpecified = isSomeDaySpecified(
+                parseResult.getDescriptionWordUsed(), someDayKeyWords);
+
+        if (somedaySpecified) {
+            String newDescription =removeSomeDayKeyWord(parseResult.getDescriptionWordUsed(), someDayKeyWords);
+            newDescription = StringHandler.removeFirstMatched(newDescription, indexString).trim();
+            if(!(newDescription.isEmpty()))
+            {
+                parseResult.getParseFlags().add(ParserFlags.DESCRIPTION_FLAG);
+                parseResult.setDescriptionWordUsed(" " + newDescription + " ");
+                parseResult.getTask().setDescription(" " + newDescription + " ");
+            }
+            else {
+                parseResult.getParseFlags().remove(ParserFlags.DESCRIPTION_FLAG);
+            }
+            if(somedaySpecified) {
+                parseResult.getParseFlags().add(ParserFlags.DATE_FLAG);
+                parseResult.setTask(setSomeday(parseResult.getTask()));
+            }
+        }
+        return parseResult;
+	}
+	
+	  /**
+     * Set the task to someday
+     * 
+     * @param editedTask the task to be set to someday    
+     * @return the task to be shown with someday set.
+     */
+    private static Task setSomeday(Task taskToBeShown) {
+        taskToBeShown.setEndDate(Task.DATE_NOT_SET);
+        taskToBeShown.setStartDate(Task.DATE_NOT_SET);
+        taskToBeShown.setEndTime(Task.TIME_NOT_SET);
+        taskToBeShown.setStartTime(Task.TIME_NOT_SET);
+        return taskToBeShown;
+    }
+
+    /**
+     * Remove the some day keyword from the description
+     * 
+     * @param description the description of the task parsed
+     * @param someDayKeyWords the keywords for someday        
+     * @return String, the new description with some day removed
+     */
+    private static String removeSomeDayKeyWord(String description, String[] someDayKeyWords) {
+        String matchedWord = StringHandler.getContainsWord(
+                description, someDayKeyWords);
+        String newDescription = StringHandler.removeFirstMatchedWord(
+                description, matchedWord);
+        
+        return newDescription;
+    }
+
+    /**
+     * Check if someday is specified
+     * 
+     * @param description the description of the parsed task
+     * @param someDayKeyWords the keywords for someday
+     * @return if someday is specified
+     */
+    private static boolean isSomeDaySpecified(String description, String[] someDayKeyWords) {
+        boolean somedaySpecified;
+
+        if (description != null) {
+            if (StringHandler.containsWord(description,
+                    someDayKeyWords)) {
+                somedaySpecified = true;
+            } else
+                somedaySpecified = false;
+        } else {
+            somedaySpecified = false;
+        }
+        return somedaySpecified;
+    }
+	
+	/**
+	 * Show the user error message when error command is pressed
+	 * 
+	 * @param task Determine what task it it
+	 */
+	private static void showInvalidIndexMessage(Task task) {
+		final String INVALID_INDEX = "The index you are editing is INVALID";
+		task.setDescription(INVALID_INDEX);
+	}
+
+	/**
+	 * This operation process the labels that the user input from the textfield
+	 * and show what will be parsed
+	 * 
+	 * @param logicManager
+	 * @return DynamicParseResult the result that was parsed on run time
+	 */
+	public static DynamicParseResult processUserParse(KeyEvent arg1, LogicManager logicManager) {
+		DynamicParseResult parseResult = logicManager.dynamicParse(
+				UserIntSwing.textField.getText());
+
+		return parseResult;
+	}
+
+	/**
+	 * Clear all the labels related to dynamic parsing
+	 */
+	public static void clearDynamicParseLabels() {
+		UserIntSwing.lblCommandProcess.setText(null);
+		UserIntSwing.lblDateProcess.setText(null);
+		UserIntSwing.lblDescriptionProcess.setText(null);
+		UserIntSwing.lblPriorityProcess.setText(null);
+		UserIntSwing.lblPriorityProcess.setOpaque(false);
+	}
+
+	/**
+	 * Show the parse result to the user
+	 * 
+	 * @param parseResult the result that was parse
+	 * @param task the task that was parse
+	 */
+	public static void showParseResult(DynamicParseResult parseResult, Task task) {
+		for (ParserFlags parseFlag : parseResult.getParseFlags()) {
+			switch (parseFlag) {
+			case COMMAND_FLAG:
+				UserIntSwing.lblCommandProcess.setText(parseResult.getCommandWordUsed());
+				break;
+			case DATE_FLAG:
+				UserIntSwing.lblDateProcess.setText(task.getDateTimeString());
+				ListenerHandler.addLblDateProcessListener();
+				break;
+			case DESCRIPTION_FLAG:
+				if (!task.getDescription().isEmpty()) {
+					UserIntSwing.lblDescriptionProcess.setText(task.getDescription());
+					ListenerHandler.addLblDescriptionProcessListener();
+				}
+				break;
+			case PRIORITY_FLAG:
+				UserIntSwing.lblPriorityProcess.setOpaque(true);
+				UserIntSwing.lblPriorityProcess.setText(task.getPriority().toString());
+				processLblPriority();
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	/**
+	 * get the string which contains the index at the first word
+	 * 
+	 * @param task the new task that will edit the old task
+	 * @return the string which contains the index
+	 */
+	private static String getIndexString(Task task) {
+		String indexString = StringHandler.getIntegerFromFirstSlot(
+				task.getDescription());
+		return indexString;
+	}
+
+	/**
+	 * Help determines if the parse result contains valid edit command
+	 * 
+	 * @param parseResult the parse result
+	 * @return if it contains valid edit command
+	 */
+	private static boolean containsValidEditCommand(DynamicParseResult parseResult) {
+		return parseResult.getParseFlags().contains(ParserFlags.COMMAND_FLAG)
+				&& parseResult.getParseFlags().contains(
+						ParserFlags.DESCRIPTION_FLAG)
+						&& parseResult.getCommand() instanceof EditCommand;
+	}
+
+	/**
+	 * Show the task that is to be edited on the GUI
+	 * 
+	 * @param taskToBeEdited the task to be edited
+	 */
+	private static void showTaskToBeEdited(Task taskToBeEdited) {
+		UserIntSwing.lblDateProcess.setText(taskToBeEdited.getDateTimeString());
+		UserIntSwing.lblDescriptionProcess.setText(taskToBeEdited
+				.getDescription());
+		UserIntSwing.lblPriorityProcess.setText(taskToBeEdited.getPriority()
+				.toString());
+	}
+
+	/**
+	 * Convert string to integer
+	 * 
+	 * @param indexString the string which contains the index to extract
+	 * @return the index in integer form
+	 */
+	private static int getTaskToBeEditedIndex(String indexString) {
+		final int ARRAY_OFFSET = -1;
+		return StringHandler.parseStringToInteger(indexString) + ARRAY_OFFSET;
+	}
+
+	/**
+	 * This operation process the priority label Red: High; Orange: Medium; Green: Low
+	 */
+	private static void processLblPriority() {
+		if (UserIntSwing.lblPriorityProcess.getText().matches("High")) {
+			UserIntSwing.lblPriorityProcess.setBackground(Color.orange);
+		} else if (UserIntSwing.lblPriorityProcess.getText().matches("Low")) {
+			UserIntSwing.lblPriorityProcess.setBackground(Color.green);
+		} else {
+			UserIntSwing.lblPriorityProcess.setBackground(Color.yellow);
+		}
+	}
+}
+
+	// End of segment: ui\UserInterfaceMain.java
+
+
+
+
+
+	/**
+	 * origin: ui\WeDoSystemTray.java
+	 */
+
+  * This class handles the "Minimise To Tray" operation.
+  */
+public class WeDoSystemTray {
+	private static TrayIcon trayIcon;
+	private static SystemTray tray;
+	
+	private static final String MAIN_FRAME_NAME = "Wedo";
+	private static final String SYSTEMTRAY_MENU_ABOUT = "About Wedo";
+	private static final String SYSTEMTRAY_MENU_OPEN = "Open Application";
+	private static final String SYSTEMTRAY_MENU_EXIT = "Exit Application";
+	
+	public static void Minimise(WindowEvent arg) {
+		
+		 /* If export as Executable Jar file use "/WeDo_logo.png" 
+		  * and put the logo in the same root*/
+		Image image = Toolkit.getDefaultToolkit().getImage(
+				UserIntSwing.class.getClass().getResource("/ui/icon/WeDo_logo.png"));
+		PopupMenu popup = new PopupMenu();
+		trayIcon = new TrayIcon(image, MAIN_FRAME_NAME, popup);
+		trayIcon.setImageAutoSize(true);
+
+		if(SystemTray.isSupported()){
+			System.out.println("SystemTray supported");
+			tray = SystemTray.getSystemTray();
+			
+			MenuItem popupItemAbout = new MenuItem(SYSTEMTRAY_MENU_ABOUT);
+			popup.add(popupItemAbout);
+			/*This listener opens up the AboutWeDo Window*/
+			popupItemAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					aboutWeDo();
+				}
+			});
+			
+			MenuItem popupItemOpen = new MenuItem(SYSTEMTRAY_MENU_OPEN);
+			popup.add(popupItemOpen);
+			/*This listener opens up the main Window*/
+			popupItemOpen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					openMainFrame();
+					UserInterfaceMain.setupFrameLocation();
+				}
+			});
+			addTrayIconMouseListener();
+			
+			MenuItem popupItemExit = new MenuItem(SYSTEMTRAY_MENU_EXIT);
+			popup.add(popupItemExit);
+			/*This listener when pressed directly exit the application*/
+			popupItemExit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					exitMainFrame();
+				}
+			});
+		}
+		else{
+			System.out.println("system tray not supported");
+		}
+		
+		// Pass the 'iconified' parameter to minimise the frame
+		if(arg.getNewState() == Frame.ICONIFIED){
+			try{
+				tray.add(trayIcon);
+				UserIntSwing.frame.setVisible(false);
+				System.out.println("added to System Tray");
+			} catch (AWTException ex){
+				System.out.println("unable to add to System Tray");
+			}
+		}
+	}
+	
+	/**
+	 * This operation adds listener to the tray icon
+	 * to maximize the program when mouse is double clicked
+	 */
+	private static void addTrayIconMouseListener() {
+		trayIcon.addMouseListener(new MouseAdapter() {
+			boolean isAlreadyOneClick;
+			@Override
+			public void mouseClicked(MouseEvent mouseEvent) {
+			    if (isAlreadyOneClick) {
+			    	openMainFrame();
+			    	UserInterfaceMain.setupFrameLocation();
+			        System.out.println("double click");
+			        isAlreadyOneClick = false;
+			    } else {
+			        isAlreadyOneClick = true;
+			        Timer t = new Timer("doubleclickTimer", false);
+			        t.schedule(new TimerTask() {
+
+			            @Override
+			            public void run() {
+			                isAlreadyOneClick = false;
+			            }
+			        }, 500);
+			    }
+			}
+		});
+	}
+
+	/**
+	 * This operation maximize the main frame
+	 */
+	public static void openMainFrame() {
+		UserIntSwing.frame.setVisible(true);
+		UserIntSwing.frame.setExtendedState(JFrame.NORMAL);
+		tray.remove(trayIcon);
+		System.out.println("Tray icon removed");
+	}
+	
+	/**
+	 * This operation closes the main frame when
+	 * the "Exit" menu on the SystemTray is pressed
+	 */
+	private static void exitMainFrame() {
+		System.out.println("Exiting......");
+		System.exit(0);
+	}
+	
+	/**
+	 * This operation opens the aboutWeDo
+	 */
+	private static void aboutWeDo() {
+		AboutWeDo.main(null);
+	}
+}
+
+	// End of segment: ui\WeDoSystemTray.java
+
+
+
+
+

@@ -1,0 +1,1259 @@
+//@author: a0112862l
+
+
+
+	/**
+	 * origin: dataStorage\BasicDataHandler.java
+	 */
+
+/**
+ * This class handles all the data, including the adding, removing,editing and
+ * changing the view.
+ *
+ */
+
+public class BasicDataHandler implements DataHandler {
+
+	private final String SOMEDAY = "someday";
+	private final String DEADLINE = "deadLine";
+	private final String TIMED = "timed";
+	private final String FLOATING = "floating";
+	private final String ALL = "all";
+	private final String VIEW_ERROR = "No such view!";
+
+	private static Task currentView;
+
+	FileHandler fileHandler;
+
+	ObservableList<Task> observableList;
+	Multimap<LocalDate, Task> mainList;
+
+	public BasicDataHandler() {
+		initialize();
+		populateLists();
+		showToday();
+
+	}
+
+	private void initialize() {
+		fileHandler = new FileHandler();
+		observableList = new ObservableList<Task>(new ArrayList<Task>());
+
+	}
+
+	public void populateLists() {
+
+		mainList = ArrayListMultimap.create();
+		mainList = fileHandler.getAllTasks();
+		currentView = new Task();
+
+	}
+
+	public void showToday() {
+		ArrayList<Task> today = new ArrayList<Task>(mainList.get(LocalDate
+				.now()));
+		observableList.replaceList(today);
+		currentView.setEndDate(LocalDate.now());
+	}
+
+	public ArrayList<Task> getCompleted() {
+		ArrayList<Task> tmp = new ArrayList<Task>();
+
+		for (Task t : mainList.values()) {
+			if (t.getCompleted() == true) {
+				tmp.add(t);
+			}
+		}
+
+		return tmp;
+	}
+
+	public ArrayList<Task> getUncompleted() {
+		ArrayList<Task> tmp = new ArrayList<Task>();
+
+		for (Task t : mainList.values()) {
+			if (t.getCompleted() == false) {
+				tmp.add(t);
+			}
+		}
+
+		return tmp;
+	}
+
+	/**
+	 * Checks if a task falls within given range of start date and end date.
+	 * 
+	 * @param startDate
+	 *            the beginning of the range
+	 * @param endDate
+	 *            the end of the range
+	 * @param task
+	 *            the task to be checked
+	 * @return true if the task is within the range. False otherwise.
+	 */
+	public boolean withinRange(LocalDate startDate, LocalDate endDate, Task task) {
+
+		while (startDate.isBefore(endDate) || startDate.equals(endDate)) {
+			if (task.getStartDate().equals(startDate)
+					|| task.getEndDate().equals(endDate)
+					|| task.getStartDate().equals(endDate)
+					|| task.getEndDate().equals(startDate)) {
+				return true;
+			}
+			startDate = startDate.plusDays(1);
+
+		}
+		return false;
+	}
+
+	public ObservableList<Task> getObservableList() {
+
+		return observableList;
+	}
+
+	public void addObserver(Observer observer) {
+		observableList.addObserver(observer);
+	}
+
+	public ArrayList<Task> getAllTasks() {
+		ArrayList<Task> tmp = new ArrayList<Task>(mainList.values());
+
+		return tmp;
+	}
+
+	public boolean addTask(Task task) throws InvalidCommandException {
+		if (task.getDescription() == "") {
+			return false;
+		}
+		addThenView(task);
+
+		int index = observableList.getList().size();
+		addTask(index, task);
+		return true;
+	}
+
+	private void addTask(int index, Task task) {
+
+		String display = currentView.getDescription();
+		mainList.put(task.getEndDate(), task);
+
+		if (display.equals(TIMED)) {
+			if (withinRange(currentView.getStartDate(),
+					currentView.getEndDate(), task)) {
+				observableList.add(index, task);
+			}
+		} else if (display.equals(ALL)
+				|| currentView.getEndDate().equals(task.getEndDate())) {
+
+			observableList.add(index, task);
+		}
+
+		save();
+		System.out.println(task.getUniqueID() + " is added");
+
+	}
+
+	/**
+	 * Save tasks to file.
+	 */
+	public void save() {
+
+		fileHandler.clear();
+		fileHandler.writeToFile(new ArrayList<Task>(mainList.values()));
+	}
+
+	/**
+	 * Check the task type
+	 * 
+	 * @param task
+	 *            the task to be determined
+	 * @return the task type as string
+	 */
+
+	private String determineTaskType(Task task) {
+		if (task.getEndDate().equals(LocalDate.MAX)
+				&& task.getStartDate().equals(LocalDate.MAX)) {
+			return FLOATING;
+		} else if (!task.getStartDate().equals(LocalDate.MAX)
+				&& !task.getEndDate().equals(LocalTime.MAX)) {
+			return TIMED;
+		} else {
+			return DEADLINE;
+		}
+	}
+
+	public ArrayList<Task> getDisplayedTasks(LocalDate startDate,
+			LocalDate endDate) {
+		return observableList.getList();
+	}
+
+	public void setDisplayedTasks(ArrayList<Task> displayedTask) {
+		observableList.replaceList(displayedTask);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dataStorage.BasicDataHandler#canRemove(int)
+	 */
+	public boolean indexValid(int index) {
+
+		if (index >= (observableList.getList().size()) || index < 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/**
+	 * Get the list of the tasks that fall within the range.
+	 * 
+	 * @param startDate
+	 *            start of the range
+	 * @param endDate
+	 *            end of the range
+	 * @return list of the tasks that fall within the range
+	 */
+	public ArrayList<Task> getList(LocalDate startDate, LocalDate endDate) {
+		ArrayList<Task> tmp = new ArrayList<Task>();
+
+		while (startDate.isBefore(endDate) || startDate.equals(endDate)) {
+			tmp.addAll(mainList.get(startDate));
+			startDate = startDate.plusDays(1);
+		}
+
+		return tmp;
+	}
+
+	public boolean editTask(Task source, Task replacement)
+			throws InvalidCommandException {
+
+		int index;
+		removeTask(source);
+		addThenView(replacement);
+		index = observableList.getList().size();
+		addTask(index, replacement);
+
+		return true;
+	}
+
+	public Task getTask(int index) {
+
+		return observableList.get(index);
+	}
+
+	public boolean removeTask(Task task) {
+
+		observableList.remove(task);
+		mainList.remove(task.getEndDate(), task);
+		save();
+		return true;
+	}
+
+	/**
+	 * change view after adding a task.
+	 * 
+	 * @param task
+	 *            contains the info of the view to be changed.
+	 * @throws InvalidCommandException
+	 *             if the view is invalid.
+	 */
+	public void addThenView(Task task) throws InvalidCommandException {
+		String type = determineTaskType(task);
+
+		if (type.equals(DEADLINE) || type.equals(TIMED)) {
+			view(task);
+		} else {
+			Task tmp = new Task();
+			tmp.setDescription(SOMEDAY);
+			view(tmp);
+		}
+	}
+
+	private ArrayList<Task> getPriTasks(Priority pri) {
+
+		ArrayList<Task> tmp = new ArrayList<Task>();
+
+		for (Task t : mainList.values()) {
+			if (t.getPriority().equals(pri)) {
+				tmp.add(t);
+			}
+		}
+
+		return tmp;
+	}
+
+	private Command getCommand(String firstWord) {
+		return MultiMapMatcher.getMatchedKey(
+				KeyWordMappingList.getCompletedUnCompleteMultiMap(), firstWord);
+	}
+
+	private ArrayList<Task> getDeadLineTasks(Task task) {
+		ArrayList<Task> tmp = new ArrayList<Task>(mainList.get(task
+				.getEndDate()));
+		for (Task t : mainList.values()) {
+			if (!tmp.contains(t) && determineTaskType(t).equals(TIMED)
+					&& withinRange(t.getStartDate(), t.getEndDate(), task)) {
+				tmp.add(t);
+			}
+		}
+		return tmp;
+	}
+
+	/**
+	 * Change the display list or view.
+	 * 
+	 * @param task
+	 *            contains the info of the the view to be changed.
+	 * @throws InvalidCommandException
+	 *             if the view requested is invalid.
+	 */
+	public void view(Task task) throws InvalidCommandException {
+
+		ArrayList<Task> tmp = new ArrayList<Task>();
+		String type = determineTaskType(task);
+		currentView.setDescription(task.getDescription());
+		currentView.setStartDate(task.getStartDate());
+		currentView.setEndDate(task.getEndDate());
+
+		Command cmd = getCommand(task.getDescription());
+
+		if (type.equals(DEADLINE)) {
+			tmp.addAll(getDeadLineTasks(task));
+		} else if (type.equals(TIMED)) {
+			tmp.addAll(getList(task.getStartDate(), task.getEndDate()));
+		} else if (cmd instanceof CompleteCommand) {
+			tmp.addAll(getCompleted());
+		} else if (cmd instanceof IncompleteCommand) {
+			tmp.addAll(getUncompleted());
+		} else if (task.getPriority() != null
+				&& !task.getPriority().equals(Task.PRIORITY_NOT_SET)) {
+			tmp = getPriTasks(task.getPriority());
+		} else if (task.getDescription().equalsIgnoreCase(ALL)) {
+			tmp.addAll(mainList.values());
+		} else if (task.getDescription().equals(SOMEDAY)) {
+			tmp.addAll(mainList.get(LocalDate.MAX));
+		} else {
+			FileHandler.log(VIEW_ERROR);
+			throw new InvalidCommandException(VIEW_ERROR);
+		}
+
+		observableList.replaceList(tmp);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dataStorage.DataHandler#completeTask(logic.utility.Task)
+	 */
+	@Override
+	public boolean setCompleteTask(Task task, boolean isComplete) {
+		// Task taskToComplete = getTask(index);
+		task.setCompleted(isComplete);
+		save();
+		return observableList.edit(task);
+	}
+
+}
+	// End of segment: dataStorage\BasicDataHandler.java
+
+
+
+
+
+	/**
+	 * origin: dataStorage\DataHandler.java
+	 */
+
+
+public interface DataHandler {
+    
+    
+
+    
+    public boolean setCompleteTask(Task task, boolean isComplete);
+       
+    public abstract boolean addTask(Task task) throws InvalidCommandException;
+
+
+    /**
+     * @return
+     */
+    public abstract ArrayList<Task> getDisplayedTasks(LocalDate startDate, LocalDate endDate);
+
+    /**
+     * @param displayedTask
+     */
+    public abstract void setDisplayedTasks(ArrayList<Task> displayedTask);
+
+    /* (non-Javadoc)
+     * @see dataStorage.BasicDataHandler#remove(int)
+     */
+    
+    public abstract boolean editTask(Task source,Task replacement) throws InvalidCommandException;
+    
+    public ObservableList<Task> getObservableList();
+
+    public abstract Task getTask(int index);
+    
+    public abstract boolean removeTask(Task task);
+        
+    public abstract void addObserver(Observer observer);
+
+    public abstract boolean indexValid(int index);
+
+    // temp add...
+    
+    public abstract void view(Task task) throws InvalidCommandException;
+
+
+
+
+}
+	// End of segment: dataStorage\DataHandler.java
+
+
+
+
+
+	/**
+	 * origin: dataStorage\FileHandler.java
+	 */
+
+/**
+ * This class handles all the file operations including writing tasks into a
+ * text file, retrieving tasks from the text file and logging.
+ */
+
+@SuppressWarnings("unchecked")
+public class FileHandler {
+
+	private String fileName;
+	private final String ID = "ID";
+	private final String DESCRPTION = "Description";
+	private final String S_DATE = "Start Date";
+	private final String E_DATE = "End Date";
+	private final String S_TIME = "Start Time";
+	private final String E_TIME = "End Time";
+	private final String PRIORITY = "Priority";
+	private final String STATUS = "Completed";
+	private final String FILE_NAME = "WeDo.txt";
+	
+	private final String IO_ERROR = "IO error :";
+	private final String FILE_NOT_FOUND = "File Not Found :";
+	private final String JSON_ERROR = "JSON parsing error :";
+	private final String FILE_EMPTY = "File Empty :";
+	private final String INVALID_DATE_TIME = "Invalid Date Time Format :";
+	private final String NULL_POINTER_ERROR = "Null Pointer Encountered :";
+
+	
+	private final static String LOG_FILE_NAME = "Log.txt";
+
+	public FileHandler() {
+
+		fileName = FILE_NAME;
+		createFile();
+
+	}
+
+	/**
+	 * create file if it doesn't exist to avoid the file not found error.
+	 */
+	public void createFile() {
+
+		try {
+			FileWriter fstream = new FileWriter(fileName, true);
+			BufferedWriter bw = new BufferedWriter(fstream);
+
+			bw.close();
+
+		} catch (IOException e) {
+			log(IO_ERROR + e);
+		}
+
+	}
+
+	/**
+	 * clear the contents of the "WeDo.txt" file.
+	 */
+	public void clear() {
+
+		try {
+			FileWriter fstream = new FileWriter(fileName, false);
+			BufferedWriter bw = new BufferedWriter(fstream);
+
+			bw.write("");
+			bw.close();
+
+		} catch (IOException e) {
+
+			log(IO_ERROR + e);
+		}
+
+	}
+
+	private void stringToFile(String str) {
+
+		if (isFileEmpty()) {
+			return;
+		} else {
+
+			try {
+				FileWriter fstream = new FileWriter(fileName, false);
+				BufferedWriter bw = new BufferedWriter(fstream);
+
+				bw.write(str);
+
+				bw.close();
+
+			} catch (IOException e) {
+
+				log(IO_ERROR + e);
+			}
+
+		}
+
+	}
+
+	private boolean isFileEmpty() {
+
+		String currentLine;
+		BufferedReader br;
+
+		try {
+			br = new BufferedReader(new FileReader(fileName));
+			currentLine = br.readLine();
+			br.close();
+
+			if (currentLine == null) {
+				return true;
+			}
+
+		} catch (FileNotFoundException e) {
+			log(FILE_NOT_FOUND + e);
+		} catch (IOException e) {
+			log(IO_ERROR + e);
+
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Copy the content of "WeDo.txt" to a string for the purpose of handling
+	 * JSON error.
+	 * 
+	 * @param fileName
+	 * @return the whole content of "WeDo.txt" file as string
+	 */
+	private String writeToString(String fileName) {
+
+		String currentLine, wholeFile;
+		BufferedReader br;
+
+		wholeFile = "";
+
+		try {
+			br = new BufferedReader(new FileReader(fileName));
+
+			while ((currentLine = br.readLine()) != null) {
+				wholeFile += currentLine + "\r\n";
+
+			}
+
+			br.close();
+
+		} catch (FileNotFoundException e) {
+			log(FILE_NOT_FOUND + e);
+
+		} catch (IOException e) {
+			log(IO_ERROR + e);
+
+		}
+
+		return wholeFile;
+
+	}
+
+	/**
+	 * delete the character of a string.
+	 * 
+	 * @param index
+	 *            position of the character to be deleted.
+	 * @param str
+	 *            the string which contains the character to be deleted.
+	 * @return the string after the character is deleted.
+	 */
+	private String removeChar(int index, String str) {
+		StringBuilder sb = new StringBuilder(str);
+		sb.deleteCharAt(index);
+		return sb.toString();
+	}
+
+	/**
+	 * @param tasks
+	 *            list of tasks to be written to the file.
+	 */
+	public void writeToFile(ArrayList<Task> tasks) {
+
+		JSONObject jTasks = toJSON("tasks", tasks);
+
+		try {
+			FileWriter fstream = new FileWriter(fileName, true);
+			BufferedWriter bw = new BufferedWriter(fstream);
+
+			String[] sTasks = jTasks.toString().split(",");
+
+			for (String s : sTasks) {
+				bw.write(s);
+				if (s.charAt(s.length() - 1) == '}') {
+					bw.newLine();
+				}
+				bw.newLine();
+			}
+
+			bw.close();
+
+		} catch (IOException e) {
+			log(IO_ERROR + e);
+		}
+
+	}
+
+	/**
+	 * log the error into text file.
+	 * 
+	 * @param log
+	 *            the string to be logged.
+	 */
+	public static void log(String log) {
+
+		try {
+			FileWriter fstream = new FileWriter(LOG_FILE_NAME, true);
+			BufferedWriter bw = new BufferedWriter(fstream);
+
+			bw.write(log);
+			bw.newLine();
+			bw.close();
+
+		} catch (IOException e) {
+
+			log("IO error :" + e);
+		}
+
+	}
+
+	/**
+	 * Add the task objects into a JSONArray,which will be put into a
+	 * JSONObject.
+	 * 
+	 * @param type
+	 *            the key of the JSONObject.
+	 * @param tasks
+	 *            the list of tasks to be added.
+	 * @return JSONObject of JSONArray of tasks.
+	 */
+	private JSONObject toJSON(String type, ArrayList<Task> tasks) {
+
+		JSONObject taskObj = new JSONObject();
+		JSONArray allTask = new JSONArray();
+
+		for (Task t : tasks) {
+			allTask.add(taskToJSON(t));
+		}
+
+		taskObj.put(type, allTask);
+
+		return taskObj;
+	}
+
+	/**
+	 * Convert task object into JSONObject.
+	 * 
+	 * @param task
+	 *            the task object to be converted to JSONObject.
+	 * @return the converted JSONObject.
+	 */
+	private JSONObject taskToJSON(Task task) {
+
+		JSONObject tmp = new JSONObject();
+
+		tmp.put(ID, task.getUniqueID());
+		tmp.put(DESCRPTION, task.getDescription());
+		tmp.put(S_DATE, task.getStartDate().toString());
+		tmp.put(E_DATE, task.getEndDate().toString());
+		tmp.put(S_TIME, task.getStartTime().toString());
+		tmp.put(E_TIME, task.getEndTime().toString());
+		tmp.put(PRIORITY, task.getPriority().toString());
+		tmp.put(STATUS, task.getCompleted());
+
+		return tmp;
+	}
+
+	/**
+	 * Reset the ID of the task to "0".
+	 */
+	public void resetID() {
+		Task task = new Task();
+		task.setUniqueID(0);
+	}
+
+	/**
+	 * Retrieve the tasks from the text file.
+	 * 
+	 * @return the tasks stored in the text file.
+	 */
+	public Multimap<LocalDate, Task> getAllTasks() {
+
+		Multimap<LocalDate, Task> tmp;
+		tmp = ArrayListMultimap.create();
+
+		resetID();
+
+		JSONParser parser = new JSONParser();
+
+		try {
+
+			Object obj = parser.parse(new FileReader(fileName));
+
+			JSONObject jsonObject = (JSONObject) obj;
+			JSONArray taskLists = (JSONArray) jsonObject.get("tasks");
+
+			for (Object tObj : taskLists) {
+				JSONObject j = (JSONObject) tObj;
+				Task t = null;
+				try {
+					t = jsonToTask(j);
+				} catch (DateTimeParseException dte) {
+
+					log(INVALID_DATE_TIME + dte);
+				} catch (NullPointerException n) {
+					log(NULL_POINTER_ERROR + n);
+
+				}
+				if (t != null)
+					tmp.put(t.getEndDate(), t);
+
+			}
+
+		} catch (ParseException pe) {
+
+			if (!isFileEmpty()) {
+				log(JSON_ERROR + pe);
+
+				stringToFile(removeChar(pe.getPosition(),
+						writeToString(fileName)));
+				tmp = getAllTasks();
+			} else {
+				log(FILE_EMPTY);
+			}
+
+		} catch (IOException e) {
+			log(IO_ERROR + e);
+		}
+
+		return tmp;
+
+	}
+
+	/**
+	 * Convert the JSONObject to task object.
+	 * 
+	 * @param jTask
+	 *            the JSONObject to be converted.
+	 * @return task of the converted JSONObject.
+	 */
+	private Task jsonToTask(JSONObject jTask) {
+
+		Task task = new Task();
+
+		task.setUniqueID(Integer.parseInt(jTask.get(ID).toString()));
+		task.setDescription(jTask.get(DESCRPTION).toString());
+		task.setStartDate(LocalDate.parse(jTask.get(S_DATE).toString()));
+
+		task.setEndDate(LocalDate.parse(jTask.get(E_DATE).toString()));
+		task.setStartTime(LocalTime.parse(jTask.get(S_TIME).toString()));
+		task.setEndTime(LocalTime.parse(jTask.get(E_TIME).toString()));
+		task.setPriority(checkPriority(jTask));
+		task.setCompleted((boolean) jTask.get(STATUS));
+
+		return task;
+
+	}
+
+	/**
+	 * @param jTask 
+	 * @return corresponding enum type of Priority.
+	 */
+	private Priority checkPriority(JSONObject jTask) {
+
+		String pri = jTask.get(PRIORITY).toString();
+
+		if (pri.equalsIgnoreCase(Priority.PRIORITY_HIGH.toString())) {
+			return Priority.PRIORITY_HIGH;
+		} else if (pri.equalsIgnoreCase(Priority.PRIORITY_MEDIUM.toString())) {
+			return Priority.PRIORITY_MEDIUM;
+		} else if (pri.equalsIgnoreCase(Priority.PRIORITY_LOW.toString())) {
+			return Priority.PRIORITY_LOW;
+		} else {
+			return Priority.PRIORITY_UNDEFINED;
+		}
+	}
+
+}
+
+	// End of segment: dataStorage\FileHandler.java
+
+
+
+
+
+	/**
+	 * origin: logic\utility\SearchEngine.java
+	 */
+
+/**
+ * Search the lists of tasks.
+ */
+public class SearchEngine {
+
+	BasicDataHandler dataHandler;
+
+	public SearchEngine(BasicDataHandler dataHandler) {
+		this.dataHandler = dataHandler;
+	}
+
+	/**
+	 * @param source
+	 *            the input source that need to be searched
+	 * @param searchInput
+	 *            the searchInput to be searched
+	 * @return the result that matched with the searchInput(case insensitive)
+	 */
+	public ArrayList<Task> searchCaseInsensitive(String description) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Task> searchCaseInsensitive(
+			Multimap<String, Task> multimap, String searchInput) {
+		ArrayList<Task> searchList = new ArrayList<Task>();
+		if (invalidList(multimap) || invalidSearchInput(searchInput)) {
+			return searchList;
+		}
+
+		searchInput = searchInput.trim().toLowerCase();
+
+		for (String key : multimap.keys()) {
+			for (Task task : multimap.get(key)) {
+
+				if (task.getDescription().toLowerCase().contains(searchInput)) {
+					searchList.add(task);
+				}
+			}
+		}
+		return searchList;
+	}
+
+	/**
+	 * @param source
+	 * @return whether the list consist anything
+	 */
+	private boolean invalidList(Multimap<String, Task> source) {
+		return source == null || source.isEmpty();
+	}
+
+	/**
+	 * @param searchInput
+	 * @return whether the searchInput consist anything
+	 */
+	private boolean invalidSearchInput(String searchInput) {
+		return searchInput == null || searchInput.trim().isEmpty();
+	}
+
+	public ArrayList<Task> search(String str1) {
+		return searchWagnerList(str1);
+	}
+
+	public ArrayList<Task> search(Task task) throws InvalidCommandException {
+		if (task.getDescription() != null) {
+			return searchWagnerList(task.getDescription());
+
+		} else {
+			dataHandler.view(task);
+			return dataHandler.getObservableList().getList();
+		}
+	}
+
+
+	/**
+	 * get the list of tasks that their descriptions match with the string user
+	 * wants to search.
+	 * 
+	 * @param str1
+	 *            the string user wants to search.
+	 * @return the list of the tasks that match the user's search.
+	 */
+	public ArrayList<Task> searchWagnerList(String str1) {
+
+		int distance;
+		ArrayList<Task> tmp = new ArrayList<Task>();
+
+		for (Task t : dataHandler.getAllTasks()) {
+			String[] str2 = t.getDescription().split(" ");
+			for (String s : str2) {
+
+				distance = getDist(str1, s);
+
+				if (distance < s.length() / 2) {
+					tmp.add(t);
+					break;
+
+				}
+			}
+		}
+
+		dataHandler.setDisplayedTasks(tmp);
+
+		return tmp;
+	}
+
+	/**
+	 * get the Wagner Fischer distance between two strings.
+	 * 
+	 * @param str1
+	 * @param str2
+	 * @return the distance
+	 */
+	public int getDist(String str1, String str2) {
+
+		int len1 = str1.length();
+		int len2 = str2.length();
+		int[][] arr = new int[len1 + 1][len2 + 1];
+		for (int i = 0; i <= len1; i++)
+			arr[i][0] = i;
+		for (int i = 1; i <= len2; i++)
+			arr[0][i] = i;
+		for (int i = 1; i <= len1; i++) {
+			for (int j = 1; j <= len2; j++) {
+				int m = (str1.charAt(i - 1) == str2.charAt(j - 1)) ? 0 : 1;
+				arr[i][j] = Math.min(
+						Math.min(arr[i - 1][j] + 1, arr[i][j - 1] + 1),
+						arr[i - 1][j - 1] + m);
+			}
+		}
+
+		return arr[len1][len2];
+	}
+
+	/**
+	 * @param source
+	 *            the input source that need to be searched
+	 * @param searchInput
+	 *            the searchInput to be searched
+	 * @return the result that matched with the searchInput(case sensitive)
+	 */
+	public ArrayList<Task> searchSensitive(Multimap<String, Task> multimap,
+			String searchInput) {
+		ArrayList<Task> searchList = new ArrayList<Task>();
+		if (invalidList(multimap) || invalidSearchInput(searchInput)) {
+			return searchList;
+		}
+
+		for (String key : multimap.keys()) {
+			for (Task task : multimap.get(key)) {
+
+				if (task.getDescription().contains(searchInput)) {
+					searchList.add(task);
+				}
+			}
+		}
+		return searchList;
+	}
+
+}
+
+	// End of segment: logic\utility\SearchEngine.java
+
+
+
+
+
+	/**
+	 * origin: testCases\BasicDataHandlerTest.java
+	 */
+
+/**
+ * This JUnit test class test some functions of BasicDatahandler class.
+ */
+
+public class BasicDataHandlerTest {
+
+	BasicDataHandler datahandler;
+	ArrayList<Task> mainList, displayList, deadLine, timed, floating;
+	int taskNum = 0;
+
+	@Before
+	public void setUp() throws Exception {
+		datahandler = new BasicDataHandler();
+		mainList = new ArrayList<Task>();
+		displayList = new ArrayList<Task>();
+		deadLine = new ArrayList<Task>();
+		timed = new ArrayList<Task>();
+		floating = new ArrayList<Task>();
+
+	}
+
+	/**
+	 * Retrieve observableList (currently displaying list) and mainlist from
+	 * BasicDataHandler class and update the local lists.
+	 */
+	private void updateLists() {
+		mainList = datahandler.getAllTasks();
+		displayList = datahandler.getObservableList().getList();
+	}
+
+	/**
+	 * @param daysFromToday
+	 *            set the deadline to the days from today
+	 * @return new created deadLine task
+	 */
+	private Task createDeadline(int daysFromToday) {
+		Task task = new Task();
+		task.setDescription("Task " + (taskNum++));
+		task.setEndDate(LocalDate.now().plusDays(daysFromToday));
+
+		return task;
+	}
+
+	/**
+	 * @return a floating task
+	 */
+	private Task createFloat() {
+		Task task = new Task();
+		task.setDescription("Task " + (++taskNum));
+
+		return task;
+	}
+
+	/**
+	 * @param daysBefore
+	 *            set the start date of the task to days before today
+	 * @param daysAfter
+	 *            set the deadline of the task to days from today
+	 * @return a timed task
+	 */
+	private Task createTimed(int daysBefore, int daysAfter) {
+		Task task = new Task();
+		task.setDescription("Task " + (++taskNum));
+		task.setEndDate(LocalDate.now().plusDays(daysAfter));
+		task.setStartDate(LocalDate.now().minusDays(daysBefore));
+
+		return task;
+	}
+
+	/**
+	 * @throws InvalidCommandException
+	 */
+	@Test
+	public void testAddAndRemove() throws InvalidCommandException {
+
+		testDeadLine();
+
+		testFloat();
+
+		testTimed();
+
+	}
+
+	/**
+	 * Test the adding and removing of a timed task. If the task is not in the
+	 * list after adding, Or if the task is still there after removing, assert
+	 * fails.
+	 * 
+	 * @throws InvalidCommandException
+	 */
+	private void testTimed() throws InvalidCommandException {
+		Task task4 = createTimed(3, 5);
+		datahandler.addTask(task4);
+		updateLists();
+
+		assertTrue(mainList.contains(task4));
+		datahandler.view(createTimed(3, 5));
+		updateLists();
+
+		assertTrue(displayList.contains(task4));
+
+		datahandler.removeTask(task4);
+		updateLists();
+
+		assertFalse(displayList.contains(task4));
+		assertFalse(mainList.contains(task4));
+	}
+
+	/**
+	 * Test the adding and removing of a floating task. If the task is not in
+	 * the list after adding, Or if the task is still there after removing,
+	 * assert fails.
+	 * 
+	 * @throws InvalidCommandException
+	 */
+	private void testFloat() throws InvalidCommandException {
+		Task task3 = createFloat();
+		datahandler.addTask(task3);
+
+		updateLists();
+		Task viewFloat = createFloat();
+		viewFloat.setDescription("someday");
+		datahandler.view(viewFloat);
+
+		assertTrue(displayList.contains(task3));
+		assertTrue(mainList.contains(task3));
+
+		datahandler.view(createDeadline(0));
+		updateLists();
+
+		assertFalse(displayList.contains(task3));
+
+		datahandler.removeTask(task3);
+		updateLists();
+		assertFalse(mainList.contains(task3));
+	}
+
+	/**
+	 * Test the adding and removing of a deadLine task. If the task is not in
+	 * the list after adding, Or if the task is still there after removing,
+	 * assert fails.
+	 * 
+	 * @throws InvalidCommandException
+	 */
+	private void testDeadLine() throws InvalidCommandException {
+		Task task1 = createDeadline(0); // create a deadline task with Today's
+										// date
+
+		datahandler.addTask(task1);
+		updateLists();
+		datahandler.view(createDeadline(0)); // change view to today's
+
+		assertTrue(displayList.contains(task1));
+		assertTrue(mainList.contains(task1));
+
+		datahandler.view(createDeadline(1));
+		updateLists();
+		assertFalse(displayList.contains(task1));
+
+		datahandler.removeTask(task1);
+		updateLists();
+		assertFalse(mainList.contains(task1));
+
+		Task task2 = createDeadline(1); // create a task due tomorrow
+
+		datahandler.addTask(task2);
+		updateLists();
+		datahandler.view(createDeadline(1));
+
+		assertTrue(displayList.contains(task2));
+		assertTrue(mainList.contains(task2));
+
+		datahandler.view(createDeadline(0));
+		updateLists();
+
+		assertFalse(displayList.contains(task2));
+		assertTrue(mainList.contains(task2));
+
+		datahandler.removeTask(task2);
+		updateLists();
+		assertFalse(mainList.contains(task2));
+	}
+
+	@Test
+	public void testView() throws InvalidCommandException {
+
+		// create 5 deadLine Tasks with deadline today
+		for (int i = 0; i < 5; i++) {
+			Task task = createDeadline(0);
+			deadLine.add(task);
+			datahandler.addTask(task);
+		}
+
+		// create 5 timed tasks
+		for (int i = 0; i < 5; i++) {
+			Task task = createTimed(5 - i, i + 1);
+			timed.add(task);
+			datahandler.addTask(task);
+		}
+
+		// create 5 floating tasks
+		for (int i = 0; i < 5; i++) {
+			Task task = createFloat();
+			floating.add(task);
+			datahandler.addTask(task);
+		}
+
+		Task floatView = new Task();
+		floatView.setDescription("someday");
+		datahandler.view(floatView); // set view to someday view
+		updateLists();
+		for (Task t : floating) {
+			assertTrue(displayList.contains(t)); // the list should contain all
+													// the floating tasks
+		}
+		for (Task t : deadLine) {
+			assertFalse(displayList.contains(t)); // the list should not contain
+													// the deadline tasks
+		}
+		for (Task t : timed) {
+			assertFalse(displayList.contains(t));// the list should not contain
+													// the timed tasks
+		}
+
+		datahandler.view(createDeadline(0)); // set the view to today's
+		updateLists();
+		for (Task t : floating) {
+			assertFalse(displayList.contains(t));// the list should not contain
+													// floating tasks
+		}
+		for (Task t : deadLine) {
+			assertTrue(displayList.contains(t));// the list should contains all
+												// the today tasks
+		}
+
+		datahandler.view(createTimed(5, 5));
+		updateLists();
+
+		for (Task t : floating) {
+			assertFalse(displayList.contains(t));
+		}
+		for (Task t : deadLine) {
+			assertTrue(displayList.contains(t));
+		}
+		for (Task t : timed) {
+			assertTrue(displayList.contains(t));
+		}
+		
+		deleteAll();
+	}
+	
+	private void deleteAll() {
+		for(Task t:deadLine) {
+			datahandler.removeTask(t);
+		}
+		for(Task t:floating) {
+			datahandler.removeTask(t);
+		}
+		for(Task t:timed) {
+			datahandler.removeTask(t);
+		}
+	}
+
+}
+
+	// End of segment: testCases\BasicDataHandlerTest.java
+
+
+
+
+

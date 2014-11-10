@@ -1,0 +1,1366 @@
+//@author: a0112675h
+
+
+
+	/**
+	 * origin: testCases\CommandValidateTest.java
+	 */
+
+/**
+ *
+ */
+public class CommandValidateTest {
+
+    @Test
+    public void test() {
+        EnumSet<ParserFlags> myFlags = EnumSet.noneOf(ParserFlags.class);
+
+        Command addCommand = new AddCommand();
+        myFlags.add(ParserFlags.COMMAND_FLAG);
+        myFlags.add(ParserFlags.DESCRIPTION_FLAG);
+
+        assertTrue(addCommand.validate(myFlags));
+
+        myFlags.remove(ParserFlags.COMMAND_FLAG);
+
+        assertFalse(addCommand.validate(myFlags));
+
+        myFlags = EnumSet.noneOf(ParserFlags.class);
+        assertFalse(addCommand.validate(myFlags));
+
+        myFlags.add(ParserFlags.DATE_FLAG);
+        assertFalse(addCommand.validate(myFlags));
+
+        myFlags.add(ParserFlags.PRIORITY_FLAG);
+        assertFalse(addCommand.validate(myFlags));
+
+        myFlags.add(ParserFlags.DESCRIPTION_FLAG);
+        assertFalse(addCommand.validate(myFlags));
+
+        myFlags.add(ParserFlags.COMMAND_FLAG);
+        assertTrue(addCommand.validate(myFlags));
+
+    }
+
+}
+
+	// End of segment: testCases\CommandValidateTest.java
+
+
+
+
+
+	/**
+	 * origin: testCases\StringHandlerTest.java
+	 */
+
+/**
+ *
+ */
+public class StringHandlerTest {
+
+    @Test
+    public void test() {
+
+        getFirstWordTest();
+        removeFirstMatchedTest();
+        convertImplicitFormalDateTest();
+        convertFormalDateTest();
+        convertDateDDMMTest();
+
+    }
+
+    private void convertFormalDateTest() {
+        assertEquals("2014/09/20",
+                StringHandler.convertFormalDate("20/09/2014"));
+        assertEquals("1900/11/22",
+                StringHandler.convertFormalDate("22/11/1900"));
+        assertEquals("2121/02/01",
+                StringHandler.convertFormalDate("01/02/2121"));
+        assertEquals("2019/03/3", StringHandler.convertFormalDate("3/03/2019"));
+        assertEquals("2010/2/5", StringHandler.convertFormalDate("5/2/2010"));
+        assertEquals("2009/8/15", StringHandler.convertFormalDate("15/8/2009"));
+        assertEquals("1909/8/2 at here",
+                StringHandler.convertFormalDate("2/8/1909 at here"));
+        assertEquals("hello, is 2109/8/09 at here",
+                StringHandler.convertFormalDate("hello, is 09/8/2109 at here"));
+        assertEquals("hello, is 2012/9/19",
+                StringHandler.convertFormalDate("hello, is 19/9/2012"));
+
+        assertEquals("2014/09/20",
+                StringHandler.convertFormalDate("20-09-2014"));
+        assertEquals("1900/11/22",
+                StringHandler.convertFormalDate("22-11-1900"));
+        assertEquals("2121/02/01",
+                StringHandler.convertFormalDate("01-02-2121"));
+        assertEquals("2019/03/3", StringHandler.convertFormalDate("3-03-2019"));
+        assertEquals("2010/2/5", StringHandler.convertFormalDate("5-2-2010"));
+        assertEquals("2009/8/15", StringHandler.convertFormalDate("15-8-2009"));
+        assertEquals("1909/8/2 at here",
+                StringHandler.convertFormalDate("2/8/1909 at here"));
+        assertEquals("hello, is 2109/8/09 at here",
+                StringHandler.convertFormalDate("hello, is 09/8/2109 at here"));
+        assertEquals("hello, is 2012/9/19",
+                StringHandler.convertFormalDate("hello, is 19/9/2012"));
+
+    }
+
+    private void convertImplicitFormalDateTest() {
+        assertEquals("20/09/2014", StringHandler.convertDateDDMMYY("20/09/14"));
+        assertEquals("22/11/2000", StringHandler.convertDateDDMMYY("22/11/00"));
+        assertEquals("01/02/2099", StringHandler.convertDateDDMMYY("01/02/99"));
+        assertEquals("3/03/2019", StringHandler.convertDateDDMMYY("3/03/19"));
+        assertEquals("5/2/2010", StringHandler.convertDateDDMMYY("5/2/10"));
+        assertEquals("15/8/2009", StringHandler.convertDateDDMMYY("15/8/09"));
+        assertEquals("2/8/2009 at here",
+                StringHandler.convertDateDDMMYY("2/8/09 at here"));
+        assertEquals("hello, is 09/8/2009 at here",
+                StringHandler.convertDateDDMMYY("hello, is 09/8/09 at here"));
+        assertEquals("hello, is 19/9/2012",
+                StringHandler.convertDateDDMMYY("hello, is 19/9/12"));
+
+        assertEquals("20/09/2014", StringHandler.convertDateDDMMYY("20-09-14"));
+        assertEquals("22/11/2000", StringHandler.convertDateDDMMYY("22-11-00"));
+        assertEquals("01/02/2099", StringHandler.convertDateDDMMYY("01-02-99"));
+        assertEquals("3/03/2019", StringHandler.convertDateDDMMYY("3-03-19"));
+        assertEquals("5/2/2010", StringHandler.convertDateDDMMYY("5-2-10"));
+        assertEquals("15/8/2009", StringHandler.convertDateDDMMYY("15-8-09"));
+        assertEquals("2/8/2009 at here",
+                StringHandler.convertDateDDMMYY("2-8-09 at here"));
+        assertEquals("hello, is 09/8/2009 at here",
+                StringHandler.convertDateDDMMYY("hello, is 09-8-09 at here"));
+        assertEquals("hello, is 19/09/2012",
+                StringHandler.convertDateDDMMYY("hello, is 19/09/12"));
+    }
+
+    private void convertDateDDMMTest() {
+        assertEquals("20/09/14", StringHandler.convertDateDDMM("20/09/14"));
+        assertEquals("22/11/2014", StringHandler.convertDateDDMM("22/11"));
+        assertEquals("01/02/2014", StringHandler.convertDateDDMM("01/02"));
+        assertEquals("3/03/19", StringHandler.convertDateDDMM("3/03/19"));
+        assertEquals("5/2/10", StringHandler.convertDateDDMM("5/2/10"));
+        assertEquals("15/8/09", StringHandler.convertDateDDMM("15/8/09"));
+        assertEquals("2/8/09 at here",
+                StringHandler.convertDateDDMM("2/8/09 at here"));
+        assertEquals("2/8/2014 at here",
+                StringHandler.convertDateDDMM("2/8 at here"));
+        assertEquals("hello, is 09/8/2014 at here",
+                StringHandler.convertDateDDMM("hello, is 09/8 at here"));
+        assertEquals("hello, is 09/8/09 at here",
+                StringHandler.convertDateDDMM("hello, is 09/8/09 at here"));
+        assertEquals("hello, is 19/9/12",
+                StringHandler.convertDateDDMM("hello, is 19/9/12"));
+        assertEquals("hello, is 19/9/2014",
+                StringHandler.convertDateDDMM("hello, is 19/9"));
+    }
+
+    private void getFirstWordTest() {
+        assertEquals("add", StringHandler.getFirstWord("add Pizza"));
+        assertEquals(null, StringHandler.getFirstWord(""));
+        assertEquals(null, StringHandler.getFirstWord("       "));
+        assertEquals(null, StringHandler.getFirstWord(null));
+        assertEquals("greedIsGood", StringHandler.getFirstWord("greedIsGood"));
+        assertEquals("Pig", StringHandler.getFirstWord("Pig is flying !!!"));
+    }
+
+    private void removeFirstMatchedTest() {
+        assertEquals("Pizza",
+                StringHandler.removeFirstMatched("add Pizza", "add"));
+        assertEquals("pig eat me",
+                StringHandler.removeFirstMatched("pig eat me", "add"));
+        assertEquals("pig eat me",
+                StringHandler.removeFirstMatched("pig eat me", null));
+        assertEquals(null, StringHandler.removeFirstMatched(null, "add"));
+        assertEquals(null, StringHandler.removeFirstMatched(null, null));
+    }
+
+}
+
+	// End of segment: testCases\StringHandlerTest.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\DefaultWeDoTableColor.java
+	 */
+
+
+public class DefaultWeDoTableColor {
+    /**
+     * This function set the default background colour for WeDo table
+     * 
+     * @param component
+     *            the component to set
+     * @param row
+     *            the row to check which color to set
+     */
+    public static void setDefaultBackGroundColour(Component component, int row,
+            int column, int selectedRow, Object priority, Object checkBox) {
+
+        final Color FIRST_COLOR = Color.LIGHT_GRAY;
+        final Color ALTERNATE_COLOR = Color.WHITE;
+
+        if (isRowEvenNumber(row)) {
+            component.setBackground(FIRST_COLOR);
+        } else {
+            component.setBackground(ALTERNATE_COLOR);
+        }
+
+        setPriorityBackGroundColor(component, row, column, priority);
+        setDoneBackGroundColor(component, row, column, checkBox);
+        setSelectedRowColor(component, row, column, selectedRow);
+        setIndexLayout(component, row, column);
+
+    }
+
+    private static void setSelectedRowColor(Component component, int row,
+            int column, int selectedRow) {
+
+        final Color BORDER_COLOR = Color.BLUE;
+        final Color FOREGROUND_COLOR = Color.BLACK;
+        final int BORDER_THICKNESS = 3;
+        final int NO_BORDER = 0;
+        
+        JComponent jComponent = (JComponent) component;
+        jComponent.setForeground(FOREGROUND_COLOR);
+        if (selectedRow == row) {
+            if (column == InteractiveTableModel.INDEX_CHECK) {
+                jComponent.setBorder(new MatteBorder(BORDER_THICKNESS,
+                        NO_BORDER, BORDER_THICKNESS, BORDER_THICKNESS,
+                        BORDER_COLOR));
+            } else if (column == InteractiveTableModel.INDEX_TASK) {
+                jComponent.setBorder(new MatteBorder(BORDER_THICKNESS,
+                        BORDER_THICKNESS, BORDER_THICKNESS, NO_BORDER,
+                        BORDER_COLOR));
+            } else {
+                jComponent.setBorder(new MatteBorder(BORDER_THICKNESS,
+                        NO_BORDER, BORDER_THICKNESS, NO_BORDER, BORDER_COLOR));
+            }
+        } else {
+            if (column == InteractiveTableModel.INDEX_TASK) {
+                jComponent.setBorder(new MatteBorder(NO_BORDER, NO_BORDER,
+                        NO_BORDER, NO_BORDER, BORDER_COLOR));
+            } else {
+                jComponent.setBorder(BorderFactory.createEmptyBorder());
+            }
+        }
+        UserIntSwing.textField.requestFocus();
+    }
+
+    /**
+     * This function set the priority high colour for WeDo table
+     * 
+     * @param component
+     *            the component to set
+     * @param row
+     *            the row to check which color to set
+     */
+    private static void setPriorityHighBackGroundColour(Component component) {
+        final Color PRIORITY_HIGH_COLOR = Color.getHSBColor(0.099f, 1f, 1f);
+
+        component.setBackground(PRIORITY_HIGH_COLOR);
+
+    }
+
+    /**
+     * This function set the priority high colour for WeDo table
+     * 
+     * @param component
+     *            the component to set
+     * @param row
+     *            the row to check which color to set
+     */
+    private static void setPriorityMediumBackGroundColour(Component component) {
+        final Color PRIORITY_MEDIUM_COLOR = Color.YELLOW;
+        component.setBackground(PRIORITY_MEDIUM_COLOR);
+    }
+
+    /**
+     * This function set the priority high colour for WeDo table
+     * 
+     * @param component
+     *            the component to set
+     * @param row
+     *            the row to check which color to set
+     * @return
+     */
+    private static void setPriorityLowBackGroundColour(Component component) {
+        final Color PRIORITY_LOW_COLOR = Color.GREEN;
+        component.setBackground(PRIORITY_LOW_COLOR);
+    }
+
+    /**
+     * Determine if row is an even number
+     * 
+     * @param row
+     *            the row to check
+     * @return if row is an even number
+     */
+    private static boolean isRowEvenNumber(int row) {
+        final int DIVISOR = 2;
+        final int EVEN_REMAINDER = 0;
+        return row % DIVISOR == EVEN_REMAINDER;
+    }
+
+    private static void setPriorityBackGroundColor(Component component,
+            int row, int column, Object priority) {
+
+        int columnToSet = InteractiveTableModel.INDEX_PRIORITY;
+
+        if (priority.equals(Priority.PRIORITY_HIGH.toString())) {
+            if (column == columnToSet) {
+                DefaultWeDoTableColor
+                        .setPriorityHighBackGroundColour(component);
+            }
+
+        } else if (priority.equals(Priority.PRIORITY_MEDIUM.toString())) {
+            if (column == columnToSet) {
+                DefaultWeDoTableColor
+                        .setPriorityMediumBackGroundColour(component);
+            }
+        } else if (priority.equals(Priority.PRIORITY_LOW.toString())) {
+            if (column == columnToSet) {
+                DefaultWeDoTableColor.setPriorityLowBackGroundColour(component);
+            }
+        }
+    }
+
+    private static void setIndexLayout(Component component,
+            int row, int column) {
+
+        final Color INDEX_COLOR = new Color(0,0,0,40);
+        int columnToSet = InteractiveTableModel.INDEX_TASK;
+        JComponent jComponent = (JComponent) component;
+        Border border = jComponent.getBorder();
+     
+            if (column == columnToSet) {            
+                border = BorderFactory.createCompoundBorder(border, BorderFactory.createMatteBorder(0,0,0,1,INDEX_COLOR));
+                jComponent.setBorder(border);
+
+            }
+    }
+
+    private static void setDoneBackGroundColor(Component component, int row,
+            int column, Object checkBox) {
+
+        final Color color = Color.getHSBColor(0.5861f, 0.7f, 1f);
+
+        if (!(checkBox instanceof Boolean)) {
+            return;
+        }
+
+        boolean isDone = (Boolean) checkBox;
+
+        if (isDone) {
+            component.setBackground(color);
+        }
+    }
+}
+
+	// End of segment: userInterface\DefaultWeDoTableColor.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\DefaultWeDoTableRenderer.java
+	 */
+
+
+@SuppressWarnings("serial")
+public class DefaultWeDoTableRenderer extends DefaultTableCellRenderer {
+
+	/**
+	 * This table does the default rendering for WeDo
+	 * 
+	 * @param table
+	 * @param value
+	 * @param isSelected
+	 * @param hasFocus
+	 * @param row
+	 * @param column
+	 * @param tableModel
+	 * @return component
+	 */
+	protected Component getTableCellRendererComponent(JTable table,
+			Object value, boolean isSelected, boolean hasFocus, int row,
+			int column, InteractiveTableModel tableModel) {
+
+		Component component = super.getTableCellRendererComponent(table, value,
+				isSelected, hasFocus, row, column);
+
+		this.setOpaque(true);
+
+		DefaultWeDoTableColor.setDefaultBackGroundColour(component, row,
+				column, table.getSelectedRow(), tableModel.getValueAt(row,
+						InteractiveTableModel.INDEX_PRIORITY), tableModel
+						.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
+
+		return component;
+	}
+
+	public void updateUI() {
+		super.updateUI();
+	}
+
+}
+
+	// End of segment: userInterface\DefaultWeDoTableRenderer.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\InteractiveForm.java
+	 */
+
+@SuppressWarnings("serial")
+public class InteractiveForm extends JPanel {
+
+	public static final String[] columnNames = { "ID", "description",
+			"start date", "end date", "start time", "end time", "priority",
+			"done", "" };
+
+	private static final int COLUMN_WIDTH_TASK = 30;
+	private static final int COLUMN_WIDTH_DESCRIPTION = 200;
+	private static final int COLUMN_WIDTH_PRIORITY = 70;
+	private static final int COLUMN_WIDTH_DONE = 40;
+	private static final int COLUMN_WIDTH_STANDARD = 80;
+
+	public static JTable table;
+	public static JScrollPane scroller;
+	protected InteractiveTableModel tableModel;
+
+	public InteractiveForm() {
+		initComponent();
+	}
+
+	public void updateTable(ArrayList<Task> taskList) {
+
+		tableModel.updateTable(taskList);
+	}
+
+	/**
+	 * table settings
+	 */
+	public void initComponent() {
+
+		tableModel = new InteractiveTableModel(columnNames);
+
+		tableModel
+				.addTableModelListener(new InteractiveForm.InteractiveTableModelListener());
+
+		table = new JTable();
+		table.setModel(tableModel);
+		table.setOpaque(true);
+		table.setVisible(true);
+		table.setRowSelectionAllowed(true);
+
+		table.setSurrendersFocusOnKeystroke(true);
+		if (!tableModel.hasEmptyRow()) {
+			tableModel.addEmptyRow();
+		}
+
+		scroller = new javax.swing.JScrollPane(table);
+
+		table.setDefaultRenderer(Object.class, new TableDefaultRenderer());
+
+		table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,
+				300));
+
+		TableColumn hidden = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_HIDDEN);
+
+		hidden.setMinWidth(1);
+		hidden.setPreferredWidth(1);
+		hidden.setMaxWidth(1);
+		hidden.setCellRenderer(new InteractiveRenderer(
+				InteractiveTableModel.INDEX_HIDDEN));
+
+		TableColumn taskID = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_TASK);
+		TableColumn description = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_DESCRIPTION);
+		TableColumn startDate = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_STARTDATE);
+		TableColumn endDate = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_STARTDATE);
+		TableColumn startTime = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_STARTTIME);
+		TableColumn endTime = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_ENDTIME);
+		TableColumn priority = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_PRIORITY);
+		TableColumn done = table.getColumnModel().getColumn(
+				InteractiveTableModel.INDEX_CHECK);
+
+		taskID.setMinWidth(COLUMN_WIDTH_TASK);
+		taskID.setPreferredWidth(COLUMN_WIDTH_TASK);
+		taskID.setMaxWidth(COLUMN_WIDTH_TASK);
+
+		description.setMinWidth(COLUMN_WIDTH_DESCRIPTION);
+		description.setPreferredWidth(COLUMN_WIDTH_DESCRIPTION);
+		description.setCellRenderer(new LineWrapCellRenderer(tableModel));
+
+		startTime.setPreferredWidth(COLUMN_WIDTH_STANDARD);
+		startTime.setMinWidth(COLUMN_WIDTH_STANDARD);
+
+		endTime.setPreferredWidth(COLUMN_WIDTH_STANDARD);
+		endTime.setMinWidth(COLUMN_WIDTH_STANDARD);
+
+		startDate.setPreferredWidth(COLUMN_WIDTH_STANDARD);
+		startDate.setMinWidth(COLUMN_WIDTH_STANDARD);
+
+		endDate.setPreferredWidth(COLUMN_WIDTH_STANDARD);
+		endDate.setMinWidth(COLUMN_WIDTH_STANDARD);
+
+		priority.setMaxWidth(COLUMN_WIDTH_PRIORITY);
+		priority.setPreferredWidth(COLUMN_WIDTH_PRIORITY);
+
+		done.setMaxWidth(COLUMN_WIDTH_DONE);
+		done.setPreferredWidth(COLUMN_WIDTH_DONE);
+		done.setCellRenderer(new BooleanCellRenderer());
+
+		setLayout(new BorderLayout());
+		add(scroller, BorderLayout.CENTER);
+
+		setNoHighLightSelectionColor();
+
+		table.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent me) {
+				JTable table = (JTable) me.getSource();
+				Point p = me.getPoint();
+				int row = table.rowAtPoint(p);
+				int column = table.columnAtPoint(p);
+				if (column == InteractiveTableModel.INDEX_CHECK) {
+
+					boolean isComplete = (boolean) tableModel.getValueAt(row,
+							column);
+					try {
+						UserIntSwing.logicManager.setComplete(row + 1,
+								isComplete);
+					} catch (InvalidCommandException error) {
+						// log to file
+						FileHandler
+								.log("MouseListener error: unable to set as done");
+					}
+				}
+			}
+		});
+
+	}
+
+	public void highlightLastRow(int row) {
+
+		assert (tableModel != null) : "tableModel should not be null at highlightLastRow";
+
+		int rowCount = tableModel.getRowCount();
+		int lastRow;
+
+		if (row == rowCount - 1) {
+			lastRow = rowCount - 1;
+		} else {
+			lastRow = row + 1;
+		}
+		highLightRow(lastRow);
+		scrollToRow(lastRow);
+	}
+
+	public void highlightLastRow() {
+		assert (tableModel != null) : "tableModel should not be null at highlightLastRow";
+		int rowCount = tableModel.getRowCount();
+		final int ROW_OFFSET = 1;
+		int lastRow = rowCount - ROW_OFFSET;
+		highLightRow(lastRow);
+		scrollToRow(lastRow);
+	}
+
+	/**
+	 * <p>
+	 * Select and scroll to the row you specified, the row will be at the top of
+	 * the list if scrollable
+	 * </p>
+	 * This function first select the last row, and move up to the row specified
+	 * 
+	 * @param row
+	 */
+	public void selectRow(int row) {
+		if (!isRowVisible(table, scroller, row)) {
+			selectLastRow();
+		}
+		highLightRow(row);
+		scrollToRow(row);
+	}
+
+	private void highLightRow(int row) {
+		table.setRowSelectionInterval(row, row);
+		table.setColumnSelectionInterval(0, 0);
+	}
+
+	private void scrollToRow(int row) {
+		Rectangle scrollRect = new Rectangle(table.getCellRect(row,
+				InteractiveTableModel.INDEX_HIDDEN, true));
+		table.scrollRectToVisible(scrollRect);
+	}
+
+	private void selectLastRow() {
+		assert (tableModel != null) : "tableModel should not be null at highlightLastRow";
+		int rowCount = tableModel.getRowCount();
+		final int ROW_OFFSET = 1;
+		int lastRow = rowCount - ROW_OFFSET;
+		highLightRow(lastRow);
+		scrollToRow(lastRow);
+	}
+
+	public void setNoHighLightSelectionColor() {
+		table.setSelectionBackground(table.getBackground());
+		table.setSelectionForeground(table.getForeground());
+	}
+
+	public boolean isRowVisible(JTable table, JScrollPane scroller, int rowIndex) {
+
+		JViewport viewport = scroller.getViewport();
+		Rectangle rect = table.getCellRect(rowIndex, 1, true);
+		return viewport.contains(rect.getLocation());
+
+	}
+
+	public class BooleanCellRenderer extends JCheckBox implements
+			TableCellRenderer {
+
+		public BooleanCellRenderer() {
+			setLayout(new GridBagLayout());
+			setMargin(new Insets(0, 0, 0, 0));
+			setHorizontalAlignment(JLabel.CENTER);
+			this.setBorderPainted(true);
+		}
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
+
+			if (value instanceof Boolean) {
+				setSelected((Boolean) value);
+			}
+
+			DefaultWeDoTableColor
+					.setDefaultBackGroundColour(this, row, column, table
+							.getSelectedRow(), tableModel.getValueAt(row,
+							InteractiveTableModel.INDEX_PRIORITY), tableModel
+							.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
+
+			return this;
+		}
+
+	}
+
+	public class TableDefaultRenderer extends DefaultWeDoTableRenderer {
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
+
+			setHorizontalAlignment(JLabel.CENTER);
+
+			return super.getTableCellRendererComponent(table, value,
+					isSelected, hasFocus, row, column, tableModel);
+		}
+	}
+
+	class InteractiveRenderer extends DefaultWeDoTableRenderer {
+
+		protected int interactiveColumn;
+
+		public InteractiveRenderer(int interactiveColumn) {
+			this.interactiveColumn = interactiveColumn;
+		}
+
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
+
+			Component c = super.getTableCellRendererComponent(table, value,
+					isSelected, hasFocus, row, column, tableModel);
+
+			return c;
+		}
+	}
+
+	public class CellSelectionListener implements ListSelectionListener {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * javax.swing.event.ListSelectionListener#valueChanged(javax.swing.
+		 * event.ListSelectionEvent)
+		 */
+		@Override
+		public void valueChanged(ListSelectionEvent event) {
+
+			if (event.getValueIsAdjusting())
+				return;
+
+			Object selectedData = null;
+
+			int[] selectedRow = table.getSelectedRows();
+			int[] selectedColumns = table.getSelectedColumns();
+
+			for (int i = 0; i < selectedRow.length; i++) {
+				for (int j = 0; j < selectedColumns.length; j++) {
+					System.out.println("NO rows is "
+							+ Arrays.toString(selectedRow));
+					System.out.println("NO cols is"
+							+ Arrays.toString(selectedColumns));
+
+					if (selectedColumns[j] == InteractiveTableModel.INDEX_CHECK) {
+						System.out.println("Inside ... rows is "
+								+ Arrays.toString(selectedRow));
+						System.out.println("Inside... cols is"
+								+ Arrays.toString(selectedColumns));
+
+						if (selectedRow[i] > tableModel.getRowCount())
+							return;
+
+						System.out.println("rows is "
+								+ Arrays.toString(selectedRow));
+						System.out.println("cols is"
+								+ Arrays.toString(selectedColumns));
+
+						selectedData = tableModel.getValueAt(selectedRow[i],
+								selectedColumns[j]);
+						boolean isComplete = (boolean) tableModel.getValueAt(
+								selectedRow[i], selectedColumns[j]);
+						System.out.println("Selected: " + selectedData);
+						try {
+							UserIntSwing.logicManager.setComplete(
+									selectedRow[i] + 1, isComplete);
+						} catch (InvalidCommandException error) {
+							// log to file
+							FileHandler
+									.log("cannot detect change of values in the table");
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public class InteractiveTableModelListener implements TableModelListener {
+		public void tableChanged(TableModelEvent evt) {
+			if (evt.getType() == TableModelEvent.UPDATE) {
+				int column = evt.getColumn();
+				int row = evt.getFirstRow();
+				System.out.println("row: " + row + " column: " + column);
+			}
+		}
+	}
+
+	/**
+	 * Execute the table in the frame.
+	 * 
+	 * @param frame
+	 */
+	public void execute(JFrame frame) {
+		try {
+			UIManager.setLookAndFeel(UIManager
+					.getCrossPlatformLookAndFeelClassName());
+
+			frame.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent evt) {
+					System.exit(0);
+				}
+			});
+
+			this.setBounds(10, 60, 600, 200);
+
+			frame.getContentPane().add(this);
+			frame.pack();
+			frame.setVisible(true);
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"ALERT MESSAGE: cannot execute frame", "TITLE",
+					JOptionPane.WARNING_MESSAGE);
+			FileHandler.log("application cannot be executed from interForm");
+		}
+
+		table.setSurrendersFocusOnKeystroke(true);
+	}
+}
+	// End of segment: userInterface\InteractiveForm.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\InteractiveTableModel.java
+	 */
+
+@SuppressWarnings("serial")
+public class InteractiveTableModel extends AbstractTableModel {
+
+    public static final int INDEX_TASK = 0;
+    public static final int INDEX_DESCRIPTION = 1;
+    public static final int INDEX_STARTDATE = 2;
+    public static final int INDEX_ENDDATE = 3;
+    public static final int INDEX_STARTTIME = 4;
+    public static final int INDEX_ENDTIME = 5;
+    public static final int INDEX_PRIORITY = 6;
+    public static final int INDEX_CHECK = 7;
+    public static final int INDEX_HIDDEN = 8;
+
+    protected String[] columnNames;
+    protected Vector dataVector;
+
+    public InteractiveTableModel(String[] columnNames) {
+        this.columnNames = columnNames;
+        dataVector = new Vector();
+    }
+
+    public String getColumnName(int column) {
+        return columnNames[column];
+    }
+
+    public boolean isCellEditable(int row, int column) {
+        if (column == INDEX_CHECK)
+            return false;
+        else
+            return false;
+    }
+
+    public Class getColumnClass(int column) {
+        switch (column) {
+        case INDEX_TASK:
+        case INDEX_DESCRIPTION:
+        case INDEX_STARTDATE:
+        case INDEX_ENDDATE:
+        case INDEX_STARTTIME:
+        case INDEX_ENDTIME:
+        case INDEX_PRIORITY:
+            return String.class;
+        case INDEX_CHECK:
+            return Boolean.class;
+        default:
+            return Object.class;
+        }
+    }
+
+    public Object getValueAt(int row, int column) {
+        TableInformation tableInfo = (TableInformation) dataVector.get(row);
+        switch (column) {
+
+        case INDEX_TASK:
+            return tableInfo.getTask();
+        case INDEX_DESCRIPTION:
+            return tableInfo.getDescription();
+        case INDEX_STARTDATE:
+            return tableInfo.getStartDate();
+        case INDEX_ENDDATE:
+            return tableInfo.getEndDate();
+        case INDEX_STARTTIME:
+            return tableInfo.getStartTime();
+        case INDEX_ENDTIME:
+            return tableInfo.getEndTime();
+        case INDEX_PRIORITY:
+            return tableInfo.getPriority();
+        case INDEX_CHECK:
+            return tableInfo.getCheck();
+        default:
+            return new Object();
+        }
+    }
+
+    public void setValueAt(Object value, int row, int column) {
+        TableInformation tableInfo = (TableInformation) dataVector.get(row);
+        switch (column) {
+        case INDEX_TASK:
+            tableInfo.setTask((String) value);
+            break;
+        case INDEX_DESCRIPTION:
+            tableInfo.setDescription((String) value);
+            break;
+        case INDEX_STARTDATE:
+            tableInfo.setStartDate((String) value);
+            break;
+        case INDEX_ENDDATE:
+            tableInfo.setEndDate((String) value);
+            break;
+        case INDEX_STARTTIME:
+            tableInfo.setStartTime((String) value);
+            break;
+        case INDEX_ENDTIME:
+            tableInfo.setEndTime((String) value);
+            break;
+        case INDEX_PRIORITY:
+            tableInfo.setPriority((String) value);
+            break;
+        case INDEX_CHECK:
+            tableInfo.setCheck((Boolean) (value));
+            break;
+        default:
+            System.out.println("invalid index");
+        }
+        fireTableCellUpdated(row, column);
+    }
+
+    @Override
+    public int getColumnCount() {
+        return columnNames.length;
+    }
+
+    @Override
+    public int getRowCount() {
+        return dataVector.size();
+    }
+
+    public boolean hasEmptyRow() {
+        if (dataVector.size() == 0)
+            return false;
+        TableInformation tableInfo = (TableInformation) dataVector
+                .get(dataVector.size() - 1);
+        if (tableInfo.getTask().trim().equals("")
+                && tableInfo.getDescription().trim().equals("")
+                && tableInfo.getStartDate().trim().equals("")
+                && tableInfo.getEndDate().trim().equals("")
+                && tableInfo.getStartTime().trim().equals("")
+                && tableInfo.getEndTime().trim().equals("")
+                && tableInfo.getPriority().trim().equals("")
+                && tableInfo.getCheck().FALSE) {
+            return true;
+        } else
+            return false;
+    }
+
+    public void addEmptyRow() {
+        dataVector.add(new TableInformation());
+        fireTableRowsInserted(dataVector.size() - 1, dataVector.size() - 1);
+    }
+
+    /**
+     * This method populates the table with values from the data storage.
+     * 
+     * @param taskList
+     */
+    public void updateTable(ArrayList<Task> taskList) {
+        int row = 0;
+
+        final LocalDate CORRECT_YEAR_FORMAT = LocalDate.of(1, 1, 1);
+        DateTimeFormatter dateFormatter;
+
+        DateTimeFormatter timeFormatter = DateTimeFormatter
+                .ofPattern("hh:mm a");
+
+        clearRows();
+
+        if (taskList.isEmpty()) {
+            if (!this.hasEmptyRow()) {
+                this.addEmptyRow();
+            }
+        }
+
+        // sort the table in alphabetical order
+        Collections.sort(taskList, new Comparator<Task>() {
+            public int compare(Task t1, Task t2) {
+                return t1.getDescription().compareToIgnoreCase(
+                        t2.getDescription());
+            }
+        });
+
+        for (Task task : taskList) {
+            if (!this.hasEmptyRow()) {
+                this.addEmptyRow();
+            }
+
+            if (task.getStartDate().isAfter(CORRECT_YEAR_FORMAT)
+                    && task.getEndDate().isAfter(CORRECT_YEAR_FORMAT)) {
+                dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            } else {
+                dateFormatter = DateTimeFormatter.ofPattern("dd/MM/YYYY");
+            }
+
+            this.setValueAt("" + (row + 1), row, INDEX_TASK);
+
+            this.setValueAt(task.getDescription(), row, INDEX_DESCRIPTION);
+
+            if (!task.getStartDate().equals(null)
+                    && !task.getStartDate().equals(LocalDate.MAX)) {
+                this.setValueAt(task.getStartDate().format(dateFormatter), row,
+                        INDEX_STARTDATE);
+            }
+            if (!task.getEndDate().equals(null)
+                    && !task.getEndDate().equals(LocalDate.MAX)) {
+                this.setValueAt(task.getEndDate().format(dateFormatter), row,
+                        INDEX_ENDDATE);
+            }
+            if (!task.getStartTime().equals(null)
+                    && !task.getStartTime().equals(LocalTime.MAX)) {
+                this.setValueAt(task.getStartTime().format(timeFormatter), row,
+                        INDEX_STARTTIME);
+            }
+            if (!task.getEndTime().equals(null)
+                    && !task.getEndTime().equals(LocalTime.MAX)) {
+                this.setValueAt(task.getEndTime().format(timeFormatter), row,
+                        INDEX_ENDTIME);
+            }
+            if (task.getPriority() != null
+                    && !task.getPriority().toString().isEmpty()) {
+                this.setValueAt(task.getPriority().toString(), row,
+                        INDEX_PRIORITY);
+            }
+            if (task.getCompleted() == true) {
+                this.setValueAt(true, row, INDEX_CHECK);
+            }
+            row++;
+        }
+
+    }
+
+    public void clearRows() {
+        dataVector.clear();
+    }
+}
+
+	// End of segment: userInterface\InteractiveTableModel.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\LineWrapCellRenderer.java
+	 */
+
+package userInterface;
+
+import java.awt.Component;
+
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.table.TableCellRenderer;
+
+
+@SuppressWarnings("serial")
+public class LineWrapCellRenderer extends JTextArea implements
+		TableCellRenderer {
+
+	InteractiveTableModel tableModel;
+
+	public LineWrapCellRenderer(InteractiveTableModel tableModel) {
+		this.tableModel = tableModel;
+		setLineWrap(true);
+		setWrapStyleWord(true);
+	}
+
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value,
+			boolean isSelected, boolean hasFocus, int row, int column) {
+
+		this.setOpaque(true);
+
+		// sets the column colour 
+		DefaultWeDoTableColor.setDefaultBackGroundColour(this, row, column,
+				table.getSelectedRow(), tableModel.getValueAt(row,
+						InteractiveTableModel.INDEX_PRIORITY), tableModel
+						.getValueAt(row, InteractiveTableModel.INDEX_CHECK));
+
+		setText((String) value);
+
+		setSize(table.getColumnModel().getColumn(column).getWidth(),
+				getPreferredSize().height);
+
+		if (table.getRowHeight(row) != getPreferredSize().height) {
+			table.setRowHeight(row, getPreferredSize().height);
+		}
+
+		return this;
+	}
+}
+
+	// End of segment: userInterface\LineWrapCellRenderer.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\TableInformation.java
+	 */
+
+/**
+ * Table Details
+ */
+public class TableInformation {
+
+	protected String task, description, startDate, endDate, startTime, endTime,
+			priority;
+	protected Boolean check;
+
+	public TableInformation() {
+		task = "";
+		description = "";
+		startDate = "";
+		endDate = "";
+		startTime = "";
+		endTime = "";
+		priority = "";
+		check = false;
+	}
+
+	public String getTask() {
+		return task;
+	}
+
+	public void setTask(String task) {
+		this.task = task;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+
+	public Boolean getCheck() {
+		return check;
+	}
+
+	/**
+	 * @param boolean
+	 */
+	public void setCheck(Boolean check) {
+		this.check = check;
+	}
+}
+
+	// End of segment: userInterface\TableInformation.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\UserIntSwing.java
+	 */
+
+@SuppressWarnings("serial")
+public class UserIntSwing extends JPanel implements Observer {
+
+	ArrayList<Task> taskList;
+
+	public static final JFrame frame = new JFrame("WeDo");
+	public static final JLabel lblIcon = new JLabel("lblIcon");
+	public static final InteractiveForm interactiveForm = new InteractiveForm();
+	public static final JLabel lblBackground = new JLabel();
+	public static final JLabel lblCommandGuide = new JLabel();
+	public static final JLabel lblFeedback = new JLabel("Feedback");
+	public static final JLabel lblDescriptionProcess = new JLabel();
+	public static final JLabel lblPriorityProcess = new JLabel();
+	public static final JLabel lblDateProcess = new JLabel();
+	public static final JLabel lblCommandProcess = new JLabel();
+	public static final JLabel lblTodayDate = new JLabel();
+	public static final JButton btnEnter = new JButton();
+	public static final JButton btnSearch = new JButton();
+	public static final JButton btnDelete = new JButton();
+	public static final JButton btnEdit = new JButton();
+	public static final JButton btnView = new JButton();
+	public static final JButton btnAdd = new JButton();
+	public static final JButton btnHelp = new JButton();
+	public static final JButton btnClose = new JButton();
+	public static final JButton btnMinimize = new JButton();
+	public static final JButton btnSetting = new JButton();
+
+	public static final JLabel lblViewTask = new JLabel(FeedbackGuide.formatViewTodayTask());
+	public static final JTextField textField = new JTextField();
+
+	public static LogicManager logicManager;
+	private ObservableList<Task> observableList;
+
+	// End of segment: userInterface\UserIntSwing.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\UserIntSwing.java
+	 */
+
+	/**
+	 * Launch the application.
+	 */
+	public void execute() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					frame.setVisible(true);
+				} catch (Exception e) {
+					// log to file
+					FileHandler.log("application cannot be launched");
+				}
+			}
+		});
+	}
+
+	// End of segment: userInterface\UserIntSwing.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\UserIntSwing.java
+	 */
+
+	/**
+	 * Create the application.
+	 */
+	public UserIntSwing(LogicManager logicManager,
+			ObservableList<Task> observableList) {
+		UserIntSwing.logicManager = logicManager;
+		this.observableList = observableList;
+		taskList = observableList.getList();
+		initialize();
+	}
+
+	// End of segment: userInterface\UserIntSwing.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\UserIntSwing.java
+	 */
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setUndecorated(true);
+		frame.setBounds(100, 100, 767, 550); // windowSize
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+				UserIntSwing.class.getResource("/ui/icon/WeDo_logo.png")));
+
+
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 121, 750, 227);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+
+		InteractiveForm.table.setShowGrid(false);
+		InteractiveForm.table.setIntercellSpacing(new Dimension(0, 0));
+		InteractiveForm.table.setFillsViewportHeight(true);
+		InteractiveForm.table.setBackground(Color.WHITE);
+		InteractiveForm.scroller.setBounds(0, 0, 750, 227);
+		interactiveForm.setBounds(0, 0, 750, 227);
+		panel.add(interactiveForm);
+		interactiveForm.setLayout(null);
+		interactiveForm.updateTable(taskList);
+
+		
+		/* A0112636M - Initialize all components */
+		FormatHandler.addtoContentPane();
+
+		/* A0112636M - Initialize all components */
+		UserInterfaceMain.initProcess();
+	}
+
+	// End of segment: userInterface\UserIntSwing.java
+
+
+
+
+
+	/**
+	 * origin: userInterface\UserIntSwing.java
+	 */
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		taskList = observableList.getList();
+		interactiveForm.updateTable(taskList);
+
+		if (isTaskInstance(arg1)) {
+			Task task = (Task) arg1;
+			int changedTaskRow = observableList.indexOf(task);
+			if (isIndexValid(changedTaskRow)) {
+				interactiveForm.selectRow(changedTaskRow);
+			}
+		}
+		assert (taskList != null);
+	}
+
+	/**
+	 * @param changedTaskRow
+	 * @return
+	 */
+	private boolean isIndexValid(int changedTaskRow) {
+		final int VALID_INDEX = 0;
+		return changedTaskRow >= VALID_INDEX;
+	}
+
+	/**
+	 * @param task
+	 * @return
+	 */
+	private boolean isTaskInstance(Object task) {
+		return task instanceof Task;
+	}
+}
+
+	// End of segment: userInterface\UserIntSwing.java
+
+
+
+
+
