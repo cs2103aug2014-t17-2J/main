@@ -14,6 +14,7 @@ import java.util.TimerTask;
 
 import logic.LogicManager;
 import logic.command.commandList.AddCommand;
+import logic.command.commandList.Command;
 import logic.command.commandList.EditCommand;
 import logic.command.commandList.SearchCommand;
 import logic.command.commandList.ViewCommand;
@@ -111,6 +112,35 @@ public class UserInterfaceMain {
 		String dateDisplay = date + " " + dayOfWeekString;
 
 		return dateDisplay;
+	}
+	
+	/**Process lblViewTask to view tasks that the user is currently viewing
+	 * 
+	 * @param parseResult 
+	 * @return String telling the user what date is he viewing
+	 */
+	public static String viewDateTask(Task task, Command command) {
+		String getDateStr = task.getDateTimeString();
+		
+		if(!(command instanceof AddCommand) && getDateStr.isEmpty() && task.getDateTimeString() != null) {
+			return FeedbackGuide.formatViewAllTask(task.getDescription());
+		}
+		
+		if(getDateStr.matches(dateToday())) {
+			return FeedbackGuide.formatViewTodayTask();
+		}
+		else if(getDateStr.matches(dateTomorrow())) {
+			return FeedbackGuide.formatViewTomorrowTask();
+		}
+		else if(getDateStr.matches(dateYesterday())) {
+			return FeedbackGuide.formatViewYesterdayTask();
+		}
+		else if(task.getEndDate() == Task.DATE_NOT_SET) {
+			return FeedbackGuide.formatViewSomedayTask(VIEW_TASKS_SOMEDAY_STRING);
+		}
+		else{
+			return FeedbackGuide.formatViewDateTask(getDateStr);
+		}
 	}
 
 	/**Process lblViewTask to view tasks that the user is currently viewing
@@ -238,7 +268,7 @@ public class UserInterfaceMain {
 			UserIntSwing.logicManager.executeCommand(parseResult);
 			
 			if(correctCommandExtracted(parseResult)) {
-				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult.getTask()));
+				UserIntSwing.lblViewTask.setText(viewDateTask(parseResult.getTask(), parseResult.getCommand()));
 			}
 		} 
 		catch (InvalidCommandException exception) {
