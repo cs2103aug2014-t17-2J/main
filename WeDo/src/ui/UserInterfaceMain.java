@@ -191,7 +191,7 @@ public class UserInterfaceMain {
 	 */
 	public static void processTextfieldString() {
 		userInput = UserIntSwing.textField.getText();
-		ParseResult parseResult = UserIntSwing.logicManager.processCommand(userInput);
+		ParseResult parseResult = UserIntSwing.logicManager.interpret(userInput);
 
 		if (parseResult.isSuccessful()) {
 			successfulTextfieldOperation(parseResult);
