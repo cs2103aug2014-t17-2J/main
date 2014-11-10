@@ -85,23 +85,23 @@ public class FormatHandler {
 	 * Format the Dynamic Parser Labels
 	 */
 	private static void formatDynamicParserLabel() {
-		UserIntSwing.lblCommandProcess.setFont(new Font("Tahoma", Font.ITALIC,12));
+		UserIntSwing.lblCommandProcess.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		UserIntSwing.lblCommandProcess.setForeground(new Color(255, 0, 0));
 		UserIntSwing.lblCommandProcess.setOpaque(false);
 		UserIntSwing.lblCommandProcess.setHorizontalAlignment(SwingConstants.CENTER);
 		UserIntSwing.lblCommandProcess.setBounds(80, 359, 46, 14);
 		
-		UserIntSwing.lblDateProcess.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		UserIntSwing.lblDateProcess.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		UserIntSwing.lblDateProcess.setForeground(new Color(0, 128, 0));
 		UserIntSwing.lblDateProcess.setOpaque(false);  
 		UserIntSwing.lblDateProcess.setBounds(176, 359, 132, 14);
 		
-		UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		UserIntSwing.lblPriorityProcess.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		UserIntSwing.lblPriorityProcess.setOpaque(false);
 		UserIntSwing.lblPriorityProcess.setHorizontalAlignment(SwingConstants.CENTER);
 		UserIntSwing.lblPriorityProcess.setBounds(366, 359, 53, 14);
 		
-		UserIntSwing.lblDescriptionProcess.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		UserIntSwing.lblDescriptionProcess.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		UserIntSwing.lblDescriptionProcess.setOpaque(false);
 		UserIntSwing.lblDescriptionProcess.setBounds(501, 359, 256, 14);
 		

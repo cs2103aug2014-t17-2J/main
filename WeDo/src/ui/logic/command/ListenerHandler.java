@@ -425,7 +425,7 @@ public class ListenerHandler {
 
 	/**
 	 * Button Enter Action Listener - Process all the text has
-	 * been pased in the Textfield when Enter is clicked
+	 * been parsed in the Textfield when Enter is clicked
 	 */
 	public static void addBtnEnterActionListener() {
 		UserIntSwing.btnEnter.addActionListener(new ActionListener() {
