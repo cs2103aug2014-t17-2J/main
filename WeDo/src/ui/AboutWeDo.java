@@ -36,8 +36,6 @@ public class AboutWeDo {
 	 */
 	private static void AboutWeDoGUI() {
 		frame = new JDialog();
-		/* If export as Executable Jar file use "/WeDo_logo.png" 
-		  * and put the logo in the same root*/
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
 				UserIntSwing.class.getResource("/ui/icon/WeDo_logo.png")));
 		frame.setBounds(100, 100, 334, 300);
@@ -61,8 +59,6 @@ public class AboutWeDo {
 			}
 		});
 	
-		/* If export as Executable Jar file use "/WeDo_logo.png" 
-		  * and put the logo in the same root*/
 		UserIntSwing.lblIcon.setIcon(new ImageIcon(UserIntSwing.class.getResource("/ui/icon/WeDo_logo.png")));
 		UserIntSwing.lblIcon.setBounds(199, 11, 103, 98);
 		frame.getContentPane().add(UserIntSwing.lblIcon);

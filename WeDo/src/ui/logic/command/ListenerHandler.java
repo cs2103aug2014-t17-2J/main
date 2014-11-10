@@ -25,7 +25,6 @@ import net.java.balloontip.styles.EdgedBalloonStyle;
 import ui.HelpMenu;
 import ui.WeDoSystemTray;
 import ui.UserInterfaceMain;
-import ui.guide.FeedbackGuide;
 import userInterface.UserIntSwing;
 
 /**
@@ -263,9 +262,10 @@ public class ListenerHandler {
 				int confirmed = JOptionPane.showConfirmDialog(null, 
 						"Are you sure you want to exit WeDo?", "Exit Program Message Box",
 						JOptionPane.YES_NO_OPTION);
-
+				
 				if (confirmed == JOptionPane.YES_OPTION) {
-					UserIntSwing.frame.dispose();
+					/*Close all windows currently open*/
+					System.exit(0);
 				}
 			}
 		});

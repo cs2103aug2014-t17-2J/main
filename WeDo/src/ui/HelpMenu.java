@@ -45,8 +45,6 @@ public class HelpMenu {
         	}
         });
         
-        frame.setFocusable(true);
-        
         //Disable Resize
         frame.setResizable(false);
         
