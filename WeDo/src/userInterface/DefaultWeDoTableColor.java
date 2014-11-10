@@ -8,7 +8,6 @@ import javax.swing.JComponent;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 
-import ui.UserInterfaceMain;
 import definedEnumeration.Priority;
 
 
@@ -73,7 +72,7 @@ public class DefaultWeDoTableColor {
                 jComponent.setBorder(BorderFactory.createEmptyBorder());
             }
         }
-        UserInterfaceMain.TimerFocusTextfield();
+        UserIntSwing.textField.requestFocus();
     }
 
     /**

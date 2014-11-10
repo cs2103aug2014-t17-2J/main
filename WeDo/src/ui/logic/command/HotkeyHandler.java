@@ -15,7 +15,6 @@ import javax.swing.KeyStroke;
 import logic.command.UndoHandler;
 import logic.exception.InvalidCommandException;
 import logic.parser.ParseResult;
-import ui.UserInterfaceMain;
 import ui.guide.FeedbackGuide;
 import userInterface.InteractiveForm;
 import userInterface.UserIntSwing;
@@ -149,7 +148,6 @@ public class HotkeyHandler {
 				if(arg1.getKeyCode() == VK.scroll_UpKey() || 
 						arg1.getKeyCode() == VK.scroll_DownKey()) {
 					InteractiveForm.scroller.requestFocus();
-					UserInterfaceMain.TimerFocusTextfield();
 				}
 			}
 		});
