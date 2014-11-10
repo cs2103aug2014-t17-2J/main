@@ -403,7 +403,6 @@ public class ListenerHandler {
 				focusTextfield();
 			}
 			public void windowLostFocus(WindowEvent arg0) {
-				UserIntSwing.textField.setText(FeedbackGuide.textfieldFeedback());
 				UserIntSwing.textField.selectAll();
 				UserIntSwing.lblDescriptionProcess.setText(null);
 			}

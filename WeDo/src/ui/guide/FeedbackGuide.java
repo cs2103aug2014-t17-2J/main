@@ -72,7 +72,6 @@ public class FeedbackGuide {
 		return feedbackTextfield;
 	}
 	
-	
 	private static String formatValidCommand(String text) {
 		StringBuilder str = new StringBuilder();
 		
