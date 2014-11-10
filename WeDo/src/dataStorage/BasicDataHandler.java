@@ -205,7 +205,6 @@ public class BasicDataHandler implements DataHandler {
 
 	}
 
-	// @author A0112862L
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -220,6 +219,15 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
+	/**
+	 * Get the list of the tasks that fall within the range.
+	 * 
+	 * @param startDate
+	 *            start of the range
+	 * @param endDate
+	 *            end of the range
+	 * @return list of the tasks that fall within the range
+	 */
 	public ArrayList<Task> getList(LocalDate startDate, LocalDate endDate) {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 
@@ -231,7 +239,6 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 	}
 
-	// @author A0112862L
 	public boolean editTask(Task source, Task replacement)
 			throws InvalidCommandException {
 
@@ -244,13 +251,11 @@ public class BasicDataHandler implements DataHandler {
 		return true;
 	}
 
-	// @author A0112862L
 	public Task getTask(int index) {
 
 		return observableList.get(index);
 	}
 
-	// @author A0112862L
 	public boolean removeTask(Task task) {
 
 		observableList.remove(task);
@@ -259,7 +264,14 @@ public class BasicDataHandler implements DataHandler {
 		return true;
 	}
 
-	// @author A0112862L
+	/**
+	 * change view after adding a task.
+	 * 
+	 * @param task
+	 *            contains the info of the view to be changed.
+	 * @throws InvalidCommandException
+	 *             if the view is invalid.
+	 */
 	public void addThenView(Task task) throws InvalidCommandException {
 		String type = determineTaskType(task);
 
@@ -272,7 +284,6 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
-	// @author A0112862L
 	private ArrayList<Task> getPriTasks(Priority pri) {
 
 		ArrayList<Task> tmp = new ArrayList<Task>();
@@ -290,9 +301,10 @@ public class BasicDataHandler implements DataHandler {
 		return MultiMapMatcher.getMatchedKey(
 				KeyWordMappingList.getCompletedUnCompleteMultiMap(), firstWord);
 	}
-	
-	private ArrayList<Task> getDeadLineTasks(Task task){
-		ArrayList<Task> tmp = new ArrayList<Task>(mainList.get(task.getEndDate()));
+
+	private ArrayList<Task> getDeadLineTasks(Task task) {
+		ArrayList<Task> tmp = new ArrayList<Task>(mainList.get(task
+				.getEndDate()));
 		for (Task t : mainList.values()) {
 			if (!tmp.contains(t) && determineTaskType(t).equals(TIMED)
 					&& withinRange(t.getStartDate(), t.getEndDate(), task)) {
@@ -301,9 +313,15 @@ public class BasicDataHandler implements DataHandler {
 		}
 		return tmp;
 	}
-	
-	
-	// @author A0112862L
+
+	/**
+	 * Change the display list or view.
+	 * 
+	 * @param task
+	 *            contains the info of the the view to be changed.
+	 * @throws InvalidCommandException
+	 *             if the view requested is invalid.
+	 */
 	public void view(Task task) throws InvalidCommandException {
 
 		ArrayList<Task> tmp = new ArrayList<Task>();
