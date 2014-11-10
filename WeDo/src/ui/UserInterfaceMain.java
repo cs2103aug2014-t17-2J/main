@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import logic.LogicManager;
 import logic.command.commandList.AddCommand;
@@ -186,6 +188,19 @@ public class UserInterfaceMain {
 		int Ycoordinate = (int) rect.getMaxY() - UserIntSwing.frame.getHeight() - taskbarHeight;
 		UserIntSwing.frame.setLocation(Xcoordinate, Ycoordinate);
 	}
+	
+	/**
+	 * Timer for focus on textfield after 3000 milli-seconds
+	 */
+	public static void TimerFocusTextfield() {
+	     Timer timer = new Timer();
+	     timer.schedule(new TimerTask() {
+	         @Override
+	         public void run() {
+	             UserIntSwing.textField.requestFocus();
+	         }
+	     }, 3000);
+	 }
 
 	/**
 	 * Process the parser and Feedback
@@ -312,7 +327,7 @@ public class UserInterfaceMain {
 		HotkeyHandler.undo();
 		HotkeyHandler.redo();
 		HotkeyHandler.minimise();
-		HotkeyHandler.scrollUpTable();
+		HotkeyHandler.scrollTable();
 		ListenerHandler.setBalloonTipVisibleFalse();
 	}
 	

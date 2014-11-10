@@ -53,7 +53,7 @@ public class FeedbackHandler {
     
 	/**
 	* This operation process the timer to clear the Warning Label. It is set at
-	* 1000 milli-seconds.
+	* 2000 milli-seconds.
 	*/
 	public static void feedbackTimerReset() {
 	
@@ -63,6 +63,6 @@ public class FeedbackHandler {
 	         public void run() {
 	             UserIntSwing.lblFeedback.setText("");
 	         }
-	     }, 1000);
+	     }, 2000);
 	 }
 }

@@ -47,8 +47,8 @@ public class InteractiveForm extends JPanel {
 	private static final int COLUMN_WIDTH_DONE = 40;
 	private static final int COLUMN_WIDTH_STANDARD = 80;
 
-	protected JTable table;
-	protected JScrollPane scroller;
+	public static JTable table;
+	public static JScrollPane scroller;
 	protected InteractiveTableModel tableModel;
 
 	public InteractiveForm() {
