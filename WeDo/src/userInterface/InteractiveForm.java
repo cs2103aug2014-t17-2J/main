@@ -28,6 +28,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import dataStorage.FileHandler;
 import logic.exception.InvalidCommandException;
 import logic.utility.Task;
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -116,8 +117,6 @@ public class InteractiveForm extends JPanel {
 		taskID.setMinWidth(COLUMN_WIDTH_TASK);
 		taskID.setPreferredWidth(COLUMN_WIDTH_TASK);
 		taskID.setMaxWidth(COLUMN_WIDTH_TASK);
-		taskID.setCellRenderer(new InteractiveRenderer(
-				InteractiveTableModel.INDEX_TASK));
 
 		description.setMinWidth(COLUMN_WIDTH_DESCRIPTION);
 		description.setPreferredWidth(COLUMN_WIDTH_DESCRIPTION);
@@ -162,6 +161,8 @@ public class InteractiveForm extends JPanel {
 								isComplete);
 					} catch (InvalidCommandException error) {
 						// log to file
+						FileHandler
+								.log("MouseListener error: unable to set as done");
 					}
 				}
 			}
@@ -355,8 +356,9 @@ public class InteractiveForm extends JPanel {
 							UserIntSwing.logicManager.setComplete(
 									selectedRow[i] + 1, isComplete);
 						} catch (InvalidCommandException error) {
-
-    							//log to file
+							// log to file
+							FileHandler
+									.log("cannot detect change of values in the table");
 						}
 					}
 				}
@@ -383,7 +385,7 @@ public class InteractiveForm extends JPanel {
 		try {
 			UIManager.setLookAndFeel(UIManager
 					.getCrossPlatformLookAndFeelClassName());
-			
+
 			frame.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent evt) {
 					System.exit(0);
@@ -400,7 +402,7 @@ public class InteractiveForm extends JPanel {
 			JOptionPane.showMessageDialog(null,
 					"ALERT MESSAGE: cannot execute frame", "TITLE",
 					JOptionPane.WARNING_MESSAGE);
-			e.printStackTrace();
+			FileHandler.log("application cannot be executed from interForm");
 		}
 
 		table.setSurrendersFocusOnKeystroke(true);
