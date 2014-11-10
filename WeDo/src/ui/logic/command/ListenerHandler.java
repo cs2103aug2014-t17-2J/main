@@ -309,6 +309,9 @@ public class ListenerHandler {
 		});
 	}
 	
+	/**
+	 * The btnSetting process listener for settings (Not implemented)
+	 */
 	public static void addBtnSettingListener() {
 		BalloonTip settingBalloonTip = new BalloonTip(UserIntSwing.btnSetting, new JLabel(
 				"Press for settings"), edgedLookBtn, Orientation.RIGHT_BELOW,
@@ -327,7 +330,7 @@ public class ListenerHandler {
 		});
 		UserIntSwing.btnSetting.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null,"No Settings Currently", "Settings",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "No Settings Currently", "Settings", JOptionPane.WARNING_MESSAGE);
 			}
 		});
 	}
