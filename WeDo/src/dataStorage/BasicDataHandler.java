@@ -18,6 +18,13 @@ import com.google.common.collect.Multimap;
 
 import definedEnumeration.Priority;
 
+//@author A0112862L
+/**
+ * This class handles all the data, including the adding, removing,editing and
+ * changing the view.
+ *
+ */
+
 public class BasicDataHandler implements DataHandler {
 
 	private final String SOMEDAY = "someday";
@@ -25,6 +32,7 @@ public class BasicDataHandler implements DataHandler {
 	private final String TIMED = "timed";
 	private final String FLOATING = "floating";
 	private final String ALL = "all";
+	private final String VIEW_ERROR = "No such view!";
 
 	private static Task currentView;
 
@@ -33,27 +41,19 @@ public class BasicDataHandler implements DataHandler {
 	ObservableList<Task> observableList;
 	Multimap<LocalDate, Task> mainList;
 
-	// @author A0112862L
 	public BasicDataHandler() {
 		initialize();
 		populateLists();
 		showToday();
-		FileHandler.log(LocalTime.now() + " : DataHandler initialized");
 
 	}
-	
+
 	private void initialize() {
 		fileHandler = new FileHandler();
 		observableList = new ObservableList<Task>(new ArrayList<Task>());
 
 	}
-	
-	// @author A0112862L
-	/**
-	 * This function add all the lists into a Multimap according to list type
-	 * 
-	 * @return whether the operation is successful.
-	 */
+
 	public void populateLists() {
 
 		mainList = ArrayListMultimap.create();
@@ -62,7 +62,6 @@ public class BasicDataHandler implements DataHandler {
 
 	}
 
-	// @author A0112862L
 	public void showToday() {
 		ArrayList<Task> today = new ArrayList<Task>(mainList.get(LocalDate
 				.now()));
@@ -82,7 +81,6 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 	}
 
-	// @author A0112862L
 	public ArrayList<Task> getUncompleted() {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 
@@ -95,7 +93,17 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 	}
 
-	// @author A0112862L
+	/**
+	 * Checks if a task falls within given range of start date and end date.
+	 * 
+	 * @param startDate
+	 *            the beginning of the range
+	 * @param endDate
+	 *            the end of the range
+	 * @param task
+	 *            the task to be checked
+	 * @return true if the task is within the range. False otherwise.
+	 */
 	public boolean withinRange(LocalDate startDate, LocalDate endDate, Task task) {
 
 		while (startDate.isBefore(endDate) || startDate.equals(endDate)) {
@@ -113,27 +121,23 @@ public class BasicDataHandler implements DataHandler {
 
 	public ObservableList<Task> getObservableList() {
 
-		FileHandler.log(LocalTime.now() + " : ObservableList retrieved!");
 		return observableList;
 	}
 
 	public void addObserver(Observer observer) {
 		observableList.addObserver(observer);
-		FileHandler.log(LocalTime.now() + " : Added observer "
-				+ observer.toString());
 	}
 
-
-
-	// @author A0112862L
 	public ArrayList<Task> getAllTasks() {
 		ArrayList<Task> tmp = new ArrayList<Task>(mainList.values());
 
 		return tmp;
 	}
 
-	// @author A0112862L
 	public boolean addTask(Task task) throws InvalidCommandException {
+		if (task.getDescription() == "") {
+			return false;
+		}
 		addThenView(task);
 
 		int index = observableList.getList().size();
@@ -141,8 +145,7 @@ public class BasicDataHandler implements DataHandler {
 		return true;
 	}
 
-	// @author A0112862L
-	public boolean addTask(int index, Task task) {
+	private void addTask(int index, Task task) {
 
 		String display = currentView.getDescription();
 		mainList.put(task.getEndDate(), task);
@@ -161,28 +164,23 @@ public class BasicDataHandler implements DataHandler {
 		save();
 		System.out.println(task.getUniqueID() + " is added");
 
-		// fileHandler.read("deadLine");
-		FileHandler.log(LocalTime.now() + " : Added Task "
-				+ task.getUniqueID());
-		return true;
 	}
 
-	// @author A0112862L
-	public String save() {
+	/**
+	 * Save tasks to file.
+	 */
+	public void save() {
 
 		fileHandler.clear();
 		fileHandler.writeToFile(new ArrayList<Task>(mainList.values()));
-		FileHandler.log(LocalTime.now() + " : Saved!");
-		return null;
 	}
 
-	// @author A0112862L
 	/**
-	 * Check if the task should be added to or removed from both main list and
-	 * observable list
+	 * Check the task type
 	 * 
 	 * @param task
-	 * @return whether the task should be on display
+	 *            the task to be determined
+	 * @return the task type as string
 	 */
 
 	private String determineTaskType(Task task) {
@@ -204,11 +202,9 @@ public class BasicDataHandler implements DataHandler {
 
 	public void setDisplayedTasks(ArrayList<Task> displayedTask) {
 		observableList.replaceList(displayedTask);
-		FileHandler.log(LocalTime.now() + " : changed displayed list ");
 
 	}
 
-	// @author A0112862L
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -223,7 +219,15 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
-	// @author A0112862L
+	/**
+	 * Get the list of the tasks that fall within the range.
+	 * 
+	 * @param startDate
+	 *            start of the range
+	 * @param endDate
+	 *            end of the range
+	 * @return list of the tasks that fall within the range
+	 */
 	public ArrayList<Task> getList(LocalDate startDate, LocalDate endDate) {
 		ArrayList<Task> tmp = new ArrayList<Task>();
 
@@ -235,12 +239,9 @@ public class BasicDataHandler implements DataHandler {
 		return tmp;
 	}
 
-	// @author A0112862L
 	public boolean editTask(Task source, Task replacement)
 			throws InvalidCommandException {
 
-		FileHandler.log(LocalTime.now() + " : edited "
-				+ source.getUniqueID());
 		int index;
 		removeTask(source);
 		addThenView(replacement);
@@ -250,15 +251,12 @@ public class BasicDataHandler implements DataHandler {
 		return true;
 	}
 
-	// @author A0112862L
 	public Task getTask(int index) {
 
 		return observableList.get(index);
 	}
 
-	// @author A0112862L
 	public boolean removeTask(Task task) {
-
 
 		observableList.remove(task);
 		mainList.remove(task.getEndDate(), task);
@@ -266,7 +264,14 @@ public class BasicDataHandler implements DataHandler {
 		return true;
 	}
 
-	// @author A0112862L
+	/**
+	 * change view after adding a task.
+	 * 
+	 * @param task
+	 *            contains the info of the view to be changed.
+	 * @throws InvalidCommandException
+	 *             if the view is invalid.
+	 */
 	public void addThenView(Task task) throws InvalidCommandException {
 		String type = determineTaskType(task);
 
@@ -279,7 +284,6 @@ public class BasicDataHandler implements DataHandler {
 		}
 	}
 
-	// @author A0112862L
 	private ArrayList<Task> getPriTasks(Priority pri) {
 
 		ArrayList<Task> tmp = new ArrayList<Task>();
@@ -298,7 +302,26 @@ public class BasicDataHandler implements DataHandler {
 				KeyWordMappingList.getCompletedUnCompleteMultiMap(), firstWord);
 	}
 
-	// @author A0112862L
+	private ArrayList<Task> getDeadLineTasks(Task task) {
+		ArrayList<Task> tmp = new ArrayList<Task>(mainList.get(task
+				.getEndDate()));
+		for (Task t : mainList.values()) {
+			if (!tmp.contains(t) && determineTaskType(t).equals(TIMED)
+					&& withinRange(t.getStartDate(), t.getEndDate(), task)) {
+				tmp.add(t);
+			}
+		}
+		return tmp;
+	}
+
+	/**
+	 * Change the display list or view.
+	 * 
+	 * @param task
+	 *            contains the info of the the view to be changed.
+	 * @throws InvalidCommandException
+	 *             if the view requested is invalid.
+	 */
 	public void view(Task task) throws InvalidCommandException {
 
 		ArrayList<Task> tmp = new ArrayList<Task>();
@@ -310,7 +333,7 @@ public class BasicDataHandler implements DataHandler {
 		Command cmd = getCommand(task.getDescription());
 
 		if (type.equals(DEADLINE)) {
-			tmp.addAll(mainList.get(task.getEndDate()));
+			tmp.addAll(getDeadLineTasks(task));
 		} else if (type.equals(TIMED)) {
 			tmp.addAll(getList(task.getStartDate(), task.getEndDate()));
 		} else if (cmd instanceof CompleteCommand) {
@@ -325,8 +348,8 @@ public class BasicDataHandler implements DataHandler {
 		} else if (task.getDescription().equals(SOMEDAY)) {
 			tmp.addAll(mainList.get(LocalDate.MAX));
 		} else {
-			FileHandler.log("No Such View");
-			throw new InvalidCommandException("No Such View");
+			FileHandler.log(VIEW_ERROR);
+			throw new InvalidCommandException(VIEW_ERROR);
 		}
 
 		observableList.replaceList(tmp);
