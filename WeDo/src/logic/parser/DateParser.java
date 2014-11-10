@@ -385,7 +385,7 @@ public class DateParser {
      *            to be converted
      * @return localdate converted from date
      */
-    public LocalDate dateToLocalDate(Date date) {
+    private LocalDate dateToLocalDate(Date date) {
         Instant instant = Instant.ofEpochMilli(date.getTime());
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
                 .toLocalDate();
@@ -396,7 +396,7 @@ public class DateParser {
      *            the time to be converted
      * @return localtime converted from time
      */
-    public LocalTime dateToLocalTime(Date time) {
+    private LocalTime dateToLocalTime(Date time) {
         Instant instant = Instant.ofEpochMilli(time.getTime());
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
                 .toLocalTime();

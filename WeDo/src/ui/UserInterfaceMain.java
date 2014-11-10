@@ -72,6 +72,7 @@ public class UserInterfaceMain {
 		ListenerHandler.addBtnEnterListener();
 		ListenerHandler.addBtnMinimizeListener();
 		ListenerHandler.addBtnCloseListener();
+		ListenerHandler.addBtnSettingListener();
 		ListenerHandler.addSystemTrayWindowStateListener();
 		ListenerHandler.addTextfieldKeyListener();
 		ListenerHandler.addTextFieldActionListener();
@@ -191,7 +192,7 @@ public class UserInterfaceMain {
 	 */
 	public static void processTextfieldString() {
 		userInput = UserIntSwing.textField.getText();
-		ParseResult parseResult = UserIntSwing.logicManager.processCommand(userInput);
+		ParseResult parseResult = UserIntSwing.logicManager.interpret(userInput);
 
 		if (parseResult.isSuccessful()) {
 			successfulTextfieldOperation(parseResult);

@@ -19,6 +19,7 @@ import logic.utility.Task;
 import ui.UserInterfaceMain;
 import ui.guide.FeedbackGuide;
 import ui.logic.command.FormatHandler;
+import dataStorage.FileHandler;
 import dataStorage.ObservableList;
 
 //@author A0112675H
@@ -28,6 +29,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	ArrayList<Task> taskList;
 
 	public static final JFrame frame = new JFrame("WeDo");
+	public static final JLabel lblIcon = new JLabel("lblIcon");
 	public static final InteractiveForm interactiveForm = new InteractiveForm();
 	public static final JLabel lblBackground = new JLabel();
 	public static final JLabel lblCommandGuide = new JLabel();
@@ -65,6 +67,7 @@ public class UserIntSwing extends JPanel implements Observer {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					// log to file
+					FileHandler.log("application cannot be launched");
 				}
 			}
 		});

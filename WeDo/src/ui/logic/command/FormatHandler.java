@@ -60,7 +60,7 @@ public class FormatHandler {
 		UserIntSwing.lblViewTask.setFont(new Font("Calibri", Font.ITALIC, 18));
 		UserIntSwing.lblViewTask.setHorizontalAlignment(SwingConstants.LEFT);
 		UserIntSwing.lblViewTask.setVerticalAlignment(SwingConstants.TOP);
-		UserIntSwing.lblViewTask.setBounds(80, 44, 500, 25);
+		UserIntSwing.lblViewTask.setBounds(80, 44, 519, 25);
 	}
 	
 	/**
