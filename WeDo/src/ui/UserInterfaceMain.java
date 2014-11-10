@@ -72,6 +72,7 @@ public class UserInterfaceMain {
 		ListenerHandler.addBtnEnterListener();
 		ListenerHandler.addBtnMinimizeListener();
 		ListenerHandler.addBtnCloseListener();
+		ListenerHandler.addBtnSettingListener();
 		ListenerHandler.addSystemTrayWindowStateListener();
 		ListenerHandler.addTextfieldKeyListener();
 		ListenerHandler.addTextFieldActionListener();

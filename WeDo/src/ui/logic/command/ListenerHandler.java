@@ -308,6 +308,29 @@ public class ListenerHandler {
 			}
 		});
 	}
+	
+	public static void addBtnSettingListener() {
+		BalloonTip settingBalloonTip = new BalloonTip(UserIntSwing.btnSetting, new JLabel(
+				"Press for settings"), edgedLookBtn, Orientation.RIGHT_BELOW,
+				AttachLocation.ALIGNED, 40, 20, false);
+		settingBalloonTip.setVisible(false);
+
+		UserIntSwing.btnSetting.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				settingBalloonTip.setVisible(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent arg1) {
+				settingBalloonTip.setVisible(false);
+			}
+		});
+		UserIntSwing.btnSetting.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null,"No Settings Currently", "Settings",JOptionPane.WARNING_MESSAGE);
+			}
+		});
+	}
 
 	/**
 	 * This process pop out a Balloon Tip when the Dynamic Date Label
