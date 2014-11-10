@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import logic.utility.StringHandler;
 
-//@author A0112887X 
+//@author A0112675H
 /**
  *
  */

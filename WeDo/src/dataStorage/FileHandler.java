@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
@@ -24,10 +23,14 @@ import com.google.common.collect.Multimap;
 
 import definedEnumeration.Priority;
 
+//@author A0112862L
+/**
+ * This class handles all the file operations including writing tasks into a
+ * text file, retrieving tasks from the text file and logging.
+ */
+
 @SuppressWarnings("unchecked")
 public class FileHandler {
-
-	final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
 
 	private String fileName;
 	private final String ID = "ID";
@@ -38,20 +41,28 @@ public class FileHandler {
 	private final String E_TIME = "End Time";
 	private final String PRIORITY = "Priority";
 	private final String STATUS = "Completed";
-	private final String DEADLINE = "deadLine";
-	private final String TIMED = "timed";
-	private final String FLOATING = "floating";
+	private final String FILE_NAME = "WeDo.txt";
+	
+	private final String IO_ERROR = "IO error :";
+	private final String FILE_NOT_FOUND = "File Not Found :";
+	private final String JSON_ERROR = "JSON parsing error :";
+	private final String FILE_EMPTY = "File Empty :";
+	private final String INVALID_DATE_TIME = "Invalid Date Time Format :";
+	private final String NULL_POINTER_ERROR = "Null Pointer Encountered :";
 
-	// @author A0112862L
+	
+	private final static String LOG_FILE_NAME = "Log.txt";
+
 	public FileHandler() {
 
-		fileName = "WeDo.txt";
+		fileName = FILE_NAME;
 		createFile();
-		// System.out.println(writeToString(fileName));
 
 	}
 
-	// @author A0112862L
+	/**
+	 * create file if it doesn't exist to avoid the file not found error.
+	 */
 	public void createFile() {
 
 		try {
@@ -61,13 +72,14 @@ public class FileHandler {
 			bw.close();
 
 		} catch (IOException e) {
-
-			e.printStackTrace();
+			log(IO_ERROR + e);
 		}
 
 	}
 
-	// @author A0112862L
+	/**
+	 * clear the contents of the "WeDo.txt" file.
+	 */
 	public void clear() {
 
 		try {
@@ -79,12 +91,11 @@ public class FileHandler {
 
 		} catch (IOException e) {
 
-			e.printStackTrace();
+			log(IO_ERROR + e);
 		}
 
 	}
 
-	// @author A0112862L
 	private void stringToFile(String str) {
 
 		if (isFileEmpty()) {
@@ -101,14 +112,13 @@ public class FileHandler {
 
 			} catch (IOException e) {
 
-				e.printStackTrace();
+				log(IO_ERROR + e);
 			}
 
 		}
 
 	}
 
-	// @author A0112862L
 	private boolean isFileEmpty() {
 
 		String currentLine;
@@ -124,17 +134,23 @@ public class FileHandler {
 			}
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log(FILE_NOT_FOUND + e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log(IO_ERROR + e);
+
 		}
 
 		return false;
 
 	}
 
-	// @author A0112862L
+	/**
+	 * Copy the content of "WeDo.txt" to a string for the purpose of handling
+	 * JSON error.
+	 * 
+	 * @param fileName
+	 * @return the whole content of "WeDo.txt" file as string
+	 */
 	private String writeToString(String fileName) {
 
 		String currentLine, wholeFile;
@@ -153,25 +169,37 @@ public class FileHandler {
 			br.close();
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log(FILE_NOT_FOUND + e);
+
 		} catch (IOException e) {
-			e.printStackTrace();
+			log(IO_ERROR + e);
+
 		}
 
 		return wholeFile;
 
 	}
 
-	// @author A0112862L
+	/**
+	 * delete the character of a string.
+	 * 
+	 * @param index
+	 *            position of the character to be deleted.
+	 * @param str
+	 *            the string which contains the character to be deleted.
+	 * @return the string after the character is deleted.
+	 */
 	private String removeChar(int index, String str) {
 		StringBuilder sb = new StringBuilder(str);
 		sb.deleteCharAt(index);
 		return sb.toString();
 	}
 
-	// @author A0112862L
-	public String writeToFile(ArrayList<Task> tasks) {
+	/**
+	 * @param tasks
+	 *            list of tasks to be written to the file.
+	 */
+	public void writeToFile(ArrayList<Task> tasks) {
 
 		JSONObject jTasks = toJSON("tasks", tasks);
 
@@ -192,19 +220,21 @@ public class FileHandler {
 			bw.close();
 
 		} catch (IOException e) {
-
-			e.printStackTrace();
+			log(IO_ERROR + e);
 		}
-
-		return null;
 
 	}
 
-	// @author A0112862L
+	/**
+	 * log the error into text file.
+	 * 
+	 * @param log
+	 *            the string to be logged.
+	 */
 	public static void log(String log) {
 
 		try {
-			FileWriter fstream = new FileWriter("Log.txt", true);
+			FileWriter fstream = new FileWriter(LOG_FILE_NAME, true);
 			BufferedWriter bw = new BufferedWriter(fstream);
 
 			bw.write(log);
@@ -213,12 +243,21 @@ public class FileHandler {
 
 		} catch (IOException e) {
 
-			log(e.toString());
+			log("IO error :" + e);
 		}
 
 	}
 
-	// @author A0112862L
+	/**
+	 * Add the task objects into a JSONArray,which will be put into a
+	 * JSONObject.
+	 * 
+	 * @param type
+	 *            the key of the JSONObject.
+	 * @param tasks
+	 *            the list of tasks to be added.
+	 * @return JSONObject of JSONArray of tasks.
+	 */
 	private JSONObject toJSON(String type, ArrayList<Task> tasks) {
 
 		JSONObject taskObj = new JSONObject();
@@ -229,12 +268,17 @@ public class FileHandler {
 		}
 
 		taskObj.put(type, allTask);
-		// System.out.println(taskObj.toString());
 
 		return taskObj;
 	}
 
-	// @author A0112862L
+	/**
+	 * Convert task object into JSONObject.
+	 * 
+	 * @param task
+	 *            the task object to be converted to JSONObject.
+	 * @return the converted JSONObject.
+	 */
 	private JSONObject taskToJSON(Task task) {
 
 		JSONObject tmp = new JSONObject();
@@ -251,13 +295,19 @@ public class FileHandler {
 		return tmp;
 	}
 
-	// @author A0112862L
+	/**
+	 * Reset the ID of the task to "0".
+	 */
 	public void resetID() {
 		Task task = new Task();
 		task.setUniqueID(0);
 	}
 
-	// @author A0112862L
+	/**
+	 * Retrieve the tasks from the text file.
+	 * 
+	 * @return the tasks stored in the text file.
+	 */
 	public Multimap<LocalDate, Task> getAllTasks() {
 
 		Multimap<LocalDate, Task> tmp;
@@ -281,10 +331,9 @@ public class FileHandler {
 					t = jsonToTask(j);
 				} catch (DateTimeParseException dte) {
 
-					System.out.println(dte);
-
+					log(INVALID_DATE_TIME + dte);
 				} catch (NullPointerException n) {
-					System.out.println(n);
+					log(NULL_POINTER_ERROR + n);
 
 				}
 				if (t != null)
@@ -293,26 +342,32 @@ public class FileHandler {
 			}
 
 		} catch (ParseException pe) {
-			// e.printStackTrace();
 
-			System.out.println("JSON parsing error" + pe);
 			if (!isFileEmpty()) {
+				log(JSON_ERROR + pe);
+
 				stringToFile(removeChar(pe.getPosition(),
 						writeToString(fileName)));
 				tmp = getAllTasks();
 			} else {
-				System.out.println("File is empty");
+				log(FILE_EMPTY);
 			}
 
 		} catch (IOException e) {
-			System.out.println("File Not Found!");
+			log(IO_ERROR + e);
 		}
 
 		return tmp;
 
 	}
 
-	// @author A0112862L
+	/**
+	 * Convert the JSONObject to task object.
+	 * 
+	 * @param jTask
+	 *            the JSONObject to be converted.
+	 * @return task of the converted JSONObject.
+	 */
 	private Task jsonToTask(JSONObject jTask) {
 
 		Task task = new Task();
@@ -331,7 +386,10 @@ public class FileHandler {
 
 	}
 
-	// @author A0112862L
+	/**
+	 * @param jTask 
+	 * @return corresponding enum type of Priority.
+	 */
 	private Priority checkPriority(JSONObject jTask) {
 
 		String pri = jTask.get(PRIORITY).toString();
