@@ -60,13 +60,12 @@ public class AboutWeDo {
 				frame.dispose();
 			}
 		});
-		
-		JLabel lblIcon = new JLabel("lblIcon");
+	
 		/* If export as Executable Jar file use "/WeDo_logo.png" 
 		  * and put the logo in the same root*/
-		lblIcon.setIcon(new ImageIcon(AboutWeDo.class.getResource("/ui/icon/Wedo_logo.png")));
-		lblIcon.setBounds(199, 11, 103, 98);
-		frame.getContentPane().add(lblIcon);
+		UserIntSwing.lblIcon.setIcon(new ImageIcon(UserIntSwing.class.getResource("/ui/icon/WeDo_logo.png")));
+		UserIntSwing.lblIcon.setBounds(199, 11, 103, 98);
+		frame.getContentPane().add(UserIntSwing.lblIcon);
 	}
 	
 	/**

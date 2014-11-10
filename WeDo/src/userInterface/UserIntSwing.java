@@ -28,6 +28,7 @@ public class UserIntSwing extends JPanel implements Observer {
 	ArrayList<Task> taskList;
 
 	public static final JFrame frame = new JFrame("WeDo");
+	public static final JLabel lblIcon = new JLabel("lblIcon");
 	public static final InteractiveForm interactiveForm = new InteractiveForm();
 	public static final JLabel lblBackground = new JLabel();
 	public static final JLabel lblCommandGuide = new JLabel();
