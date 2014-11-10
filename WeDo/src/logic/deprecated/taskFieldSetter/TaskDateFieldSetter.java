@@ -19,7 +19,6 @@ import logic.utility.Task;
 
 //@author A0112887X - unused
 /**
- * @author Kuan Tien Long
  *
  */
 public class TaskDateFieldSetter implements TaskFieldSetter {
