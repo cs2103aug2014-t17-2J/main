@@ -146,8 +146,8 @@ public class HotkeyHandler {
 		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg1) {
-				if(arg1.getKeyCode() == VK.scrollUp_UpKey() || 
-						arg1.getKeyCode() == VK.scrollUp_DownKey()) {
+				if(arg1.getKeyCode() == VK.scroll_UpKey() || 
+						arg1.getKeyCode() == VK.scroll_DownKey()) {
 					InteractiveForm.scroller.requestFocus();
 					UserInterfaceMain.TimerFocusTextfield();
 				}

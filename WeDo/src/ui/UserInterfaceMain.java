@@ -143,35 +143,6 @@ public class UserInterfaceMain {
 		}
 	}
 
-	/**Process lblViewTask to view tasks that the user is currently viewing
-	 * 
-	 * @param parseResult 
-	 * @return String telling the user what date is he viewing
-	 */
-	public static String viewDateTask(Task task) {
-		String getDateStr = task.getDateTimeString();
-		
-		if(getDateStr.isEmpty() && task.getDateTimeString() != null) {
-			return FeedbackGuide.formatViewAllTask(task.getDescription());
-		}
-		
-		if(getDateStr.matches(dateToday())) {
-			return FeedbackGuide.formatViewTodayTask();
-		}
-		else if(getDateStr.matches(dateTomorrow())) {
-			return FeedbackGuide.formatViewTomorrowTask();
-		}
-		else if(getDateStr.matches(dateYesterday())) {
-			return FeedbackGuide.formatViewYesterdayTask();
-		}
-		else if(task.getEndDate() == Task.DATE_NOT_SET) {
-			return FeedbackGuide.formatViewSomedayTask(VIEW_TASKS_SOMEDAY_STRING);
-		}
-		else{
-			return FeedbackGuide.formatViewDateTask(getDateStr);
-		}
-	}
-
 	/**
 	 * @return todayAsString the date today as String
 	 */
@@ -273,8 +244,8 @@ public class UserInterfaceMain {
 		} 
 		catch (InvalidCommandException exception) {
 			UserIntSwing.textField.setText(null);
-			FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
 			// Log this error.
+			FeedbackHandler.NotSuccessfulOperation(exception.getMessage());
 			return;
 		}
 		FeedbackHandler.successfulOperation();
@@ -353,11 +324,11 @@ public class UserInterfaceMain {
 		
 		userInput = UserIntSwing.textField.getText();
 		UserIntSwing.lblCommandGuide.setText(CommandGuide.getGuideMessage(userInput));
-		/*process the redo and undo using InputMap and ActionMap*/
-		HotkeyHandler.undo();
-		HotkeyHandler.redo();
-		HotkeyHandler.minimise();
-		HotkeyHandler.scrollTable();
+		/*process the rede, undo and minimize using InputMap and ActionMap*/
+		HotkeyHandler.undo(); //Ctrl-z
+		HotkeyHandler.redo(); //Ctrl-y
+		HotkeyHandler.minimise(); //Ctrl-m
+		HotkeyHandler.scrollTable(); //pgup and pgdn
 		ListenerHandler.setBalloonTipVisibleFalse();
 	}
 	

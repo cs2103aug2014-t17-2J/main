@@ -48,11 +48,11 @@ public class VK {
     	return KeyEvent.VK_M;
     }
     
-    public static int scrollUp_UpKey() {
+    public static int scroll_UpKey() {
     	return KeyEvent.VK_PAGE_UP;
     }
     
-    public static int scrollUp_DownKey() {
+    public static int scroll_DownKey() {
     	return KeyEvent.VK_PAGE_DOWN;
     }
 }

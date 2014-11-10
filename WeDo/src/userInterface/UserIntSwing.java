@@ -132,7 +132,6 @@ public class UserIntSwing extends JPanel implements Observer {
 			int changedTaskRow = observableList.indexOf(task);
 			if (isIndexValid(changedTaskRow)) {
 				interactiveForm.selectRow(changedTaskRow);
-				lblViewTask.setText(UserInterfaceMain.viewDateTask(task));
 			}
 		}
 		assert (taskList != null);
