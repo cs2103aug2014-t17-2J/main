@@ -15,8 +15,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ ObservableListTest.class, StringHandlerTest.class,
         ParserManagerTest.class, CommandValidateTest.class,
         DateParserTest.class,
-        PriorityParserTest.class, UndoHandlerTest.class, TestLogicManager.class })
-//BasicDataHandlerTest.class,
+        PriorityParserTest.class, UndoHandlerTest.class, BasicDataHandlerTest.class, TestLogicManager.class })
 
 public class AllTests {
     static {
