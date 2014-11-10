@@ -103,11 +103,11 @@ public class UserIntSwing extends JPanel implements Observer {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
-		interactiveForm.table.setShowGrid(false);
-		interactiveForm.table.setIntercellSpacing(new Dimension(0, 0));
-		interactiveForm.table.setFillsViewportHeight(true);
-		interactiveForm.table.setBackground(Color.WHITE);
-		interactiveForm.scroller.setBounds(0, 0, 750, 227);
+		InteractiveForm.table.setShowGrid(false);
+		InteractiveForm.table.setIntercellSpacing(new Dimension(0, 0));
+		InteractiveForm.table.setFillsViewportHeight(true);
+		InteractiveForm.table.setBackground(Color.WHITE);
+		InteractiveForm.scroller.setBounds(0, 0, 750, 227);
 		interactiveForm.setBounds(0, 0, 750, 227);
 		panel.add(interactiveForm);
 		interactiveForm.setLayout(null);

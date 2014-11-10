@@ -17,7 +17,6 @@ import java.awt.event.WindowStateListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.BalloonTip.AttachLocation;
 import net.java.balloontip.BalloonTip.Orientation;
@@ -330,7 +329,8 @@ public class ListenerHandler {
 		});
 		UserIntSwing.btnSetting.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "No Settings Currently", "Settings", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "No Settings Currently", "Settings", 
+						JOptionPane.WARNING_MESSAGE);
 			}
 		});
 	}

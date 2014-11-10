@@ -3,6 +3,9 @@ package ui.logic.command;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -12,7 +15,9 @@ import javax.swing.KeyStroke;
 import logic.command.UndoHandler;
 import logic.exception.InvalidCommandException;
 import logic.parser.ParseResult;
+import ui.UserInterfaceMain;
 import ui.guide.FeedbackGuide;
+import userInterface.InteractiveForm;
 import userInterface.UserIntSwing;
 
 /**
@@ -135,16 +140,17 @@ public class HotkeyHandler {
 	}
 	
 	/**
-	 * This operation process the scrolling up of the table
+	 * This operation process the scrolling up and down of the table
 	 */
-	public static void scrollUpTable() {	
-		im.put(KeyStroke.getKeyStroke(VK.scrollUp_UpKey(), InputEvent.SHIFT_DOWN_MASK), 
-				"listenShiftUpKey");
-		am.put("listenShiftUpKey", new AbstractAction() {
-
-			private static final long serialVersionUID = 1L;
+	public static void scrollTable() {
+		UserIntSwing.textField.addKeyListener(new KeyAdapter() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void keyPressed(KeyEvent arg1) {
+				if(arg1.getKeyCode() == VK.scrollUp_UpKey() || 
+						arg1.getKeyCode() == VK.scrollUp_DownKey()) {
+					InteractiveForm.scroller.requestFocus();
+					UserInterfaceMain.TimerFocusTextfield();
+				}
 			}
 		});
 	}

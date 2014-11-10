@@ -11,7 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 
-import ui.logic.command.ListenerHandler;
+import ui.UserInterfaceMain;
 import definedEnumeration.Priority;
 
 /**
@@ -77,7 +77,7 @@ public class DefaultWeDoTableColor {
                 jComponent.setBorder(BorderFactory.createEmptyBorder());
             }
         }
-        ListenerHandler.focusTextfield();
+        UserInterfaceMain.TimerFocusTextfield();
     }
 
     /**
