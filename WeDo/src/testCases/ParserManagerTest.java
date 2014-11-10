@@ -120,6 +120,7 @@ public class ParserManagerTest {
         parseAddCommand();
         parseDeleteCommand();
         parseFlexibleOrdering();
+        parseInvalidSplitDescription();
 
     }
 
@@ -226,8 +227,23 @@ public class ParserManagerTest {
 
     }
     
+    
+
+    private void parseInvalidSplitDescription() {
+        String command = "add";
+        String description = "eat rice";
+        String date = "today 3pm";
+        String priority = "pri high";
+        
+        parseSplitDescription(command, description, date ,description);
+        parseSplitDescription(command, description, priority, date , description);
+        parseSplitDescription(description, priority, date , description, command);
+        parseSplitDescription(priority, description, date , description, command);
+
+    }
+
+    
     private void parseSplitDescription(String... flexibleOrdering) {
-//        parseSplitDescription(command, description, date ,description);
 
         String input = "";
 
