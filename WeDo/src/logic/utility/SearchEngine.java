@@ -8,6 +8,7 @@ import com.google.common.collect.Multimap;
 
 import dataStorage.BasicDataHandler;
 
+//@author A0112862L
 /**
  * Search the lists of tasks.
  */
@@ -71,7 +72,6 @@ public class SearchEngine {
 		return searchWagnerList(str1);
 	}
 
-	// @author A0112862L
 	public ArrayList<Task> search(Task task) throws InvalidCommandException {
 		if (task.getDescription() != null) {
 			return searchWagnerList(task.getDescription());
@@ -82,7 +82,7 @@ public class SearchEngine {
 		}
 	}
 
-	// @author A0112862L
+
 	/**
 	 * get the list of tasks that their descriptions match with the string user
 	 * wants to search.
@@ -115,7 +115,6 @@ public class SearchEngine {
 		return tmp;
 	}
 
-	// @author A0112862L
 	/**
 	 * get the Wagner Fischer distance between two strings.
 	 * 
